@@ -1,0 +1,6 @@
+"NSCameraUsageDescription" = "Add pictures to your meal";
+"NSPhotoLibraryUsageDescription" = "To save your pictures";
+"NSLocationWhenInUseUsageDescription" = "Location is used to search for restaurants nearby";
+"NSHealthShareUsageDescription" = "For each meal entry, we look for the appropriate information in the Health Kit.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "We use the GPS data to find nearby restaurants and store the data locally on your device.";
+"NSLocationAlwaysUsageDescription" = "We use the GPS data to find nearby restaurants and store the data locally on your device.";

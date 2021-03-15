@@ -1,0 +1,264 @@
+{
+  "AddMeal": {
+    "DrawNavigatorTitle": "Add meal",
+    "BottomBarTitle": "new entry",
+    "NavigationBarTitle": "meala",
+    "AddMealTitle": "New entry",
+    "AddMealSubtitle": "e.g. Restaurant, Home",
+    "LastMealTitle": "Last meal",
+    "RestaurantInput": "Place / Restaurant",
+    "MealInput":"What do you eat",
+    "Picture": "Choose a picture or scan a barcode",
+    "Note": "Note",
+    "Carbs": "Carbs in gram",
+    "Insulin": "Insulin",
+    "Camera": "Take a picture",
+    "Roll": "Choose from library",
+    "PicPopUp": "Picture of your food",
+    "ErrorMessage": "Please fill out",
+    "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated.",
+    "notificationAfterMeal": "Have a look at your last meal: {{mealTitle}}",
+    "notificationLunch": "What do you have for lunch?",
+    "notificationDinner": "What do you eat for dinner?",
+    "tags": "Here you can see the top 8 tags - You can also search for these tags to filter meals",
+    "exp" : "Caution experimental – Similar meals:",
+    "resetTitle": "Reset?",
+    "resetMessage": "Reset all fields",
+    "camera": "Camera",
+    "close": "Close without saving",
+    "gpsPermission": "Please go to your System-Settings and enable GPS to find Restaurants nearby",
+    "Permission": "You haven't granted permission",
+    "grantPermission": "Do you want to go to settings to change?",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "home": "Home",
+    "fatSecretUserEntries": {
+      "title": "What did you eat?",
+      "button": "FatSecret Data",
+      "description": "Be sure to select only the meals you ate at the currently selected time."
+    },
+    "nutritionData": {
+      "title": "Search",
+      "button": "Search Food Database",
+      "nodata": "–",
+      "calories":"Calories",
+      "carbohydrate": "Carbs",
+      "cholesterol": "Cholesterol",
+      "fat": "Fat",
+      "fiber": "Fiber",
+      "monounsaturated_fat": "monounsaturated fat",
+      "number_of_units": "Units",
+      "polyunsaturated_fat": "polyunsaturated fat",
+      "potassium": "Potassium",
+      "protein":"Protein",
+      "saturated_fat": "saturated fat",
+      "serving": "Serving",
+      "sodium": "Sodium",
+      "sugar": "Sugar",
+      "calcium": "Calcium",
+      "iron": "Iron"
+    },
+    "tag": {
+      "addTag": "Add Tag",
+      "addATag": "Add a new Tag",
+      "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
+      "exampleTag": "z.B. Sport, Basalratentest, Krank",
+      "basalrate": "basal rate testing",
+      "breakfast": "Breakfast"
+
+    },
+    "foodDataBaseSearch": {
+      "title": "Search",
+      "subtitle": "Compare similar  ingredients and meals",
+      "searchPlaceholder": "z.B. brown rice, Big Mac, orange juice",
+      "noResults": "No results - Check your internet connection, search for an alternative and in englisch"
+    }
+  },
+  "Entries": {
+    "BottomBarTitle": "Entries",
+    "NavigationBarTitle": "meala",
+    "Search" : "Search for Restaurant",
+    "SearchMeals": "Search for meals",
+
+    "Meals" : "Meals",
+    "MealDetails": "Details",
+    "Date": "Date",
+    "Places": "Places",
+
+    "noDataSource" : "No data source selected. Please check your settings",
+    "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",
+    "youHave": "You bolused ",
+    "before": " minutes before your meal",
+    "after": " minutes after your meal",
+    "anotherEntry" : "add another meal",
+    "copyMeal": "Copy this meal",
+    "directBolus": " Direct Bolus: ",
+    "carbs": "Carbs: ",
+    "event": "Event: ",
+    "delay": " Delayed Bolus ",
+    "noImage": "no image",
+    "carbQuiz": "Play - Carb Quiz",
+    "calculating": "Spritz Ess Abstand wird berechnet",
+    "noData": "No Data available",
+    "deleteRestaurant": "Delete Restaurant",
+    "SearchExistingRealmDatabaseDateTime": {
+      "searchDate": "Search for a specific date"
+    },
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "Other": "Other / Snack",
+    "calculation": "Calculation",
+    "fpu_long": "Fat Protein Unit",
+    "fpu": " FPU: ",
+    "fpu_formula": "(CCAL - (Carbohydrates*4)) /100",
+    "informationFrom": "Information from"
+  },
+  "GI": {
+    "BottomBarTitle": "GI",
+    "NavigationBarTitle": "Glycemic Index",
+    "Search": "Search for food",
+    "IntroText": "The glycemic index (GI) from 0 to 100 Example: Dextrose has a GI of 100"
+  },
+  "Statistics": {
+    "noData": "No data available yet."
+  },
+  "BarCode": {
+    "BottomBarTitle": "Barcode",
+    "Intro": "Food search\nScan a barcode to get Carbohydrate Information",
+    "AddMeal" :  "Add meal",
+    "gPortion" : "g Carbohydrate per portion",
+    "g100" : "{{nutrition}} per 100g",
+    "noInfo": "No information available",
+    "portion": "One portions weights {{weight}} and has",
+    "allergens": "Allergens",
+    "nutriscore": "Nutriscore",
+    "onePortion": "One serving",
+    "licence": "Data from \nOpen Food Facts"
+
+  },
+  "Settings": {
+    "SettingsTitle": "Settings",
+    "SettingsDrawNavigator": "Settings",
+    "Info": "Your Link to Nightscout should look like",
+    "clipboard": "Paste from Clipboard",
+    "sourceApple": "Change source to Apple Health",
+    "sourceNightscout": "Change source to Nightscout",
+    "source": "Choose a data source",
+    "dataSource": "Daten-Quellen",
+    "feedback": "You have found a suggestion for improvement or a problem? Feel free to send us your feedback to mail@heymeala.com",
+    "aboutmeala": "About meala?",
+    "about": "More",
+    "privacy": "Data privacy",
+    "statistics": "Statistics",
+    "enter-nightscout-link": "Enter your Nightscout Link here",
+    "token": "If your site has a token or a password - enter it here",
+    "datasource": "Datasource",
+    "whatNightscout": "What is Nightscout?",
+    "nsLink": "https://nightscout.github.io",
+    "uploadTreatmentsInfo": "To enable treatment upload you need to enter a user-token that grants access to the careportal. If you don't have a user in your Nightscout Settings, go to your Nightscout-Website navigate to Admin-Tools and add a new user that has careportal write access. You'll get a token that you can enter above. After that you can enable treatment upload. ATTENTION: If you delete a meal entry we don't delete the Nightscout entry. Please delete or edit it yourself for now. ",
+    "uploadTreatmentsCheckbox": "Upload Carbs / Insulin to Nightscout",
+    "nightscoutRecommendation": "We recommend using Nightscout if you have access to Insulin and Carb data. If you just need Bloodglucose Data you can switch to Apple Health Kit too.",
+    "noDataSource": "No data source selected",
+    "exampleLink": "https://yourSite.ns.10be.de:0000/",
+    "exampleLink2": "https://yourSite.herokuapp.com",
+    "exampleLink3": "https://yourSite.azurewebsites.net",
+    "wrongUrl": "Url is wrong or your Nightscout-Site is offline",
+    "urlMissing": "URL is missing",
+    "healthKit": {
+      "noData": "No step counts available",
+      "totalStepsToday": "Total steps today {{steps}}",
+      "totalGlucoseValues":  "We found {{length}} glucose values within the last hours",
+      "healthKitActivated":  "HealthKit is active",
+      "activateHealthKit": "Activate HealthKit",
+      "goToSettings": "Go to the settings and check the permission for Apple Health."
+    },
+    "profile": {
+      "title": "Choose your glucose unit",
+      "example": "Example value: "
+
+    },
+    "FatSecretSettings": {
+      "info": "If you have an existing FatSecret Account you can connect and use your meals on the Enter Meal Screen. ",
+      "delete": "Delete Account",
+      "connect": "Connect",
+      "Login": "Login",
+      "loginSuccess": "Connection successful",
+    "valid": "Enter the Code you got from the FatSecret page. If you forgot please login again and save the code"
+    },
+    "Dexcom": {
+      "text": "Do you have an US Dexcom Account or know someone? We're looking for Test-Users. Let us know and send us an email: mail@heymeala.com",
+      "button": "Yes I know someone"
+    },
+    "Libre": {
+      "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
+      "button": "More about Nightscout",
+      "link": "https://nightscout.github.io"
+
+    }
+  },
+  "About": {
+    "DrawNavigatorTitle": "About meala",
+    "NavigationBarTitle": "About meala",
+    "title": "Why meala",
+    "p1" : "The estimation of carbohydrates is the most influential source of error in diabetes therapy - This resulted in a survey with over 100 participants and is the reason for this app. Learning from your own mistakes and drawing on the experience of other users - this is what the App meala allows restaurant visitors. Depending on the location, others already use recorded meals with their nutritional values or recorded by the user himself via image recognition. Three hours after the meal, the app analyzes the carbohydrate and spray-eating distance estimates and indicates whether the target range has been reached.",
+    "p2": "meala must not be used to make medical decisions. It is a research tool only and is provided as is without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Schuld the program prove defective, you assume the cost of all necessary servicing, repair or correction.",
+    "p2Title": "Disclaimer"
+  },
+  "General": {
+    "Date": "Date",
+    "Meal": "Meal",
+    "Save": "Save",
+    "Accept": "Accept",
+    "enableGps":  "Please enable GPS to search Restaurants nearby",
+    "Cancel": "Cancel",
+    "Carbs": "Carbohydrates",
+    "eg" : "e.g.",
+    "delete": "Delete",
+    "welcome": "Welcome to meala - your meal assistant",
+    "various": "Other",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "close": "Close"
+  },
+  "Onboarding": {
+    "next": "next"
+  },
+  "Accessibility": {
+    "Onboarding": {
+      "next": "next Button",
+      "skip": "jump to disclaimer"
+
+    },
+    "EnterMeal": {
+      "reset": "Reset all",
+      "camera": "Open ",
+      "addTag": "Add a new tag",
+      "similarMeals":"Search for similar meals",
+      "fatsecret": "The data is presented by FatSecret",
+      "meal": "What do you eat? ",
+      "restaurant": "Where do you eat? "
+    },
+    "Home": {
+      "newEntry": "Add a new meal entry",
+      "foodScan": "open Bar Code Scanner ",
+      "nodata": "You have no meals. Start with your first one",
+      "wait": "First values can only be displayed after 3 to 6 hours",
+      "dexcom": "Not enough data available, check if data is available in Healthkit. Data from Dexcom is only available after 6 hours.",
+      "button": "Button"
+
+    },
+    "MealDetails":{
+      "insulin": " units Insulin",
+      "carbs": " gram Carbohydrates",
+      "values": "We found {{values}} values for this meal. The glucose values are in",
+      "percentage": "percent are in range"
+    },
+    "tab": {
+      "home": "Saved Meals",
+      "add": "Add new Meal",
+      "settings": "Settings and more"
+    }
+  }
+}

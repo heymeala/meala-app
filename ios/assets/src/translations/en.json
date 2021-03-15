@@ -1,0 +1,74 @@
+{
+  "AddMeal": {
+    "DrawNavigatorTitle": "Add meal",
+    "BottomBarTitle": "Add meal",
+    "NavigationBarTitle": "meala",
+    "AddMealTitle": "Add meal",
+    "AddMealSubtitle": "e.g. Restaurant, Home",
+    "LastMealTitle": "Last meal",
+    "RestaurantInput": "Place / Restaurant",
+    "MealInput":"What do you eat",
+    "Picture": "Choose a picture",
+    "Note": "Note",
+    "Carbs": "Carbs in gram",
+    "Camera": "Take a picture",
+    "Roll": "Choose from library",
+    "PicPopUp": "Picture of your food",
+    "ErrorMessage": "Please fill out",
+    "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated."
+
+  },
+  "Entries": {
+    "BottomBarTitle": "Entries",
+    "NavigationBarTitle": "Visited Restaurants",
+    "Search" : "Search for Restaurant",
+    "SearchMeals": "Search for meals",
+
+    "Meals" : "Meals",
+    "MealDetails": "Details",
+    "Date": "Date",
+    "noDataSource" : "No data source selected. Please check your settings",
+    "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",
+    "youHave": "You bolused ",
+    "before": " minutes before your meal",
+    "after": " minutes after your meal",
+    "anotherEntry" : "add another meal",
+
+  },
+  "GI": {
+    "BottomBarTitle": "GI",
+    "NavigationBarTitle": "Glycemic Index",
+    "Search": "Search for food",
+    "IntroText": "The glycemic index (GI) from 0 to 100 Example: Dextrose has a GI of 100"  },
+  "BarCode": {
+    "BottomBarTitle": "Barcode",
+    "Intro": "Food search \nScan a barcode to get Carbohydrate Information"
+  },
+  "Settings": {
+    "SettingsTitle": "Settings",
+    "SettingsDrawNavigator": "Settings",
+    "Info": "Your Link to Nightscout"
+  },
+  "About": {
+    "DrawNavigatorTitle": "About meala",
+    "NavigationBarTitle": "About meala",
+    "title": "Why meala",
+    "p1" : "The estimation of carbohydrates is the most influential source of error in diabetes therapy - This resulted in a survey with over 100 participants and is the reason for this app. Learning from your own mistakes and drawing on the experience of other users - this is what the App meala allows restaurant visitors. Depending on the location, others already use recorded meals with their nutritional values or recorded by the user himself via image recognition. Three hours after the meal, the app analyzes the carbohydrate and spray-eating distance estimates and indicates whether the target range has been reached.",
+    "p2": "meala must not be used to make medical decisions. It is a research tool only and is provided as is without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Schuld the program prove defective, you assume the cost of all necessary servicing, repair or correction.",
+    "p2Title": "Disclaimer"
+  },
+  "General": {
+    "Date": "Date",
+    "Meal": "Meal",
+    "Save": "Save",
+    "Accept": "Accept",
+    "enableGps":  "Please enable GPS to search Restaurants nearby",
+    "Cancel": "Cancel",
+    "Carbs": "Carbohydrates",
+    "eg" : "e.g."
+
+
+
+  }
+
+}

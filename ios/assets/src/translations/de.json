@@ -1,0 +1,72 @@
+{
+  "AddMeal": {
+    "DrawNavigatorTitle": "Gericht anlegen",
+    "BottomBarTitle": "Gericht anlegen",
+    "NavigationBarTitle": "meala",
+    "AddMealTitle": "Mahlzeit eintragen",
+    "AddMealSubtitle": "z.B. Restaurant, Zuhause",
+    "LastMealTitle": "Letzte Mahlzeit",
+    "RestaurantInput": "Ort / Restaurant",
+    "MealInput":"Was wirst du essen",
+    "Picture": "Wähle ein Foto",
+    "Note": "Notiz",
+    "Carbs": "Carbs in gram",
+    "Camera": "Foto aufnehmen",
+    "Roll": "Foto aus Bibliothek",
+    "PicPopUp": "Foto von deinem Essen",
+    "ErrorMessage": "Bitte ausfüllen",
+    "firstEntry": "Lege deine erste Mahlzeit an. Achte darauf, dass deine Gerichte am Anfang nicht zu vielfältig sind, damit du aus deinen Werten lernen kannst. Versuche zudem nach dem Essen drei Stunden keine weiteren Kohlenhydrate aufzunehmen, damit du erkennst ob du richtig geschätzt hast."
+
+
+  },
+  "Entries": {
+    "BottomBarTitle": "Einträge",
+    "NavigationBarTitle": "Besuchte Restaurants",
+    "Search" : "Restauratnamen suchen",
+    "SearchMeals": "Mahlzeiten suchen",
+    "Meals" : "Gerichte",
+    "MealDetails": "Details",
+    "Date": "Datum",
+    "noDataSource" : "Keine Daten-Quelle gefunden. Bitte überprüfe Deine Einstellungen",
+    "notEnoughData": "Nicht genügend Daten im Healthkit. Es sind mindestens zwei Messungen erforderlich.",
+    "youHave": "Du hast ca: ",
+    "before": " Minuten vor dem Essen gespritzt",
+    "after": " Minuten nach dem Essen gespritzt",
+    "anotherEntry" : "Weiteres Gericht eintragen"
+
+
+  },
+  "GI": {
+    "BottomBarTitle": "GI",
+    "NavigationBarTitle": "Glykämischer Index",
+    "Search": "Nahrungsmittel suchen",
+    "IntroText": "Der Glykämische Index (GI) von 0 bis 100. Beispiel: Traubenzucker hat einen GI von 100"
+  },
+  "BarCode": {
+    "BottomBarTitle": "Barcode",
+    "Intro": "Lebensmittelsuche \n Scanne einen Barcode um Nährwertangaben zu erhalten"
+  },
+  "Settings": {
+    "SettingsDrawNavigator": "Einstellungen",
+    "SettingsTitle": "Einstellungen",
+    "Info": "Your Link to Nightscout"
+  },
+  "About": {
+    "DrawNavigatorTitle": "Über meala",
+    "NavigationBarTitle": "Über meala",
+    "title": "Warum meala",
+    "p1" : "Das schätzen von Kohlenhydraten ist die einflußreichste Fehlerquelle in der Diabetes-Therapie – Dies ergab eine Umfrage mit über 100 Teilnehmer_innen und ist der Grund für diese App. Aus den eigenen Fehlern lernen und auf die Erfahrung von anderen Nutzern zurückgreifen – das ermöglicht die App meala Restaurantbesuchern. Standortabhängig werden von anderen bereits erfasste Mahlzeiten mit ihren Nährwerten angegeben oder vom Nutzer per Bilderkennung selbst erfasst. Drei Stunden nach dem Essen analysiert die App die Kohlenhydrat- und die Spritz-Ess-Abstand-Schätzung und zeigt an, ob der Zielbereich erreicht wurde.",
+    "p2": "meala darf nicht für medizinische Entscheidungen verwendet werden. Es ist ein reines Recherchetool und wird in der vorliegenden Form ohne jegliche ausdrückliche oder stillschweigende Garantie bereitgestellt, einschließlich, aber nicht beschränkt auf die implizite Gewährleistung der Marktgängigkeit und Eignung für einen bestimmten Zweck. Das gesamte Risiko hinsichtlich der Qualität und Leistung des Programms liegt bei Ihnen. Sollte sich das Programm als fehlerhaft erweisen, übernehmen Sie die Kosten für alle notwendigen Wartungs-, Reparatur- oder Korrekturarbeiten.",
+    "p2Title": "Disclaimer"
+  },
+  "General": {
+    "Date": "Datum",
+    "Meal": "Mahlzeit",
+    "Save": "Speichern",
+    "Accept": "Akzeptieren",
+   "enableGps":  "Bitte aktiviere GPS um Restaurants in der Nähe zu suchen.",
+    "Cancel": "Abbrechen",
+    "Carbs": "Kohlenhydrate",
+    "eg" : "z.B."
+  }
+}

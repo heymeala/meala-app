@@ -1,0 +1,6 @@
+"NSCameraUsageDescription" = "Füge Fotos von deiner Mahlzeit zu deinem Eintrag hinzu.";
+"NSPhotoLibraryUsageDescription" = "Um die Fotos in deiner Bibliothek zu speichern.";
+"NSLocationWhenInUseUsageDescription" = "Damit du Restaurants in der Nähe suchen kannst.";
+"NSHealthShareUsageDescription" = "Zu jedem Mahlzeiten Eintrag suchen wir nach den passenden Information im Health Kit.";
+"NSLocationAlwaysAndWhenInUseUsageDescription" = "Wir nutzen die GPS Daten zum Suchen von Restaurants in der Nähe und speichern die Daten lokal auf Deinem Gerät.";
+"NSLocationAlwaysUsageDescription" = "Wir nutzen die GPS Daten zum Suchen von Restaurants in der Nähe und speichern die Daten lokal auf Deinem Gerät.";
