@@ -12,8 +12,11 @@
     <img alt="Get it on Google Play" title="Google Play" src="https://camo.githubusercontent.com/5d52fd0703fc06d3af542709e3e963348aa134a94b7c55d104d301f7d470df7f/687474703a2f2f692e696d6775722e636f6d2f6d74475250754d2e706e67" width="140" data-canonical-src="http://i.imgur.com/mtGRPuM.png" style="max-width:100%;">
   </a>
 </p>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/SE3NB44ZiPM?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<p align="center"> 
+ <a href="https://youtu.be/SE3NB44ZiPM" target="_blank" rel="nofollow">
+  <img src="https://usercontent.one/wp/www.heymeala.com/wp-content/uploads/2019/09/meala_app_screens.png" alt="meala video" height="300">
+  </a>
+</p>
 
 ## Features
 
