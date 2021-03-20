@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="https://usercontent.one/wp/www.heymeala.com/wp-content/uploads/2019/08/heymeala_white.png" alt="Meala App" height="64">
-  <p align="center">An open-source app to learn from your and others' experiences find out what's in your food.<p>
-
+  <img src="https://usercontent.one/wp/www.heymeala.com/wp-content/uploads/2019/08/heymeala.png" alt="Meala App" height="64">
+  <p align="center">A React Native App to find out what's in your food.<p>
 
   <p align="center">
   <a href="https://testflight.apple.com/join/ZAap8y2g" rel="nofollow">
@@ -11,21 +10,20 @@
     <img alt="Get it on Google Play" title="Google Play" src="https://camo.githubusercontent.com/5d52fd0703fc06d3af542709e3e963348aa134a94b7c55d104d301f7d470df7f/687474703a2f2f692e696d6775722e636f6d2f6d74475250754d2e706e67" width="140" data-canonical-src="http://i.imgur.com/mtGRPuM.png" style="max-width:100%;">
   </a>
 </p>
-</p>
 
 ## Features
 
-A few of the things you can do with Meala:
+A few of the things you can do with meala:
 
-* 1 Features
-* 2 Features
-* 3 Features...
+* Search for restaurants nearby
+* Scan barcodes
+* Connect to other Apps like FatSecret, Apple Health or Nightscout
 
 ## Feedback
 
 Feel free to send us feedback on [file an issue](https://github.com/heymeala/meala-app/issues/new). Feature requests are always welcome. If you wish to contribute, please take a quick look at the [guidelines](./CONTRIBUTING.md)!
 
-If there's anything you'd like to chat about, please feel free to join our [Gitter chat](https://gitter.im/heymeala)!
+If there's anything you'd like to chat about, please feel free to join our [Telegram chat](https://t.me/heymeala)!
 
 ## Contributors
 
@@ -36,7 +34,7 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 - Follow the [React Native Guide](https://facebook.github.io/react-native/docs/getting-started.html) for getting started building a project with native code. **A Mac is required if you wish to develop for iOS.**
 - Clone or download the repo
 - `npm i` to install dependencies
-- `npm run link` to link react-native dependencies
+- `pod install` in ios folder to install dependencies
 - `npm run start:ios` to start the packager and run the app in the iOS simulator
 - `npm run start:android` to start the packager and run the app in the the Android device/emulator
 
