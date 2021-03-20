@@ -1,0 +1,39 @@
+{
+  "projectName": "Meala",
+  "projectOwner": "heymeala",
+  "files": [
+    "README.md",
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "contributorsPerLine": 6,
+  "commit": false,
+  "repoType": "github",
+  "contributors": [
+    {
+      "login": "kevinroehl",
+      "name": "Kevin Röhl",
+      "avatar_url": "https://avatars.githubusercontent.com/u/80157079?s=460&v=4",
+      "profile": "https://github.com/kevinroehl",
+      "contributions": [
+        "question",
+        "code",
+        "design",
+        "doc",
+        "review"
+      ]
+    },
+    {
+          "login": "snics",
+          "name": "Nico Swiatecki",
+          "avatar_url": "https://avatars.githubusercontent.com/u/8299486?s=460&v=4",
+          "profile": "https://github.com/snics",
+          "contributions": [
+            "question",
+            "code",
+            "doc",
+            "review"
+          ]
+    },
+  ]
+}
