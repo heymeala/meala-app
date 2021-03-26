@@ -5,8 +5,9 @@ import {database} from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useNavigation, useRoute} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
+import PushNotification from 'react-native-push-notification';
 
-const MealListView = (props) => {
+const MealListView = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
   const {t, locale} = React.useContext(LocalizationContext);
 
@@ -16,7 +17,7 @@ const MealListView = (props) => {
   function loadData(value) {
     const mealdata = route.params?.restaurant;
     const mealDataSoftDelete = mealdata.food.filter(
-      (data) => data.isDeleted === false,
+      data => data.isDeleted === false,
     );
     setMealDataSoftDelete(mealDataSoftDelete);
   }
@@ -26,6 +27,8 @@ const MealListView = (props) => {
   }, []);
 
   function deleteMeal(id) {
+
+    PushNotification.cancelLocalNotifications({id: id});
     database.deleteMealSoft(id);
     navigation.goBack();
   }

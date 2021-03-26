@@ -123,7 +123,7 @@ const EnterMeal = ({route}, props) => {
   React.useEffect(() => {
     if (route.params?.scan === true) {
       console.log('Scan param ' + route.params.scan);
-      setIsScannerVisible((prevState) => true);
+      setIsScannerVisible(prevState => true);
       route.params.scan = false;
     }
   }, [route.params?.scan]);
@@ -183,18 +183,18 @@ const EnterMeal = ({route}, props) => {
 
   useEffect(() => {
     if (route.params?.id) {
-      setRestaurantId((prevState) => route.params.id);
+      setRestaurantId(prevState => route.params.id);
       console.log('Scan param ' + route.params.id);
       database
         .getRestaurantName(route.params.id)
-        .then((name) => setRestaurantName(name));
+        .then(name => setRestaurantName(name));
     }
   }, [route.params?.id]);
 
   useEffect(() => {
     if (route.params?.mealid) {
       console.log('Scan param meal id ' + route.params.mealid);
-      database.fetchMealbyId(route.params.mealid).then((data) => {
+      database.fetchMealbyId(route.params.mealid).then(data => {
         setMealTitle(data.food);
         setFoodPicture(data.picture);
         // console.log(data);
@@ -203,7 +203,7 @@ const EnterMeal = ({route}, props) => {
         setNotiz(data.note);
         database
           .getRestaurantName(data.restaurantId)
-          .then((name) => setRestaurantName(name));
+          .then(name => setRestaurantName(name));
       });
     }
   }, [route.params?.mealid]);
@@ -211,17 +211,17 @@ const EnterMeal = ({route}, props) => {
   useEffect(() => {
     auth()
       .signInAnonymously()
-      .then((data) => {
+      .then(data => {
         setUser_id(data.user.uid);
-        getSettings().then((r) => console.log(r));
+        getSettings().then(r => console.log(r));
       });
   }, []);
 
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
     if (tags.length > 0) {
-      setTags((prevArray) =>
-        prevArray.map((data) => {
+      setTags(prevArray =>
+        prevArray.map(data => {
           if (data.id === 'mealTime') {
             return {
               id: 'mealTime',
@@ -247,15 +247,15 @@ const EnterMeal = ({route}, props) => {
 
     Keychain.hasInternetCredentials(
       'https://www.fatsecret.com/oauth/authorize',
-    ).then((result) => {
+    ).then(result => {
       if (result !== false) {
         // get Date from DatePicker and Calculate days since epoch
         var myEpoch = Math.trunc(date.getTime() / 1000.0 / 60 / 60 / 24);
 
-        getFoodByDateFromUser(myEpoch, null).then((data) => {
+        getFoodByDateFromUser(myEpoch, null).then(data => {
           if (data.food_entries) {
             if (data.food_entries.food_entry.length >= 0) {
-              const checkedData = data.food_entries.food_entry.map((data) => {
+              const checkedData = data.food_entries.food_entry.map(data => {
                 return {...data, checked: false};
               });
               setFatSecretData(checkedData);
@@ -283,9 +283,9 @@ const EnterMeal = ({route}, props) => {
 
   function checkGps() {
     getCurrentPosition()
-      .then((position) => {
-        setLng((prevState) => parseFloat(position.coords.longitude));
-        setLat((prevState) => parseFloat(position.coords.latitude));
+      .then(position => {
+        setLng(prevState => parseFloat(position.coords.longitude));
+        setLat(prevState => parseFloat(position.coords.latitude));
         setGpsEnabled(true);
       })
       .catch(() => {
@@ -296,12 +296,12 @@ const EnterMeal = ({route}, props) => {
   }
 
   function toggleScanner() {
-    setIsScannerVisible((prevState) => false);
+    setIsScannerVisible(prevState => false);
   }
 
-  const handleScannerFood = (data) => {
-    setRestaurantName((prevState) => t('General.various'));
-    setRestaurantId((prevState) => t('General.various'));
+  const handleScannerFood = data => {
+    setRestaurantName(prevState => t('General.various'));
+    setRestaurantId(prevState => t('General.various'));
     setNotiz(data.note ? data.note : null);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());
@@ -310,14 +310,14 @@ const EnterMeal = ({route}, props) => {
 
   const offset = Platform.OS === 'android' ? -200 : 64;
 
-  const loadCommunityMeals = (restaurantId) => {
+  const loadCommunityMeals = restaurantId => {
     fetch(COMMUNITY_MEALS_URL + restaurantId)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setCMeals(data);
         setIsLoadingcMeals(false);
       })
-      .catch((error) => {
+      .catch(error => {
         setCMeals([]);
         setIsLoadingcMeals(false);
       });
@@ -340,8 +340,8 @@ const EnterMeal = ({route}, props) => {
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-          .filter((data) => data.checked)
-          .map((data) => {
+          .filter(data => data.checked)
+          .map(data => {
             return {foodEntryId: data.food_entry_id};
           })
       : [];
@@ -367,8 +367,8 @@ const EnterMeal = ({route}, props) => {
             ]),
           },
         )
-          .then((res) => res.json())
-          .then((res) => console.log(res));
+          .then(res => res.json())
+          .then(res => console.log(res));
       } catch (e) {
         console.log(e);
       }
@@ -379,9 +379,10 @@ const EnterMeal = ({route}, props) => {
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
     PushNotification.localNotificationSchedule({
-      date: new Date(Date.now() + 10950 * 1000), // in 30 secs
+      date: new Date(Date.now() + 10950 * 1000), // in 3 hours
       /* Android Only Properties */
       channelId: 'food-reminder-channel',
+      id: userMealId,
       autoCancel: true, // (optional) default: true
       vibrate: true, // (optional) default: true
       vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
@@ -450,7 +451,7 @@ const EnterMeal = ({route}, props) => {
       });
   }
 
-  const handleInputMealChange = (text) => setMealTitle(text);
+  const handleInputMealChange = text => setMealTitle(text);
 
   const handleRestaurantPress = (restaurant, id, scope) => {
     setRestaurantName(restaurant);
@@ -462,7 +463,7 @@ const EnterMeal = ({route}, props) => {
     //     MealInput.current.focus();
   };
 
-  const handleRestaurantName = (text) => {
+  const handleRestaurantName = text => {
     setRestaurantName(text);
     setRestaurantId(text);
   };
@@ -482,12 +483,12 @@ const EnterMeal = ({route}, props) => {
 
   function handleImageLoadStates(response) {
     setFoodPicture(
-      ((prevState) => Platform.OS === 'android')
+      (prevState => Platform.OS === 'android')
         ? response.uri
         : 'data:image/jpeg;base64,' + response.base64,
     );
-    setClarifaiImagebase((prevState) => response.base64);
-    setDate((prevState) =>
+    setClarifaiImagebase(prevState => response.base64);
+    setDate(prevState =>
       response.timestamp ? new Date(response.timestamp) : new Date(),
     );
     console.log(response);
@@ -501,7 +502,7 @@ const EnterMeal = ({route}, props) => {
         mediaType: 'photo',
         includeBase64: true,
       },
-      (response) => {
+      response => {
         if (response.didCancel) {
           console.log('User cancelled photo picker');
         } else if (response.errorCode) {
@@ -510,10 +511,10 @@ const EnterMeal = ({route}, props) => {
             PermissionAlert(t);
           }
         } else {
-          setAvatarSourceLibrary((prevState) => {
+          setAvatarSourceLibrary(prevState => {
             return {uri: response.uri};
           });
-          setAvatarSourceCamera((prevState) => undefined);
+          setAvatarSourceCamera(prevState => undefined);
           handleImageLoadStates(response);
         }
       },
@@ -556,7 +557,7 @@ const EnterMeal = ({route}, props) => {
         quality: 0.6,
         //  saveToPhotos:true,
       },
-      (response) => {
+      response => {
         if (response.didCancel) {
           console.log('User cancelled Camera');
         } else if (response.errorCode) {
@@ -565,8 +566,8 @@ const EnterMeal = ({route}, props) => {
             PermissionAlert(t);
           }
         } else {
-          setAvatarSourceLibrary((prevState) => undefined);
-          setAvatarSourceCamera((prevState) => {
+          setAvatarSourceLibrary(prevState => undefined);
+          setAvatarSourceCamera(prevState => {
             return {uri: response.uri};
           });
           handleImageLoadStates(response);
@@ -575,12 +576,12 @@ const EnterMeal = ({route}, props) => {
     );
   }
 
-  const objectDetection = (clarifaiImagebase) => {
+  const objectDetection = clarifaiImagebase => {
     clarifai.models
       .predict('bd367be194cf45149e75f01d59f77ba7', clarifaiImagebase)
-      .then((data) => {
-        setPredictions((prevState) => []);
-        data.outputs[0].data.concepts.slice(0, 3).map((data) => {
+      .then(data => {
+        setPredictions(prevState => []);
+        data.outputs[0].data.concepts.slice(0, 3).map(data => {
           let url = 'https://translation.googleapis.com/language/translate/v2';
           url += '?q=' + data.name;
           url += '&target=de';
@@ -588,12 +589,12 @@ const EnterMeal = ({route}, props) => {
           url += '&key=' + apiKey;
 
           if (locale === 'de') {
-            return fetch(url).then((googleTranslateRes) =>
-              googleTranslateRes.json().then((googleTranslateRes) => {
+            return fetch(url).then(googleTranslateRes =>
+              googleTranslateRes.json().then(googleTranslateRes => {
                 console.log(
                   googleTranslateRes.data.translations[0].translatedText,
                 );
-                setPredictions((prevArray) => [
+                setPredictions(prevArray => [
                   ...prevArray,
                   {
                     id: data.id,
@@ -602,7 +603,7 @@ const EnterMeal = ({route}, props) => {
                   },
                 ]);
 
-                setTags((prevArray) => [
+                setTags(prevArray => [
                   ...prevArray,
                   {
                     id: data.id,
@@ -614,14 +615,14 @@ const EnterMeal = ({route}, props) => {
               }),
             );
           } else {
-            setPredictions((prevArray) => [
+            setPredictions(prevArray => [
               ...prevArray,
               {
                 id: data.id,
                 name: data.name,
               },
             ]);
-            setTags((prevArray) => [
+            setTags(prevArray => [
               ...prevArray,
               {
                 id: data.id,
@@ -632,7 +633,7 @@ const EnterMeal = ({route}, props) => {
           }
         });
       })
-      .catch((e) => console.log(e));
+      .catch(e => console.log(e));
   };
   const closeTimeDateOverlay = () => {
     setDateOverlayVisible(false);
@@ -675,7 +676,7 @@ const EnterMeal = ({route}, props) => {
   }
 
   function addTag(newTag) {
-    setTags((prevArray) => [
+    setTags(prevArray => [
       ...prevArray,
       {
         id: uuid.v4(),
@@ -686,8 +687,8 @@ const EnterMeal = ({route}, props) => {
   }
 
   function removeTag(id) {
-    setTags((prevArray) =>
-      prevArray.map((data) => {
+    setTags(prevArray =>
+      prevArray.map(data => {
         if (data.id === id) {
           return {
             id: data.id,
@@ -770,9 +771,9 @@ const EnterMeal = ({route}, props) => {
               <BlueButton
                 title={
                   t('AddMeal.fatSecretUserEntries.button') +
-                  (fatSecretData.filter((data) => data.checked).length > 0
+                  (fatSecretData.filter(data => data.checked).length > 0
                     ? '(' +
-                      fatSecretData.filter((data) => data.checked).length +
+                      fatSecretData.filter(data => data.checked).length +
                       ')'
                     : '')
                 }
@@ -817,7 +818,7 @@ const EnterMeal = ({route}, props) => {
                 iconStyle: {color: '#f9de1c'},
               }
             }
-            onChangeText={(text) => setCarbs(parseFloat(text))}
+            onChangeText={text => setCarbs(parseFloat(text))}
           />
         ) : null}
         {settings && settings.nightscoutTreatmentsUpload && (
@@ -838,7 +839,7 @@ const EnterMeal = ({route}, props) => {
                   iconStyle: {color: '#154d80'},
                 }
               }
-              onChangeText={(text) => setNightscoutCarbs(text)}
+              onChangeText={text => setNightscoutCarbs(text)}
             />
             <Input
               inputContainerStyle={styles.inputPaddingTextarea}
@@ -856,7 +857,7 @@ const EnterMeal = ({route}, props) => {
                   iconStyle: {color: '#154d80'},
                 }
               }
-              onChangeText={(text) => setNightscoutInsulin(text)}
+              onChangeText={text => setNightscoutInsulin(text)}
             />
           </>
         )}
@@ -880,7 +881,7 @@ const EnterMeal = ({route}, props) => {
               iconStyle: {color: '#154d80'},
             }
           }
-          onChangeText={(text) => setNotiz(text)}
+          onChangeText={text => setNotiz(text)}
         />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />

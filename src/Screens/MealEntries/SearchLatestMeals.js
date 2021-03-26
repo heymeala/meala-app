@@ -5,6 +5,7 @@ import {SearchBar} from 'react-native-elements';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
+import PushNotification from "react-native-push-notification";
 
 const SearchLatestMeals = ({navigation, controlBar}, props) => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -42,6 +43,7 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
   };
 
   function deleteMeal(id) {
+    PushNotification.cancelLocalNotifications({id: id});
     database.deleteMealSoft(id);
     mealData(search);
   }
