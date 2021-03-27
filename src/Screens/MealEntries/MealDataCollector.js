@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {nichtscoutTreatmens, nightscoutCall} from '../../Common/nightscoutApi';
+import {nightscoutTreatmens, nightscoutCall} from '../../Common/nightscoutApi';
 import MealDetailsComponent from './MealDetailPage';
 import {database} from '../../Common/database_realm';
 import {ActivityIndicator, View} from 'react-native';
@@ -30,11 +30,11 @@ const MealDataCollector = ({navigation, route}, props) => {
 
   function loadData() {
     const mealId = route.params?.mealId ?? undefined;
-    database.fetchMealbyId(mealId).then((mealData) => {
+    database.fetchMealbyId(mealId).then(mealData => {
       database
         .getRestaurantName(mealData.restaurantId)
-        .then((name) => setRestaurantName(name));
-      setSelectedFood((prevState) => mealData);
+        .then(name => setRestaurantName(name));
+      setSelectedFood(prevState => mealData);
       loadSugarData(mealData); //TODO:: CLEANUP
     });
   }
@@ -48,11 +48,11 @@ const MealDataCollector = ({navigation, route}, props) => {
     if (getSettings && getGlucoseSource === '2') {
       setCheckSettings('Nightscout');
 
-      nightscoutCall(foodDate, id).then((data) => {
-        const bloodGlucoseValues = data.map((sugar) => sugar.sgv);
-        const foodDates = data.map((food) => food.date);
-        const foodDataString = data.map((food) => food.dateString);
-        const getCoordinates = data.map((sugar) => {
+      nightscoutCall(foodDate, id).then(data => {
+        const bloodGlucoseValues = data.map(sugar => sugar.sgv);
+        const foodDates = data.map(food => food.date);
+        const foodDataString = data.map(food => food.dateString);
+        const getCoordinates = data.map(sugar => {
           const fullTime = new Date(sugar.date);
           return {
             x: fullTime,
@@ -65,68 +65,66 @@ const MealDataCollector = ({navigation, route}, props) => {
         setDates(foodDates);
         setSugar(bloodGlucoseValues);
       });
-      nichtscoutTreatmens(foodDate, mealData.userMealId).then(
-        (treatmentData) => {
-          const calcCarbs = treatmentData
-            .filter((data) => (data.carbs > 0 ? parseFloat(data.carbs) : null))
-            .map((data) => data.carbs);
-          const calcInsulin = treatmentData
-            .filter((data) => (data.isSMB ? data.isSMB === false : data))
-            .map((insulin) => insulin.insulin);
+      nightscoutTreatmens(foodDate, mealData.userMealId).then(treatmentData => {
+        const calcCarbs = treatmentData
+          .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+          .map(data => data.carbs);
+        const calcInsulin = treatmentData
+          .filter(data => (data.isSMB ? data.isSMB === false : data))
+          .map(insulin => insulin.insulin);
 
-          const getCarbCoordiantes = treatmentData
-            .map((data) => {
-              const fullTime =
-                data.timestamp || data.date || data.created_at
-                  ? new Date(
-                      data.timestamp
-                        ? data.timestamp
-                        : data.date
-                        ? data.date
-                        : data.created_at,
-                    )
-                  : null;
-              if (data.carbs >= 0 && data.carbs && fullTime) {
-                const carbs =
-                  settings.unit === 1
-                    ? data.carbs + 50
-                    : data.carbs / (300 / settings.unit) + 50 / settings.unit;
-                return {
-                  x: fullTime,
-                  y: carbs,
-                };
-              }
-            })
-            .filter((coordinate) => coordinate);
-          const getInsulinCoordinates = treatmentData
-            .map((insulin) => {
-              const fullTime =
-                insulin.timestamp || insulin.date || insulin.created_at
-                  ? new Date(
-                      insulin.timestamp
-                        ? insulin.timestamp
-                        : insulin.date
-                        ? insulin.date
-                        : insulin.created_at,
-                    )
-                  : null;
-              if (insulin.insulin >= 0 && insulin.insulin && fullTime) {
-                return {
-                  x: fullTime,
-                  y: insulin.insulin + 80 / settings.unit,
-                };
-              }
-            })
-            .filter((coordinate) => coordinate);
+        const getCarbCoordiantes = treatmentData
+          .map(data => {
+            const fullTime =
+              data.timestamp || data.date || data.created_at
+                ? new Date(
+                    data.timestamp
+                      ? data.timestamp
+                      : data.date
+                      ? data.date
+                      : data.created_at,
+                  )
+                : null;
+            if (data.carbs >= 0 && data.carbs && fullTime) {
+              const carbs =
+                settings.unit === 1
+                  ? data.carbs + 50
+                  : data.carbs / (300 / settings.unit) + 50 / settings.unit;
+              return {
+                x: fullTime,
+                y: carbs,
+              };
+            }
+          })
+          .filter(coordinate => coordinate);
+        const getInsulinCoordinates = treatmentData
+          .map(insulin => {
+            const fullTime =
+              insulin.timestamp || insulin.date || insulin.created_at
+                ? new Date(
+                    insulin.timestamp
+                      ? insulin.timestamp
+                      : insulin.date
+                      ? insulin.date
+                      : insulin.created_at,
+                  )
+                : null;
+            if (insulin.insulin >= 0 && insulin.insulin && fullTime) {
+              return {
+                x: fullTime,
+                y: insulin.insulin + 80 / settings.unit,
+              };
+            }
+          })
+          .filter(coordinate => coordinate);
 
-          setCarbs(calcCarbs);
-          setInsulin(calcInsulin);
-          setTreatments(treatmentData);
-          setCarbCoordinates(getCarbCoordiantes);
-          setInsulinCoordinates(getInsulinCoordinates);
-          setLoading(false);
-        },
-      );
+        setCarbs(calcCarbs);
+        setInsulin(calcInsulin);
+        setTreatments(treatmentData);
+        setCarbCoordinates(getCarbCoordiantes);
+        setInsulinCoordinates(getInsulinCoordinates);
+        setLoading(false);
+      });
     } else if (getGlucoseSource === '1') {
       setCheckSettings('Healthkit');
     } else {
