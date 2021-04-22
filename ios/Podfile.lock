@@ -420,7 +420,7 @@ PODS:
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNAppleHealthKit (1.3.0):
+  - RNAppleHealthKit (1.7.0):
     - React
   - RNCClipboard (1.5.1):
     - React-Core
@@ -743,7 +743,7 @@ SPEC CHECKSUMS:
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RealmJS: c8645e0d65b676780f7e6c393d327527a2eb15e8
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNAppleHealthKit: 07d47f1f25caa2b922c0184357b4dd75c1975acf
+  RNAppleHealthKit: 60a6beefdd89a75811e9a8873a5e24f351dee681
   RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNCPushNotificationIOS: 5b1cf9ad2aaa107ecb92d5d2d7005ba521b2b97a

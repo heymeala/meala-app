@@ -1,7 +1,7 @@
 import React from 'react';
 import SettingsOverview from '../Screens/Settings/SettingsOverview';
 import NightscoutSettingsScreen from '../Screens/Settings/NightscoutSettingsScreen';
-import HealthKitScreen from '../Screens/Settings/HealthKitScreen';
+import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
 import AboutScreen from '../Screens/Settings/AboutScreen';
 import SearchGiScreen from '../Screens/Settings/SearchGiScreen';
 import StatisticScreen from '../Screens/Settings/StatisticScreen';
@@ -12,7 +12,7 @@ import {Platform} from 'react-native';
 import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
-import TidePool from "../Screens/Settings/TidePool";
+import TidePool from '../Screens/Settings/TidePool';
 
 function SettingsStack() {
   const {t} = React.useContext(LocalizationContext);
