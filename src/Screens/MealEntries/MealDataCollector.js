@@ -4,6 +4,8 @@ import MealDetailsComponent from './MealDetailPage';
 import {database} from '../../Common/database_realm';
 import {ActivityIndicator, View} from 'react-native';
 import {useProfile} from '../../hooks/useProfile';
+import AppleHealthKit from 'react-native-health';
+import moment from 'moment';
 
 const MealDataCollector = ({navigation, route}, props) => {
   const [sugar, setSugar] = useState([]);
@@ -23,9 +25,15 @@ const MealDataCollector = ({navigation, route}, props) => {
   const {settings} = useProfile();
 
   useEffect(() => {
+    let isMounted = true;
     if (route.params?.mealId) {
-      loadData();
+      if (isMounted) {
+        loadData();
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [route.params?.mealId, settings]);
 
   function loadData() {
@@ -127,6 +135,79 @@ const MealDataCollector = ({navigation, route}, props) => {
       });
     } else if (getGlucoseSource === '1') {
       setCheckSettings('Healthkit');
+
+      const permissions = {
+        permissions: {
+          read: [
+            AppleHealthKit.Constants.Permissions.BloodGlucose,
+            AppleHealthKit.Constants.Permissions.Carbohydrates,
+            AppleHealthKit.Constants.Permissions.HeartRate,
+          ],
+          write: [AppleHealthKit.Constants.Permissions.Steps],
+        },
+      };
+      let fromDate, tillDate;
+      console.log(selectedFood);
+      tillDate = moment(foodDate).add(3, 'hours').toISOString();
+      fromDate = moment(foodDate).subtract(35, 'minutes').toISOString();
+
+      AppleHealthKit.initHealthKit(permissions, (error: string) => {
+        /* Called after we receive a response from the system */
+
+        if (error) {
+          console.log('[ERROR] Cannot grant permissions!');
+        }
+        /* Can now read or write to HealthKit */
+        //   unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL', // optional; default 'mmolPerL'
+        let options = {
+          startDate: fromDate, // required
+          endDate: tillDate, // optional; default now
+        };
+        AppleHealthKit.getBloodGlucoseSamples(
+          options,
+          (callbackError, results) => {
+            /* Samples are now collected from HealthKit */
+            if (callbackError) {
+              console.log(callbackError);
+              return;
+            }
+            setCoordiantes(
+              results.map(coordinates => {
+                return {
+                  x: new Date(moment(coordinates.startDate).toISOString()),
+                  y: coordinates.value / settings.unit,
+                };
+              }),
+            );
+          },
+        );
+
+        AppleHealthKit.getCarbohydratesSamples(
+          options,
+          (callbackError, results) => {
+            /* Samples are now collected from HealthKit */
+            if (callbackError) {
+              console.log(callbackError);
+              return;
+            }
+            setCarbCoordinates(
+              results.map(coordinates => {
+                const kitCarbs =
+                  settings.unit === 1
+                    ? coordinates.value + 50
+                    : coordinates.value / (300 / settings.unit) +
+                      50 / settings.unit;
+
+                return {
+                  x: new Date(moment(coordinates.startDate).toISOString()),
+                  y: kitCarbs,
+                };
+              }),
+            );
+          },
+        );
+      });
+      setLoading(false);
     } else {
       setCheckSettings('Error');
     }

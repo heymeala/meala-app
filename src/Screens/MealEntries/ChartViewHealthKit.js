@@ -25,8 +25,6 @@ const ChartViewHealthKit = props => {
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
   useEffect(() => {
-    const d = new Date();
-    const PERMS = AppleHealthKit.Constants.Permissions;
 
     const permissions = {
       permissions: {

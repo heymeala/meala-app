@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
-import {
-  Dimensions,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Button, Card, Image, Text} from 'react-native-elements';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Card, Image, Text} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import ChartView from './ChartViewNightScout';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../LanguageContext';
@@ -17,7 +10,8 @@ import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import SaveButton from '../../Common/SaveButton';
-import ChartViewHealthKit from './ChartViewHealthKit';
+import GeneralChartView from './ChartView';
+import NoGraphData from './NoGraphData';
 
 //https://github.com/oblador/react-native-vector-icons
 const MealDetailsComponent = props => {
@@ -62,7 +56,9 @@ const MealDetailsComponent = props => {
             setFatSecretData(prevState => {
               if (prevState) {
                 return [{...data.food_entries.food_entry}, ...prevState];
-              } else return [{...data.food_entries.food_entry}];
+              } else {
+                return [{...data.food_entries.food_entry}];
+              }
             });
           } else {
             console.log('no data');
@@ -241,39 +237,16 @@ const MealDetailsComponent = props => {
           )
         ) : null}
       </View>
-      {props.checkSettings === 'Nightscout' ? (
-        <ChartView
+      {props.checkSettings ? (
+        <GeneralChartView
           loading={props.loading}
           coordinates={props.coordiantes}
           selectedFood={props.selectedFood}
           insulinCoordinates={props.insulinCoordinates}
           carbCoordinates={props.carbCoordinates}
         />
-      ) : props.checkSettings === 'Healthkit' ? (
-        <ChartViewHealthKit selectedFood={props.selectedFood} />
       ) : (
-        <View
-          style={{padding: 20, margin: 'auto', flex: 1, alignItems: 'center'}}>
-          <TouchableOpacity
-            accessible={true}
-            accessibilityRole="button"
-            onPress={() => navigation.navigate('SettingsStack')}>
-            <Text
-              style={{
-                color: 'red',
-                textAlign: 'center',
-                paddingBottom: 20,
-              }}>
-              {t('Entries.noDataSource')}
-            </Text>
-
-            <Image
-              source={require('../../assets/meala_graph.png')}
-              placeholderStyle={{backgroundColor: '#fff'}}
-              style={{width: Dimensions.get('window').width, height: 350}}
-            />
-          </TouchableOpacity>
-        </View>
+        <NoGraphData />
       )}
       <View style={{alignItems: 'center'}}>
         <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
