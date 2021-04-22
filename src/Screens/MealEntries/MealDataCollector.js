@@ -190,6 +190,7 @@ const MealDataCollector = ({navigation, route}, props) => {
               console.log(callbackError);
               return;
             }
+            setCarbs(results.map(data => data.value));
             setCarbCoordinates(
               results.map(coordinates => {
                 const kitCarbs =
