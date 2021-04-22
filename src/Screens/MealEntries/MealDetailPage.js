@@ -10,7 +10,6 @@ import {
 import {Button, Card, Image, Text} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ChartView from './ChartViewNightScout';
-import ChartViewHealthKit from './ChartViewHealthKit';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../LanguageContext';
@@ -18,9 +17,10 @@ import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import SaveButton from '../../Common/SaveButton';
+import ChartViewHealthKit from './ChartViewHealthKit';
 
 //https://github.com/oblador/react-native-vector-icons
-const MealDetailsComponent = (props) => {
+const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   moment.locale(locale);
@@ -32,7 +32,7 @@ const MealDetailsComponent = (props) => {
   const treatmentsData = props.treatments;
   const firstInsulin = treatmentsData
     ? treatmentsData
-        .map((data) =>
+        .map(data =>
           data.insulin > 0
             ? data.timestamp
               ? data.timestamp
@@ -43,7 +43,7 @@ const MealDetailsComponent = (props) => {
               : null
             : null,
         )
-        .filter((data) => data)
+        .filter(data => data)
     : null;
 
   const startTime = moment(firstInsulin[0]);
@@ -56,10 +56,10 @@ const MealDetailsComponent = (props) => {
 
   useEffect(() => {
     selectedFood.fatSecretUserFoodEntryIds &&
-      selectedFood.fatSecretUserFoodEntryIds.map((entries) =>
-        getFoodByDateFromUser(null, entries.foodEntryId).then((data) => {
+      selectedFood.fatSecretUserFoodEntryIds.map(entries =>
+        getFoodByDateFromUser(null, entries.foodEntryId).then(data => {
           if (data.food_entries) {
-            setFatSecretData((prevState) => {
+            setFatSecretData(prevState => {
               if (prevState) {
                 return [{...data.food_entries.food_entry}, ...prevState];
               } else return [{...data.food_entries.food_entry}];
@@ -78,8 +78,8 @@ const MealDetailsComponent = (props) => {
 
   // remove smb – settings in android aps
   props.treatments
-    .filter((data) => (data.isSMB ? data.isSMB === false : data))
-    .map((treatments) => {
+    .filter(data => (data.isSMB ? data.isSMB === false : data))
+    .map(treatments => {
       if (treatments.insulin) {
         InsulinArray.push(parseFloat(treatments.insulin.toFixed(2)));
       }
@@ -324,7 +324,7 @@ const MealDetailsComponent = (props) => {
         <View>
           <PoweredByFatSecret />
 
-          {fatSecretData.map((data) => {
+          {fatSecretData.map(data => {
             return (
               <Card>
                 <View key={data.food_entry_id}>
