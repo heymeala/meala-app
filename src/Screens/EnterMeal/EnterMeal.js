@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, Input, Text} from 'react-native-elements';
+import { Button, FAB, Input, makeStyles, Text } from "react-native-elements";
 import {database} from '../../Common/database_realm';
 import {getCurrentPosition} from '../../Common/geolocation';
 import * as ImagePicker from 'react-native-image-picker';
@@ -56,6 +56,7 @@ const EnterMeal = ({route}, props) => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   moment.locale(locale);
+  const styles = useStyles(props);
 
   const [user_id, setUser_id] = useState('');
 
@@ -885,11 +886,13 @@ const EnterMeal = ({route}, props) => {
         />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
-        <View style={{flexDirection: 'row'}}>
-          <View style={{marginTop: 15, flexGrow: 1}}>
-            <SaveButton onPress={() => saveAll()} />
-          </View>
-        </View>
+        <FAB
+          title={t('AddMeal.save')}
+          onPress={() => saveAll()}
+          size={"small"}
+          placement={'right'}
+          icon={{name: 'save', color: 'black'}}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -897,7 +900,7 @@ const EnterMeal = ({route}, props) => {
 
 export default EnterMeal;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme, props: Props) => ({
   date: {
     textAlign: 'center',
     color: '#419eff',
@@ -948,4 +951,4 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'flex-end',
   },
-});
+}));

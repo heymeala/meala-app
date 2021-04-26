@@ -1,10 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from '@react-navigation/native';
-import {ActivityIndicator, StatusBar, View, useColorScheme} from 'react-native';
+import {ActivityIndicator, StatusBar, useColorScheme, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import {ThemeProvider} from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
@@ -21,6 +17,7 @@ import {
   ScreenReaderProvider,
   useScreenReader,
 } from './src/hooks/useScreenReaderEnabled';
+import {theme} from './src/theme';
 
 enableScreens();
 
@@ -38,23 +35,6 @@ const App = props => {
     [locale],
   );
   const colorScheme = useColorScheme();
-  const theme = {
-    colors: {
-      primary: '#264F9F',
-      secondary: '#FFCD00',
-      white: '#f7f7f7',
-      black: '#1a1a1a',
-      background: '#fff',
-    },
-    FAB: {
-      titleStyle: {},
-    },
-    Button: {
-      titleStyle: {
-        color: 'secondary',
-      },
-    },
-  };
 
   const handleLocalizationChange = useCallback(
     newLocale => {
@@ -115,7 +95,10 @@ const App = props => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}>
-        <ThemeProvider theme={theme} useDark={colorScheme === 'dark'}>
+        <ThemeProvider
+          theme={theme}
+          //useDark={colorScheme === 'dark'}
+        >
           <ProfileProvider>
             <ScreenReaderProvider>
               <View style={{flex: 1}}>
