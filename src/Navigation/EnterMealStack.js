@@ -25,15 +25,8 @@ function EnterMealStack() {
             left: 0,
           },
           headerLargeTitle: true,
-          headerTranslucent:
-           false,
-          headerStyle:
-            Platform.OS !== 'android' && Platform.Version >= 13
-              ? {
-                  backgroundColor: 'transparent',
-                  blurEffect: 'light',
-                }
-              : {backgroundColor: 'white'},
+          headerTranslucent: false,
+          headerStyle: {backgroundColor: 'white'},
         })}
       />
       <Stack.Screen
@@ -50,15 +43,7 @@ function EnterMealStack() {
             left: 0,
           },
           headerLargeTitle: true,
-          headerTranslucent:
-            Platform.OS !== 'android' && Platform.Version >= 13,
-          headerStyle:
-            Platform.OS !== 'android' && Platform.Version >= 13
-              ? {
-                  backgroundColor: 'transparent',
-                  blurEffect: 'light',
-                }
-              : {backgroundColor: 'white'},
+          headerStyle: {backgroundColor: 'white'},
         })}
       />
     </Stack.Navigator>

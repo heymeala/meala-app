@@ -15,6 +15,7 @@
     "Camera": "Take a picture",
     "Roll": "Choose from library",
     "PicPopUp": "Picture of your food",
+    "save": "Save",
     "ErrorMessage": "Please fill out",
     "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated.",
     "notificationAfterMeal": "Have a look at your last meal: {{mealTitle}}",
@@ -84,7 +85,7 @@
     "Meals" : "Meals",
     "MealDetails": "Details",
     "Date": "Date",
-    "Places": "Places",
+    "Places": "Visited Places",
 
     "noDataSource" : "No data source selected. Please check your settings",
     "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",

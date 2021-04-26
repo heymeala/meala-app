@@ -1,6 +1,11 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {ActivityIndicator, StatusBar, View} from 'react-native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
+import {ActivityIndicator, StatusBar, View, useColorScheme} from 'react-native';
+import {ThemeProvider} from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
@@ -19,7 +24,7 @@ import {
 
 enableScreens();
 
-const App = (props) => {
+const App = props => {
   const routeNameRef = React.useRef();
   const [locale, setLocale] = React.useState(i18n.DEFAULT_LANGUAGE);
   const [onboarding, setOnboarding] = useState(undefined);
@@ -32,9 +37,27 @@ const App = (props) => {
     }),
     [locale],
   );
+  const colorScheme = useColorScheme();
+  const theme = {
+    colors: {
+      primary: '#264F9F',
+      secondary: '#FFCD00',
+      white: '#f7f7f7',
+      black: '#1a1a1a',
+      background: '#fff',
+    },
+    FAB: {
+      titleStyle: {},
+    },
+    Button: {
+      titleStyle: {
+        color: 'secondary',
+      },
+    },
+  };
 
   const handleLocalizationChange = useCallback(
-    (newLocale) => {
+    newLocale => {
       const newSetLocale = i18n.setI18nConfig(newLocale);
       setLocale(newSetLocale);
     },
@@ -55,7 +78,7 @@ const App = (props) => {
   useEffect(() => {
     database
       .saveOnbording()
-      .then((onboardingState) =>
+      .then(onboardingState =>
         onboardingState > showOnboardingFirst &&
         onboardingState !== showOnboardingLast
           ? setOnboarding(false)
@@ -74,6 +97,7 @@ const App = (props) => {
   return (
     <LocalizationContext.Provider value={localizationContext}>
       <NavigationContainer
+        // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
         onReady={() =>
           (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
@@ -91,28 +115,30 @@ const App = (props) => {
           // Save the current route name for later comparision
           routeNameRef.current = currentRouteName;
         }}>
-        <ProfileProvider>
-          <ScreenReaderProvider>
-            <View style={{flex: 1}}>
-              <StatusBar barStyle={'dark-content'} />
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}>
-                {onboarding ? (
+        <ThemeProvider theme={theme} useDark={colorScheme === 'dark'}>
+          <ProfileProvider>
+            <ScreenReaderProvider>
+              <View style={{flex: 1}}>
+                <StatusBar barStyle={'dark-content'} />
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                  }}>
+                  {onboarding ? (
+                    <Stack.Screen
+                      name="Onboarding"
+                      component={OnboardingScreen}
+                    />
+                  ) : null}
                   <Stack.Screen
-                    name="Onboarding"
-                    component={OnboardingScreen}
+                    name="Home"
+                    component={AppBottomNavigationStack}
                   />
-                ) : null}
-                <Stack.Screen
-                  name="Home"
-                  component={AppBottomNavigationStack}
-                />
-              </Stack.Navigator>
-            </View>
-          </ScreenReaderProvider>
-        </ProfileProvider>
+                </Stack.Navigator>
+              </View>
+            </ScreenReaderProvider>
+          </ProfileProvider>
+        </ThemeProvider>
       </NavigationContainer>
     </LocalizationContext.Provider>
   );

@@ -23,15 +23,6 @@ function SugarStack({navigation}) {
           title: 'meala',
           headerLargeTitle: true,
           headerTranslucent: false,
-          /*     Platform.OS !== 'android' && Platform.Version >= 13,
-                   headerStyle:
-                       Platform.OS !== 'android' && Platform.Version >= 13
-                         ? {
-                             backgroundColor: 'transparent',
-                             blurEffect: 'light',
-                           }
-                         : {backgroundColor: 'white'},*/
-
           headerLargeTitleStyle: {
             fontSize: 40,
             fontFamily: 'Pacifico-Regular',
@@ -42,20 +33,6 @@ function SugarStack({navigation}) {
           },
           headerRight: () => (
             <View style={{flexDirection: 'row'}}>
-              <Icon
-                accessible={true}
-                accessibilityLabel={t('Accessibility.Home.newEntry')}
-                onPress={() =>
-                  navigation.navigate('EnterMealStack', {
-                    screen: 'EnterMeal',
-                    params: {scan: false},
-                  })
-                }
-                name="ios-add-circle-outline"
-                style={{paddingRight: 15}}
-                type="ionicon"
-                size={25}
-              />
               <Icon
                 accessible={true}
                 accessibilityLabel={t('Accessibility.Home.foodScan')}

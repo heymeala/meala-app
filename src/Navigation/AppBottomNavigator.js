@@ -1,8 +1,9 @@
+import React from 'react';
+import {View} from 'react-native';
 import SugarStack from './SugarStack';
 import {Icon} from 'react-native-elements';
 import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
 
@@ -34,15 +35,40 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
-        component={EnterMealStack}
-        options={({route}) => ({
+        options={{
           tabBarLabel: t('Accessibility.tab.add'),
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon name="pluscircleo" type="antdesign" size={28} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0, // space from bottombar
+                height: 60,
+                width: 60,
+                backgroundColor: focused ? '#1569ae' : 'white',
+                borderRadius: 60,
+                shadowColor: '#c0c0c0',
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+                elevation: 6,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="pluscircleo"
+                type="antdesign"
+                size={28}
+                color={focused ? 'white' : 'grey'}
+              />
+            </View>
           ),
-          //  tabBarVisible: getHeaderTitle(route)
-        })}
+        }}
+        component={EnterMealStack}
       />
+
       <Tab.Screen
         name="SettingsStack"
         component={SettingsStack}
