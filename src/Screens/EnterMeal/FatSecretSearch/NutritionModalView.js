@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Image, SearchBar} from 'react-native-elements';
+import {Image, makeStyles, SearchBar} from 'react-native-elements';
 import PredictionCips from './PredictionCips';
 import FatSecretNutritionDetails from './FatSecretNutritionDetails';
 import FoodSuggestions from './FoodSuggestions';
@@ -35,6 +35,7 @@ const NutritionModalView = props => {
     setFoodDetailData,
   } = props;
   const {t} = React.useContext(LocalizationContext);
+  const styles = useStyles();
 
   return (
     <View style={styles.centeredView}>
@@ -43,13 +44,7 @@ const NutritionModalView = props => {
           ref={scrollViewRef}
           onScroll={handleOnScroll}
           scrollEventThrottle={16}>
-          <Text
-            style={{
-              ...styles.modalText,
-              fontWeight: 'bold',
-              fontSize: 16,
-              marginTop: 10,
-            }}>
+          <Text style={styles.title}>
             {t('AddMeal.foodDataBaseSearch.title')}
           </Text>
           <Text style={{...styles.modalText}}>
@@ -63,19 +58,13 @@ const NutritionModalView = props => {
             value={search}
             onBlur={() => startSearch()}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              paddingBottom: 12,
-            }}>
+          <View style={styles.chipsContainer}>
             <PredictionCips
               chipsArray={chipsArray}
               setSearch={setSearch}
               setChipSearch={setChipSearch}
             />
           </View>
-
           <View>
             {isServingListVisible && !isNutritionData ? (
               foodDetailData.servings && foodDetailData.servings.length > 0 ? (
@@ -143,19 +132,19 @@ const NutritionModalView = props => {
 
 export default NutritionModalView;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
   },
   modalView: {
     margin: 10,
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.white,
     borderRadius: 20,
     padding: 10,
     // height: 400,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -165,7 +154,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#ffe109',
+    backgroundColor: theme.colors.secondary,
     borderRadius: 20,
     padding: 8,
   },
@@ -174,9 +163,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  chipsContainer: {flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 12},
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
+  },
+  title: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 10,
   },
   nutritionTitle: {
     fontWeight: 'bold',
@@ -186,4 +183,4 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
-});
+}));

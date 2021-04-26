@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Divider, Input, Text} from 'react-native-elements';
 import {
-  ActivityIndicator, Keyboard,
+  ActivityIndicator,
+  Keyboard,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -11,13 +12,13 @@ import LocalizationContext from '../../../../LanguageContext';
 import AddMealAttributes from '../FatSecretSearch/AddMealAttributes';
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
 
-const MealInputField = (props) => {
+const MealInputField = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const [visible, setVisible] = useState(false);
   const screenReaderEnabled = useScreenReader();
 
   function modalVisible() {
-    return setVisible((prevState) => !prevState);
+    return setVisible(prevState => !prevState);
   }
 
   function handleSearch(text) {
@@ -27,7 +28,7 @@ const MealInputField = (props) => {
   const CommunityMeals = () => {
     return props.cMeals.length > 0 ? (
       !props.isLoadingcMeals ? (
-        props.cMeals.map((items) => (
+        props.cMeals.map(items => (
           <View key={items.meal_id}>
             <TouchableOpacity
               onPress={() => props.handleMealPress(items.meal, items.meal_id)}>
@@ -60,8 +61,8 @@ const MealInputField = (props) => {
         placeholder={t('AddMeal.MealInput')}
         autoCorrect={false}
         renderErrorMessage={!screenReaderEnabled}
-     //   accessible={true}
-      //  accessibilityLabel={t('Accessibility.EnterMeal.meal')}
+        //   accessible={true}
+        //  accessibilityLabel={t('Accessibility.EnterMeal.meal')}
         leftIcon={
           !screenReaderEnabled && {
             type: 'ionicon',
@@ -84,7 +85,7 @@ const MealInputField = (props) => {
             />
           </TouchableOpacity>
         }
-        onChangeText={(text) => handleSearch(text)}
+        onChangeText={text => handleSearch(text)}
         value={props.Gericht}
         onBlur={props.handleMealInputBlur}
         errorMessage={props.errorMessage ? props.errorMessage : null}
