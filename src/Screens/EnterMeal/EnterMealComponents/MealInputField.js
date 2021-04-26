@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LocalizationContext from '../../../../LanguageContext';
-import AddMealAttributes from '../AddMealAttributes';
+import AddMealAttributes from '../FatSecretSearch/AddMealAttributes';
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
 
 const MealInputField = (props) => {

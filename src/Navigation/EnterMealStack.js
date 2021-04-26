@@ -3,7 +3,7 @@ import EnterMeal from '../Screens/EnterMeal/EnterMeal';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
 import {Platform} from 'react-native';
-import OpenFoodFactsInfos from '../Screens/EnterMeal/EnterMealComponents/Scanner/OpenFoodFactsInfos';
+import OpenFoodFactsInfos from '../Screens/EnterMeal/BarCodeScanner/Scanner/OpenFoodFactsInfos';
 import {makeStyles} from 'react-native-elements';
 
 function EnterMealStack() {

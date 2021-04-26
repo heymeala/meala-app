@@ -25,7 +25,7 @@ import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
-import ScanScreen from './BarCodeScannerScreen';
+import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
 import PushNotification from 'react-native-push-notification';
 import SaveButton from '../../Common/SaveButton';
 import PictureSelector from './PictureSelector';

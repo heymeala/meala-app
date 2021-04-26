@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {Dimensions, Linking, TouchableOpacity, View} from 'react-native';
 import {Button, Image, makeStyles, Text, useTheme} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import LocalizationContext from '../../../LanguageContext';
-import ScannerResults from './EnterMealComponents/Scanner/ScannerResults';
+import LocalizationContext from '../../../../LanguageContext';
+import ScannerResults from './Scanner/ScannerResults';
 import Modal from 'react-native-modal';
-import {spacing} from '../../theme/styles';
+import {spacing} from '../../../theme/styles';
 import {openFoodFactsApi} from './openFoodFactsApi';
 
 const ScanScreen = props => {
@@ -124,7 +124,7 @@ const ScanScreen = props => {
           }
           customMarker={
             <Image
-              source={require('../../assets/marker.png')}
+              source={require('../../../assets/marker.png')}
               style={{width: Dimensions.get('window').width - 50, height: 45}}
             />
           }
