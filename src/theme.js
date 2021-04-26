@@ -1,4 +1,4 @@
-const colors = {
+const colors_light = {
   primary: '#264F9F',
   secondary: '#FFCD00',
   white: '#f7f7f7',
@@ -8,18 +8,18 @@ const colors = {
 
 export const theme = {
   colors: {
-    primary: colors.primary,
-    secondary: colors.secondary,
-    white: colors.white,
-    black: colors.black,
-    background: colors.background,
+    primary: colors_light.primary,
+    secondary: colors_light.secondary,
+    white: colors_light.white,
+    black: colors_light.black,
+    background: colors_light.background,
   },
   FAB: {
-    titleStyle: {color: colors.black},
+    titleStyle: {color: colors_light.black},
   },
   Button: {
     titleStyle: {
-      color: colors.secondary,
+      color: colors_light.secondary,
     },
   },
 };

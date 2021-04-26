@@ -1,29 +1,28 @@
 import React, {useState} from 'react';
-import {
-  Dimensions,
-  Linking,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Button, Image, Text} from 'react-native-elements';
+import {Dimensions, Linking, TouchableOpacity, View} from 'react-native';
+import {Button, Image, makeStyles, Text, useTheme} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import LocalizationContext from '../../../LanguageContext';
 import ScannerResults from './EnterMealComponents/Scanner/ScannerResults';
 import Modal from 'react-native-modal';
+import {spacing} from '../../theme/styles';
+import {openFoodFactsApi} from './openFoodFactsApi';
 
-const ScanScreen = (props) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+const ScanScreen = props => {
+  const {t} = React.useContext(LocalizationContext);
   const [data, setData] = useState('');
   const [status, setStatus] = useState(true);
   const [openModal, setModal] = useState(false);
-
+  const styles = useStyles();
+  const {theme} = useTheme();
   const newEntry = () => {
     const carbs = data.nutriments && data.nutriments.carbohydrates_100g;
     const meal = data.product_name && data.product_name;
+
     const serving =
       data.serving_size &&
       t('BarCode.portion', {weight: data.serving_size}) + '\n';
+
     const note = `${serving !== undefined ? serving : ''} ${
       carbs !== undefined
         ? carbs +
@@ -37,25 +36,23 @@ const ScanScreen = (props) => {
     props.handleScannerFood({carbs: carbs, meal: meal, note: note});
     props.toggleScanner();
   };
-
-  const onSuccess = (e) => {
-    fetch('https://world.openfoodfacts.org/api/v0/product/' + e.data + '.json')
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.status === 0) {
-          setStatus(false);
-          setTimeout(() => setStatus(true), 3000);
-        } else {
-          setData(data.product);
-          setStatus(true);
-          setModal(true);
-        }
-      });
+  const onSuccess = async e => {
+    const foodData = await openFoodFactsApi(e.data);
+    console.log(foodData);
+    if (foodData.status === 0) {
+      setStatus(false);
+      setTimeout(() => setStatus(true), 3000);
+    } else {
+      setData(foodData.product);
+      if (foodData.product_name === undefined || foodData.product_name === '') {
+        setStatus(true);
+        setModal(true);
+      }
+    }
   };
 
   const FoodView = () => {
-    return data.product_name === undefined || data.product_name === '' ? (
+    return data.product_name !== undefined || data.product_name !== '' ? (
       <View>
         {status ? (
           <Text style={styles.whiteText}>{t('BarCode.Intro')}</Text>
@@ -79,22 +76,16 @@ const ScanScreen = (props) => {
           onBackdropPress={() => setModal(false)}
           onSwipeComplete={() => setModal(false)}
           onAccessibilityEscape={() => setModal(false)}
-
           swipeDirection={['down']}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <ScannerResults data={data} />
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  padding: 8,
-                }}>
+              <View style={styles.container}>
                 <TouchableOpacity
                   style={{
                     ...styles.openButton,
-                    backgroundColor: '#ffffff',
-                    color: '#000',
+                    backgroundColor: theme.colors.white,
+                    color: theme.colors.black,
                     minWidth: 100,
                   }}
                   onPress={() => setModal(false)}>
@@ -103,8 +94,8 @@ const ScanScreen = (props) => {
                 <TouchableOpacity
                   style={{
                     ...styles.openButton,
-                    backgroundColor: '#ffe109',
-                    color: '#000',
+                    backgroundColor: theme.colors.secondary,
+                    color: theme.colors.black,
                     minWidth: 100,
                   }}
                   onPress={() => newEntry(t)}>
@@ -139,14 +130,17 @@ const ScanScreen = (props) => {
           }
           cameraStyle={{height: 240, overflow: 'hidden'}}
           topViewStyle={{
-            backgroundColor: '#474747',
-            color: '#fff',
+            backgroundColor: theme.colors.grey0,
+            color: theme.colors.white,
             zIndex: 1000,
-              justifyContent:"flex-end",
-              paddingBottom: 18,
+            justifyContent: 'flex-end',
+            paddingBottom: spacing.M,
           }}
-          containerStyle={{backgroundColor: '#FFCE00'}}
-          bottomViewStyle={{backgroundColor: '#FFCE00', color: '#000'}}
+          containerStyle={{backgroundColor: theme.colors.black}}
+          bottomViewStyle={{
+            backgroundColor: theme.colors.secondary,
+            color: theme.colors.black,
+          }}
           topContent={<FoodView />}
           bottomContent={
             <View>
@@ -154,10 +148,10 @@ const ScanScreen = (props) => {
                 type={'outline'}
                 titleStyle={{color: 'black'}}
                 buttonStyle={{
-                  marginBottom: 10,
+                  marginBottom: spacing.S,
                   borderColor: 'black',
                 }}
-                containerStyle={{paddingVertical: 5}}
+                containerStyle={{paddingVertical: spacing.XS}}
                 onPress={() => props.toggleScanner()}
                 title={t('General.cancel')}
               />
@@ -176,26 +170,31 @@ const ScanScreen = (props) => {
 
 export default ScanScreen;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: spacing.S,
+  },
   centerText: {
     fontSize: 18,
-    padding: 3,
-    color: '#fff',
+    padding: spacing.XS,
+    color: theme.colors.white,
     fontWeight: 'bold',
   },
   textBold: {
     fontWeight: '500',
-    color: '#000',
+    color: theme.colors.black,
   },
   buttonText: {
     fontSize: 21,
-    color: 'rgb(0,0,0)',
+    color: theme.colors.black,
   },
   buttonTouchable: {
-    padding: 16,
+    padding: spacing.M,
   },
   whiteText: {
-    color: '#ffffff',
+    color: theme.colors.white,
     fontWeight: 'bold',
   },
   centeredView: {
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 20,
-    shadowColor: '#000',
+    shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -216,8 +215,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#154d80',
-    color: '#fff',
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.white,
     borderRadius: 25,
     padding: 6,
     paddingHorizontal: 12,
@@ -232,4 +231,4 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
   },
-});
+}));

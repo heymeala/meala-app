@@ -1,13 +1,15 @@
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import EnterMealButton from './EnterMealComponents/EnterMealButton';
 import React from 'react';
 import LocalizationContext from '../../../LanguageContext';
+import {makeStyles} from 'react-native-elements';
 
-const PictureSelector = (props) => {
+const PictureSelector = props => {
   const {t, locale} = React.useContext(LocalizationContext);
+  const styles = useStyles();
 
   return (
-    <View style={stylesImagePicker.container}>
+    <View style={styles.container}>
       <EnterMealButton
         onPress={props.selectCameraTapped}
         name={t('AddMeal.camera')}
@@ -31,7 +33,7 @@ const PictureSelector = (props) => {
 
 export default PictureSelector;
 
-const stylesImagePicker = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: 20,
     flex: 1,
@@ -39,19 +41,4 @@ const stylesImagePicker = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  avatarContainer: {
-    backgroundColor: '#154d80',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  avatar: {
-    borderRadius: 75,
-    width: 150,
-    height: 150,
-  },
-  avatarSmall: {
-    borderRadius: 50,
-    width: 100,
-    height: 100,
-  },
-});
+}));

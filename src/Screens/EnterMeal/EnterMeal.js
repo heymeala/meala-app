@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Button, FAB, Input, makeStyles, Text } from "react-native-elements";
+import {Button, FAB, Input, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import {getCurrentPosition} from '../../Common/geolocation';
 import * as ImagePicker from 'react-native-image-picker';
@@ -889,7 +889,7 @@ const EnterMeal = ({route}, props) => {
         <FAB
           title={t('AddMeal.save')}
           onPress={() => saveAll()}
-          size={"small"}
+          size={'small'}
           placement={'right'}
           icon={{name: 'save', color: 'black'}}
         />

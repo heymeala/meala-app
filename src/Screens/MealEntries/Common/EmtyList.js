@@ -1,16 +1,18 @@
 import {Dimensions, Linking, Text, TouchableOpacity, View} from 'react-native';
-import {Image} from 'react-native-elements';
+import {Image, makeStyles} from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import SaveButton from '../../../Common/SaveButton';
-import openLink from '../../../Common/InAppBrowser';
+import {spacing} from '../../../theme/styles';
 
 export const EmptyListComponent = ({navigation}) => {
   const {t, locale} = React.useContext(LocalizationContext);
+  const dimensions = Dimensions.get('window');
+  const styles = useStyles(dimensions);
 
   return (
-    <View style={{padding: 5, margin: 'auto', flex: 1, alignItems: 'center'}}>
-      <Text style={{paddingBottom: 20}}>{t('General.welcome')}</Text>
+    <View style={styles.container}>
+      <Text style={styles.text}>{t('General.welcome')}</Text>
       <TouchableOpacity
         accessible={true}
         accessibilityLabel={t('Accessibility.Home.nodata')}
@@ -26,8 +28,8 @@ export const EmptyListComponent = ({navigation}) => {
             />
             <Image
               source={require('../../../assets/empty_en.png')}
-              placeholderStyle={{backgroundColor: '#fff'}}
-              style={{width: Dimensions.get('window').width, height: 950}}
+              placeholderStyle={styles.imagePlaceholder}
+              style={styles.image}
             />
           </>
         ) : (
@@ -40,8 +42,8 @@ export const EmptyListComponent = ({navigation}) => {
             />
             <Image
               source={require('../../../assets/empty_de.png')}
-              placeholderStyle={{backgroundColor: '#fff'}}
-              style={{width: Dimensions.get('window').width, height: 950}}
+              placeholderStyle={styles.imagePlaceholder}
+              style={styles.image}
             />
           </>
         )}
@@ -49,3 +51,15 @@ export const EmptyListComponent = ({navigation}) => {
     </View>
   );
 };
+
+const useStyles = makeStyles((theme, dimensions) => ({
+  image: {width: dimensions.width, height: 950},
+  container: {
+    padding: spacing.XS,
+    margin: 'auto',
+    flex: 1,
+    alignItems: 'center',
+  },
+  imagePlaceholder: {backgroundColor: theme.colors.white},
+  text: {paddingBottom: spacing.M},
+}));
