@@ -103,7 +103,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
     return {date: dates, dots: [{color: 'blue'}]};
   });
 
-  function headerComponent() {
+  const HeaderComponent = function () {
     return (
       <>
         <View style={styles.container}>
@@ -144,7 +144,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
       contentContainerStyle={{flexGrow: 1}}
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
-      ListHeaderComponent={headerComponent()}
+      ListHeaderComponent={HeaderComponent()}
       ListFooterComponent={
         fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />
       }
