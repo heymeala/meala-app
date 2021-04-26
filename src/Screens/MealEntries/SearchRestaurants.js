@@ -15,31 +15,43 @@ const SearchRestaurants = ({navigation}, props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const {t, locale} = React.useContext(LocalizationContext);
 
-  const handleIndexChange = (index) => {
+  const handleIndexChange = index => {
     setSelectedIndex(index);
   };
 
   useEffect(() => {
-    database.deleteMeal();
-    database.deleteRestaurant();
+    let isMounted = true;
+    if (isMounted) {
+      database.deleteMeal();
+      database.deleteRestaurant();
+    }
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
-      showRestaurants(search);
+      let isMounted = true;
+      if (isMounted) {
+        showRestaurants(search);
+      }
+      return () => {
+        isMounted = false;
+      };
     }, []),
   );
 
-  const updateSearch = (search) => {
+  const updateSearch = search => {
     setSearch(search);
     showRestaurants(search);
   };
 
-  const showRestaurants = async (text) => {
+  const showRestaurants = async text => {
     try {
       const allRestaurant = await database.fetchRestaurantsWithFilter(text);
       const allRestaurantsIsDeleted = allRestaurant.filter(
-        (restaurants) => restaurants.isDeleted === false,
+        restaurants => restaurants.isDeleted === false,
       );
       setRestaurants(allRestaurantsIsDeleted);
     } catch (e) {}
@@ -55,7 +67,7 @@ const SearchRestaurants = ({navigation}, props) => {
           <ListItem.Title>{item.restaurant_name}</ListItem.Title>
         </ListItem.Content>
         <Badge
-          value={item.food.filter((item) => item.isDeleted === false).length}
+          value={item.food.filter(item => item.isDeleted === false).length}
           badgeStyle={{backgroundColor: '#bfbfb4'}}
           textStyle={{color: 'black'}}
           containerStyle={{marginTop: 0}}
@@ -70,7 +82,11 @@ const SearchRestaurants = ({navigation}, props) => {
       <View style={{padding: 5, flex: 1, backgroundColor: '#fff'}}>
         <SegmentedControlTab
           values={[t('Entries.Meals'), t('Entries.Places'), t('Entries.Date')]}
-          accessibilityLabels={[`${t('Entries.Meals') } ${t('Accessibility.Home.button')}`, `${t('Entries.Places')} ${t('Accessibility.Home.button')}`,`${t('Entries.Date')} ${t('Accessibility.Home.button')}`]}
+          accessibilityLabels={[
+            `${t('Entries.Meals')} ${t('Accessibility.Home.button')}`,
+            `${t('Entries.Places')} ${t('Accessibility.Home.button')}`,
+            `${t('Entries.Date')} ${t('Accessibility.Home.button')}`,
+          ]}
           borderRadius={45}
           tabsContainerStyle={{
             height: 40,

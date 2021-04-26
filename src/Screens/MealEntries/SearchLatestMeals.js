@@ -5,7 +5,7 @@ import {SearchBar} from 'react-native-elements';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
-import PushNotification from "react-native-push-notification";
+import PushNotification from 'react-native-push-notification';
 
 const SearchLatestMeals = ({navigation, controlBar}, props) => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -33,11 +33,17 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      mealData(search);
+      let isMounted = true;
+      if (isMounted) {
+        mealData(search);
+      }
+      return () => {
+        isMounted = false;
+      };
     }, []),
   );
 
-  const updateSearch = (text) => {
+  const updateSearch = text => {
     setSearch(text);
     mealData(text);
   };
@@ -49,8 +55,8 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
   }
 
   async function mealData(foodName) {
-    await database.fetchMealWithName(foodName).then((meals) => {
-      const filteredMeals = meals.filter((data) => data.isDeleted === false);
+    await database.fetchMealWithName(foodName).then(meals => {
+      const filteredMeals = meals.filter(data => data.isDeleted === false);
       setRestaurants(filteredMeals);
     });
   }
