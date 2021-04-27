@@ -103,6 +103,10 @@
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Suche nach einem Datum"
     },
+    "circles": {
+      "carbs": "Carbs",
+      "insulin": "Insulin"
+    },
     "breakfast": "Frühstück",
     "lunch": "Mittagessen",
     "dinner": "Abendessen",

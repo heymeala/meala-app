@@ -12,7 +12,7 @@ const CircleGroup = props => {
   const screenReaderEnabled = useScreenReader();
 
   const styles = useStyles();
-  const {CarbSumme, InsulinSumme} = props;
+  const {carbSumme, insulinSumme} = props;
   return (
     <View style={styles.circleContainer}>
       {props.selectedFood.picture ? (
@@ -32,28 +32,28 @@ const CircleGroup = props => {
           />
         </View>
       ) : null}
-      {InsulinSumme > 0 ? (
+      {insulinSumme > 0 ? (
         <View style={styles.insulinContainer}>
           {!screenReaderEnabled ? (
             <RoundInfoItem
-              value={InsulinSumme}
-              unit={''}
-              infoText={t('Accessibility.MealDetails.insulin')}
+              value={insulinSumme}
+              unit={'u'}
+              infoText={t('Entries.circles.insulin')}
             />
           ) : (
             <AccessibleFoodInfoText
-              value={InsulinSumme}
+              value={insulinSumme}
               unit={''}
               infoText={t('Accessibility.MealDetails.insulin')}
             />
           )}
         </View>
       ) : null}
-      {CarbSumme > 0 ? (
+      {carbSumme > 0 ? (
         !screenReaderEnabled ? (
           <View style={styles.carbContainer}>
             <Text style={{textAlign: 'center', fontSize: 17, color: '#37619C'}}>
-              {CarbSumme}g
+              {carbSumme}g
             </Text>
             <Text style={{textAlign: 'center', fontSize: 10, color: '#37619C'}}>
               Carbs
@@ -66,7 +66,7 @@ const CircleGroup = props => {
           </View>
         ) : (
           <AccessibleFoodInfoText
-            value={CarbSumme}
+            value={carbSumme}
             unit={'g'}
             infoText={t('Accessibility.MealDetails.carbs')}
           />

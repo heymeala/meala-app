@@ -37,4 +37,13 @@ const useStyles = makeStyles(theme => ({
     fontSize: 18,
     color: '#34A990',
   },
+  insulinIconContainer: {
+    backgroundColor: '#34A990',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 3,
+  },
 }));
