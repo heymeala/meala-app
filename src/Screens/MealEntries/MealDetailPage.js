@@ -12,6 +12,7 @@ import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import SaveButton from '../../Common/SaveButton';
 import GeneralChartView from './ChartView';
 import NoGraphData from './NoGraphData';
+import {SpeedDial} from 'react-native-elements';
 
 //https://github.com/oblador/react-native-vector-icons
 const MealDetailsComponent = props => {
@@ -20,7 +21,7 @@ const MealDetailsComponent = props => {
   moment.locale(locale);
   const screenReaderEnabled = useScreenReader();
   const {selectedFood} = props;
-
+  const [open, setOpen] = useState(false);
   const foodDatumMoment = moment(selectedFood.date).format();
   const foodDatum = moment(foodDatumMoment).format('lll');
   const treatmentsData = props.treatments;
@@ -325,18 +326,31 @@ const MealDetailsComponent = props => {
           </View>
         )}
       </ScrollView>
-      <FAB
-        placement={'right'}
-        onPress={() =>
-          navigation.navigate('EnterMealStack', {
-            screen: 'EnterMeal',
-            params: {
-              mealid: selectedFood.id,
-            },
-          })
-        }
-        title={t('Entries.copyMeal')}
-      />
+      <SpeedDial
+        isOpen={open}
+        overlayColor={'transparent'}
+        icon={{name: 'edit', color: '#fff'}}
+        openIcon={{name: 'close', color: '#fff'}}
+        onOpen={() => setOpen(!open)}
+        onClose={() => setOpen(!open)}>
+        <SpeedDial.Action
+          icon={{name: 'add', color: '#fff'}}
+          title={t('Entries.copyMeal')}
+          onPress={() =>
+            navigation.navigate('EnterMealStack', {
+              screen: 'EnterMeal',
+              params: {
+                mealid: selectedFood.id,
+              },
+            })
+          }
+        />
+        <SpeedDial.Action
+          icon={{name: 'delete', color: '#fff'}}
+          title="Delete"
+          onPress={() => console.log('Delete Something')}
+        />
+      </SpeedDial>
     </>
   );
 };
