@@ -9,17 +9,21 @@ import {
 } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
-import LocalizationContext from '../../../LanguageContext';
-import {useProfile} from '../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRange} from '../../Common/analyseTimeInRange';
+import LocalizationContext from '../../../../LanguageContext';
+import {useProfile} from '../../../hooks/useProfile';
+import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
+import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import {analyseTimeInRange} from '../../../Common/analyseTimeInRange';
+import LoadingSpinner from '../../../Common/LoadingSpinner';
+import {makeStyles} from 'react-native-elements';
+import {spacing} from '../../../theme/styles';
 
-function ChartView(props) {
+function GeneralChartView(props) {
   const {t, locale} = React.useContext(LocalizationContext);
   const {settings} = useProfile();
   const screenReaderEnabled = useScreenReader();
-
+  const styles = useStyles();
+  const window = Dimensions.get('window');
   if (props.loading === false) {
     if (screenReaderEnabled) {
       console.log(props.coordinates);
@@ -27,13 +31,13 @@ function ChartView(props) {
         <View>
           {props.coordinates.length > 1 ? (
             <>
-              <Text style={{padding: 8, fontSize: 18}}>
+              <Text style={styles.text}>
                 {t('Accessibility.MealDetails.values', {
                   values: props.coordinates.length,
                 })}{' '}
                 {settings.unit === 1 ? 'miligram pro deziliter' : 'mili mol'}
               </Text>
-              <Text style={{padding: 8, fontSize: 18}}>
+              <Text style={styles.text}>
                 {analyseTimeInRangeHealthKit(props.coordinates)}{' '}
                 {t('Accessibility.MealDetails.percentage')}{' '}
               </Text>
@@ -41,7 +45,7 @@ function ChartView(props) {
               {props.coordinates
                 .filter((data, i) => i % 3 === 0)
                 .map((data, i) => (
-                  <Text key={i} style={{padding: 8, fontSize: 18}}>
+                  <Text key={i} style={styles.text}>
                     {moment(data.x).format('LT')} – {data.y}
                   </Text>
                 ))}
@@ -53,11 +57,11 @@ function ChartView(props) {
       );
     } else {
       return (
-        <Svg width={Dimensions.get('window').width} height={'300'}>
+        <Svg width={window.width} height={'300'}>
           <Rect
             x="50"
             y="160"
-            width={Dimensions.get('window').width - 75}
+            width={window.width - 75}
             height="70"
             fillOpacity="1"
             fill="#ECFFEC"
@@ -65,7 +69,7 @@ function ChartView(props) {
           <Rect
             x="50"
             y="160"
-            width={Dimensions.get('window').width - 75}
+            width={window.width - 75}
             height="1"
             fillOpacity="0.2"
             fill="#ffd420"
@@ -73,7 +77,7 @@ function ChartView(props) {
           <Rect
             x="50"
             y="230"
-            width={Dimensions.get('window').width - 75}
+            width={window.width - 75}
             height="1"
             fillOpacity="0.2"
             fill="#ac000a"
@@ -81,7 +85,7 @@ function ChartView(props) {
 
           <VictoryChart
             standalone={false}
-            width={Dimensions.get('window').width + 20}
+            width={window.width + 20}
             minDomain={{y: 50 / settings.unit}}
             scale={{x: 'time'}}
             maxDomain={{y: 300 / settings.unit}}>
@@ -131,48 +135,50 @@ function ChartView(props) {
                   },
                 ]}
               />
-              <VictoryBar
-                style={{
-                  data: {
-                    fill: '#99E8D7',
-                    fillOpacity: 0.7,
-                    strokeWidth: 4,
-                  },
-                }}
-                size={2}
-                data={props.insulinCoordinates}
-              />
-              <VictoryBar
-                style={{
-                  data: {fill: '#37619C', strokeWidth: 1.5},
-                }}
-                labels={({datum}) =>
-                  `${
-                    settings.unit === 1
-                      ? datum.y - 50
-                      : Math.round(
-                          (datum.y - 50 / settings.unit) *
-                            (300 / settings.unit),
-                        )
-                  }`
-                }
-                size={3}
-                data={props.carbCoordinates}
-              />
+              {props.insulinCoordinates.length > 0 && (
+                <VictoryBar
+                  style={{
+                    data: {
+                      fill: '#99E8D7',
+                      fillOpacity: 0.7,
+                      strokeWidth: 4,
+                    },
+                  }}
+                  size={2}
+                  data={props.insulinCoordinates}
+                />
+              )}
+              {props.carbCoordinates.length > 0 && (
+                <VictoryBar
+                  style={{
+                    data: {fill: '#37619C', strokeWidth: 1.5},
+                  }}
+                  labels={({datum}) =>
+                    `${
+                      settings.unit === 1
+                        ? datum.y - 50
+                        : Math.round(
+                            (datum.y - 50 / settings.unit) *
+                              (300 / settings.unit),
+                          )
+                    }`
+                  }
+                  size={3}
+                  data={props.carbCoordinates}
+                />
+              )}
             </VictoryGroup>
           </VictoryChart>
         </Svg>
       );
     }
   } else {
-    return (
-      <ActivityIndicator
-        style={{paddingTop: 20, paddingBottom: 20}}
-        size="large"
-        color="#0000ff"
-      />
-    );
+    return <LoadingSpinner />;
   }
 }
 
-export default ChartView;
+export default GeneralChartView;
+
+const useStyles = makeStyles(theme => ({
+  text: {padding: spacing.S, fontSize: 18},
+}));

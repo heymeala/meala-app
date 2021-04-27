@@ -9,13 +9,13 @@ import {
 } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
-import LocalizationContext from '../../../LanguageContext';
-import {useProfile} from '../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRange} from '../../Common/analyseTimeInRange';
+import LocalizationContext from '../../../../LanguageContext';
+import {useProfile} from '../../../hooks/useProfile';
+import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
+import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import {analyseTimeInRange} from '../../../Common/analyseTimeInRange';
 
-function GeneralChartView(props) {
+function ChartView(props) {
   const {t, locale} = React.useContext(LocalizationContext);
   const {settings} = useProfile();
   const screenReaderEnabled = useScreenReader();
@@ -131,38 +131,34 @@ function GeneralChartView(props) {
                   },
                 ]}
               />
-              {props.insulinCoordinates.length > 0 && (
-                <VictoryBar
-                  style={{
-                    data: {
-                      fill: '#99E8D7',
-                      fillOpacity: 0.7,
-                      strokeWidth: 4,
-                    },
-                  }}
-                  size={2}
-                  data={props.insulinCoordinates}
-                />
-              )}
-              {props.carbCoordinates.length > 0 && (
-                <VictoryBar
-                  style={{
-                    data: {fill: '#37619C', strokeWidth: 1.5},
-                  }}
-                  labels={({datum}) =>
-                    `${
-                      settings.unit === 1
-                        ? datum.y - 50
-                        : Math.round(
-                            (datum.y - 50 / settings.unit) *
-                              (300 / settings.unit),
-                          )
-                    }`
-                  }
-                  size={3}
-                  data={props.carbCoordinates}
-                />
-              )}
+              <VictoryBar
+                style={{
+                  data: {
+                    fill: '#99E8D7',
+                    fillOpacity: 0.7,
+                    strokeWidth: 4,
+                  },
+                }}
+                size={2}
+                data={props.insulinCoordinates}
+              />
+              <VictoryBar
+                style={{
+                  data: {fill: '#37619C', strokeWidth: 1.5},
+                }}
+                labels={({datum}) =>
+                  `${
+                    settings.unit === 1
+                      ? datum.y - 50
+                      : Math.round(
+                          (datum.y - 50 / settings.unit) *
+                            (300 / settings.unit),
+                        )
+                  }`
+                }
+                size={3}
+                data={props.carbCoordinates}
+              />
             </VictoryGroup>
           </VictoryChart>
         </Svg>
@@ -179,4 +175,4 @@ function GeneralChartView(props) {
   }
 }
 
-export default GeneralChartView;
+export default ChartView;

@@ -11,10 +11,10 @@ import {
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import {Image} from 'react-native-elements';
-import LocalizationContext from '../../../LanguageContext';
-import {useProfile} from '../../hooks/useProfile';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRangeHealthKit} from '../../Common/realm/timeInRangeHealthKit';
+import LocalizationContext from '../../../../LanguageContext';
+import {useProfile} from '../../../hooks/useProfile';
+import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
 
 const ChartViewHealthKit = props => {
   const [HealthKitBloodGlucoseData, setHealthKitBloodGlucoseData] = useState(
@@ -206,7 +206,7 @@ const ChartViewHealthKit = props => {
               {t('Entries.notEnoughData')}
             </Text>
             <Image
-              source={require('../../assets/meala_graph.png')}
+              source={require('../../../assets/meala_graph.png')}
               placeholderStyle={{backgroundColor: '#fff'}}
               style={{width: Dimensions.get('window').width, height: 350}}
             />

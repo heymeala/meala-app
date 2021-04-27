@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {nightscoutTreatmens, nightscoutCall} from '../../Common/nightscoutApi';
-import MealDetailsComponent from './MealDetailPage';
+import MealDetailsComponent from './DetailSite/MealDetailPage';
 import {database} from '../../Common/database_realm';
 import {ActivityIndicator, View} from 'react-native';
 import {useProfile} from '../../hooks/useProfile';
@@ -212,6 +212,8 @@ const MealDataCollector = ({navigation, route}, props) => {
       setLoading(false);
     } else {
       setCheckSettings('Error');
+      setLoading(false)
+
     }
   }
 
