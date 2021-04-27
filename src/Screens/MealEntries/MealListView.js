@@ -1,6 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {Button} from 'react-native-elements';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {Button, FAB, useTheme} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useNavigation, useRoute} from '@react-navigation/core';
@@ -10,16 +16,17 @@ import PushNotification from 'react-native-push-notification';
 const MealListView = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
   const {t, locale} = React.useContext(LocalizationContext);
-
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const route = useRoute();
-
+  const {theme} = useTheme();
   function loadData(value) {
     const mealdata = route.params?.restaurant;
-    const mealDataSoftDelete = mealdata.food.filter(
+    const mealDataSoftDeleteData = mealdata.food.filter(
       data => data.isDeleted === false,
     );
-    setMealDataSoftDelete(mealDataSoftDelete);
+    setMealDataSoftDelete(mealDataSoftDeleteData);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -27,60 +34,69 @@ const MealListView = props => {
   }, []);
 
   function deleteMeal(id) {
-
     PushNotification.cancelLocalNotifications({id: id});
     database.deleteMealSoft(id);
     navigation.goBack();
   }
-
-  return (
-    <>
-      {mealDataSoftDelete.length > 0 ? (
-        <>
-          <MealsListSwipeDelete
-            navigation={navigation}
-            mealDataSoftDelete={mealDataSoftDelete}
-            update={deleteMeal}
-            mealData={loadData}
-          />
-
-          <Button
-            containerStyle={{paddingTop: 20, paddingLeft: 10, paddingRight: 10}}
-            titleStyle={{color: '#000000'}}
-            buttonStyle={{
-              borderRadius: 5,
-              marginBottom: 10,
-              backgroundColor: '#f9de1c',
-            }}
-            style={{padding: 5}}
-            onPress={() =>
-              navigation.navigate('EnterMealStack', {
-                screen: 'EnterMeal',
-                params: {
-                  id: route.params?.restaurant.id,
-                },
-              })
-            }
-            title={t('Entries.anotherEntry')}
-          />
-        </>
-      ) : (
-        <View>
-          <Text>{t('Entries.noData')}</Text>
-          <Button
-            containerStyle={{paddingTop: 20}}
-            titleStyle={{color: 'white'}}
-            buttonStyle={{borderRadius: 5, backgroundColor: '#ff605a'}}
-            style={{padding: 5}}
-            onPress={() =>
-              deleteRestaurant(navigation, route.params?.restaurant.id)
-            }
-            title={t('Entries.deleteRestaurant')}
-          />
+  if (loading) {
+    return (
+      <SafeAreaView>
+        <View style={{flex: 1}}>
+          <ActivityIndicator />
         </View>
-      )}
-    </>
-  );
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <>
+        {mealDataSoftDelete.length > 0 ? (
+          <>
+            <MealsListSwipeDelete
+              navigation={navigation}
+              mealDataSoftDelete={mealDataSoftDelete}
+              update={deleteMeal}
+              mealData={loadData}
+            />
+
+            <Button
+              containerStyle={{
+                paddingTop: 20,
+                paddingLeft: 10,
+                paddingRight: 10,
+              }}
+              titleStyle={{color: '#000000'}}
+              buttonStyle={{
+                borderRadius: 5,
+                marginBottom: 10,
+                backgroundColor: '#f9de1c',
+              }}
+              style={{padding: 5}}
+              onPress={() =>
+                navigation.navigate('EnterMealStack', {
+                  screen: 'EnterMeal',
+                  params: {
+                    id: route.params?.restaurant.id,
+                  },
+                })
+              }
+              title={t('Entries.anotherEntry')}
+            />
+          </>
+        ) : (
+          <View style={styles.noDataContainer}>
+            <Text>{t('Entries.noData')}</Text>
+            <FAB
+              color={theme.colors.error}
+              onPress={() =>
+                deleteRestaurant(navigation, route.params?.restaurant.id)
+              }
+              title={t('Entries.deleteRestaurant')}
+            />
+          </View>
+        )}
+      </>
+    );
+  }
 };
 
 export default MealListView;
@@ -140,5 +156,10 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
+  },
+  noDataContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

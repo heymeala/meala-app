@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
-import {Platform, View} from 'react-native';
+import {ActivityIndicator, Platform, SafeAreaView, View} from 'react-native';
 import {database} from '../../Common/database_realm';
-import {SearchBar} from 'react-native-elements';
+import {makeStyles, SearchBar} from 'react-native-elements';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
+import LoadingSpinner from "../../Common/LoadingSpinner";
+
+
 
 const SearchLatestMeals = ({navigation, controlBar}, props) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const {t} = React.useContext(LocalizationContext);
 
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   /*
     todo: move permission dialog for notifiacation
@@ -58,10 +62,13 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
     await database.fetchMealWithName(foodName).then(meals => {
       const filteredMeals = meals.filter(data => data.isDeleted === false);
       setRestaurants(filteredMeals);
+      setLoading(false);
     });
   }
 
-  return (
+  return loading ? (
+    <LoadingSpinner />
+  ) : (
     <MealsListSwipeDelete
       mealDataSoftDelete={restaurants}
       update={deleteMeal}
@@ -83,3 +90,4 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
 };
 
 export default SearchLatestMeals;
+

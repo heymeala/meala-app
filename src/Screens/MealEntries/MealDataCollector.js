@@ -6,6 +6,7 @@ import {ActivityIndicator, View} from 'react-native';
 import {useProfile} from '../../hooks/useProfile';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
+import LoadingSpinner from "../../Common/LoadingSpinner";
 
 const MealDataCollector = ({navigation, route}, props) => {
   const [sugar, setSugar] = useState([]);
@@ -233,7 +234,7 @@ const MealDataCollector = ({navigation, route}, props) => {
           loading={loading}
         />
       ) : (
-        <ActivityIndicator />
+        <LoadingSpinner />
       )}
     </>
   );
