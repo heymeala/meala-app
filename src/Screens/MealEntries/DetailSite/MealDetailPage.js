@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
-import {Image, Text} from 'react-native-elements';
+import {Image, makeStyles, Text} from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../../LanguageContext';
@@ -12,13 +12,7 @@ import MealNote from './MealNote';
 import NightScoutTreatmentDetails from './NightScoutTreatmentDetails';
 import FatSecretNutritionInfo from './FatSecretNutritionInfo';
 import EditSpeedDialGroup from './EditSpeedDailGroup';
-import {
-  carbSum,
-  getDuration,
-  getInsulinInfo,
-  getSEA,
-  insulinSum,
-} from './InsulinCarbSum';
+import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
 
 const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -27,8 +21,8 @@ const MealDetailsComponent = props => {
   const foodDatumMoment = moment(selectedFood.date).format();
   const foodDatum = moment(foodDatumMoment).format('lll');
 
-  const imgWidth = Dimensions.get('window').width;
-  const imgHeight = Dimensions.get('window').height;
+  const dimension = Dimensions.get('window');
+  const styles = useStyles(dimension);
 
   const duration = React.useMemo(
     () => getDuration(props.treatments, foodDatumMoment),
@@ -38,11 +32,9 @@ const MealDetailsComponent = props => {
     props.treatments,
   ]);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
-  const spritzEssAbstandText = getSEA(
-    props.checkSettings,
-    t,
-    duration,
-    insulinSumme,
+  const spritzEssAbstandText = React.useMemo(
+    () => getSEA(props.checkSettings, t, duration, insulinSumme),
+    [props.checkSettings, t, duration, insulinSumme],
   );
 
   return (
@@ -78,23 +70,17 @@ const MealDetailsComponent = props => {
                   ? {uri: props.selectedFood.picture}
                   : null
               }
-              style={{
-                width: imgWidth - 20,
-                height: imgHeight / 1.5,
-                borderRadius: 5,
-                paddingBottom: 5,
-                paddingTop: 5,
-              }}
+              style={styles.image}
             />
           ) : null}
         </View>
-        {props.checkSettings === 'Nightscout' ? (
+        {props.checkSettings === 'Nightscout' && (
           <NightScoutTreatmentDetails
             treatments={props.treatments}
-            InsulinSumme={insulinSumme}
-            CarbSumme={carbSumme}
+            insulinSumme={insulinSumme}
+            carbSumme={carbSumme}
           />
-        ) : null}
+        )}
         <MealNote selectedFood={props.selectedFood} />
         <FatSecretNutritionInfo selectedFood={selectedFood} />
       </ScrollView>
@@ -105,6 +91,13 @@ const MealDetailsComponent = props => {
 
 export default MealDetailsComponent;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles((theme, dimension) => ({
   wrapper: {backgroundColor: '#fbfbfb'},
-});
+  image: {
+    width: dimension.width - 20,
+    height: dimension.height / 1.5,
+    borderRadius: 5,
+    paddingBottom: 5,
+    paddingTop: 5,
+  },
+}));

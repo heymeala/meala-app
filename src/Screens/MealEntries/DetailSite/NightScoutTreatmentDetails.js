@@ -7,7 +7,7 @@ const NightScoutTreatmentDetails = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
   let eventType, enteredinsulin, carbsCal, insuliCal;
-  const {CarbSumme, InsulinSumme} = props;
+  const {carbSumme, insulinSumme} = props;
   const InsulinCarbDetails = () =>
     props.treatments.map((treatments, i) => {
       eventType = null;
@@ -56,9 +56,9 @@ const NightScoutTreatmentDetails = props => {
     <View style={{padding: 20}}>
       <Text style={styles.text}>Details</Text>
       <InsulinCarbDetails />
-      <Text style={styles.text}>Insulin: {InsulinSumme}u</Text>
+      <Text style={styles.text}>Insulin: {insulinSumme}u</Text>
       <Text style={styles.text}>
-        {t('General.Carbs')}: {CarbSumme}g
+        {t('General.Carbs')}: {carbSumme}g
       </Text>
     </View>
   );
