@@ -9,11 +9,12 @@ import MealDataCollector from '../Screens/MealEntries/MealDataCollector';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Platform, View} from 'react-native';
 import EnterMeal from '../Screens/EnterMeal/EnterMeal';
+import { useTheme } from "react-native-elements";
 
 function SugarStack({navigation}) {
   const {t} = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
-
+  const {theme} = useTheme();
   return (
     <Stack.Navigator initialRouteName="meala">
       <Stack.Screen
@@ -57,10 +58,12 @@ function SugarStack({navigation}) {
         initialParams={{}}
         options={{
           title: t('Entries.Meals'),
-          headerTintColor: '#154d80',
-          headerTitleStyle: {color: 'black'},
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: {
+            color: theme.colors.black,
+          },
           headerStyle: {
-            backgroundColor: '#ffffff',
+            backgroundColor: theme.colors.white,
           },
         }}
       />
@@ -70,10 +73,15 @@ function SugarStack({navigation}) {
         initialParams={{}}
         options={{
           title: t('Entries.MealDetails'),
-          headerTintColor: '#154d80',
-          headerTitleStyle: {color: 'black'},
+          headerTintColor: theme.colors.primary,
+          headerTitleStyle: {
+            color: theme.colors.black,
+            headerTitleStyle: {
+              fontFamily: 'SecularOne-Regular',
+            },
+          },
           headerStyle: {
-            backgroundColor: '#ffffff',
+            backgroundColor: theme.colors.white,
           },
         }}
       />

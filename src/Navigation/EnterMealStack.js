@@ -19,6 +19,7 @@ function EnterMealStack() {
           title: t('AddMeal.AddMealTitle'),
           headerTitleStyle: {
             textAlign: 'left',
+            fontFamily: 'SecularOne-Regular',
             flexGrow: 1,
             fontSize: 30,
           },
@@ -36,6 +37,8 @@ function EnterMealStack() {
         options={({navigation, route}) => ({
           title: 'Open Food Facts',
           headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+
             textAlign: 'left',
             flexGrow: 1,
             fontSize: 30,

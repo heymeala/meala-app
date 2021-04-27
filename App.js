@@ -17,7 +17,7 @@ import {
   ScreenReaderProvider,
   useScreenReader,
 } from './src/hooks/useScreenReaderEnabled';
-import {theme} from './src/theme';
+import {theme} from './src/theme/theme';
 
 enableScreens();
 

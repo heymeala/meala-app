@@ -1,5 +1,5 @@
 import {Dimensions, Linking, Text, TouchableOpacity, View} from 'react-native';
-import {Image, makeStyles} from 'react-native-elements';
+import { FAB, Image, makeStyles } from "react-native-elements";
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import SaveButton from '../../../Common/SaveButton';
@@ -20,7 +20,7 @@ export const EmptyListComponent = ({navigation}) => {
         onPress={() => navigation.navigate('EnterMealStack')}>
         {locale === 'en' ? (
           <>
-            <SaveButton
+            <FAB
               title={t('Entries.carbQuiz')}
               onPress={() =>
                 Linking.openURL('https://quiz.heymeala.com?sh=meala_app&lng=de')
@@ -34,7 +34,7 @@ export const EmptyListComponent = ({navigation}) => {
           </>
         ) : (
           <>
-            <SaveButton
+            <FAB
               title={t('Entries.carbQuiz')}
               onPress={() =>
                 Linking.openURL('https://quiz.heymeala.com?sh=meala_app&lng=en')

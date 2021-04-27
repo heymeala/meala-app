@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
-import {Card, Image, Text} from 'react-native-elements';
+import {Card, FAB, Image, Text} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
 import 'moment/locale/de';
@@ -142,180 +142,191 @@ const MealDetailsComponent = props => {
       : null;
 
   return (
-    <ScrollView style={{backgroundColor: '#fbfbfb'}}>
-      <View style={{flex: 1, paddingTop: 10, paddingBottom: 5}}>
-        <Text style={styles.date}>{foodDatum}</Text>
-        <Text h4 style={styles.mealTitle}>
-          {props.food}
-        </Text>
-      </View>
+    <>
+      <ScrollView
+        style={{backgroundColor: '#fbfbfb'}}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View style={{flex: 1, paddingTop: 10, paddingBottom: 5}}>
+          <Text style={styles.date}>{foodDatum}</Text>
+          <Text h4 style={styles.mealTitle}>
+            {props.food}
+          </Text>
+        </View>
 
-      <View style={styles.restaurantContainer}>
-        <Text style={styles.restaurantName}>{props.restaurantName}</Text>
-      </View>
+        <View style={styles.restaurantContainer}>
+          <Text style={styles.restaurantName}>{props.restaurantName}</Text>
+        </View>
 
-      <View style={styles.circleContainer}>
-        {props.selectedFood.picture ? (
-          <View style={styles.imageContainer}>
-            <Image
-              style={{width: 85, height: 85, borderRadius: 42.5}}
-              placeholderStyle={{backgroundColor: '#3E3E3E'}}
-              PlaceholderContent={
-                <Text style={{color: '#fff'}}>{t('Entries.noImage')}</Text>
-              }
-              source={
-                props.selectedFood.picture && {uri: props.selectedFood.picture}
-              }
-              borderRadius={42.5}
-            />
-          </View>
-        ) : null}
-        {InsulinSumme > 0 ? (
-          <View style={styles.insulinContainer}>
-            {!screenReaderEnabled ? (
-              <>
+        <View style={styles.circleContainer}>
+          {props.selectedFood.picture ? (
+            <View style={styles.imageContainer}>
+              <Image
+                style={{width: 85, height: 85, borderRadius: 42.5}}
+                placeholderStyle={{backgroundColor: '#3E3E3E'}}
+                PlaceholderContent={
+                  <Text style={{color: '#fff'}}>{t('Entries.noImage')}</Text>
+                }
+                source={
+                  props.selectedFood.picture && {
+                    uri: props.selectedFood.picture,
+                  }
+                }
+                borderRadius={42.5}
+              />
+            </View>
+          ) : null}
+          {InsulinSumme > 0 ? (
+            <View style={styles.insulinContainer}>
+              {!screenReaderEnabled ? (
+                <>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 18,
+                      color: '#34A990',
+                    }}>
+                    {InsulinSumme}u{' '}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 10,
+                      color: '#34A990',
+                    }}>
+                    Insulin
+                  </Text>
+                  <View
+                    accessible={false}
+                    style={{left: 60, top: -0, position: 'absolute'}}>
+                    <View style={styles.insulinIconContainer}>
+                      <FontAwesome5 name="vial" size={17} color="#fff" />
+                    </View>
+                  </View>
+                </>
+              ) : (
                 <Text
                   style={{
                     textAlign: 'center',
                     fontSize: 18,
                     color: '#34A990',
                   }}>
-                  {InsulinSumme}u{' '}
+                  {InsulinSumme} {t('Accessibility.MealDetails.insulin')}
+                </Text>
+              )}
+            </View>
+          ) : null}
+          {CarbSumme > 0 ? (
+            !screenReaderEnabled ? (
+              <View style={styles.carbContainer}>
+                <Text
+                  style={{textAlign: 'center', fontSize: 17, color: '#37619C'}}>
+                  {CarbSumme}g
                 </Text>
                 <Text
-                  style={{textAlign: 'center', fontSize: 10, color: '#34A990'}}>
-                  Insulin
+                  style={{textAlign: 'center', fontSize: 10, color: '#37619C'}}>
+                  Carbs
                 </Text>
-                <View
-                  accessible={false}
-                  style={{left: 60, top: -0, position: 'absolute'}}>
-                  <View style={styles.insulinIconContainer}>
-                    <FontAwesome5 name="vial" size={17} color="#fff" />
+                <View style={{left: 60, top: -0, position: 'absolute'}}>
+                  <View style={styles.carbIconContainer}>
+                    <FontAwesome5 name="pizza-slice" size={17} color="#fff" />
                   </View>
                 </View>
-              </>
+              </View>
             ) : (
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 18,
-                  color: '#34A990',
-                }}>
-                {InsulinSumme} {t('Accessibility.MealDetails.insulin')}
-              </Text>
-            )}
+              <>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 17,
+                    color: '#37619C',
+                  }}>
+                  {CarbSumme}g {t('Accessibility.MealDetails.carbs')}
+                </Text>
+              </>
+            )
+          ) : null}
+        </View>
+        {props.checkSettings ? (
+          <GeneralChartView
+            loading={props.loading}
+            coordinates={props.coordiantes}
+            selectedFood={props.selectedFood}
+            insulinCoordinates={props.insulinCoordinates}
+            carbCoordinates={props.carbCoordinates}
+          />
+        ) : (
+          <NoGraphData />
+        )}
+        <View style={{alignItems: 'center'}}>
+          <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
+          {props.selectedFood.picture ? (
+            <Image
+              source={
+                props.selectedFood.picture
+                  ? {uri: props.selectedFood.picture}
+                  : null
+              }
+              style={{
+                width: imgWidth - 20,
+                height: imgHeight / 1.5,
+                borderRadius: 5,
+                paddingBottom: 5,
+                paddingTop: 5,
+              }}
+            />
+          ) : null}
+        </View>
+        {props.checkSettings === 'Nightscout' ? (
+          <View style={{padding: 20}}>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Details</Text>
+            <InsulinCarbDetails />
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              Insulin: {InsulinSumme}u
+            </Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {t('General.Carbs')}: {CarbSumme}g
+            </Text>
           </View>
         ) : null}
-        {CarbSumme > 0 ? (
-          !screenReaderEnabled ? (
-            <View style={styles.carbContainer}>
-              <Text
-                style={{textAlign: 'center', fontSize: 17, color: '#37619C'}}>
-                {CarbSumme}g
-              </Text>
-              <Text
-                style={{textAlign: 'center', fontSize: 10, color: '#37619C'}}>
-                Carbs
-              </Text>
-              <View style={{left: 60, top: -0, position: 'absolute'}}>
-                <View style={styles.carbIconContainer}>
-                  <FontAwesome5 name="pizza-slice" size={17} color="#fff" />
-                </View>
-              </View>
-            </View>
-          ) : (
-            <>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontSize: 17,
-                  color: '#37619C',
-                }}>
-                {CarbSumme}g {t('Accessibility.MealDetails.carbs')}
-              </Text>
-            </>
-          )
+
+        {props.selectedFood.note ? (
+          <Card
+            title="Notiz"
+            containerStyle={{
+              borderWidth: 0,
+              borderRadius: 10,
+              paddingBottom: 0,
+              marginBottom: 15,
+            }}>
+            <Text style={{paddingBottom: 10}}>{props.selectedFood.note}</Text>
+          </Card>
         ) : null}
-      </View>
-      {props.checkSettings ? (
-        <GeneralChartView
-          loading={props.loading}
-          coordinates={props.coordiantes}
-          selectedFood={props.selectedFood}
-          insulinCoordinates={props.insulinCoordinates}
-          carbCoordinates={props.carbCoordinates}
-        />
-      ) : (
-        <NoGraphData />
-      )}
-      <View style={{alignItems: 'center'}}>
-        <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
-        {props.selectedFood.picture ? (
-          <Image
-            source={
-              props.selectedFood.picture
-                ? {uri: props.selectedFood.picture}
-                : null
-            }
-            style={{
-              width: imgWidth - 20,
-              height: imgHeight / 1.5,
-              borderRadius: 5,
-              paddingBottom: 5,
-              paddingTop: 5,
-            }}
-          />
-        ) : null}
-      </View>
-      {props.checkSettings === 'Nightscout' ? (
-        <View style={{padding: 20}}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Details</Text>
-          <InsulinCarbDetails />
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            Insulin: {InsulinSumme}u
-          </Text>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>
-            {t('General.Carbs')}: {CarbSumme}g
-          </Text>
-        </View>
-      ) : null}
 
-      {props.selectedFood.note ? (
-        <Card
-          title="Notiz"
-          containerStyle={{
-            borderWidth: 0,
-            borderRadius: 10,
-            paddingBottom: 0,
-            marginBottom: 15,
-          }}>
-          <Text style={{paddingBottom: 10}}>{props.selectedFood.note}</Text>
-        </Card>
-      ) : null}
+        {fatSecretData && (
+          <View>
+            <PoweredByFatSecret />
 
-      {fatSecretData && (
-        <View>
-          <PoweredByFatSecret />
-
-          {fatSecretData.map(data => {
-            return (
-              <Card>
-                <View key={data.food_entry_id}>
-                  <Text>{data.food_entry_name}</Text>
-                  <Text>
-                    {t('AddMeal.nutritionData.calories')}: {data.calories}
-                  </Text>
-                  <Text>
-                    {t('AddMeal.nutritionData.carbohydrate')}:{' '}
-                    {data.carbohydrate}
-                  </Text>
-                </View>
-              </Card>
-            );
-          })}
-        </View>
-      )}
-      <SaveButton
+            {fatSecretData.map(data => {
+              return (
+                <Card>
+                  <View key={data.food_entry_id}>
+                    <Text>{data.food_entry_name}</Text>
+                    <Text>
+                      {t('AddMeal.nutritionData.calories')}: {data.calories}
+                    </Text>
+                    <Text>
+                      {t('AddMeal.nutritionData.carbohydrate')}:{' '}
+                      {data.carbohydrate}
+                    </Text>
+                  </View>
+                </Card>
+              );
+            })}
+          </View>
+        )}
+      </ScrollView>
+      <FAB
+        placement={'right'}
         onPress={() =>
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
@@ -326,13 +337,14 @@ const MealDetailsComponent = props => {
         }
         title={t('Entries.copyMeal')}
       />
-    </ScrollView>
+    </>
   );
 };
 
 export default MealDetailsComponent;
 
 const styles = StyleSheet.create({
+  wrapper: {flex: 1},
   roundText: {
     backgroundColor: 'red',
     alignItems: 'center',

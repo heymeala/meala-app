@@ -217,23 +217,21 @@ const MealDataCollector = ({navigation, route}, props) => {
   return (
     <>
       {selectedFood ? (
-        <View>
-          <MealDetailsComponent
-            treatments={treatments}
-            carbCoordinates={carbCoordinates}
-            checkSettings={checkSettings}
-            selectedFood={selectedFood}
-            insulinCoordinates={insulinCoordinates}
-            sugar={sugar}
-            dates={dates}
-            carbs={carbs}
-            insulin={insulin}
-            dateStrings={dateStrings}
-            coordiantes={coordiantes}
-            restaurantName={restaurantName}
-            loading={loading}
-          />
-        </View>
+        <MealDetailsComponent
+          treatments={treatments}
+          carbCoordinates={carbCoordinates}
+          checkSettings={checkSettings}
+          selectedFood={selectedFood}
+          insulinCoordinates={insulinCoordinates}
+          sugar={sugar}
+          dates={dates}
+          carbs={carbs}
+          insulin={insulin}
+          dateStrings={dateStrings}
+          coordiantes={coordiantes}
+          restaurantName={restaurantName}
+          loading={loading}
+        />
       ) : (
         <ActivityIndicator />
       )}

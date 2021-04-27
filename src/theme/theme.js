@@ -1,7 +1,7 @@
 const colors_light = {
   primary: '#264F9F',
   secondary: '#FFCD00',
-  white: '#f7f7f7',
+  white: '#fbfbfb',
   black: '#1a1a1a',
   background: '#fff',
 };

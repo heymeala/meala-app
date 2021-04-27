@@ -2,18 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, Platform, StyleSheet, View} from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
 import {database} from '../../Common/database_realm';
-import {Badge, ListItem, SearchBar} from 'react-native-elements';
+import {Badge, ListItem, makeStyles, SearchBar} from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import SearchByDate from './SearchByDate';
 import SearchLatestMeals from './SearchLatestMeals';
 import {EmptyListComponent} from './Common/EmtyList';
 import {useFocusEffect} from '@react-navigation/core';
+import {spacing} from '../../theme/styles';
 
 const SearchRestaurants = ({navigation}, props) => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const {t, locale} = React.useContext(LocalizationContext);
+  const {t} = React.useContext(LocalizationContext);
+  const styles = useStyles();
 
   const handleIndexChange = index => {
     setSelectedIndex(index);
@@ -79,7 +81,7 @@ const SearchRestaurants = ({navigation}, props) => {
 
   function segmentedController() {
     return (
-      <View style={{padding: 5, flex: 1, backgroundColor: '#fff'}}>
+      <View style={styles.container}>
         <SegmentedControlTab
           values={[t('Entries.Meals'), t('Entries.Places'), t('Entries.Date')]}
           accessibilityLabels={[
@@ -88,22 +90,11 @@ const SearchRestaurants = ({navigation}, props) => {
             `${t('Entries.Date')} ${t('Accessibility.Home.button')}`,
           ]}
           borderRadius={45}
-          tabsContainerStyle={{
-            height: 40,
-            backgroundColor: '#ffffff',
-          }}
-          tabStyle={{
-            backgroundColor: '#fff',
-            borderWidth: 1,
-            borderColor: '#154d80',
-          }}
-          activeTabStyle={{
-            backgroundColor: '#154d80',
-            borderWidth: 1,
-            borderColor: '#154d80',
-          }}
-          tabTextStyle={{color: '#154d80'}}
-          activeTabTextStyle={{color: '#fff'}}
+          tabsContainerStyle={styles.tabContainer}
+          tabStyle={styles.inactiveTab}
+          activeTabStyle={styles.activeTab}
+          tabTextStyle={styles.inactiveTabText}
+          activeTabTextStyle={styles.activeTabText}
           selectedIndex={selectedIndex}
           onTabPress={handleIndexChange}
         />
@@ -139,3 +130,28 @@ const SearchRestaurants = ({navigation}, props) => {
 };
 
 export default SearchRestaurants;
+const useStyles = makeStyles(theme => ({
+  container: {
+    padding: spacing.XS,
+    flex: 1,
+    backgroundColor: theme.colors.white,
+  },
+  activeTab: {
+    backgroundColor: theme.colors.primary,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  inactiveTab: {
+    backgroundColor: theme.colors.white,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  activeTabText: {color: theme.colors.white},
+  inactiveTabText: {
+    color: theme.colors.primary,
+  },
+  tabContainer: {
+    height: 40,
+    backgroundColor: theme.colors.white,
+  },
+}));

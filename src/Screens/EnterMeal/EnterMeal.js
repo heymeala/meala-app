@@ -924,7 +924,6 @@ const useStyles = makeStyles((theme, props: Props) => ({
     alignItems: 'center',
   },
   inputPadding: {
-    // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
     borderRadius: 6,
     marginBottom: 10,
     height: 56,
