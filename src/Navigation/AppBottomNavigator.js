@@ -1,7 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import SugarStack from './SugarStack';
-import {Icon} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -10,16 +10,16 @@ import LocalizationContext from '../../LanguageContext';
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
   const {t} = React.useContext(LocalizationContext);
-
+  const {theme} = useTheme();
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#1569ae',
-        inactiveTintColor: '#81817a', // inactive icon color
+        activeTintColor: theme.colors.primary,
+        inactiveTintColor: theme.colors.grey2, // inactive icon color
         showLabel: false,
         tabBarVisible: false,
         style: {
-          backgroundColor: '#fff', // TabBar background
+          backgroundColor: theme.colors.white, // TabBar background
         },
       }}>
       <Tab.Screen
@@ -41,12 +41,14 @@ const AppBottomNavigationStack = () => {
             <View
               style={{
                 position: 'absolute',
-                bottom: 0, // space from bottombar
-                height: 60,
-                width: 60,
-                backgroundColor: focused ? '#1569ae' : 'white',
-                borderRadius: 60,
-                shadowColor: '#c0c0c0',
+                bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
+                height: 55,
+                width: 55,
+                backgroundColor: focused
+                  ? theme.colors.primary
+                  : theme.colors.white,
+                borderRadius: 55,
+                shadowColor: theme.colors.grey2,
                 shadowOffset: {
                   width: 0,
                   height: 3,

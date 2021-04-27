@@ -1,77 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Linking,
-  Platform,
-  SafeAreaView,
-  SectionList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Badge, Divider, ListItem, SocialIcon} from 'react-native-elements';
-import openLink from '../../Common/InAppBrowser';
+import {SafeAreaView, SectionList, Text, View} from 'react-native';
+import {makeStyles} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useFocusEffect} from '@react-navigation/core';
 import {database} from '../../Common/database_realm';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
+import {spacing} from '../../theme/styles';
+import SettingsListItem from './SettingsListItem';
+import SettingsFooter from './Footer';
 
-const Item = ({data, navigation}) => {
-  const successGlucoseData =
-    data.active === true && data.name === 'Nightscout'
-      ? 'success'
-      : data.active === true && data.name === 'HealthKit'
-      ? 'success'
-      : data.active === false
-      ? 'error'
-      : null;
-  const screenReaderEnabled = useScreenReader();
-
-  return Platform.OS !== 'ios' ? (
-    data.name !== 'HealthKit' ? (
-      <ListItem
-        accessible={true}
-        accessibilityRole="button"
-        onPress={() =>
-          data.weblink ? openLink(data.weblink) : navigation.push(data.link)
-        }>
-        <Icon name={data.icon} />
-        <ListItem.Title>{data.name}</ListItem.Title>
-        <Badge status={successGlucoseData} />
-
-        <Divider />
-      </ListItem>
-    ) : null
-  ) : (
-    <ListItem
-      accessible={true}
-      accessibilityRole="button"
-      onPress={() =>
-        data.weblink ? openLink(data.weblink) : navigation.push(data.link)
-      }>
-      <Icon name={data.icon} />
-      <ListItem.Title>{data.name}</ListItem.Title>
-      {!screenReaderEnabled ? (
-        <Badge status={successGlucoseData} />
-      ) : (
-        <Text>
-          {successGlucoseData === 'success'
-            ? 'Aktiviert'
-            : successGlucoseData === 'error'
-            ? 'Nicht aktiviert'
-            : null}
-        </Text>
-      )}
-      <Divider />
-    </ListItem>
-  );
-};
-
-function SettingsOverview(props) {
+const SettingsOverview = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
   const [selectedId, setSelectedId] = useState(0);
+  const styles = useStyles();
 
   useEffect(() => {
     load();
@@ -91,7 +33,7 @@ function SettingsOverview(props) {
       );
   };
 
-  const DATA = [
+  const SettingsMenuData = [
     {
       title: 'Profil',
       data: [
@@ -185,87 +127,43 @@ function SettingsOverview(props) {
   ];
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{backgroundColor: '#fff', marginHorizontal: 16}}>
+      <View style={styles.wrapper}>
         <SectionList
-          sections={DATA}
+          sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => (
-            <Item data={item} navigation={props.navigation} />
-          )}
+          renderItem={({item}) => <SettingsListItem data={item} />}
           renderSectionHeader={({section: {title}}) => (
             <Text style={styles.header}>{title}</Text>
           )}
-          ListFooterComponent={
-            <View style={{padding: 20}}>
-              <TouchableOpacity
-                onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
-                <Text>{t('Settings.feedback')}</Text>
-              </TouchableOpacity>
-              {!screenReaderEnabled && (
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    flexDirection: 'row',
-                    paddingTop: 20,
-                  }}>
-                  <SocialIcon
-                    light
-                    onPress={() =>
-                      Linking.openURL(
-                        'instagram://user?username=heymeala',
-                      ).catch(() => {
-                        Linking.openURL('https://www.instagram.com/heymeala');
-                      })
-                    }
-                    type="instagram"
-                  />
-                  <SocialIcon
-                    light
-                    onPress={() =>
-                      Linking.openURL('https://www.facebook.com/heymeala')
-                    }
-                    type="facebook"
-                  />
-                  <SocialIcon
-                    light
-                    onPress={() =>
-                      Linking.openURL(
-                        'twitter://user?screen_name=heymeala',
-                      ).catch(() => {
-                        Linking.openURL('https://www.twitter.com/heymeala');
-                      })
-                    }
-                    type="twitter"
-                  />
-                </View>
-              )}
-            </View>
-          }
+          ListFooterComponent={<SettingsFooter />}
         />
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default SettingsOverview;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.background,
   },
+  wrapper: {backgroundColor: theme.colors.background},
   item: {
-    backgroundColor: '#ffd420',
-    padding: 20,
-    marginVertical: 8,
+    backgroundColor: theme.colors.primary,
+    padding: spacing.M,
+    marginVertical: spacing.S,
+    paddingHorizontal: spacing.S,
   },
   header: {
     paddingTop: 20,
+    paddingHorizontal: spacing.S,
     fontSize: 16,
-    backgroundColor: '#fff',
+    fontFamily: 'SecularOne-Regular',
+    backgroundColor: theme.colors.background,
   },
   title: {
     fontSize: 24,
   },
-});
+}));
