@@ -49,10 +49,7 @@ const FatSecretUserDataModal = (props) => {
       scrollOffset={scrollOffset}
       scrollOffsetMax={50} // content height - ScrollView height
       propagateSwipe={true}
-      onAccessibilityEscape={() =>  props.setVisible(false)}
-
-    >
-
+      onAccessibilityEscape={() => props.setVisible(false)}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <ScrollView

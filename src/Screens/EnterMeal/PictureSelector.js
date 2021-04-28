@@ -8,6 +8,7 @@ const PictureSelector = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const styles = useStyles();
 
+
   return (
     <View style={styles.container}>
       <EnterMealButton

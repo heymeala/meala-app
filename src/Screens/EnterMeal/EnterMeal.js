@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, FAB, Input, makeStyles, Text} from 'react-native-elements';
+import {FAB, Input, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import * as ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
@@ -18,7 +18,6 @@ import analytics from '@react-native-firebase/analytics';
 import MealInputField from './EnterMealComponents/MealInputField';
 import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
 import {Cameraoptions} from './EnterMealComponents/OpenCamera';
-import Dialog from '../../Components/dialog';
 import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
@@ -28,28 +27,21 @@ import PictureSelector from './PictureSelector';
 import {wait} from '../../Common/wait';
 import PermissionAlert from '../../Common/PermissionAlert';
 import {Tags} from './EnterMealComponents/Tags';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {mealTypeByTime} from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
 import BlueButton from '../../Common/BlueButton';
-import {
-  CLARIFAI,
-  COMMUNITY_MEALS_URL,
-  GOOGLE_API_KEY_ANDROID,
-  GOOGLE_API_KEY_IOS,
-} from '@env';
+import {COMMUNITY_MEALS_URL} from '@env';
 import {addTimeBasedTags} from './addTimebasedTags';
 import {getExistingFatSecretProfileData} from './getExistingFatSecretProfileData';
 import {checkGps} from './checkGPS';
 import {reminderNotification} from './ReminderNotification';
 import HeaderRightIconGroup from './HeaderRightIconGroup';
+import {uploadToNightScout} from './uploadToNightScout';
+import {imageDetectionClarifai} from './imageDetectionClarifai';
 
 var uuid = require('react-native-uuid');
-const Clarifai = require('clarifai');
-const clarifai = new Clarifai.App({
-  apiKey: CLARIFAI,
-});
+
 process.nextTick = setImmediate;
 
 const EnterMeal = ({route}, props) => {
@@ -112,8 +104,6 @@ const EnterMeal = ({route}, props) => {
 
   const [hasKey, setHasKey] = useState(false);
   const [fatSecretData, setFatSecretData] = useState();
-  const apiKey =
-    Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -206,8 +196,8 @@ const EnterMeal = ({route}, props) => {
 
   const offset = Platform.OS === 'android' ? -200 : 64;
 
-  const loadCommunityMeals = restaurantId => {
-    fetch(COMMUNITY_MEALS_URL + restaurantId)
+  const loadCommunityMeals = id => {
+    fetch(COMMUNITY_MEALS_URL + id)
       .then(response => response.json())
       .then(data => {
         setCMeals(data);
@@ -243,33 +233,13 @@ const EnterMeal = ({route}, props) => {
           })
       : [];
 
-    if (nightscoutCarbs || nightscoutInsulin) {
-      try {
-        fetch(
-          `${settings.nightscoutUrl}/api/v1/treatments?token=${settings.nightscoutToken}`,
-          {
-            method: 'post',
-            headers: {
-              Accept: 'accept: */*',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([
-              {
-                created_at: date,
-                carbs: nightscoutCarbs || 0,
-                insulin: nightscoutInsulin || 0,
-                notes: notiz,
-                enteredBy: 'meala',
-              },
-            ]),
-          },
-        )
-          .then(res => res.json())
-          .then(res => console.log(res));
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    uploadToNightScout(
+      nightscoutCarbs,
+      nightscoutInsulin,
+      notiz,
+      settings,
+      date,
+    );
 
     const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
@@ -329,14 +299,13 @@ const EnterMeal = ({route}, props) => {
 
   const handleInputMealChange = text => setMealTitle(text);
 
-  const handleRestaurantPress = (restaurant, id, scope) => {
+  const handleRestaurantPress = (restaurant, id, scopeInfo) => {
     setRestaurantName(restaurant);
     setRestaurantId(id);
-    setScope(scope);
+    setScope(scopeInfo);
     setMealIsFocused(true);
     loadCommunityMeals(id);
     Keyboard.dismiss();
-    //     MealInput.current.focus();
   };
 
   const handleRestaurantName = text => {
@@ -364,15 +333,11 @@ const EnterMeal = ({route}, props) => {
         : 'data:image/jpeg;base64,' + response.base64,
     );
     setClarifaiImagebase(prevState => response.base64);
-    setDate(prevState =>
-      response.timestamp ? new Date(response.timestamp) : new Date(),
-    );
-    console.log(response);
-    objectDetection(response.base64);
+    response.timestamp && setDate(prevState => new Date(response.timestamp));
+    imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
   }
 
   function selectLibraryTapped() {
-    const options = Cameraoptions(t);
     ImagePicker.launchImageLibrary(
       {
         mediaType: 'photo',
@@ -452,69 +417,6 @@ const EnterMeal = ({route}, props) => {
     );
   }
 
-  const objectDetection = clarifaiImagebase => {
-    clarifai.models
-      .predict('bd367be194cf45149e75f01d59f77ba7', clarifaiImagebase)
-      .then(data => {
-        setPredictions(prevState => []);
-        data.outputs[0].data.concepts.slice(0, 3).map(data => {
-          let url = 'https://translation.googleapis.com/language/translate/v2';
-          url += '?q=' + data.name;
-          url += '&target=de';
-          url += '&source=en';
-          url += '&key=' + apiKey;
-
-          if (locale === 'de') {
-            return fetch(url).then(googleTranslateRes =>
-              googleTranslateRes.json().then(googleTranslateRes => {
-                console.log(
-                  googleTranslateRes.data.translations[0].translatedText,
-                );
-                setPredictions(prevArray => [
-                  ...prevArray,
-                  {
-                    id: data.id,
-                    name:
-                      googleTranslateRes.data.translations[0].translatedText,
-                  },
-                ]);
-
-                setTags(prevArray => [
-                  ...prevArray,
-                  {
-                    id: data.id,
-                    name:
-                      googleTranslateRes.data.translations[0].translatedText,
-                    active: true,
-                  },
-                ]);
-              }),
-            );
-          } else {
-            setPredictions(prevArray => [
-              ...prevArray,
-              {
-                id: data.id,
-                name: data.name,
-              },
-            ]);
-            setTags(prevArray => [
-              ...prevArray,
-              {
-                id: data.id,
-                name: data.name,
-                active: true,
-              },
-            ]);
-          }
-        });
-      })
-      .catch(e => console.log(e));
-  };
-  const closeTimeDateOverlay = () => {
-    setDateOverlayVisible(false);
-  };
-
   function reset() {
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
@@ -584,7 +486,6 @@ const EnterMeal = ({route}, props) => {
 
   return isScannerVisible ? (
     <ScanScreen
-      test={'test'}
       toggleScanner={toggleScanner}
       handleScannerFood={handleScannerFood}
     />
@@ -606,6 +507,7 @@ const EnterMeal = ({route}, props) => {
         ref={scrollListReftop}
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
+
         <PictureSelector
           selectCameraTapped={
             Platform.OS === 'android'
@@ -617,6 +519,7 @@ const EnterMeal = ({route}, props) => {
           avatarSourceLibrary={avatarSourceLibrary}
           setIsScannerVisible={setIsScannerVisible}
         />
+
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"
@@ -630,7 +533,7 @@ const EnterMeal = ({route}, props) => {
           date={date}
           setDate={setDate}
           isVisible={isDateOverlayVisible}
-          close={closeTimeDateOverlay}
+          close={() => setDateOverlayVisible(false)}
         />
         <RestaurantInputField
           restaurantName={restaurantName}
@@ -648,9 +551,7 @@ const EnterMeal = ({route}, props) => {
                 title={
                   t('AddMeal.fatSecretUserEntries.button') +
                   (fatSecretData.filter(data => data.checked).length > 0
-                    ? '(' +
-                      fatSecretData.filter(data => data.checked).length +
-                      ')'
+                    ? ` (${fatSecretData.filter(data => data.checked).length})`
                     : '')
                 }
                 onPress={() => setVisible(true)}

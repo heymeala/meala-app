@@ -14,7 +14,7 @@ import {database} from '../../../Common/database_realm';
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
 import {GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
 
-const RestaurantInputField = (props) => {
+const RestaurantInputField = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const [toggleFocus, setToggleFocus] = useState(false);
   const [isLoadingGooglePlaces, setIsLoadingGooglePlaces] = useState(true);
@@ -32,28 +32,28 @@ const RestaurantInputField = (props) => {
   const screenReaderEnabled = useScreenReader();
   const RestaurantInput = useRef();
 
-  const handleFocus = () => setToggleFocus((prevState) => !prevState);
+  const handleFocus = () => setToggleFocus(prevState => !prevState);
 
   function getAllRestaurants(text) {
     if (text.length > 0) {
       return database
         .fetchRestaurantsWithFilterLimit(text)
-        .then((allRestaurant) => {
+        .then(allRestaurant => {
           if (allRestaurant.length > 0) {
             const allRestaurantsIsDeleted = allRestaurant.filter(
-              (restaurants) => restaurants.isDeleted === false,
+              restaurants => restaurants.isDeleted === false,
             );
             console.log(allRestaurantsIsDeleted);
-            setPlacesFiltered((prevState) => allRestaurantsIsDeleted);
+            setPlacesFiltered(prevState => allRestaurantsIsDeleted);
           }
-          setIsLoadingDatabase((prevState) => false);
+          setIsLoadingDatabase(prevState => false);
         });
     } else {
       return setIsLoadingDatabase(false);
     }
   }
 
-  const getAllPlaces = (searchString) => {
+  const getAllPlaces = searchString => {
     fetch(
       'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' +
         searchString +
@@ -64,14 +64,14 @@ const RestaurantInputField = (props) => {
         '&radius=1000&types=food|restaurant|cafe|meal_takeaway|bar|bakery&key=' +
         apiKey,
     )
-      .then((response) => response.json())
-      .then((data) => {
-        setGooglePlaces((prevState) => data.results);
-        setGooglePlacesFiltered((prevState) => data.results);
-        setToken((prevState) => data.next_page_token);
-        setIsLoadingGooglePlaces((prevState) => false);
+      .then(response => response.json())
+      .then(data => {
+        setGooglePlaces(prevState => data.results);
+        setGooglePlacesFiltered(prevState => data.results);
+        setToken(prevState => data.next_page_token);
+        setIsLoadingGooglePlaces(prevState => false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
@@ -83,23 +83,23 @@ const RestaurantInputField = (props) => {
       apiKey;
 
     fetch(refreshToken)
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setGooglePlaces(googlePlaces.concat(data.results));
         setGooglePlacesFiltered(googlePlacesFiltered.concat(data.results));
         setToken(data.next_page_token);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   };
 
-  const searchFilterFunction = (text) => {
+  const searchFilterFunction = text => {
     getAllRestaurants(text);
     props.handleRestaurantName(text);
     text.length > 3 ? getAllPlaces(text) : null;
     if (googlePlaces > 0) {
-      const googlePlacesFiltered = googlePlaces.filter((item) => {
+      const googlePlacesFiltered = googlePlaces.filter(item => {
         const itemData = `${item.name.toUpperCase()}`;
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
@@ -133,7 +133,7 @@ const RestaurantInputField = (props) => {
         inputStyle={{fontSize: 20}}
         placeholder={t('AddMeal.RestaurantInput')}
         leftIcon={!screenReaderEnabled && icon}
-        onChangeText={(text) => searchFilterFunction(text)}
+        onChangeText={text => searchFilterFunction(text)}
         value={props.restaurantName}
         onBlur={handleFocus}
         errorMessage={props.errorMessage ? props.errorMessage : null}
@@ -164,7 +164,7 @@ const RestaurantInputField = (props) => {
             </View>
           ))}
         {toggleFocus &&
-          googlePlacesFiltered.map((items) => (
+          googlePlacesFiltered.map(items => (
             <View key={items.place_id}>
               <TouchableOpacity
                 onPress={() =>
