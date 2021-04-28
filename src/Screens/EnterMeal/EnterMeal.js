@@ -6,13 +6,11 @@ import {
   Platform,
   RefreshControl,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {Button, FAB, Input, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
-import {getCurrentPosition} from '../../Common/geolocation';
 import * as ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -26,25 +24,27 @@ import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
 import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
-import PushNotification from 'react-native-push-notification';
-import SaveButton from '../../Common/SaveButton';
 import PictureSelector from './PictureSelector';
 import {wait} from '../../Common/wait';
 import PermissionAlert from '../../Common/PermissionAlert';
 import {Tags} from './EnterMealComponents/Tags';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import * as Keychain from 'react-native-keychain';
-import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import {mealTypeByTime} from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
 import BlueButton from '../../Common/BlueButton';
 import {
   CLARIFAI,
+  COMMUNITY_MEALS_URL,
   GOOGLE_API_KEY_ANDROID,
   GOOGLE_API_KEY_IOS,
-  COMMUNITY_MEALS_URL,
 } from '@env';
+import {addTimeBasedTags} from './addTimebasedTags';
+import {getExistingFatSecretProfileData} from './getExistingFatSecretProfileData';
+import {checkGps} from './checkGPS';
+import {reminderNotification} from './ReminderNotification';
+import HeaderRightIconGroup from './HeaderRightIconGroup';
+
 var uuid = require('react-native-uuid');
 const Clarifai = require('clarifai');
 const clarifai = new Clarifai.App({
@@ -138,46 +138,7 @@ const EnterMeal = ({route}, props) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <>
-          <Button
-            accessible={true}
-            accessibilityLabel={t('Accessibility.EnterMeal.reset')}
-            titleStyle={{color: 'black', fontSize: 25}}
-            buttonStyle={{
-              borderRadius: 5,
-              backgroundColor: 'transparent',
-              fontSize: 20,
-            }}
-            icon={
-              <MaterialIcons
-                style={{fontSize: 20}}
-                name={'cleaning-services'}
-              />
-            }
-            onPress={() =>
-              Dialog(
-                t('AddMeal.resetTitle'),
-                t('AddMeal.resetMessage'),
-                t,
-                () => reset(),
-              )
-            }
-          />
-          {screenReaderEnabled && (
-            <Button
-              accessible={true}
-              accessibilityLabel={t('General.Save')}
-              titleStyle={{color: 'black', fontSize: 25}}
-              buttonStyle={{
-                borderRadius: 5,
-                backgroundColor: 'transparent',
-                fontSize: 20,
-              }}
-              icon={<MaterialIcons style={{fontSize: 20}} name={'save'} />}
-              onPress={() => saveAll()}
-            />
-          )}
-        </>
+        <HeaderRightIconGroup reset={reset} saveAll={saveAll} />
       ),
     });
   }, [navigation]);
@@ -220,81 +181,15 @@ const EnterMeal = ({route}, props) => {
 
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
-    if (tags.length > 0) {
-      setTags(prevArray =>
-        prevArray.map(data => {
-          if (data.id === 'mealTime') {
-            return {
-              id: 'mealTime',
-              name: mealTypeByTime(date, t),
-              active: true,
-            };
-          } else {
-            return {
-              ...data,
-            };
-          }
-        }),
-      );
-    } else {
-      setTags([
-        {
-          id: 'mealTime',
-          name: mealTypeByTime(date, t),
-          active: true,
-        },
-      ]);
-    }
-
-    Keychain.hasInternetCredentials(
-      'https://www.fatsecret.com/oauth/authorize',
-    ).then(result => {
-      if (result !== false) {
-        // get Date from DatePicker and Calculate days since epoch
-        var myEpoch = Math.trunc(date.getTime() / 1000.0 / 60 / 60 / 24);
-
-        getFoodByDateFromUser(myEpoch, null).then(data => {
-          if (data.food_entries) {
-            if (data.food_entries.food_entry.length >= 0) {
-              const checkedData = data.food_entries.food_entry.map(data => {
-                return {...data, checked: false};
-              });
-              setFatSecretData(checkedData);
-            } else if (data.food_entries.food_entry) {
-              setFatSecretData([
-                {...data.food_entries.food_entry, checked: false},
-              ]);
-            }
-            console.log(data);
-          } else {
-            setFatSecretData();
-            console.log('no data');
-          }
-        });
-        setHasKey(true);
-      }
-    });
+    addTimeBasedTags(tags, setTags, date, t);
+    getExistingFatSecretProfileData(date, setFatSecretData, setHasKey);
   }, [date]);
 
   useFocusEffect(
     React.useCallback(() => {
-      checkGps();
-    }, []),
+      checkGps(setLng, setLat, setGpsEnabled);
+    }, [gpsEnabled]),
   );
-
-  function checkGps() {
-    getCurrentPosition()
-      .then(position => {
-        setLng(prevState => parseFloat(position.coords.longitude));
-        setLat(prevState => parseFloat(position.coords.latitude));
-        setGpsEnabled(true);
-      })
-      .catch(() => {
-        setLat('0');
-        setLng('0');
-        setGpsEnabled(false);
-      });
-  }
 
   function toggleScanner() {
     setIsScannerVisible(prevState => false);
@@ -325,9 +220,10 @@ const EnterMeal = ({route}, props) => {
   };
 
   const [settings, setSettings] = useState();
+
   async function getSettings() {
-    const settings = await database.getSettings();
-    setSettings(settings);
+    const profileSettings = await database.getSettings();
+    setSettings(profileSettings);
     const getGlucoseSource = await database.getGlucoseSource();
     if (settings && getGlucoseSource == 2) {
       setGlucoseDataSource('Nightscout');
@@ -379,28 +275,7 @@ const EnterMeal = ({route}, props) => {
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
-    PushNotification.localNotificationSchedule({
-      date: new Date(Date.now() + 10950 * 1000), // in 3 hours
-      /* Android Only Properties */
-      channelId: 'food-reminder-channel',
-      id: userMealId,
-      autoCancel: true, // (optional) default: true
-      vibrate: true, // (optional) default: true
-      vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-      groupSummary: false, // (optional) set this notification to be the group summary for a group of notifications, default: false
-      ongoing: false, // (optional) set whether this is an "ongoing" notification
-      invokeApp: false, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
-      when: null, // (optionnal) Add a timestamp pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
-      usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
-      timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
-      /* iOS only properties */
-      category: '', // (optional) default: empty string
-      /* iOS and Android properties */
-      message: t('AddMeal.notificationAfterMeal', {
-        mealTitle: defaultMealTitle,
-      }), // (required)
-      userInfo: {stack: 'Home', screen: 'EnterMealStack', mealId: mealId}, // (optional) default: {} (using null throws a JSON value '<null>' error)
-    });
+    reminderNotification(userMealId, mealId, t, defaultMealTitle);
 
     const restaurantData = {
       clarifaiImagebase,
