@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FAB, makeStyles, Text} from 'react-native-elements';
+import {FAB, makeStyles, Text, Button} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -445,7 +445,7 @@ const EnterMeal = ({route}, props) => {
         <View>
           {fatSecretData && (
             <>
-              <BlueButton
+              <Button
                 title={
                   t('AddMeal.fatSecretUserEntries.button') +
                   (fatSecretData.filter(data => data.checked).length > 0
@@ -509,41 +509,12 @@ export default EnterMeal;
 const useStyles = makeStyles((theme, props: Props) => ({
   date: {
     textAlign: 'center',
-    color: '#419eff',
+    color: theme.colors.primary,
     paddingBottom: 15,
-  },
-  centerContainer: {
-    flex: 1,
-
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'stretch',
   },
   container: {
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  padding: {
-    padding: 5,
-    fontSize: 18,
-    alignItems: 'center',
-  },
-
-  bottom: {
-    bottom: 35,
-    padding: 20,
-    color: 'black',
-  },
-  headerComp: {
-    backgroundColor: '#f9de1c',
-    height: 10,
-    flex: 1,
-  },
-  leftIconStyle: {},
-  bottomButton: {
-    flex: 1,
-    flexGrow: 1,
-    justifyContent: 'flex-end',
   },
 }));

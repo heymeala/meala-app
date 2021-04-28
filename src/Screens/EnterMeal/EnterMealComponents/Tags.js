@@ -1,22 +1,16 @@
 import React, {useState} from 'react';
-import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {makeStyles, SearchBar} from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
 
-export const Tags = (props) => {
+export const Tags = props => {
   const [visible, setVisible] = useState(false);
   const [tag, setTag] = useState('');
-  const {t, locale} = React.useContext(LocalizationContext);
+  const {t} = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
+  const styles = useStyles();
 
   function add() {
     if (tag.length > 0 && tag !== ' ') {
@@ -88,7 +82,7 @@ export const Tags = (props) => {
         <ScrollView horizontal={true}>
           {props.tags &&
             props.tags
-              .filter((data) => data.active === true)
+              .filter(data => data.active === true)
               .map((tags, i) => {
                 return (
                   <TouchableOpacity
@@ -111,9 +105,7 @@ export const Tags = (props) => {
           onBackdropPress={() => setVisible(false)}
           onSwipeComplete={() => setVisible(false)}
           swipeDirection={['down']}
-          onAccessibilityEscape={() => setVisible(false)}
-
-        >
+          onAccessibilityEscape={() => setVisible(false)}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={{...styles.modalText, fontWeight: 'bold'}}>
@@ -123,7 +115,7 @@ export const Tags = (props) => {
               <SearchBar
                 platform={Platform.OS}
                 placeholder={t('AddMeal.tag.exampleTag')}
-                onChangeText={(text) => setTag(text)}
+                onChangeText={text => setTag(text)}
                 value={tag}
                 onBlur={() => add()}
               />
@@ -183,17 +175,17 @@ export const Tags = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
   },
   modalView: {
     margin: 10,
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.background,
     borderRadius: 20,
     padding: 15,
-    shadowColor: '#000',
+    shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -203,8 +195,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#154d80',
-    color: '#fff',
+    backgroundColor: theme.colors.primary,
+    color: theme.colors.white,
     borderRadius: 25,
     padding: 6,
     paddingHorizontal: 12,
@@ -219,4 +211,4 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
   },
-});
+}));

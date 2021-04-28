@@ -21,10 +21,10 @@ export function getExistingFatSecretProfileData(date, setFatSecretData) {
               {...data.food_entries.food_entry, checked: false},
             ]);
           }
-          console.log(data);
+          // console.log(data);
         } else {
           setFatSecretData();
-          console.log('no data');
+          //  console.log('no data');
         }
       });
     }
