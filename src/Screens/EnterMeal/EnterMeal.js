@@ -2,22 +2,19 @@ import React, {useEffect, useRef, useState} from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
-  PermissionsAndroid,
   Platform,
   RefreshControl,
   ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FAB, Input, makeStyles, Text} from 'react-native-elements';
+import {FAB, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
-import * as ImagePicker from 'react-native-image-picker';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
 import MealInputField from './EnterMealComponents/MealInputField';
 import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
-import {Cameraoptions} from './EnterMealComponents/OpenCamera';
 import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
@@ -25,9 +22,7 @@ import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
 import PictureSelector from './PictureSelector';
 import {wait} from '../../Common/wait';
-import PermissionAlert from '../../Common/PermissionAlert';
 import {Tags} from './EnterMealComponents/Tags';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {mealTypeByTime} from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
 import BlueButton from '../../Common/BlueButton';
@@ -38,7 +33,9 @@ import {checkGps} from './checkGPS';
 import {reminderNotification} from './ReminderNotification';
 import HeaderRightIconGroup from './HeaderRightIconGroup';
 import {uploadToNightScout} from './uploadToNightScout';
-import {imageDetectionClarifai} from './imageDetectionClarifai';
+import NightScoutInputFields from './NightScoutTreatmentsInputFields';
+import HealthKitInputField from './HealthKitInputField';
+import NoteInputField from './NoteInputField';
 
 var uuid = require('react-native-uuid');
 
@@ -76,8 +73,8 @@ const EnterMeal = ({route}, props) => {
 
   const [errorMessageRestaurantName, setErrorMessageRestaurantName] = useState(
     '',
-  ); //ToDO: error Message for all
-  const [errorMessageMealTitle, setErrorMessageMealTitle] = useState(''); //ToDO: error Message for all
+  );
+  const [errorMessageMealTitle, setErrorMessageMealTitle] = useState('');
 
   const [date, setDate] = useState(new Date());
   const [isDateOverlayVisible, setDateOverlayVisible] = useState(false); // Overlay
@@ -92,17 +89,14 @@ const EnterMeal = ({route}, props) => {
 
   const [isLoadingcMeals, setIsLoadingcMeals] = useState(true);
 
-  const [nutrition, setNutrition] = useState([]);
   const [isScannerVisible, setIsScannerVisible] = useState(false);
   const scrollListReftop = useRef();
   const MealInput = useRef();
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [tags, setTags] = useState([]);
+  const [settings, setSettings] = useState();
 
-  const screenReaderEnabled = useScreenReader();
-
-  const [hasKey, setHasKey] = useState(false);
   const [fatSecretData, setFatSecretData] = useState();
 
   const onRefresh = React.useCallback(() => {
@@ -149,8 +143,6 @@ const EnterMeal = ({route}, props) => {
       database.fetchMealbyId(route.params.mealid).then(data => {
         setMealTitle(data.food);
         setFoodPicture(data.picture);
-        // console.log(data);
-        //setTags(data.tags);
         setCarbs(data.carbs);
         setNotiz(data.note);
         database
@@ -172,7 +164,7 @@ const EnterMeal = ({route}, props) => {
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
     addTimeBasedTags(tags, setTags, date, t);
-    getExistingFatSecretProfileData(date, setFatSecretData, setHasKey);
+    getExistingFatSecretProfileData(date, setFatSecretData);
   }, [date]);
 
   useFocusEffect(
@@ -208,8 +200,6 @@ const EnterMeal = ({route}, props) => {
         setIsLoadingcMeals(false);
       });
   };
-
-  const [settings, setSettings] = useState();
 
   async function getSettings() {
     const profileSettings = await database.getSettings();
@@ -326,97 +316,6 @@ const EnterMeal = ({route}, props) => {
     Keyboard.dismiss();
   };
 
-  function handleImageLoadStates(response) {
-    setFoodPicture(
-      (prevState => Platform.OS === 'android')
-        ? response.uri
-        : 'data:image/jpeg;base64,' + response.base64,
-    );
-    setClarifaiImagebase(prevState => response.base64);
-    response.timestamp && setDate(prevState => new Date(response.timestamp));
-    imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
-  }
-
-  function selectLibraryTapped() {
-    ImagePicker.launchImageLibrary(
-      {
-        mediaType: 'photo',
-        includeBase64: true,
-      },
-      response => {
-        if (response.didCancel) {
-          console.log('User cancelled photo picker');
-        } else if (response.errorCode) {
-          console.log('ImagePicker Error: ', response.errorCode);
-          if (response.errorCode === 'permission') {
-            PermissionAlert(t);
-          }
-        } else {
-          setAvatarSourceLibrary(prevState => {
-            return {uri: response.uri};
-          });
-          setAvatarSourceCamera(prevState => undefined);
-          handleImageLoadStates(response);
-        }
-      },
-    );
-  }
-
-  const requestCameraPermission = async () => {
-    try {
-      console.log('Camera permission try');
-
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: t('AddMeal.Permission'),
-          message: t('AddMeal.grantPermission'),
-          buttonNegative: t('General.cancel'),
-          buttonPositive: 'OK',
-        },
-      );
-
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Camera permission given');
-        selectCameraTapped();
-      } else {
-        console.log('Camera permission denied');
-        PermissionAlert(t);
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
-
-  function selectCameraTapped() {
-    ImagePicker.launchCamera(
-      {
-        mediaType: 'photo',
-        includeBase64: true,
-        maxHeight: 800,
-        maxWidth: 800,
-        quality: 0.6,
-        //  saveToPhotos:true,
-      },
-      response => {
-        if (response.didCancel) {
-          console.log('User cancelled Camera');
-        } else if (response.errorCode) {
-          console.log('Camera Error: ', response.errorCode);
-          if (response.errorCode === 'permission') {
-            PermissionAlert(t);
-          }
-        } else {
-          setAvatarSourceLibrary(prevState => undefined);
-          setAvatarSourceCamera(prevState => {
-            return {uri: response.uri};
-          });
-          handleImageLoadStates(response);
-        }
-      },
-    );
-  }
-
   function reset() {
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
@@ -443,7 +342,6 @@ const EnterMeal = ({route}, props) => {
     setScope('');
 
     setIsLoadingcMeals(true);
-    setNutrition([]);
     const newMealID = uuid.v4();
     const newuserMealId = uuid.v4();
     setMealId(newMealID);
@@ -507,16 +405,16 @@ const EnterMeal = ({route}, props) => {
         ref={scrollListReftop}
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
-
         <PictureSelector
-          selectCameraTapped={
-            Platform.OS === 'android'
-              ? requestCameraPermission
-              : selectCameraTapped
-          }
-          selectLibraryTapped={selectLibraryTapped}
+          setFoodPicture={setFoodPicture}
+          setClarifaiImagebase={setClarifaiImagebase}
+          setDate={setDate}
+          setPredictions={setPredictions}
+          setTags={setTags}
           avatarSourceCamera={avatarSourceCamera}
+          setAvatarSourceCamera={setAvatarSourceCamera}
           avatarSourceLibrary={avatarSourceLibrary}
+          setAvatarSourceLibrary={setAvatarSourceLibrary}
           setIsScannerVisible={setIsScannerVisible}
         />
 
@@ -579,87 +477,19 @@ const EnterMeal = ({route}, props) => {
           handleMealInputBlur={handleMealInputBlur}
           errorMessage={errorMessageMealTitle ? errorMessageMealTitle : null}
         />
-
-        {glucoseDataSource === 'Healthkit' ? (
-          <Input
-            inputContainerStyle={styles.inputPadding}
-            inputStyle={{fontSize: 15}}
-            placeholder={t('AddMeal.Carbs')}
-            keyboardType={'numeric'}
-            renderErrorMessage={false}
-            leftIcon={
-              !screenReaderEnabled && {
-                type: 'ionicon',
-                name: 'ios-information-circle',
-                containerStyle: {paddingRight: 10},
-                iconStyle: {color: '#f9de1c'},
-              }
-            }
-            onChangeText={text => setCarbs(parseFloat(text))}
-          />
-        ) : null}
-        {settings && settings.nightscoutTreatmentsUpload && (
-          <>
-            <Input
-              inputContainerStyle={styles.inputPaddingTextarea}
-              inputStyle={{fontSize: 15}}
-              placeholder={t('AddMeal.Carbs')}
-              renderErrorMessage={false}
-              keyboardType={'numeric'}
-              returnKeyType="done"
-              value={nightscoutCarbs}
-              leftIcon={
-                !screenReaderEnabled && {
-                  type: 'font-awesome-5',
-                  name: 'cookie-bite',
-                  containerStyle: {paddingRight: 10},
-                  iconStyle: {color: '#154d80'},
-                }
-              }
-              onChangeText={text => setNightscoutCarbs(text)}
-            />
-            <Input
-              inputContainerStyle={styles.inputPaddingTextarea}
-              inputStyle={{fontSize: 15}}
-              placeholder={t('AddMeal.Insulin')}
-              renderErrorMessage={false}
-              keyboardType={'numeric'}
-              returnKeyType="done"
-              value={nightscoutInsulin}
-              leftIcon={
-                !screenReaderEnabled && {
-                  type: 'material-community',
-                  name: 'needle',
-                  containerStyle: {paddingRight: 10},
-                  iconStyle: {color: '#154d80'},
-                }
-              }
-              onChangeText={text => setNightscoutInsulin(text)}
-            />
-          </>
-        )}
-        <Input
-          inputContainerStyle={styles.inputPaddingTextarea}
-          inputStyle={{fontSize: 15}}
-          placeholder={t('AddMeal.Note')}
-          numberOfLines={3}
-          renderErrorMessage={false}
-          returnKeyType="done"
-          onSubmitEditing={() => {
-            Keyboard.dismiss();
-          }}
-          multiline={true}
-          value={notiz}
-          leftIcon={
-            !screenReaderEnabled && {
-              type: 'ionicon',
-              name: 'ios-information-circle',
-              containerStyle: {paddingRight: 10},
-              iconStyle: {color: '#154d80'},
-            }
-          }
-          onChangeText={text => setNotiz(text)}
+        <HealthKitInputField
+          glucoseDataSource={glucoseDataSource}
+          setCarbs={setCarbs}
         />
+
+        <NightScoutInputFields
+          settings={settings}
+          nightscoutCarbs={nightscoutCarbs}
+          setNightscoutCarbs={setNightscoutCarbs}
+          nightscoutInsulin={nightscoutInsulin}
+          setNightscoutInsulin={setNightscoutInsulin}
+        />
+        <NoteInputField notiz={notiz} setNotiz={setNotiz} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
         <FAB
