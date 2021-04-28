@@ -20,7 +20,6 @@ const MealDetailsComponent = props => {
   const {selectedFood} = props;
   const foodDatumMoment = moment(selectedFood.date).format();
   const foodDatum = moment(foodDatumMoment).format('lll');
-
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
 

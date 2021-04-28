@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {FAB, makeStyles, Text, Button} from 'react-native-elements';
+import {Button, FAB, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -25,7 +25,6 @@ import {wait} from '../../Common/wait';
 import {Tags} from './EnterMealComponents/Tags';
 import {mealTypeByTime} from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
-import BlueButton from '../../Common/BlueButton';
 import {COMMUNITY_MEALS_URL} from '@env';
 import {addTimeBasedTags} from './addTimebasedTags';
 import {getExistingFatSecretProfileData} from './getExistingFatSecretProfileData';
@@ -172,10 +171,6 @@ const EnterMeal = ({route}, props) => {
       checkGps(setLng, setLat, setGpsEnabled);
     }, [gpsEnabled]),
   );
-
-  function toggleScanner() {
-    setIsScannerVisible(prevState => false);
-  }
 
   const handleScannerFood = data => {
     setRestaurantName(prevState => t('General.various'));
@@ -384,12 +379,12 @@ const EnterMeal = ({route}, props) => {
 
   return isScannerVisible ? (
     <ScanScreen
-      toggleScanner={toggleScanner}
+      toggleScanner={() => setIsScannerVisible(false)}
       handleScannerFood={handleScannerFood}
     />
   ) : (
     <KeyboardAvoidingView
-      style={{flexGrow: 1, height: '100%'}}
+      style={styles.wrapper}
       behavior="padding"
       enabled
       keyboardVerticalOffset={offset}>
@@ -507,6 +502,7 @@ const EnterMeal = ({route}, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
+  wrapper: {flexGrow: 1, height: '100%'},
   date: {
     textAlign: 'center',
     color: theme.colors.primary,

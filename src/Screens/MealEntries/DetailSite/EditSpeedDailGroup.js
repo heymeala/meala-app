@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {makeStyles, SpeedDial} from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import { useNavigation } from "@react-navigation/core";
+import {useNavigation} from '@react-navigation/core';
+import {database} from '../../../Common/database_realm';
 
 const EditSpeedDialGroup = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -10,6 +11,11 @@ const EditSpeedDialGroup = props => {
   const [open, setOpen] = useState(false);
   const navigation = useNavigation();
   const {selectedFood} = props;
+
+  function softDeleteMeal(id) {
+    database.deleteMealSoft(id);
+    navigation.goBack();
+  }
 
   return (
     <SpeedDial
@@ -33,8 +39,8 @@ const EditSpeedDialGroup = props => {
       />
       <SpeedDial.Action
         icon={{name: 'delete', color: '#fff'}}
-        title="Delete"
-        onPress={() => console.log('Delete Something')}
+        title={t('Entries.delete')}
+        onPress={() => softDeleteMeal(selectedFood.userMealId)}
       />
     </SpeedDial>
   );

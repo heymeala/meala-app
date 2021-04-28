@@ -94,6 +94,7 @@
     "after": " minutes after your meal",
     "anotherEntry" : "add another meal",
     "copyMeal": "Copy this meal",
+    "delete": "Delete",
     "directBolus": " Direct Bolus: ",
     "carbs": "Carbs: ",
     "event": "Event: ",
