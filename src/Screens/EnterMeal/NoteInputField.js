@@ -37,4 +37,11 @@ const NoteInputField = props => {
 
 export default NoteInputField;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  inputPaddingTextarea: {
+    // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
+    borderRadius: 6,
+    marginBottom: 10,
+    height: 70,
+  },
+}));

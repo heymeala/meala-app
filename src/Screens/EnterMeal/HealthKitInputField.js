@@ -1,14 +1,15 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
-import {Input, makeStyles} from 'react-native-elements';
+import {Input, makeStyles, useTheme} from 'react-native-elements';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 
 const HealthKitInputField = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
+  const {theme} = useTheme();
+
   const screenReaderEnabled = useScreenReader();
-const {glucoseDataSource, setCarbs} = props;
+  const {glucoseDataSource, setCarbs} = props;
   return glucoseDataSource === 'Healthkit' ? (
     <Input
       inputContainerStyle={styles.inputPadding}
@@ -21,7 +22,7 @@ const {glucoseDataSource, setCarbs} = props;
           type: 'ionicon',
           name: 'ios-information-circle',
           containerStyle: {paddingRight: 10},
-          iconStyle: {color: '#f9de1c'},
+          iconStyle: {color: theme.colors.primary},
         }
       }
       onChangeText={text => setCarbs(parseFloat(text))}
@@ -31,4 +32,10 @@ const {glucoseDataSource, setCarbs} = props;
 
 export default HealthKitInputField;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  inputPadding: {
+    borderRadius: 6,
+    marginBottom: 10,
+    height: 56,
+  },
+}));

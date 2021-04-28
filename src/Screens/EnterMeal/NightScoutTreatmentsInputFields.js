@@ -1,6 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
-import {Input, makeStyles} from 'react-native-elements';
+import {Input, makeStyles, useTheme} from 'react-native-elements';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 
@@ -15,6 +14,9 @@ const NightScoutInputFields = props => {
     nightscoutInsulin,
     setNightscoutInsulin,
   } = props;
+
+  const {theme} = useTheme();
+
   return settings && settings.nightscoutTreatmentsUpload ? (
     <>
       <Input
@@ -30,7 +32,7 @@ const NightScoutInputFields = props => {
             type: 'font-awesome-5',
             name: 'cookie-bite',
             containerStyle: {paddingRight: 10},
-            iconStyle: {color: '#154d80'},
+            iconStyle: {color: theme.colors.primary},
           }
         }
         onChangeText={text => setNightscoutCarbs(text)}
@@ -48,7 +50,7 @@ const NightScoutInputFields = props => {
             type: 'material-community',
             name: 'needle',
             containerStyle: {paddingRight: 10},
-            iconStyle: {color: '#154d80'},
+            iconStyle: {color: theme.colors.primary},
           }
         }
         onChangeText={text => setNightscoutInsulin(text)}
@@ -59,4 +61,11 @@ const NightScoutInputFields = props => {
 
 export default NightScoutInputFields;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  inputPaddingTextarea: {
+    // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
+    borderRadius: 6,
+    marginBottom: 10,
+    height: 70,
+  },
+}));
