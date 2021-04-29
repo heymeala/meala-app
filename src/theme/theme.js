@@ -17,6 +17,24 @@ export const theme = {
   FAB: {
     titleStyle: {color: colors_light.black},
   },
+  Text: {
+    style: {fontSize: 16},
+    h4Style: {
+      fontSize: 16,
+      fontWeight: 'bold',
+
+    },
+    h3Style: {
+      fontSize: 20,
+    },
+    h2Style: {
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    h1Style: {
+      fontSize: 28,
+    },
+  },
   Button: {
     titleStyle: {
       color: colors_light.secondary,

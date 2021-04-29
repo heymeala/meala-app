@@ -79,13 +79,42 @@
   "Entries": {
     "BottomBarTitle": "Entries",
     "NavigationBarTitle": "meala",
-    "Search" : "Search for Restaurant",
-    "SearchMeals": "Search for meals",
+    "Search" : "Search for saved places",
+    "SearchMeals": "Search for saved meals",
 
     "Meals" : "Meals",
     "MealDetails": "Details",
     "Date": "Date",
     "Places": "Visited Places",
+    "firstOpenDialog": {
+      "title": "Everything in one place",
+      "description": "There are already many apps that you can use to track your activities. We have integrated some of them so that you have all the information in one place. This helps you better understand the impact of your meals. To see this data in meala, you need to connect the apps in the settings.",
+      "subtitle": "Currently you can link the following data:",
+      "Dexcom": "Dexcom (US Account only)",
+      "Nightscout": "Nightscout",
+      "Tidepool": "Tidepool",
+      "FatSecret": "FatSecret",
+      "AppleHealth": "Apple Health",
+      "Libre": "FreeStyle Libre",
+      "wip": "We are working in it - Stay tuned",
+      "okay": "Okay"
+    },
+    "empty": {
+      "home": {
+        "title": "Find saved meals",
+        "description": "After you enter your first meal, it will appear here. By intelligently labeling your meals, you can find them again later and compare them with similar meals."
+      },
+      "places": {
+        "title": "Places and restaurants",
+        "description": "You have a favorite restaurant? You'll find it here. The more you eat the same meals, the better you will understand them."
+      },
+      "date": {
+        "title": "A very special day",
+        "description": "You are looking for an exact day? Then you are right here. Tip: If you use FatSecret connect your account and your entries from the other app will be displayed here."
+      }
+    },
+    "noSearchResult": "You have no meal with the name ",
+    "noSearchResultPlaces": "You have no places with the name ",
 
     "noDataSource" : "No data source selected. Please check your settings",
     "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",

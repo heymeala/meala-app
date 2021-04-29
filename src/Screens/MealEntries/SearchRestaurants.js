@@ -6,10 +6,11 @@ import {Badge, ListItem, makeStyles, SearchBar} from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import SearchByDate from './SearchByDate';
 import SearchLatestMeals from './SearchLatestMeals';
-import {EmptyListComponent} from './Common/EmtyList';
+import {EmptyListHome} from './Common/EmtyListHome';
 import {useFocusEffect} from '@react-navigation/core';
 import {spacing} from '../../theme/styles';
 import FirstOpenDialog from '../FirstOpenDialog';
+import {EmptyListPlaces} from './Common/EmtyListPlaces';
 
 const SearchRestaurants = ({navigation}, props) => {
   const [search, setSearch] = useState('');
@@ -82,7 +83,7 @@ const SearchRestaurants = ({navigation}, props) => {
     </View>
   );
 
-  function segmentedController() {
+  const SegmentedController = function () {
     return (
       <View style={styles.container}>
         <SegmentedControlTab
@@ -103,12 +104,12 @@ const SearchRestaurants = ({navigation}, props) => {
         />
       </View>
     );
-  }
+  };
 
   return selectedIndex === 0 ? (
     <>
       <FirstOpenDialog />
-      <SearchLatestMeals controlBar={segmentedController()} />
+      <SearchLatestMeals controlBar={<SegmentedController />} />
     </>
   ) : selectedIndex === 1 ? (
     <FlatList
@@ -116,7 +117,7 @@ const SearchRestaurants = ({navigation}, props) => {
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={
         <>
-          {segmentedController()}
+          <SegmentedController />
           <SearchBar
             platform={Platform.OS}
             placeholder={t('Entries.Search')}
@@ -128,10 +129,14 @@ const SearchRestaurants = ({navigation}, props) => {
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      ListEmptyComponent={<EmptyListComponent navigation={navigation} />}
+      ListEmptyComponent={<EmptyListPlaces value={search} navigation={navigation} />}
+
     />
   ) : selectedIndex === 2 ? (
-    <SearchByDate navigation={navigation} controlBar={segmentedController()} />
+    <SearchByDate
+      navigation={navigation}
+      controlBar={<SegmentedController />}
+    />
   ) : null;
 };
 

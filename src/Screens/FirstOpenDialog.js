@@ -1,10 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, ScrollView, View} from 'react-native';
-import {FAB, Icon, makeStyles, Text} from 'react-native-elements';
+import {FAB, Icon, ListItem, makeStyles, Text} from 'react-native-elements';
 import {database} from '../Common/database_realm';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
 import {DEVICE_HEIGHT} from '../utils/deviceHeight';
+import LottieView from 'lottie-react-native';
+import ListItemWithIcon from './MealEntries/Common/ListItemWithIcon';
+import {spacing} from '../theme/styles';
 
 const FirstOpenDialog = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -16,7 +19,7 @@ const FirstOpenDialog = props => {
   useEffect(() => {
     const load = async () => {
       const firstOpen = await database.getOnboarding();
-      if (firstOpen >= 1) {
+      if (firstOpen === 1) {
         setOpen(true);
       }
     };
@@ -59,23 +62,48 @@ const FirstOpenDialog = props => {
             scrollEventThrottle={16}>
             <View style={styles.wrapper}>
               <View style={styles.container}>
-                <Text h3>Alles an einem Ort</Text>
-                <Text>
-                  Es gibt bereits viele Apps mit denen du deine aktivitäten
-                  tracken kannst. Einige davon haben wir integriert, damit du
-                  alle Informationen an einem Ort hast. Dies hilft dir die
-                  Auswirkungen deiner Mahlzeiten besser zu verstehen. Um diese
-                  Daten in meala zu sehen, musst du die Apps in den
-                  Einstellungen verknüpfen.
+                <LottieView
+                  style={styles.animation}
+                  source={require('../assets/animations/food_animation.json')}
+                  autoPlay
+                  loop
+                />
+
+                <Text h2 h2Style={styles.text}>
+                  {t('Entries.firstOpenDialog.title')}
                 </Text>
-                <Text h4>Aktuell kannst du folgende Daten anbinden:</Text>
-                <Text>Nightscout</Text>
-                <Icon name={'eat'} type={'meala'} size={30} />
-                <Text>Dexcom USA </Text>
-                <Text>FatSecret</Text>
-                <Text>HealthKit</Text>
-                <Text>Tidepool</Text>
-                <Text>Libre</Text>
+                <Text>{t('Entries.firstOpenDialog.description')}</Text>
+                <Text h4 h4Style={styles.text}>
+                  {t('Entries.firstOpenDialog.subtitle')}
+                </Text>
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.Nightscout')}
+                  icon={'nightscout'}
+                />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.FatSecret')}
+                  icon={'apps'}
+                  type={'ionicon'}
+                />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.AppleHealth')}
+                  icon={'heart'}
+                  type={'ionicon'}
+                />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.Dexcom')}
+                  icon={'dexcom'}
+                />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.Tidepool')}
+                  icon={'tidepool'}
+                  subtitle={t('Entries.firstOpenDialog.wip')}
+                />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.Libre')}
+                  icon={'libre'}
+                  subtitle={t('Entries.firstOpenDialog.wip')}
+                />
               </View>
               <View style={styles.button}>
                 <FAB
@@ -96,6 +124,7 @@ export default FirstOpenDialog;
 
 const useStyles = makeStyles((theme, dimensions) => ({
   modal: {marginHorizontal: 0, marginVertical: 0},
+  animation: {height: 150, alignSelf: 'center'},
   centeredView: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -104,7 +133,7 @@ const useStyles = makeStyles((theme, dimensions) => ({
     flex: 1,
     flexGrow: 1,
     justifyContent: 'space-between',
-    height: DEVICE_HEIGHT - DEVICE_HEIGHT / 4,
+    height: DEVICE_HEIGHT - DEVICE_HEIGHT / 6,
   },
   container: {},
   button: {},
@@ -122,4 +151,5 @@ const useStyles = makeStyles((theme, dimensions) => ({
       height: 2,
     },
   },
+  text: {paddingVertical: spacing.S},
 }));

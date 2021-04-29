@@ -77,12 +77,41 @@
   "Entries": {
     "BottomBarTitle": "Einträge",
     "NavigationBarTitle": "meala",
-    "Search": "Restaurant-Namen suchen",
-    "SearchMeals": "Mahlzeiten suchen",
+    "Search": "Gespeicherte Orte suchen",
+    "SearchMeals": "Gespeicherte Mahlzeiten suchen",
     "Meals": "Gerichte",
     "MealDetails": "Details",
     "Date": "Datum",
     "Places": "Besuchte Orte",
+    "firstOpenDialog": {
+      "title": "Alles an einem Ort",
+      "description": "Es gibt bereits viele Apps mit denen du deine aktivitäten tracken kannst. Einige davon haben wir integriert, damit du alle Informationen an einem Ort hast. Das hilft dir die Auswirkungen deiner Mahlzeiten besser zu verstehen. Um diese Daten in meala zu sehen, musst du die Apps in den Einstellungen verknüpfen.",
+      "subtitle": "Aktuell kannst du folgende Daten anbinden:",
+      "Dexcom": "Dexcom (nur USA)",
+      "Nightscout": "Nightscout",
+      "Tidepool": "Tidepool",
+      "FatSecret": "FatSecret",
+      "AppleHealth": "Apple Health",
+      "Libre": "FreeStyle Libre",
+      "wip": "Wir arbeiten dran",
+      "okay": "Okay"
+    },
+    "empty": {
+      "home": {
+        "title": "Erstellte Mahlzeiten finden",
+        "description": "Nachdem du deine erste Mahlzeit einträgst, wird sie hier erscheinen. Durch eine intelligente Beschriftung deiner Mahlzeiten kannst du sie später wiederfinden und mit ähnlichen Mahlzeiten vergleichen."
+      },
+      "places": {
+        "title": "Orte und Restaurants",
+        "description": "Du hast ein Lieblings-Restaurant? Hier wirst du es wiederfinden. Je öfters du die gleichen Mahlzeiten isst, desto besser wirst du sie verstehen."
+      },
+      "date": {
+        "title": "Ein ganz besonderer Tag",
+        "description": "Du suchst nach einem genauen Tag? Dann bist du hier richtig. Tipp: Wenn du FatSecret benutzt verbinde deinen Account und deine Einträge aus der anderen App werden hier angezeigt."
+      }
+    },
+    "noSearchResult": "Du hast keine Mahlzeit mit dem Namen ",
+    "noSearchResultPlaces": "Du hast keine Orte mit dem Namen ",
     "noDataSource": "Keine Daten-Quelle gefunden. Bitte überprüfe Deine Einstellungen",
     "notEnoughData": "Nicht genügend Daten im Healthkit. Es sind mindestens zwei Messungen erforderlich.",
     "youHave": "Du hast ca: ",
@@ -117,7 +146,6 @@
     "fpu": " FPE: ",
     "fpu_formula": "(KCal - (Kohlenhydrate*4)) / 100",
     "informationFrom": "Information von"
-
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -192,7 +220,7 @@
     "Dexcom": {
       "text": "Wir suchen Menschen mit einem amerikanischen Dexcom Account. Wir suchen Test-Nutzer. Schreib uns bitte eine E-Mail: mail@heymeala.com",
       "button": "Ich kenne jemanden"
-    }   ,
+    },
     "Libre": {
       "text": "Aktuell können Libre Daten nur über Nightscout importiert werden. Wir arbeiten zusätzlich an einer Integration von Tidepool. Damit können ebenfalls Libre Daten importiert werden.",
       "button": "Mehr über Nightscout",
@@ -239,7 +267,6 @@
       "fatsecret": "Diese Daten werden bereitgestellt von FatSecret",
       "meal": "Was hast du gegessen? ",
       "restaurant": "Wo isst du deine Mahlzeit? "
-
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",

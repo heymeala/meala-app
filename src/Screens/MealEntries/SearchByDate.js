@@ -3,12 +3,14 @@ import {FlatList, View, StyleSheet} from 'react-native';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import MealItemList from '../../Components/MealItemList';
-import {EmptyListComponent} from './Common/EmtyList';
+import {EmptyListHome} from './Common/EmtyListHome';
 import LocalizationContext from '../../../LanguageContext';
 import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import * as Keychain from 'react-native-keychain';
 import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
+import {EmptyListDate} from './Common/EmtyListDate';
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const SearchByDate = ({controlBar, navigation}, props) => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -16,6 +18,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
   moment.locale(locale);
   const [restaurants, setRestaurants] = useState(undefined);
   const [chosenDateStart, setChosenDateStart] = useState(moment(new Date()));
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     showRestaurants(
@@ -30,9 +33,10 @@ const SearchByDate = ({controlBar, navigation}, props) => {
   }, []);
 
   function showRestaurants(startDate, endDate) {
-    database
-      .fetchMealWithDateTime(startDate, endDate)
-      .then(allRestaurant => setRestaurants(allRestaurant));
+    database.fetchMealWithDateTime(startDate, endDate).then(allRestaurant => {
+      setRestaurants(allRestaurant);
+      setLoading(false);
+    });
   }
 
   const keyExtractor = (item, index) => item.id;
@@ -137,9 +141,11 @@ const SearchByDate = ({controlBar, navigation}, props) => {
         </View>
       </>
     );
-  }
+  };
 
-  return (
+  return loading ? (
+    <LoadingSpinner />
+  ) : (
     <FlatList
       contentContainerStyle={{flexGrow: 1}}
       extraData={chosenDateStart}
@@ -152,7 +158,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       ListEmptyComponent={
-        !fatSecretData && <EmptyListComponent navigation={navigation} />
+        !fatSecretData && <EmptyListDate navigation={navigation} />
       }
     />
   );
