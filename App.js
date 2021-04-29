@@ -102,7 +102,9 @@ const App = props => {
           <ProfileProvider>
             <ScreenReaderProvider>
               <View style={{flex: 1}}>
+{/*
                 <StatusBar barStyle={'dark-content'} />
+*/}
                 <Stack.Navigator
                   screenOptions={{
                     headerShown: false,

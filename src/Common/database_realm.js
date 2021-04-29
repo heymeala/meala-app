@@ -423,14 +423,15 @@ export const database = {
           true,
         );
       });
+      console.log(onboardingState[0].onboarding);
       return onboardingState[0].onboarding;
     });
   },
   getOnboarding: () => {
     return database._open
       .then(realm => {
-        const onboardingState = realm.objects('Settings');
-        return onboardingState.onboarding;
+        let onboardingState = realm.objects('Profile').filtered('id = "1"');
+        return onboardingState[0].onboarding;
       })
       .catch(error => {
         console.log(error);
@@ -442,7 +443,11 @@ export const database = {
         const glucoseSource = realm
           .objects('Settings')
           .filtered('id = "glucoseSource"');
-        return glucoseSource[0].glucoseSource;
+        if (typeof glucoseSource[0] !== 'undefined') {
+          return glucoseSource[0].glucoseSource;
+        } else {
+          return null;
+        }
       })
       .catch(error => {
         console.log(error);

@@ -9,11 +9,13 @@ import SearchLatestMeals from './SearchLatestMeals';
 import {EmptyListComponent} from './Common/EmtyList';
 import {useFocusEffect} from '@react-navigation/core';
 import {spacing} from '../../theme/styles';
+import FirstOpenDialog from '../FirstOpenDialog';
 
 const SearchRestaurants = ({navigation}, props) => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
 
@@ -23,6 +25,7 @@ const SearchRestaurants = ({navigation}, props) => {
 
   useEffect(() => {
     let isMounted = true;
+
     if (isMounted) {
       database.deleteMeal();
       database.deleteRestaurant();
@@ -103,7 +106,10 @@ const SearchRestaurants = ({navigation}, props) => {
   }
 
   return selectedIndex === 0 ? (
-    <SearchLatestMeals controlBar={segmentedController()} />
+    <>
+      <FirstOpenDialog />
+      <SearchLatestMeals controlBar={segmentedController()} />
+    </>
   ) : selectedIndex === 1 ? (
     <FlatList
       contentContainerStyle={{flexGrow: 1}}
