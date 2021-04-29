@@ -1,18 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  View,
-} from 'react-native';
-import {FAB, makeStyles, Text} from 'react-native-elements';
+import {Dimensions, ScrollView, View} from 'react-native';
+import {FAB, Icon, makeStyles, Text} from 'react-native-elements';
 import {database} from '../Common/database_realm';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
-import {useHeaderHeight} from 'react-native-';
 import {DEVICE_HEIGHT} from '../utils/deviceHeight';
-import {spacing} from '../theme/styles';
 
 const FirstOpenDialog = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -24,13 +16,17 @@ const FirstOpenDialog = props => {
   useEffect(() => {
     const load = async () => {
       const firstOpen = await database.getOnboarding();
-      if (firstOpen > 1) {
+      if (firstOpen >= 1) {
         setOpen(true);
       }
-      console.log(firstOpen);
     };
     load();
   }, []);
+
+  function acceptDialog() {
+    setOpen(false);
+    database.saveOnbording();
+  }
 
   const handleOnScroll = event => {
     setScrollOffset(event.nativeEvent.contentOffset.y);
@@ -47,14 +43,14 @@ const FirstOpenDialog = props => {
       isVisible={open}
       style={styles.modal}
       backdropOpacity={0.3}
-      onBackdropPress={() => setOpen(false)}
-      onSwipeComplete={() => setOpen(false)}
+      onBackdropPress={() => acceptDialog()}
+      onSwipeComplete={() => acceptDialog()}
       swipeDirection={['down']}
       scrollTo={handleScrollTo}
       scrollOffset={scrollOffset}
       scrollOffsetMax={50} // content height - ScrollView height
       propagateSwipe={true}
-      onAccessibilityEscape={() => setOpen(false)}>
+      onAccessibilityEscape={() => acceptDialog()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <ScrollView
@@ -74,6 +70,7 @@ const FirstOpenDialog = props => {
                 </Text>
                 <Text h4>Aktuell kannst du folgende Daten anbinden:</Text>
                 <Text>Nightscout</Text>
+                <Icon name={'eat'} type={'meala'} size={30} />
                 <Text>Dexcom USA </Text>
                 <Text>FatSecret</Text>
                 <Text>HealthKit</Text>
@@ -81,7 +78,11 @@ const FirstOpenDialog = props => {
                 <Text>Libre</Text>
               </View>
               <View style={styles.button}>
-                <FAB placement={'right'} title={'Okay'} />
+                <FAB
+                  placement={'right'}
+                  title={'Okay'}
+                  onPress={() => acceptDialog()}
+                />
               </View>
             </View>
           </ScrollView>
@@ -92,7 +93,6 @@ const FirstOpenDialog = props => {
 };
 
 export default FirstOpenDialog;
-
 
 const useStyles = makeStyles((theme, dimensions) => ({
   modal: {marginHorizontal: 0, marginVertical: 0},

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {ActivityIndicator, StatusBar, useColorScheme, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {ThemeProvider} from 'react-native-elements';
+import {registerCustomIconType, ThemeProvider} from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
@@ -18,7 +18,7 @@ import {
   useScreenReader,
 } from './src/hooks/useScreenReaderEnabled';
 import {theme} from './src/theme/theme';
-
+import Icon from './src/CustomMealaFont';
 enableScreens();
 
 const App = props => {
@@ -45,8 +45,9 @@ const App = props => {
   );
 
   useEffect(() => {
-    handleLocalizationChange();
+    registerCustomIconType('meala', Icon);
 
+    handleLocalizationChange();
     RNLocalize.addEventListener('change', handleLocalizationChange);
     return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
@@ -102,7 +103,7 @@ const App = props => {
           <ProfileProvider>
             <ScreenReaderProvider>
               <View style={{flex: 1}}>
-{/*
+                {/*
                 <StatusBar barStyle={'dark-content'} />
 */}
                 <Stack.Navigator
