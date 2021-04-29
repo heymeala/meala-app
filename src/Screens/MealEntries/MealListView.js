@@ -58,19 +58,8 @@ const MealListView = props => {
               mealData={loadData}
             />
 
-            <Button
-              containerStyle={{
-                paddingTop: 20,
-                paddingLeft: 10,
-                paddingRight: 10,
-              }}
-              titleStyle={{color: '#000000'}}
-              buttonStyle={{
-                borderRadius: 5,
-                marginBottom: 10,
-                backgroundColor: '#f9de1c',
-              }}
-              style={{padding: 5}}
+            <FAB
+              placement={'right'}
               onPress={() =>
                 navigation.navigate('EnterMealStack', {
                   screen: 'EnterMeal',

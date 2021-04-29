@@ -15,7 +15,7 @@ const AppBottomNavigationStack = () => {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: theme.colors.primary,
-        inactiveTintColor: theme.colors.grey2, // inactive icon color
+        inactiveTintColor: theme.colors.grey4, // inactive icon color
         showLabel: false,
         tabBarVisible: false,
         style: {
@@ -44,9 +44,7 @@ const AppBottomNavigationStack = () => {
                 bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
                 height: 55,
                 width: 55,
-                backgroundColor: focused
-                  ? theme.colors.primary
-                  : theme.colors.white,
+                backgroundColor: theme.colors.white,
                 borderRadius: 55,
                 shadowColor: theme.colors.grey2,
                 shadowOffset: {
@@ -63,7 +61,7 @@ const AppBottomNavigationStack = () => {
                 name="pluscircleo"
                 type="antdesign"
                 size={28}
-                color={focused ? 'white' : 'grey'}
+                color={color}
               />
             </View>
           ),
