@@ -113,9 +113,9 @@
         "description": "You are looking for an exact day? Then you are right here. Tip: If you use FatSecret connect your account and your entries from the other app will be displayed here."
       }
     },
+    "community": "An app for the community",
     "noSearchResult": "You have no meal with the name ",
     "noSearchResultPlaces": "You have no places with the name ",
-
     "noDataSource" : "No data source selected. Please check your settings",
     "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",
     "youHave": "You bolused ",

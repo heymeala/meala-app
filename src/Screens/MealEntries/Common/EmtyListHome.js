@@ -10,7 +10,12 @@ export const EmptyListHome = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
-  if (props.value > 0) {
+  console.log('value', props.value.length);
+  if (props.value.length > 0) {
+    return (
+      <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
+    );
+  } else {
     return (
       <View style={styles.wrapper}>
         <View style={styles.infoBox}>
@@ -41,10 +46,6 @@ export const EmptyListHome = props => {
           }
         />
       </View>
-    );
-  } else {
-    return (
-      <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
     );
   }
 };
