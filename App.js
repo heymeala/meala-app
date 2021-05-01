@@ -110,7 +110,7 @@ const App = props => {
                   screenOptions={{
                     headerShown: false,
                   }}>
-                  {onboarding ? (
+                  {true ? (
                     <Stack.Screen
                       name="Onboarding"
                       component={OnboardingScreen}
