@@ -58,7 +58,7 @@ export const deSlides = [
     key: 3,
     title: 'Erinnerung',
     text:
-      'Die Ergebnisse deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung wenn meala mit der analyse fertig ist',
+      'Die Ergebnisse deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung wenn meala mit der Analyse fertig ist',
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },

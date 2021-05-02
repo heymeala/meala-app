@@ -128,6 +128,7 @@ const SettingsOverview = props => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
+
         <SectionList
           sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}

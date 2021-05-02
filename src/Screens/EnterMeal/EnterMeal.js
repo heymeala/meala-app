@@ -487,14 +487,14 @@ const EnterMeal = ({route}, props) => {
         <NoteInputField notiz={notiz} setNotiz={setNotiz} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
-        <FAB
-          title={t('AddMeal.save')}
-          onPress={() => saveAll()}
-          size={'small'}
-          placement={'right'}
-          icon={{name: 'save', color: 'black'}}
-        />
       </ScrollView>
+      <FAB
+        title={t('AddMeal.save')}
+        onPress={() => saveAll()}
+        size={'small'}
+        placement={'right'}
+        icon={{name: 'save', color: 'black'}}
+      />
     </KeyboardAvoidingView>
   );
 };

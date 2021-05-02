@@ -68,7 +68,7 @@ export const Tags = props => {
 
   return (
     <>
-      <View style={{display: 'flex', flexDirection: 'row', padding: 8}}>
+      <View style={{display: 'flex', flexDirection: 'row', padding: 8, paddingBottom:80}}>
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"

@@ -6,7 +6,7 @@ import RenderItem from './Onboarding/RenderItem';
 import NextButton from './Onboarding/NextButton';
 import SkipButton from './Onboarding/SkipButton';
 import {deSlides, enSlides} from './Onboarding/SlidesData';
-import { Dimensions, Platform, SafeAreaView } from "react-native";
+import {Platform} from 'react-native';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 const OnboardingScreen = ({navigation}, props) => {
@@ -28,7 +28,7 @@ const OnboardingScreen = ({navigation}, props) => {
             PushNotificationIOS.requestPermissions().then(r =>
               console.log('r', r),
             );
-          }, 1500);
+          }, 1200);
         }
       });
     }
@@ -57,7 +57,7 @@ const OnboardingScreen = ({navigation}, props) => {
       doneLabel={t('General.Accept')}
       showSkipButton={screenReaderEnabled}
       skipLabel={t('Accessibility.Onboarding.skip')}
-      contentContainerStyle={{ }}
+      contentContainerStyle={{}}
       renderSkipButton={() => <SkipButton />}
     />
   );

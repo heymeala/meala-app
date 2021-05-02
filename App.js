@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, StatusBar, useColorScheme, View} from 'react-native';
+import {ActivityIndicator, useColorScheme, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {registerCustomIconType, ThemeProvider} from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
@@ -19,6 +19,7 @@ import {
 } from './src/hooks/useScreenReaderEnabled';
 import {theme} from './src/theme/theme';
 import Icon from './src/CustomMealaFont';
+
 enableScreens();
 
 const App = props => {
@@ -93,7 +94,7 @@ const App = props => {
               screen_class: currentRouteName,
             });
           }
-          // Save the current route name for later comparision
+          // Save the current route name for later comparison
           routeNameRef.current = currentRouteName;
         }}>
         <ThemeProvider
@@ -105,17 +106,17 @@ const App = props => {
               <View style={{flex: 1}}>
                 {/*
                 <StatusBar barStyle={'dark-content'} />
-*/}
+                */}
                 <Stack.Navigator
                   screenOptions={{
                     headerShown: false,
                   }}>
-                  {true ? (
+                  {onboarding && (
                     <Stack.Screen
                       name="Onboarding"
                       component={OnboardingScreen}
                     />
-                  ) : null}
+                  )}
                   <Stack.Screen
                     name="Home"
                     component={AppBottomNavigationStack}
