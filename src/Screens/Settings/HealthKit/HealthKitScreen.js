@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
 import {
-  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -13,7 +12,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
 import {database} from '../../../Common/database_realm';
 import PermissionListItem from './PermissionListItem';
-import {Text} from 'react-native-elements';
+import {Text, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 /* Permission options */
@@ -80,7 +79,7 @@ export default function HealthKitScreen() {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-             {glucoseSource === '1' ? (
+            {glucoseSource === '1' ? (
               <Icon
                 style={styles.center}
                 name="ios-heart"
@@ -99,17 +98,18 @@ export default function HealthKitScreen() {
               {authStatus && authStatus.permissions.read[0] !== 1 ? (
                 <>
                   <Text style={styles.sectionTitle}>
-                    Connect Apple Health Kit with meala
+                    {t('Settings.healthKit.title')}
                   </Text>
-                  <Text onPress={getPermission}>
-                    Press me to get give Permission
-                  </Text>
+                  <Button
+                    onPress={getPermission}
+                    title={t('Settings.healthKit.accessButton')}
+                  />
                 </>
               ) : (
-                <Text h3>meala has access to the following health data </Text>
+                <Text h2> {t('Settings.healthKit.titleAccess')}</Text>
               )}
               <View>
-                <Text>meala can read</Text>
+                <Text>{t('Settings.healthKit.canRead')}</Text>
                 <PermissionListItem
                   title={'Glucose'}
                   permission={

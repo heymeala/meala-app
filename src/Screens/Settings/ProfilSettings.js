@@ -67,9 +67,9 @@ const ProfilSettings = () => {
         {t('Settings.profile.example')} {Math.round(100 / settings.unit)}{' '}
         {settings.unit === 1 ? 'mg/dL' : 'mmol/L'}
       </Text>
-      {notification && Platform.OS === 'ios' && (
+      {!notification && Platform.OS === 'ios' && (
         <View style={styles.notificationContainer}>
-          <Text h2>Erinnerungen</Text>
+          <Text h2> {t('Settings.profile.reminder')}</Text>
           <TouchableOpacity onPress={() => Linking.openSettings()}>
             <Text style={{color: 'red', ...styles.text}} h3>
               {t('Settings.profile.notifications')}
@@ -86,6 +86,6 @@ const useStyles = makeStyles(theme => ({
   headline: {},
   checkBoxText: {flex: 1, flexGrow: 1},
   text: {paddingVertical: spacing.M},
-  notificationContainer: {marginVertical: 60,},
+  notificationContainer: {marginVertical: 60},
   checkBoxContainer: {borderRadius: 30},
 }));

@@ -203,6 +203,10 @@
     "wrongUrl": "Url is wrong or your Nightscout-Site is offline",
     "urlMissing": "URL is missing",
     "healthKit": {
+      "title": "Connect Apple Health Kit with meala",
+      "titleAccess": "meala has access to the following health data ",
+      "canRead": "meala can read",
+      "accessButton": "Connect Health Kit",
       "noData": "No step counts available",
       "totalStepsToday": "Total steps today {{steps}}",
       "totalGlucoseValues":  "We found {{length}} glucose values within the last hours",
@@ -213,6 +217,7 @@
     "profile": {
       "title": "Choose your glucose unit",
       "example": "Example value: ",
+      "reminder": "Reminder",
       "notifications": "Go to Settings and enable Notification"
     },
     "FatSecretSettings": {

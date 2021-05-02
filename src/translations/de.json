@@ -199,6 +199,10 @@
     "wrongUrl": "Url Fehlerhaft oder Nightscout ist offline",
     "urlMissing": "URL fehlt",
     "healthKit": {
+      "title": "Verbinde Apple Health Kit mit meala",
+      "titleAccess": "meala has access to the following health data ",
+      "canRead": "meala can read",
+      "accessButton": "Verbinde Health Kit",
       "noData": "Keine Schritte verfügbar",
       "totalStepsToday": "Du bist Heute {{steps}} gelaufen",
       "totalGlucoseValues": "Es wurden mindestens {{length}} Blutzuckerwerte in den letzten Stunden gefunden. ",
@@ -209,6 +213,7 @@
     "profile": {
       "title": "Wähle die Einheit für Blutzuckerwerte",
       "example": "Beispielwert: ",
+      "reminder": "Erinnerungen",
       "notifications": "Du erhältst aktuell keine Erinnerungen. Gehe in die Einstellungen um Benachrichtigungen zu aktivieren"
     },
     "FatSecretSettings": {
