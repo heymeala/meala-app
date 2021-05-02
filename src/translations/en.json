@@ -192,6 +192,7 @@
     "token": "If your site has a token or a password - enter it here",
     "datasource": "Datasource",
     "whatNightscout": "What is Nightscout?",
+    "advanced": "Advanced settings",
     "nsLink": "https://nightscout.github.io",
     "uploadTreatmentsInfo": "To enable treatment upload you need to enter a user-token that grants access to the careportal. If you don't have a user in your Nightscout Settings, go to your Nightscout-Website navigate to Admin-Tools and add a new user that has careportal write access. You'll get a token that you can enter above. After that you can enable treatment upload. ATTENTION: If you delete a meal entry we don't delete the Nightscout entry. Please delete or edit it yourself for now. ",
     "uploadTreatmentsCheckbox": "Upload Carbs / Insulin to Nightscout",

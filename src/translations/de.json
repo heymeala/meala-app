@@ -186,6 +186,7 @@
     "statistics": "Statistiken",
     "enter-nightscout-link": "Trage hier deinen Link zu Nightscout ein",
     "whatNightscout": "Was ist Nightscout?",
+    "advanced": "Erweiterte Einstellungen",
     "nsLink": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html",
     "token": "Wenn Deine Seite mit einem Token / Passwort geschützt ist, trage es hier ein",
     "datasource": "Datenquelle",
@@ -200,7 +201,7 @@
     "urlMissing": "URL fehlt",
     "healthKit": {
       "title": "Verbinde Apple Health Kit mit meala",
-      "titleAccess": "meala has access to the following health data ",
+      "titleAccess": "meala kann auf folgende Daten zugreifen",
       "canRead": "Durch Apple Health Kit hast du die Möglichkeit deine Gesundheitsdaten aus anderen Apps hier in meala mit deinen Mahlzeiten zu vergleichen",
       "accessButton": "Verbinde Health Kit",
       "noData": "Keine Schritte verfügbar",

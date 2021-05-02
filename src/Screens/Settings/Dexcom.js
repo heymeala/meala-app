@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Input, Button} from 'react-native-elements';
 import {authorize} from 'react-native-app-auth';
 import {DEXCOM_ID, DEXCOM_SECRET} from '@env';
 import SaveButton from '../../Common/SaveButton';
@@ -310,7 +303,7 @@ const Dexcom = () => {
       ) : (
         <>
           <Text style={styles.padding}>{t('Settings.Dexcom.text')}</Text>
-          <SaveButton
+          <Button
             title={t('Settings.Dexcom.button')}
             onPress={() => Linking.openURL('mailto:mail@heymeala.com')}
           />

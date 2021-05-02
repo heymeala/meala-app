@@ -3,22 +3,28 @@ import {
   Linking,
   Platform,
   ScrollView,
-  StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Icon} from 'react-native-vector-icons/Ionicons';
-import {Button, Card, CheckBox, FAB, Input, Text} from 'react-native-elements';
+import {
+  Button,
+  Card,
+  CheckBox,
+  FAB,
+  Input,
+  ListItem,
+  makeStyles,
+  Text, useTheme,
+} from "react-native-elements";
 import {database} from '../../Common/database_realm';
 import Clipboard from '@react-native-community/clipboard';
 import LocalizationContext from '../../../LanguageContext';
-import SaveButton from '../../Common/SaveButton';
-
-//ionic icons  --- >   https://oblador.github.io/react-native-vector-icons/
+import {spacing} from '../../theme/styles';
 
 const NightscoutSettingsScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
-
+  const styles = useStyles();
+  const {theme} = useTheme();
   const [nightscoutUrl, setNightscoutUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [nightscoutVersion, setNightscoutVersion] = useState('');
@@ -28,6 +34,7 @@ const NightscoutSettingsScreen = props => {
     nightscoutTreatmentsUpload,
     setNightscoutTreatmentsUpload,
   ] = useState();
+  const [expanded, setExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedId, setSelectedId] = useState(2);
 
@@ -106,26 +113,26 @@ const NightscoutSettingsScreen = props => {
   const saveButton = nightscoutUrl
     ? {
         borderRadius: 5,
-        backgroundColor: '#f9de1c',
+        backgroundColor: theme.colors.secondary,
       }
     : {borderRadius: 5, backgroundColor: '#999'};
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <View>
           <Button
             title={t('Settings.whatNightscout')}
             onPress={() => Linking.openURL(t('Settings.nsLink'))}
           />
-          <Text style={{padding: 20, paddingBottom: 10}}>
+          <Text h2 style={{padding: 20, paddingBottom: 10}}>
             {t('Settings.enter-nightscout-link')}
           </Text>
 
           <TouchableOpacity
             style={{paddingLeft: 20}}
             onPress={readFromClipboard}>
-            <Text style={{color: '#419eff'}}>{t('Settings.clipboard')}</Text>
+            <Text style={styles.link}>{t('Settings.clipboard')}</Text>
           </TouchableOpacity>
           <Input
             containerStyle={{paddingTop: 25}}
@@ -153,21 +160,35 @@ const NightscoutSettingsScreen = props => {
             }}
             onChangeText={text => setNightscoutToken(text)}
           />
-          <Text style={{padding: 20, paddingBottom: 10}}>
-            {t('Settings.uploadTreatmentsInfo')}
-          </Text>
-          <CheckBox
-            center
-            disabled={!nightscoutToken}
-            iconRight
-            title={t('Settings.uploadTreatmentsCheckbox')}
-            checkedIcon="dot-circle-o"
-            uncheckedIcon="circle-o"
-            checked={nightscoutTreatmentsUpload}
-            onPress={() =>
-              setNightscoutTreatmentsUpload(!nightscoutTreatmentsUpload)
+          <ListItem.Accordion
+            content={
+              <>
+                <ListItem.Content>
+                  <ListItem.Title>{t('Settings.advanced')}</ListItem.Title>
+                </ListItem.Content>
+              </>
             }
-          />
+            isExpanded={expanded}
+            onPress={() => {
+              setExpanded(!expanded);
+            }}>
+            <CheckBox
+              center
+              disabled={!nightscoutToken}
+              iconRight
+              title={t('Settings.uploadTreatmentsCheckbox')}
+              checkedIcon="dot-circle-o"
+              uncheckedIcon="circle-o"
+              checked={nightscoutTreatmentsUpload}
+              onPress={() =>
+                setNightscoutTreatmentsUpload(!nightscoutTreatmentsUpload)
+              }
+            />
+            <Text style={{padding: 20, paddingBottom: 10}}>
+              {t('Settings.uploadTreatmentsInfo')}
+            </Text>
+          </ListItem.Accordion>
+
           <Card>
             <Text>{t('Settings.Info')}</Text>
             <Text>
@@ -209,7 +230,9 @@ const NightscoutSettingsScreen = props => {
 
 export default NightscoutSettingsScreen;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
+  link:{color: theme.colors.primary},
+  container: {padding: spacing.S},
   center: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -218,4 +241,4 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 20,
   },
-});
+}));

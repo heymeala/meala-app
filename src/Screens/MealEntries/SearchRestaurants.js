@@ -67,6 +67,7 @@ const SearchRestaurants = ({navigation}, props) => {
   const renderItem = ({item}) => (
     <View>
       <ListItem
+        containerStyle={{paddingVertical:spacing.L}}
         bottomDivider
         onPress={() => navigation.navigate('MealListView', {restaurant: item})}>
         <ListItem.Content>

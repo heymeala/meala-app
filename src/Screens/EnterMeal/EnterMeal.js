@@ -35,6 +35,7 @@ import {uploadToNightScout} from './uploadToNightScout';
 import NightScoutInputFields from './NightScoutTreatmentsInputFields';
 import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
+import {spacing} from '../../theme/styles';
 
 var uuid = require('react-native-uuid');
 
@@ -437,10 +438,11 @@ const EnterMeal = ({route}, props) => {
           lng={lng}
           gpsEnabled={gpsEnabled}
         />
-        <View>
+        <View style={styles.spacing}>
           {fatSecretData && (
             <>
               <Button
+                buttonStyle={styles.fatSecretButton}
                 title={
                   t('AddMeal.fatSecretUserEntries.button') +
                   (fatSecretData.filter(data => data.checked).length > 0
@@ -508,6 +510,12 @@ const useStyles = makeStyles((theme, props: Props) => ({
     color: theme.colors.primary,
     paddingBottom: 15,
   },
+  spacing: {
+    alignItems: 'flex-start',
+    paddingHorizontal: spacing.L,
+    marginBottom: spacing.M,
+  },
+  fatSecretButton: {paddingHorizontal: spacing.L},
   container: {
     flexGrow: 1,
     flexDirection: 'column',

@@ -138,7 +138,7 @@ const RestaurantInputField = props => {
         onBlur={handleFocus}
         errorMessage={props.errorMessage ? props.errorMessage : null}
       />
-      <View style={{paddingBottom: 20}}>
+      <View style={{paddingBottom: 8}}>
         {toggleFocus &&
           placesFiltered.map((items, index) => (
             <View key={index}>

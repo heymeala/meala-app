@@ -108,10 +108,10 @@ export default function HealthKitScreen() {
                   />
                 </>
               ) : (
-                <Text h2> {t('Settings.healthKit.titleAccess')}</Text>
+                <Text h2>{t('Settings.healthKit.titleAccess')}</Text>
               )}
               <View>
-                <Text>{t('Settings.healthKit.canRead')}</Text>
+                <Text style={styles.spacing}>{t('Settings.healthKit.canRead')}</Text>
                 <PermissionListItem
                   title={'Glucose'}
                   permission={
@@ -161,8 +161,9 @@ const styles = StyleSheet.create({
   button:{marginVertical: spacing.M},
   scrollView: {
   },
+  spacing:{marginVertical:spacing.M},
   sectionContainer: {
-    marginTop: 12,
+    marginVertical: 12,
     paddingHorizontal: 24,
   },
   sectionTitle: {
