@@ -37,7 +37,7 @@ const SettingsListItem = props => {
         onPress={() =>
           data.weblink ? openLink(data.weblink) : navigation.push(data.link)
         }>
-        <Icon name={data.icon} type={'ionicon'}  />
+        <Icon name={data.icon} type={data.iconType || 'ionicon'} />
         <ListItem.Title>{data.name}</ListItem.Title>
         <Badge status={successGlucoseData} />
         <Divider />
@@ -72,6 +72,5 @@ const SettingsListItem = props => {
 export default SettingsListItem;
 
 const useStyles = makeStyles(theme => ({
-  item: {
-  },
+  item: {},
 }));

@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
   text: {
     color: theme.colors.white,
     textAlign: 'center',
+    fontSize: 12,
   },
   avatarContainer: {
     backgroundColor: theme.colors.primary,

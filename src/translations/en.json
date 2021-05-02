@@ -26,6 +26,8 @@
     "resetTitle": "Reset?",
     "resetMessage": "Reset all fields",
     "camera": "Camera",
+    "library": "Choose \n Photo",
+    "barCode": "Scan \ncode",
     "close": "Close without saving",
     "gpsPermission": "Please go to your System-Settings and enable GPS to find Restaurants nearby",
     "Permission": "You haven't granted permission",

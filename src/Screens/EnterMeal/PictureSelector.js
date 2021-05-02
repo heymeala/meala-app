@@ -124,13 +124,13 @@ const PictureSelector = props => {
       />
       <EnterMealButton
         onPress={selectLibraryTapped}
-        name={'Library'}
+        name={t('AddMeal.library')}
         icon="ios-albums"
         avatarSource={props.avatarSourceLibrary}
       />
       <EnterMealButton
         onPress={() => props.setIsScannerVisible(true)}
-        name={'Food Scan'}
+        name={t('AddMeal.barCode')}
         icon="ios-barcode"
       />
     </View>
