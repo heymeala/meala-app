@@ -152,7 +152,8 @@
     "BottomBarTitle": "GI",
     "NavigationBarTitle": "Glykämischer Index",
     "Search": "Nahrungsmittel suchen",
-    "IntroText": "Der Glykämische Index (GI) von 0 bis 100. Beispiel: Traubenzucker hat einen GI von 100"
+    "IntroText": "Der Glykämische Index (GI) von 0 bis 100. Beispiel: Traubenzucker hat einen GI von 100",
+    "glyx_description": "Wenn der Blutzucker schnell steigt, kann es viele Ursachen haben. Beispielweise ein ungeeigneter Spritz Ess Abstand (SEA),Stress oder sogar Sport, wenn dabei nämlich Adrenalin ausgeschüttet wird. Beim verzehr von Mahlzeiten gibt es glückliche Weise bereits eine Messeinheit die Beschreibt wie schnell die Kohlenhydrate in einem bestimmten Zeitraum wirken.Er hat den Namen Glykämischer Index oder kurz Glyx. Je höher dieser Wert ist, desto mehr Zucker gelangt nach dem Verzehr ins Blut. Der Wert kann also auch helfen die richtigen Hypo-Helfer auszuwählen. Denn bei einer Unterzuckerung ist ein hoher Glykämischer Index hilfreich um schnell wieder in den Zielbereich zu gelangen."
   },
   "Statistics": {
     "noData": "Noch nicht genug Daten vorhanden. Erstelle mehr Einträge und achte darauf, dass Du auch das Essen fotografierst."

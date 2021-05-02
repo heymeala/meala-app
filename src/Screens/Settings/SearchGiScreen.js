@@ -1,62 +1,127 @@
 import React, {useState} from 'react';
-import {Platform, ScrollView, View} from 'react-native';
+import {Dimensions, Platform, ScrollView, View} from 'react-native';
 import GItwo from '../../Common/gi';
-import {Image, SearchBar, Text} from 'react-native-elements';
+import {ListItem, makeStyles, SearchBar, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
+import {spacing} from '../../theme/styles';
+import LottieView from 'lottie-react-native';
 
-const SearchGiScreen = (props) => {
+const SearchGiScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
-
+  const dimensions = Dimensions.get('window');
+  const styles = useStyles(dimensions);
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
-
-  const updateSearch = (search) => {
+  const [expanded, setExpanded] = useState(true);
+  const updateSearch = search => {
     setSearch(search);
     searchFilterFunction(search);
   };
 
-  const searchFilterFunction = (text) => {
-    if (text.length > 1) {
-      const newData = GItwo.filter((item) => {
+  const searchFilterFunction = text => {
+    if (text.length >= 1) {
+      const newData = GItwo.filter(item => {
         const itemData = `${item[locale].toUpperCase()}`;
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
+        return itemData.includes(textData);
       });
       setData(newData);
+    } else {
+      setData([]);
     }
   };
+  const mapNumber = (value, x1, y1, x2, y2) =>
+    ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
+
+  function colorCode(value) {
+    const low = [0, 40];
+    const medium = [40, 70];
+    const high = [70, 100];
+
+    if (value >= low[0] && value <= low[1]) {
+      const color = mapNumber(value, 0, 40, 0, 255);
+      return `rgba(${color},255,0,0.5)`;
+    }
+    if (value > medium[0] && value <= medium[1]) {
+      const color = mapNumber(value, 40, 70, 255, 200);
+      return `rgba(255,${color},0,0.5)`;
+    }
+    if (value > high[0] && value <= high[1]) {
+      const color = mapNumber(value, 0, 40, 200, 0);
+      return `rgba(255,${color},0,0.5)`;
+    }
+  }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <SearchBar
         placeholder={t('GI.Search')}
         platform={Platform.OS}
         onChangeText={updateSearch}
         value={search}
       />
-      <Text style={{padding: 20}}>{t('GI.IntroText')}</Text>
+
       {data.map((list, i) => (
-        <Text style={{paddingLeft: 10}} key={i}>
-          <Text style={{padding: 5, fontWeight: 'bold'}}> {list[locale]}</Text>
-          <Text>
-            {' '}
-            {'\n'} GI = {list.GI}
-            {'\n'}
+        <View
+          key={i}
+          style={{...styles.giList, backgroundColor: colorCode(list.GI)}}>
+          <Text h3 style={{fontFamily: 'SecularOne-Regular'}}>
+            {list[locale]}
           </Text>
-        </Text>
+          <Text h3>GI = {list.GI}</Text>
+        </View>
       ))}
 
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        {data.length < 1 ? (
-          <Image
-            source={require('../../assets/sugar.png')}
-            placeholderStyle={{backgroundColor: '#fff'}}
-            style={{width: 200, height: 200}}
-          />
-        ) : null}
-      </View>
+      {data.length < 1 ? (
+        <View style={styles.infoContainer}>
+          <View style={styles.animationContainer}>
+            <LottieView
+              style={styles.animation}
+              source={require('../../assets/animations/food_carousel.json')}
+              autoPlay
+              loop
+            />
+          </View>
+          <Text h4 style={styles.text}>
+            {t('GI.IntroText')}
+          </Text>
+          <View style={styles.knowledgeContainer}>
+            <ListItem.Accordion
+              content={
+                <Text h3 style={styles.listItem}>
+                  {t('GI.NavigationBarTitle')}
+                </Text>
+              }
+              isExpanded={expanded}
+              onPress={() => {
+                setExpanded(!expanded);
+              }}>
+              <Text h3 style={styles.infoText}>
+                {t('GI.glyx_description')}
+              </Text>
+            </ListItem.Accordion>
+          </View>
+        </View>
+      ) : null}
     </ScrollView>
   );
 };
 
 export default SearchGiScreen;
+
+const useStyles = makeStyles((theme, dimensions) => ({
+  container: {padding: spacing.S},
+  center: {},
+  animationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: spacing.M,
+  },
+  animation: {width: 150},
+  knowledgeContainer: {marginVertical: spacing.L},
+  listItem: {flex: 1, flexGrow: 1},
+  infoContainer: {},
+  giList: {padding: spacing.S, marginVertical: 4, borderRadius: 5},
+  text: {padding: spacing.S},
+  infoText: {padding: spacing.S},
+}));

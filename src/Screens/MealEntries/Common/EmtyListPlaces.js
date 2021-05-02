@@ -12,12 +12,13 @@ export const EmptyListPlaces = props => {
   const styles = useStyles(dimensions);
   if (props.value.length > 0) {
     return (
-      <NoResultsText text={t('Entries.noSearchResultPlaces')} value={props.value} />
-
+      <NoResultsText
+        text={t('Entries.noSearchResultPlaces')}
+        value={props.value}
+      />
     );
   } else {
     return (
-
       <View style={styles.wrapper}>
         <View style={styles.infoBox}>
           <Text h1 h1Style={styles.infoTextHeadline}>

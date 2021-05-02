@@ -14,8 +14,9 @@ import {
   Input,
   ListItem,
   makeStyles,
-  Text, useTheme,
-} from "react-native-elements";
+  Text,
+  useTheme,
+} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import Clipboard from '@react-native-community/clipboard';
 import LocalizationContext from '../../../LanguageContext';
@@ -231,7 +232,7 @@ const NightscoutSettingsScreen = props => {
 export default NightscoutSettingsScreen;
 
 const useStyles = makeStyles(theme => ({
-  link:{color: theme.colors.primary},
+  link: {color: theme.colors.primary},
   container: {padding: spacing.S},
   center: {
     flex: 1,

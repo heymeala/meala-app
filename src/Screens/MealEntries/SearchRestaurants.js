@@ -67,7 +67,7 @@ const SearchRestaurants = ({navigation}, props) => {
   const renderItem = ({item}) => (
     <View>
       <ListItem
-        containerStyle={{paddingVertical:spacing.L}}
+        containerStyle={{paddingVertical: spacing.L}}
         bottomDivider
         onPress={() => navigation.navigate('MealListView', {restaurant: item})}>
         <ListItem.Content>
@@ -130,8 +130,9 @@ const SearchRestaurants = ({navigation}, props) => {
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      ListEmptyComponent={<EmptyListPlaces value={search} navigation={navigation} />}
-
+      ListEmptyComponent={
+        <EmptyListPlaces value={search} navigation={navigation} />
+      }
     />
   ) : selectedIndex === 2 ? (
     <SearchByDate
