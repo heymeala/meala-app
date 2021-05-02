@@ -9,7 +9,7 @@ const MetaInfoHeader = props => {
     <>
       <View style={styles.container}>
         <Text style={styles.date}>{props.date}</Text>
-        <Text h4 style={styles.mealTitle}>
+        <Text h2 style={styles.mealTitle}>
           {props.food}
         </Text>
       </View>
@@ -38,9 +38,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   date: {
-    fontSize: 10,
+    fontSize: 14,
     alignItems: 'center',
-    paddingBottom: 0,
+    paddingBottom: 12,
     textAlign: 'center',
     color: theme.colors.grey2,
   },

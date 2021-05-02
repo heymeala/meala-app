@@ -36,12 +36,14 @@ const MealDetailsComponent = props => {
     [props.checkSettings, t, duration, insulinSumme],
   );
 
+  console.log(props)
+
   return (
     <>
       <ScrollView style={styles.wrapper}>
         <MetaInfoHeader
           date={foodDatum}
-          food={props.food}
+          food={props.selectedFood.food}
           restaurantName={props.restaurantName}
         />
         <CircleGroup

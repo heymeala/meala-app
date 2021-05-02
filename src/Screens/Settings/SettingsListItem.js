@@ -7,9 +7,9 @@ import {
   ListItem,
   makeStyles,
   Text,
+  Icon,
 } from 'react-native-elements';
 import openLink from '../../Common/InAppBrowser';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/core';
 import {spacing} from '../../theme/styles';
 const SettingsListItem = props => {
@@ -37,7 +37,7 @@ const SettingsListItem = props => {
         onPress={() =>
           data.weblink ? openLink(data.weblink) : navigation.push(data.link)
         }>
-        <Icon name={data.icon} />
+        <Icon name={data.icon} type={'ionicon'}  />
         <ListItem.Title>{data.name}</ListItem.Title>
         <Badge status={successGlucoseData} />
         <Divider />
@@ -51,7 +51,7 @@ const SettingsListItem = props => {
       onPress={() =>
         data.weblink ? openLink(data.weblink) : navigation.push(data.link)
       }>
-      <Icon name={data.icon} />
+      <Icon name={data.icon} type={data.iconType || 'ionicon'} />
       <ListItem.Title>{data.name}</ListItem.Title>
       {!screenReaderEnabled ? (
         <Badge status={successGlucoseData} />

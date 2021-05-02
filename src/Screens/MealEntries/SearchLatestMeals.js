@@ -1,14 +1,12 @@
 import React, {useState} from 'react';
-import {ActivityIndicator, Platform, SafeAreaView, View} from 'react-native';
+import {Platform} from 'react-native';
 import {database} from '../../Common/database_realm';
-import {makeStyles, SearchBar} from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
-import LoadingSpinner from "../../Common/LoadingSpinner";
-
-
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const SearchLatestMeals = ({navigation, controlBar}, props) => {
   const {t} = React.useContext(LocalizationContext);
@@ -16,24 +14,6 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  /*
-    todo: move permission dialog for notifiacation
-    useEffect(() => {
-            Alert.alert(
-                "meala soll dir Retrospektiv helfen deine Mahlzeiten besser zu schätzen",
-                "Lasse dich 3 Stunden nach einer Mahlzeit erinnern", [
-                    {
-                        text: (t('General.cancel')),
-                        onPress: () => console.log("Cancel Pressed"),
-                        style: "cancel"
-                    },
-                    { text: "OK", onPress: () =>  PushNotificationsHandler.requestPermissions() }
-                ],
-                { cancelable: false })
-
-
-        },[])*/
 
   useFocusEffect(
     React.useCallback(() => {
@@ -90,4 +70,3 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
 };
 
 export default SearchLatestMeals;
-

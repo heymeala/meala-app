@@ -26,7 +26,6 @@ function GeneralChartView(props) {
   const window = Dimensions.get('window');
   if (props.loading === false) {
     if (screenReaderEnabled) {
-      console.log(props.coordinates);
       return (
         <View>
           {props.coordinates.length > 1 ? (
@@ -104,20 +103,22 @@ function GeneralChartView(props) {
             <VictoryAxis dependentAxis tickFormat={y => y} />
 
             <VictoryGroup>
-              <VictoryScatter
-                style={{
-                  data: {
-                    fill: ({datum}) =>
-                      datum.y > 160 / settings.unit
-                        ? '#ffd420'
-                        : datum.y < 70 / settings.unit
-                        ? '#ac000a'
-                        : '#000',
-                  },
-                }}
-                interpolation="natural"
-                data={props.coordinates}
-              />
+              {props.coordinates.length >= 3 && (
+                <VictoryScatter
+                  style={{
+                    data: {
+                      fill: ({datum}) =>
+                        datum.y > 160 / settings.unit
+                          ? '#ffd420'
+                          : datum.y < 70 / settings.unit
+                          ? '#ac000a'
+                          : '#000',
+                    },
+                  }}
+                  interpolation="natural"
+                  data={props.coordinates}
+                />
+              )}
               <VictoryBar
                 style={{
                   data: {

@@ -55,9 +55,15 @@ const SettingsOverview = props => {
         },
         {
           name: 'Nightscout',
-          icon: 'link',
+          icon: 'nightscout',
+          iconType: 'meala',
           link: 'DataSourceScreen',
           active: selectedId === '2',
+        },
+        {
+          name: 'FatSecret',
+          icon: 'link',
+          link: 'FatSecretSettings',
         },
         /*        {
                     name: "Tidepool",
@@ -66,12 +72,14 @@ const SettingsOverview = props => {
                 },*/
         {
           name: 'Dexcom USA',
-          icon: 'link',
+          icon: 'dexcom',
+          iconType: 'meala',
           link: 'Dexcom',
         },
         {
           name: 'Libre',
-          icon: 'link',
+          icon: 'libre',
+          iconType: 'meala',
           link: 'Libre',
         },
       ],
@@ -83,7 +91,8 @@ const SettingsOverview = props => {
           name: !screenReaderEnabled
             ? 'Carb Quiz'
             : 'Kohlenhydrate Quiz. Noch nicht Barrierefrei',
-          icon: 'md-game-controller-sharp',
+          icon: 'einstein',
+          iconType: 'meala',
           link: 'DataSourceScreen',
           weblink:
             locale === 'de'
@@ -92,13 +101,9 @@ const SettingsOverview = props => {
         },
         {
           name: t('GI.NavigationBarTitle'),
-          icon: 'ios-pizza-sharp',
+          icon: 'rise_arrow',
+          iconType: 'meala',
           link: 'SearchGiScreen',
-        },
-        {
-          name: 'FatSecret',
-          icon: 'link',
-          link: 'FatSecretSettings',
         },
       ],
     },
@@ -108,7 +113,8 @@ const SettingsOverview = props => {
       data: [
         {
           name: t('Settings.aboutmeala'),
-          icon: 'ios-person-add-sharp',
+          icon: 'about',
+          iconType: 'meala',
           link: 'AboutScreen',
         },
         {
@@ -128,7 +134,6 @@ const SettingsOverview = props => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
-
         <SectionList
           sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}

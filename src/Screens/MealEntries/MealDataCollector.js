@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {nightscoutTreatmens, nightscoutCall} from '../../Common/nightscoutApi';
+import {nightscoutCall, nightscoutTreatmens} from '../../Common/nightscoutApi';
 import MealDetailsComponent from './DetailSite/MealDetailPage';
 import {database} from '../../Common/database_realm';
-import {ActivityIndicator, View} from 'react-native';
 import {useProfile} from '../../hooks/useProfile';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
-import LoadingSpinner from "../../Common/LoadingSpinner";
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const MealDataCollector = ({navigation, route}, props) => {
   const [sugar, setSugar] = useState([]);
@@ -14,7 +13,7 @@ const MealDataCollector = ({navigation, route}, props) => {
   const [insulin, setInsulin] = useState([]);
   const [carbs, setCarbs] = useState([]);
   const [dateStrings, setDateStrings] = useState([]);
-  const [coordiantes, setCoordiantes] = useState([]);
+  const [coordinates, setCoordinates] = useState([]);
   const [treatments, setTreatments] = useState([]);
   const [selectedFood, setSelectedFood] = useState(undefined);
   const [insulinCoordinates, setInsulinCoordinates] = useState([]);
@@ -69,7 +68,7 @@ const MealDataCollector = ({navigation, route}, props) => {
           };
         });
 
-        setCoordiantes(getCoordinates);
+        setCoordinates(getCoordinates);
         setDateStrings(foodDataString);
         setDates(foodDates);
         setSugar(bloodGlucoseValues);
@@ -172,7 +171,7 @@ const MealDataCollector = ({navigation, route}, props) => {
               console.log(callbackError);
               return;
             }
-            setCoordiantes(
+            setCoordinates(
               results.map(coordinates => {
                 return {
                   x: new Date(moment(coordinates.startDate).toISOString()),
@@ -212,8 +211,7 @@ const MealDataCollector = ({navigation, route}, props) => {
       setLoading(false);
     } else {
       setCheckSettings('Error');
-      setLoading(false)
-
+      setLoading(false);
     }
   }
 
@@ -231,7 +229,7 @@ const MealDataCollector = ({navigation, route}, props) => {
           carbs={carbs}
           insulin={insulin}
           dateStrings={dateStrings}
-          coordiantes={coordiantes}
+          coordiantes={coordinates}
           restaurantName={restaurantName}
           loading={loading}
         />
