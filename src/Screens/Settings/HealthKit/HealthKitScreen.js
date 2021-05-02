@@ -14,6 +14,7 @@ import {database} from '../../../Common/database_realm';
 import PermissionListItem from './PermissionListItem';
 import {Text, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { spacing } from "../../../theme/styles";
 
 /* Permission options */
 const permissions = {
@@ -101,6 +102,7 @@ export default function HealthKitScreen() {
                     {t('Settings.healthKit.title')}
                   </Text>
                   <Button
+                    style={styles.button}
                     onPress={getPermission}
                     title={t('Settings.healthKit.accessButton')}
                   />
@@ -140,6 +142,7 @@ export default function HealthKitScreen() {
               authStatus &&
               authStatus.permissions.read[0] === 1 && (
                 <Button
+
                   title={t('Settings.healthKit.activateHealthKit')}
                   onPress={() => {
                     saveState(1);
@@ -155,15 +158,8 @@ export default function HealthKitScreen() {
 }
 
 const styles = StyleSheet.create({
+  button:{marginVertical: spacing.M},
   scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
   },
   sectionContainer: {
     marginTop: 12,
@@ -180,16 +176,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
   },
 });

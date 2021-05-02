@@ -22,7 +22,6 @@ export const theme = {
     h4Style: {
       fontSize: 16,
       fontWeight: 'bold',
-
     },
     h3Style: {
       fontSize: 20,
@@ -37,7 +36,8 @@ export const theme = {
   },
   Button: {
     titleStyle: {
-      color: colors_light.secondary,
+      color: colors_light.black,
     },
+    buttonStyle: {borderRadius: 20, backgroundColor: colors_light.secondary},
   },
 };
