@@ -1,29 +1,36 @@
 import React from 'react';
 import {Dimensions, Image, SafeAreaView, View} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import {makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import { Text } from "react-native-elements";
-
+import LottieView from 'lottie-react-native';
 const RenderItem = props => {
   const {t} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
-  const styles = useStyles();
-  const {item} = props;
-  console.log(props.info);
+  const styles = useStyles(dimensions);
+  const {item, info, index} = props;
   return (
-    <SafeAreaView>
-      <View
-        accessible={true}
-        style={{
-          ...styles.wrapper,
-          backgroundColor: item.backgroundColor,
-          height: dimensions.height,
-        }}>
-        <View style={{...styles.container, height: dimensions.height - 80}}>
-          <Text h1 style={styles.title}>{item.title}</Text>
-          {item.image && <Image source={item.image} style={styles.image} />}
-          <Text h3 style={styles.text}>{item.text}</Text>
-        </View>
+    <SafeAreaView
+      accessible={true}
+      style={{
+        ...styles.wrapper,
+        backgroundColor: item.backgroundColor,
+      }}>
+      <View style={styles.container}>
+        <Text h1 style={styles.title}>
+          {item.title}
+        </Text>
+        {item.image && <Image source={item.image} style={styles.image} />}
+        {item.animation && (
+          <LottieView
+            style={styles.animation}
+            source={item.animation}
+            autoPlay
+            loop
+          />
+        )}
+        <Text h3 style={styles.text}>
+          {item.text}
+        </Text>
       </View>
     </SafeAreaView>
   );
@@ -31,25 +38,33 @@ const RenderItem = props => {
 
 export default RenderItem;
 
-const useStyles = makeStyles(theme => ({
-  wrapper: {justifyContent: 'space-around', alignItems: 'stretch'},
-  container: {paddingBottom: 40, justifyContent: 'space-around'},
-  image: {
-    width: null,
-    height: 320,
+const useStyles = makeStyles((theme, dimensions) => ({
+  wrapper: {
+    height: dimensions.height,
   },
+  container: {
+    paddingVertical: 0,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    height: dimensions.height - 80,
+  },
+  image: {
+    //width: null,
+    height: 320,
+    marginVertical: 0,
+  },
+  flex: {},
+  animation: {height: null},
   text: {
-    color: 'rgba(0,0,0,0.8)',
+    //flexGrow: 1,
+    color: theme.colors.black,
     backgroundColor: 'transparent',
-    textAlign: 'center',
-    paddingHorizontal: 10,
-    fontSize: 16,
+    paddingHorizontal: 12,
   },
 
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: 'black',
+    paddingVertical: 12,
     backgroundColor: 'transparent',
     textAlign: 'center',
   },

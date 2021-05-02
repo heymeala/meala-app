@@ -14,8 +14,7 @@ const FirstOpenDialog = props => {
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
   const [open, setOpen] = useState(false);
-  const [scrollOffset, setScrollOffset] = useState(null);
-  const scrollViewRef = useRef();
+
   useEffect(() => {
     const load = async () => {
       const firstOpen = await database.getOnboarding();
@@ -31,14 +30,6 @@ const FirstOpenDialog = props => {
     database.saveOnbording();
   }
 
-  const handleOnScroll = event => {
-    setScrollOffset(event.nativeEvent.contentOffset.y);
-  };
-  const handleScrollTo = p => {
-    if (scrollViewRef.current) {
-      scrollViewRef.current.scrollTo(p);
-    }
-  };
   return (
     <Modal
       animationIn="slideInUp"
@@ -49,19 +40,15 @@ const FirstOpenDialog = props => {
       onBackdropPress={() => acceptDialog()}
       onSwipeComplete={() => acceptDialog()}
       swipeDirection={['down']}
-      scrollTo={handleScrollTo}
-      scrollOffset={scrollOffset}
-      scrollOffsetMax={50} // content height - ScrollView height
       propagateSwipe={true}
       onAccessibilityEscape={() => acceptDialog()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <ScrollView
-            ref={scrollViewRef}
-            onScroll={handleOnScroll}
-            scrollEventThrottle={16}>
+          <ScrollView>
             <View style={styles.wrapper}>
-              <View style={styles.container}>
+              <View
+                onStartShouldSetResponder={() => true}
+                style={styles.container}>
                 <LottieView
                   style={styles.animation}
                   source={require('../assets/animations/food_animation.json')}
@@ -105,15 +92,13 @@ const FirstOpenDialog = props => {
                   subtitle={t('Entries.firstOpenDialog.wip')}
                 />
               </View>
-              <View style={styles.button}>
-                <FAB
-                  placement={'right'}
-                  title={'Okay'}
-                  onPress={() => acceptDialog()}
-                />
-              </View>
             </View>
           </ScrollView>
+          <FAB
+            placement={'right'}
+            title={'Okay'}
+            onPress={() => acceptDialog()}
+          />
         </View>
       </View>
     </Modal>
@@ -123,20 +108,19 @@ const FirstOpenDialog = props => {
 export default FirstOpenDialog;
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  modal: {marginHorizontal: 0, marginVertical: 0},
+  modal: {marginHorizontal: 0, marginBottom: 0, paddingTop: DEVICE_HEIGHT / 6},
   animation: {height: 150, alignSelf: 'center'},
   centeredView: {
-    flex: 1,
+    //  flex: 1,
     justifyContent: 'flex-end',
   },
   wrapper: {
-    flex: 1,
-    flexGrow: 1,
+    //flex: 1,
+    //flexGrow: 1,
     justifyContent: 'space-between',
-    height: DEVICE_HEIGHT - DEVICE_HEIGHT / 6,
+    // height: DEVICE_HEIGHT - DEVICE_HEIGHT / 6,
   },
   container: {},
-  button: {},
   modalView: {
     backgroundColor: theme.colors.white,
     borderBottomLeftRadius: 0,

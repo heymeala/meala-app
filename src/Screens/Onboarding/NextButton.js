@@ -18,7 +18,6 @@ const NextButton = props => {
         name="ios-arrow-forward"
         color="rgba(255, 255, 255, .9)"
         size={24}
-        style={{backgroundColor: 'transparent'}}
       />
     </View>
   );
@@ -30,8 +29,9 @@ const useStyles = makeStyles(theme => ({
   buttonCircle: {
     width: 40,
     height: 40,
-    backgroundColor: 'rgba(0, 0, 0, .2)',
+    backgroundColor: theme.colors.primary,
     borderRadius: 20,
     justifyContent: 'center',
+    alignItems: 'center',
   },
 }));

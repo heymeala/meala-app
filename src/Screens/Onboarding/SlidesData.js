@@ -1,3 +1,5 @@
+import timeinrange from '../../assets/animations/onboarding/timeinrange.json';
+
 export const enSlides = [
   {
     key: 1,
@@ -12,14 +14,15 @@ export const enSlides = [
     title: 'Time in Range',
     text:
       'Check if your BE factors are correct. Your sugar should be back in the target range within three hours after your meal. \n',
-    image: require('../../assets/onboarding/2.png'),
+    //image: require('../../assets/onboarding/2.png'),
+    animation: timeinrange,
     backgroundColor: '#fff',
   },
   {
     key: 3,
-    title: 'Fast carbohydrates',
+    title: 'Reminder',
     text:
-      'Meala detects carbohydrates that cause blood sugar to rise rapidly and shows you how to deal with them. Bon Appétit',
+      "The results of your meal are not available for three hours. You'll get a notification when our analysis is done",
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },
@@ -39,6 +42,7 @@ export const deSlides = [
     text:
       'Finde Mahlzeiten basierend auf Deinem Standort und lerne von Deinen eigenen und den Erfahrungen anderer.\n\n',
     image: require('../../assets/onboarding/1.png'),
+
     backgroundColor: '#fff',
   },
   {
@@ -46,26 +50,20 @@ export const deSlides = [
     title: 'Zeit im Zielbereich',
     text:
       'Überprüfe ob Deine BE-Faktoren stimmen. Dein Zucker sollte spätestens drei Stunden nach der Mahlzeit wieder im Zielbereich sein.\n ',
-    image: require('../../assets/onboarding/2.png'),
+    animation: timeinrange,
+
     backgroundColor: '#fff',
   },
   {
     key: 3,
-    title: 'Schnelle Kohlenhydrate',
+    title: 'Erinnerung',
     text:
-      'Meala erkennt Kohlenhydrate, die den Blutzucker schnell ansteigen lassen und zeigt Dir wie Du damit umgehen kannst. Bon Appétit',
+      'Die Ergebnisse deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung wenn meala mit der analyse fertig ist',
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },
   {
     key: 4,
-    title: 'Erinnerung',
-    text: '3 Stunden nach einer Mahlzeit',
-    image: require('../../assets/onboarding/3.png'),
-    backgroundColor: '#fff',
-  },
-  {
-    key: 5,
     title: 'Disclaimer',
     text:
       'meala darf nicht für medizinische Entscheidungen verwendet werden. ' +
