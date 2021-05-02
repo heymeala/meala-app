@@ -208,7 +208,8 @@
     },
     "profile": {
       "title": "Wähle die Einheit für Blutzuckerwerte",
-      "example": "Beispielwert: "
+      "example": "Beispielwert: ",
+      "notifications": "Du erhältst aktuell keine Erinnerungen. Gehe in die Einstellungen um Benachrichtigungen zu aktivieren"
     },
     "FatSecretSettings": {
       "info": "Wenn du einen FatSecret Account hast und dort Mahlzeiten eingibst, kannst du Sie auch in meala wiederverwenden. Sie erscheinen beim Eintragen neuer Mahlzeiten.",

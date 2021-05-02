@@ -212,8 +212,8 @@
     },
     "profile": {
       "title": "Choose your glucose unit",
-      "example": "Example value: "
-
+      "example": "Example value: ",
+      "notifications": "Go to Settings and enable Notification"
     },
     "FatSecretSettings": {
       "info": "If you have an existing FatSecret Account you can connect and use your meals on the Enter Meal Screen. ",

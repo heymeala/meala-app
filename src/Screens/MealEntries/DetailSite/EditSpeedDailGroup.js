@@ -20,14 +20,16 @@ const EditSpeedDialGroup = props => {
   return (
     <SpeedDial
       isOpen={open}
+      accessibilityLabel={'Öffne Menü'}
       overlayColor={'transparent'}
       icon={{name: 'edit', color: '#fff'}}
       openIcon={{name: 'close', color: '#fff'}}
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}>
       <SpeedDial.Action
-        icon={{name: 'add', color: '#fff'}}
-        title={t('Entries.copyMeal')}
+        accessibilityLabel={t('Entries.copyMeal')}
+        icon={{name: 'content-copy', color: '#fff'}}
+        //title={t('Entries.copyMeal')}
         onPress={() =>
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
@@ -38,8 +40,10 @@ const EditSpeedDialGroup = props => {
         }
       />
       <SpeedDial.Action
+        accessibilityLabel={t('Entries.delete')}
+        color={'#ff0000'}
         icon={{name: 'delete', color: '#fff'}}
-        title={t('Entries.delete')}
+        // title={t('Entries.delete')}
         onPress={() => softDeleteMeal(selectedFood.userMealId)}
       />
     </SpeedDial>
