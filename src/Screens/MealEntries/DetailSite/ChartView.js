@@ -1,10 +1,11 @@
-import Svg, {Rect} from 'react-native-svg';
+import Svg, {G, Rect} from 'react-native-svg';
 import {ActivityIndicator, Dimensions, Text, View} from 'react-native';
 import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
   VictoryGroup,
+  VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
 import React from 'react';
@@ -15,7 +16,7 @@ import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHeal
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
 import {analyseTimeInRange} from '../../../Common/analyseTimeInRange';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
-import {makeStyles} from 'react-native-elements';
+import {Icon, makeStyles} from 'react-native-elements';
 import {spacing} from '../../../theme/styles';
 
 function GeneralChartView(props) {
@@ -24,6 +25,22 @@ function GeneralChartView(props) {
   const screenReaderEnabled = useScreenReader();
   const styles = useStyles();
   const window = Dimensions.get('window');
+
+  const CustomLabel = props => (
+    <G x={props.x} y={props.y}>
+      <View
+        style={{
+          alignSelf: 'center',
+          top: props.y - 18,
+          left: props.x - 6,
+          position: 'absolute',
+        }}>
+        <Icon name={'eat'} type={'meala'} size={16} />
+        <Text>{props.text}</Text>
+      </View>
+    </G>
+  );
+
   if (props.loading === false) {
     if (screenReaderEnabled) {
       return (
@@ -128,6 +145,8 @@ function GeneralChartView(props) {
                     strokeWidth: 0,
                   },
                 }}
+                labels={['']}
+                labelComponent={<CustomLabel />}
                 size={1.5}
                 data={[
                   {

@@ -36,7 +36,7 @@ const MealDetailsComponent = props => {
     [props.checkSettings, t, duration, insulinSumme],
   );
 
-  console.log(props)
+  console.log(props);
 
   return (
     <>

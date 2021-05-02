@@ -40,7 +40,7 @@ export const deSlides = [
     key: 1,
     title: 'Mahlzeiten finden',
     text:
-      'Finde Mahlzeiten basierend auf Deinem Standort und lerne von Deinen eigenen und den Erfahrungen anderer.\n\n',
+      'Finde Mahlzeiten basierend auf Deinem Standort und lerne von Deinen eigenen und den Erfahrungen Anderer.\n\n',
     image: require('../../assets/onboarding/1.png'),
 
     backgroundColor: '#fff',
@@ -49,7 +49,7 @@ export const deSlides = [
     key: 2,
     title: 'Zeit im Zielbereich',
     text:
-      'Überprüfe ob Deine BE-Faktoren stimmen. Dein Zucker sollte spätestens drei Stunden nach der Mahlzeit wieder im Zielbereich sein.\n ',
+      'Überprüfe, ob Deine BE-Faktoren stimmen. Dein Zucker sollte spätestens drei Stunden nach der Mahlzeit wieder im Zielbereich sein.\n ',
     animation: timeinrange,
 
     backgroundColor: '#fff',
@@ -58,7 +58,7 @@ export const deSlides = [
     key: 3,
     title: 'Erinnerung',
     text:
-      'Die Ergebnisse deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung wenn meala mit der Analyse fertig ist',
+      'Die Ergebnisse Deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung, wenn meala mit der Analyse fertig ist',
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },

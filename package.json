@@ -52,7 +52,7 @@
     "react-native-elements": "^3.4.1",
     "react-native-flash-message": "^0.1.13",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-health": "^1.7.1",
+    "react-native-health": "^1.7.2",
     "react-native-image-picker": "^3.1.4",
     "react-native-inappbrowser-reborn": "^3.4.0",
     "react-native-keychain": "^6.2.0",
