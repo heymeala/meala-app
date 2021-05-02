@@ -7,18 +7,18 @@
     "AddMealSubtitle": "z.B. Restaurant, Zuhause",
     "LastMealTitle": "Letzte Mahlzeit",
     "RestaurantInput": "Ort / Restaurant",
-    "MealInput": "Was wirst du essen",
+    "MealInput": "Was wirst Du essen",
     "Picture": "Wähle ein Foto",
     "Note": "Notiz",
     "Carbs": "Kohlenhydrate in Gramm",
     "Insulin": "Insulin",
     "Camera": "Foto aufnehmen",
     "Roll": "Foto aus Bibliothek",
-    "PicPopUp": "Foto von deinem Essen",
+    "PicPopUp": "Foto von Deinem Essen",
     "save": "Speichern",
     "ErrorMessage": "Bitte ausfüllen",
-    "firstEntry": "Lege deine erste Mahlzeit an. Achte darauf, dass deine Gerichte am Anfang nicht zu vielfältig sind, damit du aus deinen Werten lernen kannst. Versuche zudem nach dem Essen drei Stunden keine weiteren Kohlenhydrate aufzunehmen, damit du erkennst ob du richtig geschätzt hast.",
-    "notificationAfterMeal": "Schaue dir Deine letzte Mahlzeit {{mealTitle}} an",
+    "firstEntry": "Lege Deine erste Mahlzeit an. Achte darauf, dass Deine Gerichte am Anfang nicht zu vielfältig sind, damit Du aus Deinen Werten lernen kannst. Versuche zudem drei Stunden nach dem Essen keine weiteren Kohlenhydrate aufzunehmen, damit Du erkennst, ob Du richtig geschätzt hast.",
+    "notificationAfterMeal": "Schaue Dir Deine letzte Mahlzeit {{mealTitle}} an",
     "notificationLunch": "Was isst Du zum Mittagessen?",
     "notificationDinner": "Was gab es zum Abendessen?",
     "tags": "Folgende Markierungen haben wir am häufigsten in Deinen Mahlzeiten gefunden. Nach diesen Begriffen kannst Du übrigens auch suchen.",
@@ -29,17 +29,17 @@
     "library": "Foto \nwählen",
     "barCode": "Bar Code \nscannen",
     "close": "Zurück ohne speichern",
-    "gpsPermission": "Gehe in die Systemeinstellungen und schalte GPS ein, damit du Restaurants in deiner Nähe findest",
+    "gpsPermission": "Gehe in die Systemeinstellungen und schalte GPS ein, damit Du Restaurants in deiner Nähe findest",
     "Permission": "Wir haben kein Zugriff auf deine Fotos",
-    "grantPermission": "Möchtest Du in die Einstellungen um diese zu ändern?",
+    "grantPermission": "Möchtest Du in die Einstellungen, um diese zu ändern?",
     "breakfast": "Frühstück",
     "lunch": "Mittagessen",
     "dinner": "Abendessen",
     "home": "Zuhause",
     "fatSecretUserEntries": {
-      "title": "Was hast du gegessen?",
+      "title": "Was hast Du gegessen?",
       "button": "FatSecret Daten",
-      "description": "Achte darauf nur die Daten auszuwählen, die du zur aktuell ausgewählten Uhrzeit gegessen hast."
+      "description": "Achte darauf nur die Daten auszuwählen, die Du zur aktuell ausgewählten Uhrzeit gegessen hast."
     },
     "nutritionData": {
       "button": "Suche nach Lebensmitteln",
@@ -73,7 +73,7 @@
       "title": "Suche nach Lebensmitteln",
       "subtitle": "Durchsuche die Datenbank nach ähnlichen Lebensmitteln",
       "searchPlaceholder": "z.B. brauner Reis, Big Mac, Orange",
-      "noResults": "Wir haben leider keine Einträge mit dieser Bezeichnung gefunden. Überprüfe deine Internetverbindung oder versuche es mit einer anderen Beschreibung"
+      "noResults": "Wir haben leider keine Einträge mit dieser Bezeichnung gefunden. Überprüfe Deine Internetverbindung oder versuche es mit einer anderen Beschreibung"
     }
   },
   "Entries": {
@@ -87,8 +87,8 @@
     "Places": "Besuchte Orte",
     "firstOpenDialog": {
       "title": "Alles an einem Ort",
-      "description": "Es gibt bereits viele Apps mit denen du deine aktivitäten tracken kannst. Einige davon haben wir integriert, damit du alle Informationen an einem Ort hast. Das hilft dir die Auswirkungen deiner Mahlzeiten besser zu verstehen. Um diese Daten in meala zu sehen, musst du die Apps in den Einstellungen verknüpfen.",
-      "subtitle": "Aktuell kannst du folgende Daten anbinden:",
+      "description": "Es gibt bereits viele Apps mit denen Du deine aktivitäten tracken kannst. Einige davon haben wir integriert, damit Du alle Informationen an einem Ort hast. Das hilft Dir die Auswirkungen Deiner Mahlzeiten besser zu verstehen. Um diese Daten in meala zu sehen, musst Du die Apps in den Einstellungen verknüpfen.",
+      "subtitle": "Aktuell kannst Du folgende Daten anbinden:",
       "Dexcom": "Dexcom (nur USA)",
       "Nightscout": "Nightscout",
       "Tidepool": "Tidepool",
@@ -101,21 +101,21 @@
     "empty": {
       "home": {
         "title": "Erstellte Mahlzeiten finden",
-        "description": "Nachdem du deine erste Mahlzeit einträgst, wird sie hier erscheinen. Durch eine intelligente Beschriftung deiner Mahlzeiten kannst du sie später wiederfinden und mit ähnlichen Mahlzeiten vergleichen."
+        "description": "Nachdem Du Deine erste Mahlzeit einträgst, wird sie hier erscheinen. Durch eine intelligente Beschriftung Deiner Mahlzeiten kannst Du sie später wiederfinden und mit ähnlichen Mahlzeiten vergleichen."
       },
       "places": {
         "title": "Orte und Restaurants",
-        "description": "Du hast ein Lieblings-Restaurant? Hier wirst du es wiederfinden. Je öfters du die gleichen Mahlzeiten isst, desto besser wirst du sie verstehen."
+        "description": "Du hast ein Lieblings-Restaurant? Hier wirst Du es wiederfinden. Je öfters Du die gleichen Mahlzeiten isst, desto besser wirst Du sie verstehen."
       },
       "date": {
         "title": "Ein ganz besonderer Tag",
-        "description": "Du suchst nach einem genauen Tag? Dann bist du hier richtig. Tipp: Wenn du FatSecret benutzt verbinde deinen Account und deine Einträge aus der anderen App werden hier angezeigt."
+        "description": "Du suchst nach einem genauen Tag? Dann bist Du hier richtig. Tipp: Wenn Du FatSecret benutzt, verbinde Deinen Account und Deine Einträge aus der anderen App werden hier angezeigt."
       }
     },
     "community": "Eine App für die Community",
     "noSearchResult": "Du hast keine Mahlzeit mit dem Namen ",
     "noSearchResultPlaces": "Du hast keine Orte mit dem Namen ",
-    "noDataSource": "Leider können wir keine genauere Analyse darstellen. Du hast noch keine Gesundheitsdaten mit meala verbunden. Gehe in die Einstellungen um Daten-Quellen hinzuzufügen.",
+    "noDataSource": "Leider können wir keine genauere Analyse darstellen. Du hast noch keine Gesundheitsdaten mit meala verbunden. Gehe in die Einstellungen, um Daten-Quellen hinzuzufügen.",
     "notEnoughData": "Nicht genügend Daten im Health Kit. Es sind mindestens drei Messungen erforderlich.",
     "youHave": "Du hast ca: ",
     "before": " Minuten vor dem Essen gespritzt",
@@ -127,7 +127,7 @@
     "carbs": "Kohlenhydrate",
     "event": "Event",
     "delay": "Verzögerter Bolus",
-    "calculating": "Berechne den Sprtiz Ess Abstand",
+    "calculating": "Berechne den Spritz Ess Abstand",
     "carbQuiz": "Kohlenhydrate Quiz",
     "Note": "Notiz",
     "noImage": "Kein Bild",
@@ -155,14 +155,14 @@
     "NavigationBarTitle": "Glykämischer Index",
     "Search": "Nahrungsmittel suchen",
     "IntroText": "Der Glykämische Index (GI) von 0 bis 100. Beispiel: Traubenzucker hat einen GI von 100",
-    "glyx_description": "Wenn der Blutzucker schnell steigt, kann es viele Ursachen haben. Beispielweise ein ungeeigneter Spritz Ess Abstand (SEA),Stress oder sogar Sport, wenn dabei nämlich Adrenalin ausgeschüttet wird. Beim verzehr von Mahlzeiten gibt es glückliche Weise bereits eine Messeinheit die Beschreibt wie schnell die Kohlenhydrate in einem bestimmten Zeitraum wirken.Er hat den Namen Glykämischer Index oder kurz Glyx. Je höher dieser Wert ist, desto mehr Zucker gelangt nach dem Verzehr ins Blut. Der Wert kann also auch helfen die richtigen Hypo-Helfer auszuwählen. Denn bei einer Unterzuckerung ist ein hoher Glykämischer Index hilfreich um schnell wieder in den Zielbereich zu gelangen."
+    "glyx_description": "Wenn der Blutzucker schnell steigt, kann es viele Ursachen haben. Beispielweise ein ungeeigneter Spritz Ess Abstand (SEA), Stress oder sogar Sport, wenn dabei nämlich Adrenalin ausgeschüttet wird. Beim Verzehr von Mahlzeiten gibt es glücklicherweise bereits eine Messeinheit, die beschreibt, wie schnell die Kohlenhydrate in einem bestimmten Zeitraum wirken. Diese bezeichnet man Glykämischer Index oder kurz Glyx. Je höher dieser Wert ist, desto mehr Zucker gelangt nach dem Verzehr ins Blut. Der Wert kann also auch helfen die richtigen Hypo-Helfer auszuwählen. Denn bei einer Unterzuckerung ist ein hoher Glykämischer Index hilfreich, um schnell wieder in den Zielbereich zu gelangen."
   },
   "Statistics": {
     "noData": "Noch nicht genug Daten vorhanden. Erstelle mehr Einträge und achte darauf, dass Du auch das Essen fotografierst."
   },
   "BarCode": {
     "BottomBarTitle": "Barcode",
-    "Intro": "Lebensmittelsuche\nScanne einen Barcode um Nährwertangaben zu erhalten",
+    "Intro": "Lebensmittelsuche\nScanne einen Barcode, um Nährwertangaben zu erhalten",
     "AddMeal": "Mahlzeit eintragen",
     "gPortion": "g Kohlenyhdrate pro Portion",
     "g100": "{{nutrition}} pro 100g",
@@ -187,25 +187,25 @@
     "aboutmeala": "Was ist meala?",
     "privacy": "Datenschutz",
     "statistics": "Statistiken",
-    "enter-nightscout-link": "Trage hier deinen Link zu Nightscout ein",
+    "enter-nightscout-link": "Trage hier Deinen Link zu Nightscout ein",
     "whatNightscout": "Was ist Nightscout?",
     "advanced": "Erweiterte Einstellungen",
     "nsLink": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html",
     "token": "Wenn Deine Seite mit einem Token / Passwort geschützt ist, trage es hier ein",
     "datasource": "Datenquelle",
-    "uploadTreatmentsInfo": "Um Behandlungsdaten hochzuladen benötigst du ein Token / Passwort. Falls du keins besitzt, gehe auf deine Nightscout-Seite und logge dich unter Administrator-Werkzeuge an. Dort kannst du einen neuen Benutzer anlegen, welcher die Rolle careportal benötigt. Danach erhälst du ein Zugriffsschlüssel (Token). Diesen gibst du oben ein. ACHTUNG: Beim löschen einer Mahlzeit werden die Nightscout Daten nicht gelöscht, sondern müssen über die Nightscout-Seite bearbeitet werden.",
+    "uploadTreatmentsInfo": "Um Behandlungsdaten hochzuladen benötigst du ein Token / Passwort. Falls Du keins besitzt, gehe auf deine Nightscout-Seite und logge Dich unter Administrator-Werkzeuge an. Dort kannst Du einen neuen Benutzer anlegen, welcher die Rolle careportal benötigt. Danach erhältst Du einen Zugriffsschlüssel (Token). Diesen gibst Du oben ein. ACHTUNG: Beim Löschen einer Mahlzeit werden die Nightscout Daten nicht gelöscht, sondern müssen über die Nightscout-Seite bearbeitet werden.",
     "uploadTreatmentsCheckbox": "Behandlungsdaten zu Nightscout laden",
     "nightscoutRecommendation": "Wir empfehlen Nightscout, wenn Du Zugriff auf Insulin- und Carb-Daten hast. Wenn Du nur Blutzuckerdaten benötigst, kannst Du auch zu Apple Health Kit wechseln",
     "noDataSource": "Es ist noch keine Datenquelle ausgewählt",
     "exampleLink": "https://deineSeite.ns.10be.de:0000/",
     "exampleLink2": "https://deineSeite.herokuapp.com",
     "exampleLink3": "https://deineSeite.azurewebsites.net",
-    "wrongUrl": "Url Fehlerhaft oder Nightscout ist offline",
+    "wrongUrl": "URL fehlerhaft oder Nightscout ist offline",
     "urlMissing": "URL fehlt",
     "healthKit": {
       "title": "Verbinde Apple Health Kit mit meala",
       "titleAccess": "meala kann auf folgende Daten zugreifen",
-      "canRead": "Durch Apple Health Kit hast du die Möglichkeit deine Gesundheitsdaten aus anderen Apps hier in meala mit deinen Mahlzeiten zu vergleichen",
+      "canRead": "Durch Apple Health Kit hast Du die Möglichkeit Deine Gesundheitsdaten aus anderen Apps hier in meala mit Deinen Mahlzeiten zu vergleichen",
       "accessButton": "Verbinde Health Kit",
       "noData": "Keine Schritte verfügbar",
       "hasNoAccess": "Kein Zugriff",
@@ -223,18 +223,18 @@
       "title": "Wähle die Einheit für Blutzuckerwerte",
       "example": "Beispielwert: ",
       "reminder": "Erinnerungen",
-      "notifications": "Du erhältst aktuell keine Erinnerungen. Gehe in die Einstellungen um Benachrichtigungen zu aktivieren"
+      "notifications": "Du erhältst aktuell keine Erinnerungen. Gehe in die Einstellungen, um Benachrichtigungen zu aktivieren"
     },
     "FatSecretSettings": {
-      "info": "Wenn du einen FatSecret Account hast und dort Mahlzeiten eingibst, kannst du Sie auch in meala wiederverwenden. Sie erscheinen beim Eintragen neuer Mahlzeiten.",
+      "info": "Wenn Du einen FatSecret Account hast und dort Mahlzeiten eingibst, kannst Du sie auch in meala wiederverwenden. Sie erscheinen beim Eintragen neuer Mahlzeiten.",
       "delete": "Account entfernen",
       "connect": "Account verbinden",
       "Login": "Anmelden",
       "loginSuccess": "Erfolgreich angemeldet",
-      "valid": "Tage hier den Code ein, den du gerade auf der FatSecret Seite erhalten hast. Falls Du Ihn dir nicht gemerkt hast logge dich erneut ein."
+      "valid": "Tage hier den Code ein, den Du gerade auf der FatSecret Seite erhalten hast. Falls Du Ihn dir nicht gemerkt hast, logge dich erneut ein."
     },
     "Dexcom": {
-      "text": "Wir suchen Menschen mit einem amerikanischen Dexcom Account. Wir suchen Test-Nutzer. Schreib uns bitte eine E-Mail: mail@heymeala.com",
+      "text": "Wir suchen Menschen mit einem amerikanischen Dexcom Account. Wir suchen Test-Nutzer_innen. Schreib uns bitte eine E-Mail: mail@heymeala.com",
       "button": "Ich kenne jemanden"
     },
     "Libre": {
@@ -247,7 +247,7 @@
     "DrawNavigatorTitle": "Über meala",
     "NavigationBarTitle": "Über meala",
     "title": "Warum meala",
-    "p1": "Das schätzen von Kohlenhydraten ist die einflussreichste Fehlerquelle in der Diabetes-Therapie – Dies ergab eine Umfrage mit über 100 Teilnehmer_innen und ist der Grund für diese App. Aus den eigenen Fehlern lernen und auf die Erfahrung von anderen Nutzern zurückgreifen – das ermöglicht die App meala Restaurantbesuchern. Standortabhängig werden von anderen bereits erfasste Mahlzeiten mit ihren Nährwerten angegeben oder vom Nutzer per Bilderkennung selbst erfasst. Drei Stunden nach dem Essen analysiert die App die Kohlenhydrat- und die Spritz-Ess-Abstand-Schätzung und zeigt an, ob der Zielbereich erreicht wurde.",
+    "p1": "Das schätzen von Kohlenhydraten ist die einflussreichste Fehlerquelle in der Diabetes-Therapie – Dies ergab eine Umfrage mit über 100 Teilnehmer_innen und ist der Grund für diese App. Aus den eigenen Fehlern lernen und auf die Erfahrung von anderen Nutzer_innen zurückgreifen – das ermöglicht die App meala Restaurantbesucher_innen. Standortabhängig werden von Anderen bereits erfasste Mahlzeiten mit ihren Nährwerten angegeben oder von Nutzer_innen per Bilderkennung selbst erfasst. Drei Stunden nach dem Essen analysiert die App die Kohlenhydrat- und die Spritz-Ess-Abstand-Schätzung und zeigt an, ob der Zielbereich erreicht wurde.",
     "p2": "meala darf nicht für medizinische Entscheidungen verwendet werden. Es ist ein reines Recherchetool und wird in der vorliegenden Form ohne jegliche ausdrückliche oder stillschweigende Garantie bereitgestellt, einschließlich, aber nicht beschränkt auf die implizite Gewährleistung der Marktgängigkeit und Eignung für einen bestimmten Zweck. Das gesamte Risiko hinsichtlich der Qualität und Leistung des Programms liegt bei Ihnen. Sollte sich das Programm als fehlerhaft erweisen, übernehmen Sie die Kosten für alle notwendigen Wartungs-, Reparatur- oder Korrekturarbeiten.",
     "p2Title": "Disclaimer"
   },
@@ -256,7 +256,7 @@
     "Meal": "Mahlzeit",
     "Save": "Speichern",
     "Accept": "Akzeptieren",
-    "enableGps": "Bitte aktiviere GPS um Restaurants in der Nähe zu suchen.",
+    "enableGps": "Bitte aktiviere GPS, um Restaurants in der Nähe zu suchen.",
     "Cancel": "Abbrechen",
     "Carbs": "Kohlenhydrate",
     "eg": "z.B.",
@@ -280,16 +280,16 @@
       "camera": "Öffne ",
       "addTag": "Neue Markierung hinzufügen",
       "similarMeals": "Suche nach ähnlichen Mahlzeiten",
-      "fatsecret": "Diese Daten werden bereitgestellt von FatSecret",
-      "meal": "Was hast du gegessen? ",
-      "restaurant": "Wo isst du deine Mahlzeit? "
+      "fatsecret": "Diese Daten werden von FatSecret bereitgestellt",
+      "meal": "Was hast Du gegessen? ",
+      "restaurant": "Wo isst Du Deine Mahlzeit? "
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",
       "foodScan": "Bar Code Scanner öffnen",
-      "nodata": "Du hast noch keine Mahlzeiten angelegt. Hier werden Sie erscheinen. Füge jetzt deine erste Mahlzeit hinzu",
+      "nodata": "Du hast noch keine Mahlzeiten angelegt. Hier werden sie erscheinen. Füge jetzt Deine erste Mahlzeit hinzu",
       "wait": "Erste Werte können erst nach 3 bis 6 Stunden angezeigt werden",
-      "dexcom": "Nicht genug Daten vorhanden, überprüfe ob daten im HealthKit vorhanden sind. Daten von Dexcom sind erst nach 6 Stunden verfügbar.",
+      "dexcom": "Nicht genug Daten vorhanden. Überprüfe, ob Daten im HealthKit vorhanden sind. Daten von Dexcom sind erst nach 6 Stunden verfügbar.",
       "button": "Taste"
     },
     "MealDetails": {
