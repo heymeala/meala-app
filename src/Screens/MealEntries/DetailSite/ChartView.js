@@ -1,11 +1,10 @@
 import Svg, {G, Rect} from 'react-native-svg';
-import {ActivityIndicator, Dimensions, Text, View} from 'react-native';
+import {Dimensions, Text, View} from 'react-native';
 import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
   VictoryGroup,
-  VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
 import React from 'react';
@@ -14,9 +13,8 @@ import LocalizationContext from '../../../../LanguageContext';
 import {useProfile} from '../../../hooks/useProfile';
 import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
 import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRange} from '../../../Common/analyseTimeInRange';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
-import {Icon, makeStyles} from 'react-native-elements';
+import {Icon, makeStyles, useTheme} from 'react-native-elements';
 import {spacing} from '../../../theme/styles';
 
 function GeneralChartView(props) {
@@ -25,7 +23,7 @@ function GeneralChartView(props) {
   const screenReaderEnabled = useScreenReader();
   const styles = useStyles();
   const window = Dimensions.get('window');
-
+  const {theme} = useTheme();
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
@@ -41,6 +39,15 @@ function GeneralChartView(props) {
     </G>
   );
 
+  const eatingChartStyle = {
+    data: {
+      fill: theme.colors.secondary,
+      stroke: theme.colors.secondary,
+      fillOpacity: 0.8,
+      strokeWidth: 0,
+    },
+  };
+
   if (props.loading === false) {
     if (screenReaderEnabled) {
       return (
@@ -50,12 +57,12 @@ function GeneralChartView(props) {
               <Text style={styles.text}>
                 {t('Accessibility.MealDetails.values', {
                   values: props.coordinates.length,
-                })}{' '}
+                })}
                 {settings.unit === 1 ? 'miligram pro deziliter' : 'mili mol'}
               </Text>
               <Text style={styles.text}>
-                {analyseTimeInRangeHealthKit(props.coordinates)}{' '}
-                {t('Accessibility.MealDetails.percentage')}{' '}
+                {analyseTimeInRangeHealthKit(props.coordinates)}
+                {t('Accessibility.MealDetails.percentage')}
               </Text>
 
               {props.coordinates
@@ -137,14 +144,7 @@ function GeneralChartView(props) {
                 />
               )}
               <VictoryBar
-                style={{
-                  data: {
-                    fill: '#f9de1c',
-                    stroke: '#f9de1c',
-                    fillOpacity: 0.8,
-                    strokeWidth: 0,
-                  },
-                }}
+                style={eatingChartStyle}
                 labels={['']}
                 labelComponent={<CustomLabel />}
                 size={1.5}
