@@ -8,15 +8,15 @@ import {
   VictoryGroup,
   VictoryScatter,
 } from 'victory-native';
-import AppleHealthKit from 'rn-apple-healthkit';
+import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import {Image} from 'react-native-elements';
-import LocalizationContext from '../../../LanguageContext';
-import {useProfile} from '../../hooks/useProfile';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRangeHealthKit} from '../../Common/realm/timeInRangeHealthKit';
+import LocalizationContext from '../../../../LanguageContext';
+import {useProfile} from '../../../hooks/useProfile';
+import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
 
-const ChartViewHealthKit = (props) => {
+const ChartViewHealthKit = props => {
   const [HealthKitBloodGlucoseData, setHealthKitBloodGlucoseData] = useState(
     [],
   );
@@ -25,15 +25,16 @@ const ChartViewHealthKit = (props) => {
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
   useEffect(() => {
-    const d = new Date();
-    const PERMS = AppleHealthKit.Constants.Permissions;
 
-    const HKOPTIONS = {
+    const permissions = {
       permissions: {
-        read: [PERMS.StepCount, PERMS.DateOfBirth, PERMS.BloodGlucose],
-        write: [PERMS.StepCount, PERMS.Weight, PERMS.BloodGlucose],
+        read: [
+          AppleHealthKit.Constants.Permissions.BloodGlucose,
+          AppleHealthKit.Constants.Permissions.Carbohydrates,
+          AppleHealthKit.Constants.Permissions.HeartRate,
+        ],
+        write: [AppleHealthKit.Constants.Permissions.Steps],
       },
-      date: d.toISOString(),
     };
     let fromDate, tillDate;
     tillDate = moment(props.selectedFood.date).add(3, 'hours').toISOString();
@@ -41,56 +42,70 @@ const ChartViewHealthKit = (props) => {
       .subtract(35, 'minutes')
       .toISOString();
 
-    let options = {
-      unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL', // optional; default 'mmolPerL'
-      startDate: fromDate, // required
-      endDate: tillDate, // optional; default now
-      ascending: false, // optional; default false
-    };
+    AppleHealthKit.initHealthKit(permissions, (error: string) => {
+      /* Called after we receive a response from the system */
 
-    AppleHealthKit.initHealthKit(HKOPTIONS, (err, res) => {
-      if (err) {
-        console.log('error initializing Healthkit: ', err);
-        return;
+      if (error) {
+        console.log('[ERROR] Cannot grant permissions!');
       }
-      AppleHealthKit.getBloodGlucoseSamples(options, (err, results) => {
-        if (err) {
-          return;
-        }
-        setHealthKitBloodGlucoseData(results);
-      });
-    });
-  }, [settings.unit]);
 
-  const healthkitGlucoseDate = HealthKitBloodGlucoseData.map((coordinates) => {
+      /* Can now read or write to HealthKit */
+      //   unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL', // optional; default 'mmolPerL'
+
+      let options = {
+        startDate: fromDate, // required
+        endDate: tillDate, // optional; default now
+      };
+
+      AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+      });
+      AppleHealthKit.getBloodGlucoseSamples(
+        options,
+        (callbackError, results) => {
+          /* Samples are now collected from HealthKit */
+          if (callbackError) {
+            console.log(callbackError);
+            return;
+          }
+          setHealthKitBloodGlucoseData(results);
+          console.log(results);
+        },
+      );
+    });
+  }, []);
+
+  const healthkitGlucoseDate = HealthKitBloodGlucoseData.map(coordinates => {
     return {
       x: new Date(moment(coordinates.startDate).toISOString()),
-      y: coordinates.value,
+      y: coordinates.value / settings.unit,
     };
   });
-  console.log(healthkitGlucoseDate);
 
   if (screenReaderEnabled) {
     return (
       <View>
         {healthkitGlucoseDate.length > 1 ? (
           <>
-            <Text style={{padding: 8, fontSize:18}}>
+            <Text style={{padding: 8, fontSize: 18}}>
               {t('Accessibility.MealDetails.values', {
                 values: healthkitGlucoseDate.length,
               })}{' '}
               {settings.unit === 1 ? 'miligram pro deziliter' : 'mili mol'}
             </Text>
-            <Text style={{padding: 8, fontSize:18}}>
+            <Text style={{padding: 8, fontSize: 18}}>
               {analyseTimeInRangeHealthKit(healthkitGlucoseDate)}{' '}
               {t('Accessibility.MealDetails.percentage')}{' '}
             </Text>
 
-            {healthkitGlucoseDate.filter((data, i) =>   i % 3 === 0).map((data,i) => (
-              <Text key={i} style={{padding: 8, fontSize:18}}>
-                {moment(data.x).format('LT')} – {data.y}
-              </Text>
-            )).reverse()}
+            {healthkitGlucoseDate
+              .filter((data, i) => i % 3 === 0)
+              .map((data, i) => (
+                <Text key={i} style={{padding: 8, fontSize: 18}}>
+                  {moment(data.x).format('LT')} – {data.y}
+                </Text>
+              ))
+              .reverse()}
           </>
         ) : (
           <Text>{t('Accessibility.Home.dexcom')}</Text>
@@ -135,7 +150,7 @@ const ChartViewHealthKit = (props) => {
             <VictoryAxis
               tickFormat={
                 locale === 'de'
-                  ? (x) =>
+                  ? x =>
                       new Date(x).getHours() +
                       ':' +
                       (new Date(x).getMinutes() < 10 ? '0' : '') +
@@ -144,7 +159,7 @@ const ChartViewHealthKit = (props) => {
               }
             />
 
-            <VictoryAxis dependentAxis tickFormat={(y) => y} />
+            <VictoryAxis dependentAxis tickFormat={y => y} />
 
             <VictoryGroup>
               <VictoryScatter
@@ -191,7 +206,7 @@ const ChartViewHealthKit = (props) => {
               {t('Entries.notEnoughData')}
             </Text>
             <Image
-              source={require('../../assets/meala_graph.png')}
+              source={require('../../../assets/meala_graph.png')}
               placeholderStyle={{backgroundColor: '#fff'}}
               style={{width: Dimensions.get('window').width, height: 350}}
             />

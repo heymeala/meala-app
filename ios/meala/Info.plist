@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>de_DE</string>
+	<string>de_DE,en</string>
 	<key>CFBundleDisplayName</key>
 	<string>meala</string>
 	<key>CFBundleExecutable</key>
@@ -89,6 +89,8 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Pacifico-Regular.ttf</string>
+		<string>SecularOne-Regular.ttf</string>
+		<string>meala.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

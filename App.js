@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import {ActivityIndicator, useColorScheme, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {ActivityIndicator, StatusBar, View} from 'react-native';
+import {registerCustomIconType, ThemeProvider} from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
@@ -16,10 +17,12 @@ import {
   ScreenReaderProvider,
   useScreenReader,
 } from './src/hooks/useScreenReaderEnabled';
+import {theme} from './src/theme/theme';
+import Icon from './src/CustomMealaFont';
 
 enableScreens();
 
-const App = (props) => {
+const App = props => {
   const routeNameRef = React.useRef();
   const [locale, setLocale] = React.useState(i18n.DEFAULT_LANGUAGE);
   const [onboarding, setOnboarding] = useState(undefined);
@@ -32,9 +35,10 @@ const App = (props) => {
     }),
     [locale],
   );
+  const colorScheme = useColorScheme();
 
   const handleLocalizationChange = useCallback(
-    (newLocale) => {
+    newLocale => {
       const newSetLocale = i18n.setI18nConfig(newLocale);
       setLocale(newSetLocale);
     },
@@ -42,8 +46,9 @@ const App = (props) => {
   );
 
   useEffect(() => {
-    handleLocalizationChange();
+    registerCustomIconType('meala', Icon);
 
+    handleLocalizationChange();
     RNLocalize.addEventListener('change', handleLocalizationChange);
     return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
@@ -55,7 +60,7 @@ const App = (props) => {
   useEffect(() => {
     database
       .saveOnbording()
-      .then((onboardingState) =>
+      .then(onboardingState =>
         onboardingState > showOnboardingFirst &&
         onboardingState !== showOnboardingLast
           ? setOnboarding(false)
@@ -74,6 +79,7 @@ const App = (props) => {
   return (
     <LocalizationContext.Provider value={localizationContext}>
       <NavigationContainer
+        // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
         onReady={() =>
           (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
@@ -88,31 +94,38 @@ const App = (props) => {
               screen_class: currentRouteName,
             });
           }
-          // Save the current route name for later comparision
+          // Save the current route name for later comparison
           routeNameRef.current = currentRouteName;
         }}>
-        <ProfileProvider>
-          <ScreenReaderProvider>
-            <View style={{flex: 1}}>
-              <StatusBar barStyle={'dark-content'} />
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}>
-                {onboarding ? (
+        <ThemeProvider
+          theme={theme}
+          //useDark={colorScheme === 'dark'}
+        >
+          <ProfileProvider>
+            <ScreenReaderProvider>
+              <View style={{flex: 1}}>
+                {/*
+                <StatusBar barStyle={'dark-content'} />
+                */}
+                <Stack.Navigator
+                  screenOptions={{
+                    headerShown: false,
+                  }}>
+                  {onboarding && (
+                    <Stack.Screen
+                      name="Onboarding"
+                      component={OnboardingScreen}
+                    />
+                  )}
                   <Stack.Screen
-                    name="Onboarding"
-                    component={OnboardingScreen}
+                    name="Home"
+                    component={AppBottomNavigationStack}
                   />
-                ) : null}
-                <Stack.Screen
-                  name="Home"
-                  component={AppBottomNavigationStack}
-                />
-              </Stack.Navigator>
-            </View>
-          </ScreenReaderProvider>
-        </ProfileProvider>
+                </Stack.Navigator>
+              </View>
+            </ScreenReaderProvider>
+          </ProfileProvider>
+        </ThemeProvider>
       </NavigationContainer>
     </LocalizationContext.Provider>
   );

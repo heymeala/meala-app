@@ -1,7 +1,8 @@
 import React from 'react';
 import {Linking, StyleSheet, Text, View} from 'react-native';
-import SaveButton from '../../Common/SaveButton';
 import LocalizationContext from '../../../LanguageContext';
+import {Button} from 'react-native-elements';
+import { spacing } from "../../theme/styles";
 
 const Libre = () => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -9,7 +10,7 @@ const Libre = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.padding}>{t('Settings.Libre.text')}</Text>
-      <SaveButton
+      <Button
         title={t('Settings.Libre.button')}
         onPress={() => Linking.openURL(t('Settings.Libre.link'))}
       />
@@ -22,6 +23,7 @@ export default Libre;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    padding:spacing.M,
     flexDirection: 'column',
     justifyContent: 'center',
   },

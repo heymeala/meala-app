@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-var uuid = require('react-native-uuid');
+import React from 'react';
 
 const Realm = require('realm');
 // Define your models and their properties
@@ -14,7 +13,6 @@ let MealSchema = {
     picture: 'string',
     carbs: 'float?',
     date: 'date',
-    // tag: {type: 'string[]', optional: true},
     tags: {type: 'list', objectType: 'Tags'},
     note: 'string',
     cgmData: 'string?',
@@ -161,12 +159,12 @@ export const database = {
     fatSecretUserFoodEntryIds,
   ) => {
     const tags = predictions
-      .filter((data) => data.active === true)
-      .map((prediction) => prediction.name);
+      .filter(data => data.active === true)
+      .map(prediction => prediction.name);
 
     console.log('Save' + restaurantName);
     return database._open
-      .then((realm) => {
+      .then(realm => {
         realm.write(() => {
           let restaurantEntry = realm.create(
             'Restaurant',
@@ -201,7 +199,7 @@ export const database = {
             },
           ];
 
-          var newTag = tags.map((tags) => {
+          var newTag = tags.map(tags => {
             return {tagEn: tags};
           });
 
@@ -215,27 +213,27 @@ export const database = {
           }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
 
   countNumberOfRestaurants: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const restaurants = realm
           .objects('Restaurant')
           .filtered('food.isDeleted == false && food.@count > 0').length;
         return restaurants;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
 
-  fetchRestaurantsWithFilter: (filter) => {
+  fetchRestaurantsWithFilter: filter => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const restaurants = realm
           .objects('Restaurant')
           .filtered(
@@ -243,13 +241,13 @@ export const database = {
           );
         return restaurants.sorted('restaurant_name');
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
-  fetchRestaurantsWithFilterLimit: (filter) => {
+  fetchRestaurantsWithFilterLimit: filter => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const restaurants = realm
           .objects('Restaurant')
           .filtered(
@@ -257,13 +255,13 @@ export const database = {
           );
         return restaurants.sorted('restaurant_name');
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   fetchMealWithDateTime: (startDate, endDate) => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const meals = realm
           .objects('Meal')
           .filtered(
@@ -273,23 +271,23 @@ export const database = {
           );
         return meals;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   fetchMealDates: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const meals = realm.objects('Meal');
         return meals.sorted('date', true);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
-  fetchMealWithName: (food) => {
+  fetchMealWithName: food => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const meals = realm
           .objects('Meal')
           .filtered(
@@ -297,30 +295,30 @@ export const database = {
           );
         return meals.sorted('date', true);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
 
-  fetchMealbyId: (id) => {
+  fetchMealbyId: id => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const meals = realm.objects('Meal').filtered('id = $0', id);
         return meals[0];
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
-  getRestaurantName: (restaurantId) => {
+  getRestaurantName: restaurantId => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const restaurantName = realm
           .objects('Restaurant')
           .filtered(`isDeleted == false && id LIKE[c] '*${restaurantId}*'`)[0];
         return restaurantName.restaurant_name;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
@@ -332,7 +330,7 @@ export const database = {
     nightscoutTreatmentsUpload,
   ) => {
     console.log(nightScoutUrl + 'test');
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       realm.write(() => {
         realm.create(
           'Settings',
@@ -352,7 +350,7 @@ export const database = {
 
   saveGlucoseSource: (glucoseSource, nightscoutToken) => {
     const getNightscoutToken = nightscoutToken ? nightscoutToken : null;
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       realm.write(() => {
         realm.create(
           'Settings',
@@ -372,26 +370,26 @@ export const database = {
 
   getSettings: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const url = realm.objects('Settings').filtered('id = "nightscoutUrl"');
         return url[0];
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   getProfile: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const profile = realm.objects('Profile');
         return profile;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
-  saveProfile: (unit) => {
-    return database._open.then((realm) => {
+  saveProfile: unit => {
+    return database._open.then(realm => {
       let onboardingState = realm.objects('Profile');
 
       realm.write(() => {
@@ -408,7 +406,7 @@ export const database = {
     });
   },
   saveOnbording: () => {
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       let onboardingState = realm.objects('Profile').filtered('id = "1"');
       let counter = 0;
       onboardingState.length === 0
@@ -425,66 +423,71 @@ export const database = {
           true,
         );
       });
+      console.log(onboardingState[0].onboarding);
       return onboardingState[0].onboarding;
     });
   },
   getOnboarding: () => {
     return database._open
-      .then((realm) => {
-        const onboardingState = realm.objects('Settings');
-        return onboardingState.onboarding;
+      .then(realm => {
+        let onboardingState = realm.objects('Profile').filtered('id = "1"');
+        return onboardingState[0].onboarding;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   getGlucoseSource: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const glucoseSource = realm
           .objects('Settings')
           .filtered('id = "glucoseSource"');
-        return glucoseSource[0].glucoseSource;
+        if (typeof glucoseSource[0] !== 'undefined') {
+          return glucoseSource[0].glucoseSource;
+        } else {
+          return null;
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
 
   getCgmData: (date, id) => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
 
         return Meal[0].cgmData;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   getTreatmentsData: (date, id) => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
         return Meal[0].treatmentsData;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
   getTags: () => {
     return database._open
-      .then((realm) => {
+      .then(realm => {
         const Tags = realm.objects('Tags').filtered('tagEn != null');
         return Tags;
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       });
   },
 
   deleteMeal: () => {
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       realm.write(() => {
         realm.delete(realm.objects('Meal').filtered('isDeleted == true'));
       });
@@ -492,15 +495,15 @@ export const database = {
   },
 
   deleteRestaurant: () => {
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       realm.write(() => {
         // Create a book object
         realm.delete(realm.objects('Restaurant').filtered('isDeleted == true'));
       });
     });
   },
-  deleteMealSoft: (id) => {
-    return database._open.then((realm) => {
+  deleteMealSoft: id => {
+    return database._open.then(realm => {
       realm.write(() => {
         realm.create(
           'Meal',
@@ -514,8 +517,8 @@ export const database = {
     });
   },
 
-  deleteRestaurantSoft: (id) => {
-    return database._open.then((realm) => {
+  deleteRestaurantSoft: id => {
+    return database._open.then(realm => {
       realm.write(() => {
         realm.create(
           'Restaurant',
@@ -529,7 +532,7 @@ export const database = {
     });
   },
   editMealCgmData: (date, cgmData, id) => {
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       //  let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {
         realm.create(
@@ -546,7 +549,7 @@ export const database = {
     });
   },
   editMealTreatments: (date, treatmentsData, carbSum, id) => {
-    return database._open.then((realm) => {
+    return database._open.then(realm => {
       // console.log(date + 'date Treatements in realm')
       // let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {

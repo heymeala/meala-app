@@ -1,24 +1,25 @@
+import React from 'react';
+import {Platform, View} from 'react-native';
 import SugarStack from './SugarStack';
-import {Icon} from 'react-native-elements';
+import {Icon, useTheme} from 'react-native-elements';
 import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
-import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
   const {t} = React.useContext(LocalizationContext);
-
+  const {theme} = useTheme();
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: '#1569ae',
-        inactiveTintColor: '#81817a', // inactive icon color
+        activeTintColor: theme.colors.primary,
+        inactiveTintColor: theme.colors.grey4, // inactive icon color
         showLabel: false,
         tabBarVisible: false,
         style: {
-          backgroundColor: '#fff', // TabBar background
+          backgroundColor: theme.colors.white, // TabBar background
         },
       }}>
       <Tab.Screen
@@ -34,15 +35,40 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
-        component={EnterMealStack}
-        options={({route}) => ({
+        options={{
           tabBarLabel: t('Accessibility.tab.add'),
-          tabBarIcon: ({focused, color, size}) => (
-            <Icon name="pluscircleo" type="antdesign" size={28} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                position: 'absolute',
+                bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
+                height: 55,
+                width: 55,
+                backgroundColor: theme.colors.white,
+                borderRadius: 55,
+                shadowColor: theme.colors.grey2,
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.27,
+                shadowRadius: 4.65,
+                elevation: 6,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Icon
+                name="pluscircleo"
+                type="antdesign"
+                size={28}
+                color={color}
+              />
+            </View>
           ),
-          //  tabBarVisible: getHeaderTitle(route)
-        })}
+        }}
+        component={EnterMealStack}
       />
+
       <Tab.Screen
         name="SettingsStack"
         component={SettingsStack}

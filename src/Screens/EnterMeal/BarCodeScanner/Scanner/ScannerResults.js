@@ -11,7 +11,7 @@ import LocalizationContext from '../../../../../LanguageContext';
 import {useNavigation} from '@react-navigation/core';
 import NutritionItem from './NutritionItem';
 
-const ScannerResults = (props) => {
+const ScannerResults = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
@@ -25,8 +25,6 @@ const ScannerResults = (props) => {
     function getScoreImage() {
       switch (nutriScore) {
         case 'a':
-          console.log(nutri_a);
-
           return require('../../../../assets/nutri/nutri_a.png');
         case 'b':
           return require('../../../../assets/nutri/nutri_b.png');
@@ -61,7 +59,7 @@ const ScannerResults = (props) => {
               borderBottomRightRadius: 0,
             }}
             PlaceholderContent={<ActivityIndicator />}
-            source={{uri}}
+            source={uri && uri}
           />
           {data.creator && (
             <View

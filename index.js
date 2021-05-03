@@ -2,7 +2,7 @@
  * @format
  */
 
-import {AppRegistry} from 'react-native';
+import {AppRegistry, Platform} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import PushNotification from 'react-native-push-notification';
@@ -63,7 +63,7 @@ AppRegistry.registerComponent(appName, () => {
      * - if you are not using remote notification or do not have Firebase installed, use this:
      *     requestPermissions: Platform.OS === 'ios'
      */
-    requestPermissions: true,
+    requestPermissions: Platform.OS !== 'ios',
   });
 
   PushNotification.createChannel(
@@ -76,7 +76,7 @@ AppRegistry.registerComponent(appName, () => {
       importance: 4, // (optional) default: 4. Int value of the Android notification importance
       vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
     },
-    (created) => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+    created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
   );
   return App;
 });

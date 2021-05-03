@@ -1,11 +1,12 @@
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Text} from 'react-native-elements';
+import {makeStyles, Text} from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
 export default function EnterMealButton(props) {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const {t} = React.useContext(LocalizationContext);
+  const styles = useStyles();
 
   return (
     <TouchableOpacity onPress={props.onPress}>
@@ -14,33 +15,24 @@ export default function EnterMealButton(props) {
         accessibilityLabel={t('Accessibility.EnterMeal.camera') + props.name}
         accessibilityRole={'button'}
         style={[
-          stylesImagePicker.avatarSmall,
-          stylesImagePicker.avatarContainer,
+          styles.avatarSmall,
+          styles.avatarContainer,
           {marginBottom: 20},
         ]}>
         {props.avatarSource === undefined ? (
           <>
             <Icon name={props.icon} color={'#fff'} type="ionicon" size={35} />
-            <Text
-              style={{
-                color: '#fff',
-                textAlign: 'center',
-              }}>
-              {props.name}
-            </Text>
+            <Text style={styles.text}>{props.name}</Text>
           </>
         ) : (
-          <Image
-            style={stylesImagePicker.avatarSmall}
-            source={props.avatarSource}
-          />
+          <Image style={styles.avatarSmall} source={props.avatarSource} />
         )}
       </View>
     </TouchableOpacity>
   );
 }
 
-const stylesImagePicker = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: 20,
     paddingBottom: 10,
@@ -49,8 +41,13 @@ const stylesImagePicker = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  text: {
+    color: theme.colors.white,
+    textAlign: 'center',
+    fontSize: 12,
+  },
   avatarContainer: {
-    backgroundColor: '#154d80',
+    backgroundColor: theme.colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -64,4 +61,4 @@ const stylesImagePicker = StyleSheet.create({
     width: 100,
     height: 100,
   },
-});
+}));

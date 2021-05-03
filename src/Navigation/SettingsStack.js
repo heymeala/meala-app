@@ -1,7 +1,7 @@
 import React from 'react';
 import SettingsOverview from '../Screens/Settings/SettingsOverview';
 import NightscoutSettingsScreen from '../Screens/Settings/NightscoutSettingsScreen';
-import HealthKitScreen from '../Screens/Settings/HealthKitScreen';
+import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
 import AboutScreen from '../Screens/Settings/AboutScreen';
 import SearchGiScreen from '../Screens/Settings/SearchGiScreen';
 import StatisticScreen from '../Screens/Settings/StatisticScreen';
@@ -12,7 +12,7 @@ import {Platform} from 'react-native';
 import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
-import TidePool from "../Screens/Settings/TidePool";
+import TidePool from '../Screens/Settings/TidePool';
 
 function SettingsStack() {
   const {t} = React.useContext(LocalizationContext);
@@ -39,6 +39,8 @@ function SettingsStack() {
 
           title: t('Settings.SettingsTitle'),
           headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+
             textAlign: 'left',
             flexGrow: 1,
             fontSize: 30,
@@ -51,33 +53,52 @@ function SettingsStack() {
         initialParams={{}}
         options={{
           title: t('Settings.datasource'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
         }}
       />
       <Stack.Screen
         name="HealthKitScreen"
         component={HealthKitScreen}
         initialParams={{}}
-        options={{title: 'HealthKitScreen'}}
+        options={{
+          title: 'HealthKitScreen',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
       />
       <Stack.Screen
         name="FatSecretSettings"
         component={FatSecretSettings}
-        options={{title: 'FatSecret'}}
+        options={{
+          title: 'FatSecret',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
       />
-        <Stack.Screen
-            name="Tidepool"
-            component={TidePool}
-            initialParams={{}}
-            options={{
-                title: 'Tidepool',
-            }}
-        />
+      <Stack.Screen
+        name="Tidepool"
+        component={TidePool}
+        initialParams={{}}
+        options={{
+          title: 'Tidepool',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
       <Stack.Screen
         name="Dexcom"
         component={Dexcom}
         initialParams={{}}
         options={{
           title: 'Dexcom',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
         }}
       />
       <Stack.Screen
@@ -85,6 +106,9 @@ function SettingsStack() {
         component={Libre}
         options={{
           title: 'Libre',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
         }}
       />
       <Stack.Screen
@@ -93,25 +117,43 @@ function SettingsStack() {
         initialParams={{}}
         options={{
           title: t('About.DrawNavigatorTitle'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
         }}
       />
       <Stack.Screen
         name="SearchGiScreen"
         component={SearchGiScreen}
         initialParams={{}}
-        options={{title: t('GI.NavigationBarTitle')}}
+        options={{
+          title: t('GI.NavigationBarTitle'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
       />
       <Stack.Screen
         name="StatisticScreen"
         component={StatisticScreen}
         initialParams={{}}
-        options={{title: t('Settings.statistics')}}
+        options={{
+          title: t('Settings.statistics'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
       />
       <Stack.Screen
         name="ProfilSettings"
         component={ProfilSettings}
         initialParams={{}}
-        options={{title: 'Profil'}}
+        options={{
+          title: 'Profil',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
       />
     </Stack.Navigator>
   );

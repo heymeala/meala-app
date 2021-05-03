@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Text, View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {getAccessToken, getOauthUrl} from '../../Common/fatsecret/fatsecretApi';
 import openLink from '../../Common/InAppBrowser';
-import {Button, Input} from 'react-native-elements';
+import {Button, Input, Text} from 'react-native-elements';
 
 import * as Keychain from 'react-native-keychain';
 import SaveButton from '../../Common/SaveButton';
@@ -60,14 +60,14 @@ const FatSecretSettings = () => {
   }, []);
 
   return (
-    <View style={{padding: 8}}>
+    <View style={{padding: 12}}>
       {!hasKey && (
         <>
-          <Text style={{padding: 8}}>
+          <Text h3  style={{padding: 13}}>
             {t('Settings.FatSecretSettings.info')}
           </Text>
 
-          <SaveButton
+          <Button
             disabled={oAuthTokenOne && oAuthSecretOne && text.length > 3}
             title={t('Settings.FatSecretSettings.Login')}
             onPress={() =>

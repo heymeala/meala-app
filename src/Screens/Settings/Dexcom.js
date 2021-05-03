@@ -1,13 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Button,
-  Linking,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Input, Button} from 'react-native-elements';
 import {authorize} from 'react-native-app-auth';
 import {DEXCOM_ID, DEXCOM_SECRET} from '@env';
 import SaveButton from '../../Common/SaveButton';
@@ -50,7 +43,7 @@ const Dexcom = () => {
   const [cgm, setCGM] = useState();
 
   useEffect(() => {
-    getTokens().then((e) => console.log(e));
+    getTokens().then(e => console.log(e));
   }, []);
 
   const refreshData = {
@@ -104,7 +97,7 @@ const Dexcom = () => {
 
   function axiosAuthorizer() {
     try {
-      authorize(config).then((authState) => {
+      authorize(config).then(authState => {
         const data = {
           client_id: config.clientId,
           client_secret: config.clientSecret,
@@ -164,7 +157,7 @@ const Dexcom = () => {
         if (error.response.status === 401) {
           //  originalRequest._retry = true;
           axios(reFreshOptions)
-            .then((response) => {
+            .then(response => {
               if (response.status === 200) {
                 // 1) put token to Storage
                 setAccessToken(response.data.access_token);
@@ -179,7 +172,8 @@ const Dexcom = () => {
                   console.log('Keychain Error');
                 }
                 // 2) Change Authorization header
-                originalRequest.headers['Authorization'] = 'Bearer ' +  response.data.access_token;
+                originalRequest.headers['Authorization'] =
+                  'Bearer ' + response.data.access_token;
                 // 3) return originalRequest object with Axios.
                 axios(originalRequest)
                   .then(function (response) {
@@ -200,7 +194,9 @@ const Dexcom = () => {
   }
 
   function getSGVDataToken() {
-    const startDate = moment().subtract(6, 'hours').format('YYYY-MM-DDTHH:mm:ss');
+    const startDate = moment()
+      .subtract(6, 'hours')
+      .format('YYYY-MM-DDTHH:mm:ss');
     const endDate = moment().subtract(3, 'hours').format('YYYY-MM-DDTHH:mm:ss');
 
     const options = {
@@ -208,52 +204,52 @@ const Dexcom = () => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
-      url: `https://${apiUrl}.dexcom.com/v2/users/self/egvs?startDate=${startDate}&endDate=${endDate}`
+      url: `https://${apiUrl}.dexcom.com/v2/users/self/egvs?startDate=${startDate}&endDate=${endDate}`,
     };
 
     axios(options)
-        .then(function (response) {
-          setCGM(response.data);
-        })
-        .catch(function (error) {
-          const originalRequest = error.config;
-          if (error.response.status === 401) {
-            //  originalRequest._retry = true;
-            axios(reFreshOptions)
-                .then((response) => {
-                  if (response.status === 200) {
-                    // 1) put token to Storage
-                    setAccessToken(response.data.access_token);
-                    setRefreshToken(response.data.refresh_token);
-                    setHasLoggedInOnce(true);
-                    try {
-                      saveAccessToken(
-                          response.data.access_token,
-                          response.data.refresh_token,
-                      );
-                    } catch (e) {
-                      console.log('Keychain Error');
-                    }
-                    // 2) Change Authorization header
-                    originalRequest.headers['Authorization'] = 'Bearer ' +  response.data.access_token;
-                    // 3) return originalRequest object with Axios.
-                    axios(originalRequest)
-                        .then(function (response) {
-                          setCGM(response.data);
-                        })
-                        .catch(function (error) {
-                          console.log('Data Range 2', error);
-                        });
-                  } else {
-                    console.log('No status 200');
-                  }
-                })
-                .catch(function (error) {
-                  console.log('reFresh Error', error);
-                });
-          }
-        });
-
+      .then(function (response) {
+        setCGM(response.data);
+      })
+      .catch(function (error) {
+        const originalRequest = error.config;
+        if (error.response.status === 401) {
+          //  originalRequest._retry = true;
+          axios(reFreshOptions)
+            .then(response => {
+              if (response.status === 200) {
+                // 1) put token to Storage
+                setAccessToken(response.data.access_token);
+                setRefreshToken(response.data.refresh_token);
+                setHasLoggedInOnce(true);
+                try {
+                  saveAccessToken(
+                    response.data.access_token,
+                    response.data.refresh_token,
+                  );
+                } catch (e) {
+                  console.log('Keychain Error');
+                }
+                // 2) Change Authorization header
+                originalRequest.headers['Authorization'] =
+                  'Bearer ' + response.data.access_token;
+                // 3) return originalRequest object with Axios.
+                axios(originalRequest)
+                  .then(function (response) {
+                    setCGM(response.data);
+                  })
+                  .catch(function (error) {
+                    console.log('Data Range 2', error);
+                  });
+              } else {
+                console.log('No status 200');
+              }
+            })
+            .catch(function (error) {
+              console.log('reFresh Error', error);
+            });
+        }
+      });
   }
 
   async function deleteKey() {
@@ -264,7 +260,7 @@ const Dexcom = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Input placeholder={'Code'} onChangeText={(text) => setCode(text)} />
+      <Input placeholder={'Code'} onChangeText={text => setCode(text)} />
       {code === 'DXUS2021' ? (
         <>
           {!hasLoggedInOnce ? (
@@ -307,7 +303,7 @@ const Dexcom = () => {
       ) : (
         <>
           <Text style={styles.padding}>{t('Settings.Dexcom.text')}</Text>
-          <SaveButton
+          <Button
             title={t('Settings.Dexcom.button')}
             onPress={() => Linking.openURL('mailto:mail@heymeala.com')}
           />
