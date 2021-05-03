@@ -9,7 +9,6 @@ export const uploadImageToServer = async props => {
       COMMUNITY_CREATE_MEAL_URL,
       {
         Authorization: 'Basic ' + COMMUNITY_MEALS_TOKEN,
-        otherHeader: 'foo',
         'Content-Type': 'multipart/form-data',
       },
       [

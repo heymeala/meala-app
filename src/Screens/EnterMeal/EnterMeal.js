@@ -37,6 +37,8 @@ import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
+import {useProfile} from '../../hooks/useProfile';
+import { useGlucoseSource, useUserSettings } from "../../hooks/useUserSettings";
 process.nextTick = setImmediate;
 
 const EnterMeal = ({route}, props) => {
@@ -44,7 +46,8 @@ const EnterMeal = ({route}, props) => {
   const navigation = useNavigation();
   moment.locale(locale);
   const styles = useStyles(props);
-
+  const {userSettings} = useUserSettings();
+  console.log(userSettings)
   const [user_id, setUser_id] = useState('');
 
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
@@ -54,7 +57,7 @@ const EnterMeal = ({route}, props) => {
   const [restaurantId, setRestaurantId] = useState('');
   const [mealTitle, setMealTitle] = useState('');
 
-  const [notiz, setNotiz] = useState('');
+  const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
   const [nightscoutInsulin, setNightscoutInsulin] = useState();
   const [nightscoutCarbs, setNightscoutCarbs] = useState();
@@ -135,12 +138,12 @@ const EnterMeal = ({route}, props) => {
 
   useEffect(() => {
     if (route.params?.mealid) {
-      console.log('Scan param meal id ' + route.params.mealid);
+      console.log('Scan param meal id', route.params.mealid);
       database.fetchMealbyId(route.params.mealid).then(data => {
         setMealTitle(data.food);
         setFoodPicture(data.picture);
         setCarbs(data.carbs);
-        setNotiz(data.note);
+        setNote(data.note);
         database
           .getRestaurantName(data.restaurantId)
           .then(name => setRestaurantName(name));
@@ -172,7 +175,7 @@ const EnterMeal = ({route}, props) => {
   const handleScannerFood = data => {
     setRestaurantName(prevState => t('General.various'));
     setRestaurantId(prevState => t('General.various'));
-    setNotiz(data.note ? data.note : null);
+    setNote(data.note ? data.note : null);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());
     setMealTitle(data.meal);
@@ -218,7 +221,7 @@ const EnterMeal = ({route}, props) => {
     uploadToNightScout(
       nightscoutCarbs,
       nightscoutInsulin,
-      notiz,
+      note,
       settings,
       date,
     );
@@ -236,7 +239,6 @@ const EnterMeal = ({route}, props) => {
       restaurantId,
       mealTitle,
       picId: foodPicture,
-      notiz,
       lat,
       lng,
       mealId,
@@ -253,7 +255,7 @@ const EnterMeal = ({route}, props) => {
         defaultRestaurantId,
         defaultMealTitle,
         foodPicture,
-        notiz,
+        note,
         lat,
         lng,
         mealId,
@@ -313,7 +315,7 @@ const EnterMeal = ({route}, props) => {
     setRestaurantName('');
     setRestaurantId('');
     setMealTitle('');
-    setNotiz('');
+    setNote('');
     setCarbs(null);
     setGlucoseDataSource('');
     setFoodPicture('');
@@ -406,12 +408,7 @@ const EnterMeal = ({route}, props) => {
           setIsScannerVisible={setIsScannerVisible}
         />
 
-
-
-        <DatePickerOverlay
-          date={date}
-          setDate={setDate}
-        />
+        <DatePickerOverlay date={date} setDate={setDate} />
         <RestaurantInputField
           restaurantName={restaurantName}
           errorMessage={errorMessageRestaurantName}
@@ -469,7 +466,7 @@ const EnterMeal = ({route}, props) => {
           nightscoutInsulin={nightscoutInsulin}
           setNightscoutInsulin={setNightscoutInsulin}
         />
-        <NoteInputField notiz={notiz} setNotiz={setNotiz} />
+        <NoteInputField notiz={note} setNotiz={setNote} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
       </ScrollView>
