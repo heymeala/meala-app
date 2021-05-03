@@ -143,7 +143,6 @@ export const database = {
 
   saveRestaurant: (
     restaurantName,
-    restaurantStreet,
     restaurantId,
     mealTitle,
     picId,
@@ -171,7 +170,7 @@ export const database = {
             {
               id: restaurantId,
               restaurant_name: restaurantName,
-              address: restaurantStreet,
+              address: '',
               lat: lat === '0' ? null : parseFloat(lat),
               long: lng === '0' ? null : parseFloat(lng),
               restaurantNote: 'notiz',
@@ -218,18 +217,6 @@ export const database = {
       });
   },
 
-  countNumberOfRestaurants: () => {
-    return database._open
-      .then(realm => {
-        const restaurants = realm
-          .objects('Restaurant')
-          .filtered('food.isDeleted == false && food.@count > 0').length;
-        return restaurants;
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
 
   fetchRestaurantsWithFilter: filter => {
     return database._open

@@ -1,9 +1,9 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import {COMMUNITY_CREATE_MEAL_URL, COMMUNITY_MEALS_TOKEN} from '@env';
 
-export const uploadImageToServer = async (props) => {
+export const uploadImageToServer = async props => {
   //todo: integrate new database
-  if (props.clarifaiImagebase !== '' && props.scope === 'GOOGLE') {
+  if (props.base64ImageData !== '' && props.scope === 'GOOGLE') {
     RNFetchBlob.fetch(
       'POST',
       COMMUNITY_CREATE_MEAL_URL,
@@ -17,11 +17,11 @@ export const uploadImageToServer = async (props) => {
           name: 'image',
           filename: 'image.png',
           type: 'image/png',
-          data: props.clarifaiImagebase,
+          data: props.base64ImageData,
         },
         {name: 'restaurant_name', data: props.restaurantName},
         {name: 'restaurant_id', data: props.restaurantId},
-        {name: 'address', data: props.restaurantStreet},
+        {name: 'address', data: ''},
         {name: 'meal', data: props.mealTitle},
         {name: 'meal_id', data: props.mealId},
         {name: 'lat', data: String(props.lat)},
@@ -31,11 +31,11 @@ export const uploadImageToServer = async (props) => {
         {name: 'userMealId', data: props.userMealId},
       ],
     )
-      .then((resp) => {
+      .then(resp => {
         var tempMSG = resp.data;
         tempMSG = tempMSG.replace(/^"|"$/g, '');
       })
-      .catch((err) => {
+      .catch(err => {
         // ...
       });
   } else {

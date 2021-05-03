@@ -53,7 +53,6 @@ const EnterMeal = ({route}, props) => {
   const [restaurantName, setRestaurantName] = useState('');
   const [restaurantId, setRestaurantId] = useState('');
   const [mealTitle, setMealTitle] = useState('');
-  const [restaurantStreet, setRestaurantStreet] = useState('');
 
   const [notiz, setNotiz] = useState('');
   const [carbs, setCarbs] = useState(null);
@@ -63,7 +62,7 @@ const EnterMeal = ({route}, props) => {
   const [glucoseDataSource, setGlucoseDataSource] = useState('');
   const [foodPicture, setFoodPicture] = useState('');
 
-  const [clarifaiImagebase, setClarifaiImagebase] = useState('');
+  const [base64ImageData, setBase64ImageData] = useState('');
   const [predictions, setPredictions] = useState([]);
 
   const [lat, setLat] = useState('');
@@ -75,7 +74,6 @@ const EnterMeal = ({route}, props) => {
   const [errorMessageMealTitle, setErrorMessageMealTitle] = useState('');
 
   const [date, setDate] = useState(new Date());
-  const [isDateOverlayVisible, setDateOverlayVisible] = useState(false); // Overlay
 
   const [cMeals, setCMeals] = useState([]);
   const [mealIsFocused, setMealIsFocused] = useState(false);
@@ -232,10 +230,9 @@ const EnterMeal = ({route}, props) => {
     reminderNotification(userMealId, mealId, t, defaultMealTitle);
 
     const restaurantData = {
-      clarifaiImagebase,
+      base64ImageData: base64ImageData,
       user_id,
       restaurantName,
-      restaurantStreet,
       restaurantId,
       mealTitle,
       picId: foodPicture,
@@ -253,7 +250,6 @@ const EnterMeal = ({route}, props) => {
     database
       .saveRestaurant(
         defaultRestaurantName,
-        restaurantStreet,
         defaultRestaurantId,
         defaultMealTitle,
         foodPicture,
@@ -317,17 +313,15 @@ const EnterMeal = ({route}, props) => {
     setRestaurantName('');
     setRestaurantId('');
     setMealTitle('');
-    setRestaurantStreet('');
     setNotiz('');
     setCarbs(null);
     setGlucoseDataSource('');
     setFoodPicture('');
-    setClarifaiImagebase('');
+    setBase64ImageData('');
     setErrorMessageMealTitle('');
     setErrorMessageRestaurantName('');
 
     setPredictions([]);
-    setDateOverlayVisible(false);
 
     setCMeals([]);
     setMealIsFocused(true);
@@ -401,7 +395,7 @@ const EnterMeal = ({route}, props) => {
         contentContainerStyle={styles.container}>
         <PictureSelector
           setFoodPicture={setFoodPicture}
-          setClarifaiImagebase={setClarifaiImagebase}
+          setClarifaiImagebase={setBase64ImageData}
           setDate={setDate}
           setPredictions={setPredictions}
           setTags={setTags}
@@ -412,20 +406,11 @@ const EnterMeal = ({route}, props) => {
           setIsScannerVisible={setIsScannerVisible}
         />
 
-        <TouchableOpacity
-          accessible={true}
-          accessibilityRole="button"
-          onPress={() => setDateOverlayVisible(true)}>
-          <Text style={styles.date}>
-            {moment(date.toISOString()).format('lll')}
-          </Text>
-        </TouchableOpacity>
+
 
         <DatePickerOverlay
           date={date}
           setDate={setDate}
-          isVisible={isDateOverlayVisible}
-          close={() => setDateOverlayVisible(false)}
         />
         <RestaurantInputField
           restaurantName={restaurantName}
@@ -503,11 +488,7 @@ export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
   wrapper: {flexGrow: 1, height: '100%'},
-  date: {
-    textAlign: 'center',
-    color: theme.colors.primary,
-    paddingBottom: 15,
-  },
+
   spacing: {
     alignItems: 'flex-start',
     paddingHorizontal: spacing.L,
