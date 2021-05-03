@@ -36,9 +36,7 @@ import NightScoutInputFields from './NightScoutTreatmentsInputFields';
 import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
-
-var uuid = require('react-native-uuid');
-
+import uuid from 'react-native-uuid';
 process.nextTick = setImmediate;
 
 const EnterMeal = ({route}, props) => {
