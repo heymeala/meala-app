@@ -5,10 +5,9 @@ import {
   Platform,
   RefreshControl,
   ScrollView,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import {Button, FAB, makeStyles, Text} from 'react-native-elements';
+import {Button, FAB, makeStyles} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -37,8 +36,8 @@ import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
-import {useProfile} from '../../hooks/useProfile';
-import { useGlucoseSource, useUserSettings } from "../../hooks/useUserSettings";
+import {useUserSettings} from '../../hooks/useUserSettings';
+
 process.nextTick = setImmediate;
 
 const EnterMeal = ({route}, props) => {
@@ -47,7 +46,6 @@ const EnterMeal = ({route}, props) => {
   moment.locale(locale);
   const styles = useStyles(props);
   const {userSettings} = useUserSettings();
-  console.log(userSettings)
   const [user_id, setUser_id] = useState('');
 
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
@@ -59,10 +57,7 @@ const EnterMeal = ({route}, props) => {
 
   const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
-  const [nightscoutInsulin, setNightscoutInsulin] = useState();
-  const [nightscoutCarbs, setNightscoutCarbs] = useState();
-
-  const [glucoseDataSource, setGlucoseDataSource] = useState('');
+  const [nsTreatmentsUpload, setNsTreatmentsUpload] = useState([]);
   const [foodPicture, setFoodPicture] = useState('');
 
   const [base64ImageData, setBase64ImageData] = useState('');
@@ -71,10 +66,6 @@ const EnterMeal = ({route}, props) => {
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
 
-  const [errorMessageRestaurantName, setErrorMessageRestaurantName] = useState(
-    '',
-  );
-  const [errorMessageMealTitle, setErrorMessageMealTitle] = useState('');
 
   const [date, setDate] = useState(new Date());
 
@@ -94,7 +85,6 @@ const EnterMeal = ({route}, props) => {
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [tags, setTags] = useState([]);
-  const [settings, setSettings] = useState();
 
   const [fatSecretData, setFatSecretData] = useState();
 
@@ -156,7 +146,6 @@ const EnterMeal = ({route}, props) => {
       .signInAnonymously()
       .then(data => {
         setUser_id(data.user.uid);
-        getSettings().then(r => console.log(r));
       });
   }, []);
 
@@ -196,19 +185,6 @@ const EnterMeal = ({route}, props) => {
       });
   };
 
-  async function getSettings() {
-    const profileSettings = await database.getSettings();
-    setSettings(profileSettings);
-    const getGlucoseSource = await database.getGlucoseSource();
-    if (settings && getGlucoseSource == 2) {
-      setGlucoseDataSource('Nightscout');
-    } else if (getGlucoseSource == 1) {
-      setGlucoseDataSource('Healthkit');
-    } else {
-      setGlucoseDataSource('Error');
-    }
-  }
-
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
@@ -218,13 +194,7 @@ const EnterMeal = ({route}, props) => {
           })
       : [];
 
-    uploadToNightScout(
-      nightscoutCarbs,
-      nightscoutInsulin,
-      note,
-      settings,
-      date,
-    );
+    uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
 
     const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
@@ -317,12 +287,9 @@ const EnterMeal = ({route}, props) => {
     setMealTitle('');
     setNote('');
     setCarbs(null);
-    setGlucoseDataSource('');
     setFoodPicture('');
     setBase64ImageData('');
-    setErrorMessageMealTitle('');
-    setErrorMessageRestaurantName('');
-
+    setNsTreatmentsUpload([]);
     setPredictions([]);
 
     setCMeals([]);
@@ -411,7 +378,6 @@ const EnterMeal = ({route}, props) => {
         <DatePickerOverlay date={date} setDate={setDate} />
         <RestaurantInputField
           restaurantName={restaurantName}
-          errorMessage={errorMessageRestaurantName}
           handleRestaurantPress={handleRestaurantPress}
           handleRestaurantName={handleRestaurantName}
           lat={lat}
@@ -452,22 +418,14 @@ const EnterMeal = ({route}, props) => {
           Gericht={mealTitle}
           predictions={predictions}
           handleMealInputBlur={handleMealInputBlur}
-          errorMessage={errorMessageMealTitle ? errorMessageMealTitle : null}
         />
-        <HealthKitInputField
-          glucoseDataSource={glucoseDataSource}
-          setCarbs={setCarbs}
-        />
+        <HealthKitInputField setCarbs={setCarbs} />
 
         <NightScoutInputFields
-          settings={settings}
-          nightscoutCarbs={nightscoutCarbs}
-          setNightscoutCarbs={setNightscoutCarbs}
-          nightscoutInsulin={nightscoutInsulin}
-          setNightscoutInsulin={setNightscoutInsulin}
+          nsTreatmentsUpload={nsTreatmentsUpload}
+          setNsTreatmentsUpload={setNsTreatmentsUpload}
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
-
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
       </ScrollView>
       <FAB

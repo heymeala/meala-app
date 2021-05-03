@@ -60,9 +60,6 @@ const MealInputField = props => {
         inputStyle={{fontSize: 20}}
         placeholder={t('AddMeal.MealInput')}
         autoCorrect={false}
-        renderErrorMessage={!screenReaderEnabled}
-        //   accessible={true}
-        //  accessibilityLabel={t('Accessibility.EnterMeal.meal')}
         leftIcon={
           !screenReaderEnabled && {
             type: 'ionicon',
@@ -88,7 +85,6 @@ const MealInputField = props => {
         onChangeText={text => handleSearch(text)}
         value={props.Gericht}
         onBlur={props.handleMealInputBlur}
-        errorMessage={props.errorMessage ? props.errorMessage : null}
       />
       <AddMealAttributes
         predictions={props.predictions}

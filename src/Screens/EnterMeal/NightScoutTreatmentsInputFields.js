@@ -2,22 +2,19 @@ import React from 'react';
 import {Input, makeStyles, useTheme} from 'react-native-elements';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
+import {useUserSettings} from '../../hooks/useUserSettings';
 
 const NightScoutInputFields = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
   const screenReaderEnabled = useScreenReader();
-  const {
-    settings,
-    nightscoutCarbs,
-    setNightscoutCarbs,
-    nightscoutInsulin,
-    setNightscoutInsulin,
-  } = props;
+  const {userSettings} = useUserSettings();
+
+  const {setNsTreatmentsUpload, nsTreatmentsUpload} = props;
 
   const {theme} = useTheme();
 
-  return settings && settings.nightscoutTreatmentsUpload ? (
+  return userSettings && userSettings.nightscoutTreatmentsUpload ? (
     <>
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
@@ -26,7 +23,7 @@ const NightScoutInputFields = props => {
         renderErrorMessage={false}
         keyboardType={'numeric'}
         returnKeyType="done"
-        value={nightscoutCarbs}
+        value={nsTreatmentsUpload.carbs}
         leftIcon={
           !screenReaderEnabled && {
             type: 'font-awesome-5',
@@ -35,7 +32,9 @@ const NightScoutInputFields = props => {
             iconStyle: {color: theme.colors.primary},
           }
         }
-        onChangeText={text => setNightscoutCarbs(text)}
+        onChangeText={text =>
+          setNsTreatmentsUpload({...nsTreatmentsUpload, carbs: text})
+        }
       />
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
@@ -44,7 +43,7 @@ const NightScoutInputFields = props => {
         renderErrorMessage={false}
         keyboardType={'numeric'}
         returnKeyType="done"
-        value={nightscoutInsulin}
+        value={nsTreatmentsUpload.insulin}
         leftIcon={
           !screenReaderEnabled && {
             type: 'material-community',
@@ -53,7 +52,9 @@ const NightScoutInputFields = props => {
             iconStyle: {color: theme.colors.primary},
           }
         }
-        onChangeText={text => setNightscoutInsulin(text)}
+        onChangeText={text =>
+          setNsTreatmentsUpload({...nsTreatmentsUpload, insulin: text})
+        }
       />
     </>
   ) : null;

@@ -1,11 +1,5 @@
-export function uploadToNightScout(
-  nightscoutCarbs,
-  nightscoutInsulin,
-  notiz,
-  settings,
-  date,
-) {
-  if (nightscoutCarbs || nightscoutInsulin) {
+export function uploadToNightScout(nsTreatmentsUpload, note, settings, date) {
+  if (nsTreatmentsUpload) {
     try {
       fetch(
         `${settings.nightscoutUrl}/api/v1/treatments?token=${settings.nightscoutToken}`,
@@ -18,9 +12,9 @@ export function uploadToNightScout(
           body: JSON.stringify([
             {
               created_at: date,
-              carbs: nightscoutCarbs || 0,
-              insulin: nightscoutInsulin || 0,
-              notes: notiz,
+              carbs: nsTreatmentsUpload.carbs || 0,
+              insulin: nsTreatmentsUpload.insulin || 0,
+              notes: note,
               enteredBy: 'meala',
             },
           ]),

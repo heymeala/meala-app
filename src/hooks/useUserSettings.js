@@ -10,15 +10,16 @@ export const UserSettingsProvider = ({children, userSettings}) => {
   };
 
   useEffect(() => {
+    console.log("change Data Source")
     const profileSettings = async () => {
-      const settings = await database.getSettings();
+      const settingsData = await database.getSettings();
       const glucoseSource = await database.getGlucoseSource();
-      if (settings && glucoseSource == 2) {
-        setSettings({...settings, glucoseSource: 'Nightscout'});
-      } else if (settings && glucoseSource == 1) {
-        setSettings({...settings, glucoseSource: 'HealthKit'});
+      if (settingsData && glucoseSource == 2) {
+        setSettings({...settingsData, glucoseSource: 'Nightscout'});
+      } else if (settingsData && glucoseSource == 1) {
+        setSettings({...settingsData, glucoseSource: 'HealthKit'});
       } else {
-        setSettings({...settings, glucoseSource: 'Manuel'});
+        setSettings({...settingsData, glucoseSource: 'Manuel'});
       }
     };
     profileSettings();
