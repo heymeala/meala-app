@@ -132,8 +132,8 @@ android {
         applicationId "com.heymeala"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 35
-        versionName "1.0.28"
+        versionCode 36
+        versionName "1.1.0"
        missingDimensionStrategy 'react-native-camera', 'general'
        multiDexEnabled true
            manifestPlaceholders = [
