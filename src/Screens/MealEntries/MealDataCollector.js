@@ -8,6 +8,8 @@ import moment from 'moment';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import {useUserSettings} from '../../hooks/useUserSettings';
 import {HEALTHKIT, NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
+import {SEA_MINUTES} from './DetailSite/chartConstant';
+import {filterCoordinates, mapUnit} from './DetailSite/filterCoordinates';
 
 const MealDataCollector = ({navigation, route}, props) => {
   const [sugar, setSugar] = useState([]);
@@ -55,83 +57,45 @@ const MealDataCollector = ({navigation, route}, props) => {
     const id = mealData.userMealId;
 
     if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
-      nightscoutCall(foodDate, id).then(data => {
-        const bloodGlucoseValues = data.map(sugar => sugar.sgv);
-        const foodDates = data.map(food => food.date);
-        const foodDataString = data.map(food => food.dateString);
-        const getCoordinates = data.map(sugar => {
-          const fullTime = new Date(sugar.date);
-          return {
-            x: fullTime,
-            y: sugar.sgv / settings.unit,
-          };
-        });
-
-        setCoordinates(getCoordinates);
-        setDateStrings(foodDataString);
-        setDates(foodDates);
-        setSugar(bloodGlucoseValues);
+      const nsSugarData = await nightscoutCall(foodDate, id);
+      const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
+      const nsSugarDates = nsSugarData.map(data => data.date);
+      const foodDataString = nsSugarData.map(data => data.dateString);
+      const glucoseCoordinates = nsSugarData.map(data => {
+        const glucoseValueDate = new Date(data.date);
+        return {
+          x: glucoseValueDate,
+          y: data.sgv / settings.unit,
+        };
       });
-      nightscoutTreatmens(foodDate, mealData.userMealId).then(treatmentData => {
-        const calcCarbs = treatmentData
-          .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
-          .map(data => data.carbs);
-        const calcInsulin = treatmentData
-          .filter(data => (data.isSMB ? data.isSMB === false : data))
-          .map(insulin => insulin.insulin);
+      setCoordinates(glucoseCoordinates);
+      setDateStrings(foodDataString);
+      setDates(nsSugarDates);
+      setSugar(nsSugarSGV);
 
-        const getCarbCoordiantes = treatmentData
-          .map(data => {
-            const fullTime =
-              data.timestamp || data.date || data.created_at
-                ? new Date(
-                    data.timestamp
-                      ? data.timestamp
-                      : data.date
-                      ? data.date
-                      : data.created_at,
-                  )
-                : null;
-            if (data.carbs >= 0 && data.carbs && fullTime) {
-              const carbs =
-                settings.unit === 1
-                  ? data.carbs + 50
-                  : data.carbs / (300 / settings.unit) + 50 / settings.unit;
-              return {
-                x: fullTime,
-                y: carbs,
-              };
-            }
-          })
-          .filter(coordinate => coordinate);
-        const getInsulinCoordinates = treatmentData
-          .map(insulin => {
-            const fullTime =
-              insulin.timestamp || insulin.date || insulin.created_at
-                ? new Date(
-                    insulin.timestamp
-                      ? insulin.timestamp
-                      : insulin.date
-                      ? insulin.date
-                      : insulin.created_at,
-                  )
-                : null;
-            if (insulin.insulin >= 0 && insulin.insulin && fullTime) {
-              return {
-                x: fullTime,
-                y: insulin.insulin + 80 / settings.unit,
-              };
-            }
-          })
-          .filter(coordinate => coordinate);
+      const nsTreatmentData = await nightscoutTreatmens(
+        foodDate,
+        mealData.userMealId,
+      );
 
-        setCarbs(calcCarbs);
-        setInsulin(calcInsulin);
-        setTreatments(treatmentData);
-        setCarbCoordinates(getCarbCoordiantes);
-        setInsulinCoordinates(getInsulinCoordinates);
-        setLoading(false);
-      });
+      const calcCarbs = nsTreatmentData
+        .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+        .map(data => data.carbs);
+
+      const calcInsulin = nsTreatmentData
+        .filter(data => (data.isSMB ? data.isSMB === false : data))
+        .map(insulin => insulin.insulin);
+      const getCarbCoordinates = filterCoordinates(nsTreatmentData, 'carbs');
+      const getInsulinCoordinates = filterCoordinates(
+        nsTreatmentData,
+        'insulin',
+      );
+      setCarbs(calcCarbs);
+      setInsulin(calcInsulin);
+      setTreatments(nsTreatmentData);
+      setCarbCoordinates(getCarbCoordinates);
+      setInsulinCoordinates(getInsulinCoordinates);
+      setLoading(false);
     } else if (userSettings.glucoseSource === HEALTHKIT) {
       setTreatments(null);
       setInsulinCoordinates(null);
@@ -149,7 +113,9 @@ const MealDataCollector = ({navigation, route}, props) => {
       let fromDate, tillDate;
       console.log(selectedFood);
       tillDate = moment(foodDate).add(3, 'hours').toISOString();
-      fromDate = moment(foodDate).subtract(35, 'minutes').toISOString();
+      fromDate = moment(foodDate)
+        .subtract(SEA_MINUTES, 'minutes')
+        .toISOString();
 
       AppleHealthKit.initHealthKit(permissions, (error: string) => {
         /* Called after we receive a response from the system */
@@ -193,12 +159,7 @@ const MealDataCollector = ({navigation, route}, props) => {
             setCarbs(results.map(data => data.value));
             setCarbCoordinates(
               results.map(coordinates => {
-                const kitCarbs =
-                  settings.unit === 1
-                    ? coordinates.value + 50
-                    : coordinates.value / (300 / settings.unit) +
-                      50 / settings.unit;
-
+                const kitCarbs = mapUnit(coordinates.value);
                 return {
                   x: new Date(moment(coordinates.startDate).toISOString()),
                   y: kitCarbs,
