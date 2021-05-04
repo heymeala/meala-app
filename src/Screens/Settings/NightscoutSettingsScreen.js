@@ -22,6 +22,7 @@ import Clipboard from '@react-native-community/clipboard';
 import LocalizationContext from '../../../LanguageContext';
 import {spacing} from '../../theme/styles';
 import {useUserSettings} from '../../hooks/useUserSettings';
+import { NIGHTSCOUT } from "./glucoseSourceConstants";
 
 const NightscoutSettingsScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -80,7 +81,7 @@ const NightscoutSettingsScreen = props => {
             nightscoutVersion: nightscoutVersionManipulate,
             nightscoutToken: nightscoutToken,
             nightscoutTreatmentsUpload: nightscoutTreatmentsUpload,
-            glucoseSource: 2,
+            glucoseSource: NIGHTSCOUT,
           });
           setErrorMessage(null);
           props.navigation.goBack();

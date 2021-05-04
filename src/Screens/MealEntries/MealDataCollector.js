@@ -6,6 +6,8 @@ import {useProfile} from '../../hooks/useProfile';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import LoadingSpinner from '../../Common/LoadingSpinner';
+import {useUserSettings} from '../../hooks/useUserSettings';
+import {HEALTHKIT, NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
 
 const MealDataCollector = ({navigation, route}, props) => {
   const [sugar, setSugar] = useState([]);
@@ -18,11 +20,12 @@ const MealDataCollector = ({navigation, route}, props) => {
   const [selectedFood, setSelectedFood] = useState(undefined);
   const [insulinCoordinates, setInsulinCoordinates] = useState([]);
   const [carbCoordinates, setCarbCoordinates] = useState([]);
-  const [checkSettings, setCheckSettings] = useState('');
   const [loading, setLoading] = useState(true);
 
   const [restaurantName, setRestaurantName] = useState(null);
   const {settings} = useProfile();
+
+  const {userSettings} = useUserSettings();
 
   useEffect(() => {
     let isMounted = true;
@@ -34,7 +37,7 @@ const MealDataCollector = ({navigation, route}, props) => {
     return () => {
       isMounted = false;
     };
-  }, [route.params?.mealId, settings]);
+  }, [route.params?.mealId, settings, userSettings]);
 
   function loadData() {
     const mealId = route.params?.mealId ?? undefined;
@@ -50,12 +53,8 @@ const MealDataCollector = ({navigation, route}, props) => {
   async function loadSugarData(mealData) {
     const foodDate = new Date(mealData.date);
     const id = mealData.userMealId;
-    const getSettings = await database.getSettings();
-    const getGlucoseSource = await database.getGlucoseSource();
 
-    if (getSettings && getGlucoseSource === '2') {
-      setCheckSettings('Nightscout');
-
+    if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
       nightscoutCall(foodDate, id).then(data => {
         const bloodGlucoseValues = data.map(sugar => sugar.sgv);
         const foodDates = data.map(food => food.date);
@@ -133,9 +132,7 @@ const MealDataCollector = ({navigation, route}, props) => {
         setInsulinCoordinates(getInsulinCoordinates);
         setLoading(false);
       });
-    } else if (getGlucoseSource === '1') {
-      setCheckSettings('Healthkit');
-
+    } else if (userSettings.glucoseSource === HEALTHKIT) {
       const permissions = {
         permissions: {
           read: [
@@ -210,7 +207,6 @@ const MealDataCollector = ({navigation, route}, props) => {
       });
       setLoading(false);
     } else {
-      setCheckSettings('Error');
       setLoading(false);
     }
   }
@@ -221,7 +217,6 @@ const MealDataCollector = ({navigation, route}, props) => {
         <MealDetailsComponent
           treatments={treatments}
           carbCoordinates={carbCoordinates}
-          checkSettings={checkSettings}
           selectedFood={selectedFood}
           insulinCoordinates={insulinCoordinates}
           sugar={sugar}

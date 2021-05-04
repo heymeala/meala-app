@@ -16,11 +16,10 @@ import {Text, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {spacing} from '../../../theme/styles';
 import {useUserSettings} from '../../../hooks/useUserSettings';
+import {HEALTHKIT} from '../glucoseSourceConstants';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
-
-  const [glucoseSource, setGlucoseSource] = useState(undefined);
   const [authStatus, setAuthStatus] = useState();
   const {userSettings, saveUserSettings} = useUserSettings();
 
@@ -36,18 +35,8 @@ export default function HealthKitScreen() {
     },
   };
 
-  useEffect(() => {
-    database
-      .getGlucoseSource()
-      .then(glucoseSource =>
-        glucoseSource ? setGlucoseSource(glucoseSource) : undefined,
-      );
-  }, [glucoseSource]);
-
-  const saveState = value => {
-    saveUserSettings({...userSettings, glucoseSource: 1});
-    setGlucoseSource('1');
-    // navigation.goBack();
+  const saveState = () => {
+    saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
   };
   const getPermission = () => {
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
@@ -57,7 +46,7 @@ export default function HealthKitScreen() {
         console.log('[ERROR] Cannot grant permissions!');
       }
       getAuthAccess();
-      saveState(1);
+      saveState();
     });
   };
 
@@ -89,7 +78,7 @@ export default function HealthKitScreen() {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            {glucoseSource === '1' ? (
+            {userSettings.glucoseSource === HEALTHKIT ? (
               <Icon
                 style={styles.center}
                 name="ios-heart"
@@ -143,7 +132,7 @@ export default function HealthKitScreen() {
                 />
               </View>
             </View>
-            {glucoseSource === '1' ? (
+            {userSettings.glucoseSource === HEALTHKIT ? (
               <>
                 <Text h4 style={styles.center}>
                   {t('Settings.healthKit.healthKitActivated')}
@@ -155,7 +144,7 @@ export default function HealthKitScreen() {
                 <Button
                   title={t('Settings.healthKit.activateHealthKit')}
                   onPress={() => {
-                    saveState(1);
+                    saveState();
                   }}
                 />
               )

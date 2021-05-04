@@ -57,15 +57,13 @@ export function carbSum(carbs) {
 }
 
 export function getSEA(checkSettings, t, duration, InsulinSumme) {
-  return checkSettings === 'Nightscout'
-    ? InsulinSumme.length > 1
-      ? duration.asMilliseconds() < 0
-        ? t('Entries.youHave') +
-          Math.abs(Math.round(duration.asMinutes())) +
-          t('Entries.before')
-        : t('Entries.youHave') +
-          Math.abs(Math.round(duration.asMinutes())) +
-          t('Entries.after')
-      : t('Entries.calculating')
-    : null;
+  return InsulinSumme.length > 1
+    ? duration.asMilliseconds() < 0
+      ? t('Entries.youHave') +
+        Math.abs(Math.round(duration.asMinutes())) +
+        t('Entries.before')
+      : t('Entries.youHave') +
+        Math.abs(Math.round(duration.asMinutes())) +
+        t('Entries.after')
+    : t('Entries.calculating');
 }

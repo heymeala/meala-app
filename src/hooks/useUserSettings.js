@@ -11,7 +11,6 @@ export const UserSettingsProvider = ({children, userSettings}) => {
   const [settings, setSettings] = useState(userSettings || defaultUserSettings);
 
   const saveUserSettings = data => {
-    console.log('save source', data);
     setSettings(data);
     database.saveGlucoseSource(data.glucoseSource);
     database.saveSettings(
@@ -24,14 +23,15 @@ export const UserSettingsProvider = ({children, userSettings}) => {
   };
 
   useEffect(() => {
-    console.log('change Data Source');
-
     const profileSettings = async () => {
       const settingsData = await database.getSettings();
       const glucoseSource = await database.getGlucoseSource();
-      if (settingsData && glucoseSource == 2) {
+      if (
+        (settingsData && glucoseSource === '2') ||
+        glucoseSource === NIGHTSCOUT
+      ) {
         setSettings({...settingsData, glucoseSource: NIGHTSCOUT});
-      } else if (settingsData && glucoseSource == 1) {
+      } else if ((settingsData && glucoseSource === '1') || HEALTHKIT) {
         setSettings({...settingsData, glucoseSource: HEALTHKIT});
       } else {
         setSettings({...settingsData, glucoseSource: DEFAULT});

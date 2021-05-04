@@ -1,37 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {SafeAreaView, SectionList, Text, View} from 'react-native';
 import {makeStyles} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {useFocusEffect} from '@react-navigation/core';
-import {database} from '../../Common/database_realm';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {spacing} from '../../theme/styles';
 import SettingsListItem from './SettingsListItem';
 import SettingsFooter from './Footer';
+import {useUserSettings} from '../../hooks/useUserSettings';
+import {HEALTHKIT, NIGHTSCOUT} from './glucoseSourceConstants';
 
 const SettingsOverview = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
-  const [selectedId, setSelectedId] = useState(0);
+  const {userSettings} = useUserSettings();
   const styles = useStyles();
-
-  useEffect(() => {
-    load();
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      load();
-    }, []),
-  );
-
-  const load = () => {
-    database
-      .getGlucoseSource()
-      .then(glucoseSource =>
-        glucoseSource ? setSelectedId(glucoseSource) : 0,
-      );
-  };
 
   const SettingsMenuData = [
     {
@@ -51,14 +33,14 @@ const SettingsOverview = props => {
           name: 'HealthKit',
           link: 'HealthKitScreen',
           icon: 'heart',
-          active: selectedId === '1',
+          active: userSettings.glucoseSource === HEALTHKIT,
         },
         {
           name: 'Nightscout',
           icon: 'nightscout',
           iconType: 'meala',
           link: 'DataSourceScreen',
-          active: selectedId === '2',
+          active: userSettings.glucoseSource === NIGHTSCOUT,
         },
         {
           name: 'FatSecret',

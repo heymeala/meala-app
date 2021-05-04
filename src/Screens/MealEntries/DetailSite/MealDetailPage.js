@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
 import {Image, makeStyles, Text} from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
@@ -13,9 +13,13 @@ import NightScoutTreatmentDetails from './NightScoutTreatmentDetails';
 import FatSecretNutritionInfo from './FatSecretNutritionInfo';
 import EditSpeedDialGroup from './EditSpeedDailGroup';
 import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
+import {useUserSettings} from '../../../hooks/useUserSettings';
+import {DEFAULT, NIGHTSCOUT} from '../../Settings/glucoseSourceConstants';
 
 const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
+  const {userSettings} = useUserSettings();
+
   moment.locale(locale);
   const {selectedFood} = props;
   const foodDatumMoment = moment(selectedFood.date).format();
@@ -32,8 +36,8 @@ const MealDetailsComponent = props => {
   ]);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
   const spritzEssAbstandText = React.useMemo(
-    () => getSEA(props.checkSettings, t, duration, insulinSumme),
-    [props.checkSettings, t, duration, insulinSumme],
+    () => getSEA(userSettings.glucoseSource, t, duration, insulinSumme),
+    [userSettings.glucoseSource, t, duration, insulinSumme],
   );
 
   console.log(props);
@@ -51,7 +55,7 @@ const MealDetailsComponent = props => {
           carbSumme={carbSumme}
           selectedFood={props.selectedFood}
         />
-        {props.checkSettings !== 'Error' ? (
+        {(userSettings.glucoseSource === NIGHTSCOUT) !== DEFAULT ? (
           <GeneralChartView
             loading={props.loading}
             coordinates={props.coordiantes}
@@ -63,7 +67,9 @@ const MealDetailsComponent = props => {
           <NoGraphData />
         )}
         <View style={{alignItems: 'center'}}>
-          <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
+          {userSettings.glucoseSource === NIGHTSCOUT && (
+            <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
+          )}
           {props.selectedFood.picture ? (
             <Image
               source={
@@ -75,7 +81,7 @@ const MealDetailsComponent = props => {
             />
           ) : null}
         </View>
-        {props.checkSettings === 'Nightscout' && (
+        {userSettings.glucoseSource === NIGHTSCOUT && (
           <NightScoutTreatmentDetails
             treatments={props.treatments}
             insulinSumme={insulinSumme}
