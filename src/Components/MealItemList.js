@@ -21,6 +21,8 @@ const MealItemsList = (props) => {
       : null;
   let curTime = new Date();
 
+
+
   const LatestMealSubtitle = () => {
     if (props.item) {
       let timeFromLatestMeal = new Date(

@@ -1,3 +1,5 @@
+import {HYPER, HYPO} from './targetRangeConstants';
+
 export function analyseTimeInRange(cgmData) {
   let cgmArray = [];
   let cgmInRange = [];
@@ -6,11 +8,11 @@ export function analyseTimeInRange(cgmData) {
 
   // console.log(cgmData)
 
-  cgmData.map((cgmData) => {
+  cgmData.map(cgmData => {
     if (cgmData.sgv) {
       cgmArray.push(parseInt(cgmData.sgv));
 
-      if (parseInt(cgmData.sgv) < 160 && parseInt(cgmData.sgv) > 70) {
+      if (parseInt(cgmData.sgv) < HYPER && parseInt(cgmData.sgv) > HYPO) {
         cgmInRange.push(parseInt(cgmData.sgv));
       } else {
         cgmOutOfRange.push(parseInt(cgmData.sgv));
