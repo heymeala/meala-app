@@ -12,9 +12,10 @@ const NightScoutInputFields = props => {
 
   const {setNsTreatmentsUpload, nsTreatmentsUpload} = props;
 
-  const {theme} = useTheme();
 
-  return userSettings && userSettings.nightscoutTreatmentsUpload ? (
+  const {theme} = useTheme();
+  return userSettings.nightscoutTreatmentsUpload &&
+    userSettings.glucoseSource == 2 ? (
     <>
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
@@ -23,7 +24,7 @@ const NightScoutInputFields = props => {
         renderErrorMessage={false}
         keyboardType={'numeric'}
         returnKeyType="done"
-        value={nsTreatmentsUpload.carbs}
+        value={nsTreatmentsUpload && nsTreatmentsUpload.carbs}
         leftIcon={
           !screenReaderEnabled && {
             type: 'font-awesome-5',
@@ -43,7 +44,7 @@ const NightScoutInputFields = props => {
         renderErrorMessage={false}
         keyboardType={'numeric'}
         returnKeyType="done"
-        value={nsTreatmentsUpload.insulin}
+        value={nsTreatmentsUpload && nsTreatmentsUpload.insulin}
         leftIcon={
           !screenReaderEnabled && {
             type: 'material-community',

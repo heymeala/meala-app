@@ -1,25 +1,40 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {database} from '../Common/database_realm';
 import {defaultUserSettings, UserSettingsContext} from './UserSettingsContext';
+import {
+  DEFAULT,
+  HEALTHKIT,
+  NIGHTSCOUT,
+} from '../Screens/Settings/glucoseSourceConstants';
 
 export const UserSettingsProvider = ({children, userSettings}) => {
   const [settings, setSettings] = useState(userSettings || defaultUserSettings);
 
-  const saveSettings = data => {
+  const saveUserSettings = data => {
+    console.log('save source', data);
     setSettings(data);
+    database.saveGlucoseSource(data.glucoseSource);
+    database.saveSettings(
+      data.nightscoutUrl,
+      data.nightscoutStatus,
+      data.nightscoutVersion,
+      data.nightscoutToken,
+      data.nightscoutTreatmentsUpload,
+    );
   };
 
   useEffect(() => {
-    console.log("change Data Source")
+    console.log('change Data Source');
+
     const profileSettings = async () => {
       const settingsData = await database.getSettings();
       const glucoseSource = await database.getGlucoseSource();
       if (settingsData && glucoseSource == 2) {
-        setSettings({...settingsData, glucoseSource: 'Nightscout'});
+        setSettings({...settingsData, glucoseSource: NIGHTSCOUT});
       } else if (settingsData && glucoseSource == 1) {
-        setSettings({...settingsData, glucoseSource: 'HealthKit'});
+        setSettings({...settingsData, glucoseSource: HEALTHKIT});
       } else {
-        setSettings({...settingsData, glucoseSource: 'Manuel'});
+        setSettings({...settingsData, glucoseSource: DEFAULT});
       }
     };
     profileSettings();
@@ -27,7 +42,7 @@ export const UserSettingsProvider = ({children, userSettings}) => {
 
   return (
     <UserSettingsContext.Provider
-      value={{userSettings: settings, saveGlucoseSource: saveSettings}}>
+      value={{userSettings: settings, saveUserSettings: saveUserSettings}}>
       {children}
     </UserSettingsContext.Provider>
   );

@@ -21,6 +21,7 @@ import {database} from '../../Common/database_realm';
 import Clipboard from '@react-native-community/clipboard';
 import LocalizationContext from '../../../LanguageContext';
 import {spacing} from '../../theme/styles';
+import {useUserSettings} from '../../hooks/useUserSettings';
 
 const NightscoutSettingsScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -36,24 +37,14 @@ const NightscoutSettingsScreen = props => {
     setNightscoutTreatmentsUpload,
   ] = useState();
   const [expanded, setExpanded] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [selectedId, setSelectedId] = useState(2);
+  const {userSettings, saveUserSettings} = useUserSettings();
 
   useEffect(() => {
-    database.getSettings().then(data => {
-      if (data) {
-        setNightscoutUrl(data.nightscoutUrl);
-        setNightscoutVersion(data.nightscoutVersion);
-        setNightscoutStatus(data.nightscoutStatus);
-        setNightscoutToken(data.nightscoutToken);
-        setNightscoutTreatmentsUpload(data.nightscoutTreatmentsUpload);
-      }
-    });
-    database
-      .getGlucoseSource()
-      .then(glucoseSource =>
-        glucoseSource ? setSelectedId(glucoseSource) : null,
-      );
+    setNightscoutUrl(userSettings.nightscoutUrl);
+    setNightscoutVersion(userSettings.nightscoutVersion);
+    setNightscoutStatus(userSettings.nightscoutStatus);
+    setNightscoutToken(userSettings.nightscoutToken);
+    setNightscoutTreatmentsUpload(userSettings.nightscoutTreatmentsUpload);
   }, []);
 
   const readFromClipboard = async () => {
@@ -82,18 +73,15 @@ const NightscoutSettingsScreen = props => {
           if (parseFloat(nightscoutVersionManipulate) >= 0.12) {
             console.log('up to date - version greater than 0.12');
           }
-          database
-            .saveSettings(
-              checkUrl,
-              data.status,
-              nightscoutVersionManipulate,
-              nightscoutToken,
-              nightscoutTreatmentsUpload,
-            )
-            .catch(err => {
-              console.log('There was an error:' + err);
-            });
-          database.saveGlucoseSource(2);
+
+          saveUserSettings({
+            nightscoutUrl: checkUrl,
+            nightscoutStatus: data.status,
+            nightscoutVersion: nightscoutVersionManipulate,
+            nightscoutToken: nightscoutToken,
+            nightscoutTreatmentsUpload: nightscoutTreatmentsUpload,
+            glucoseSource: 2,
+          });
           setErrorMessage(null);
           props.navigation.goBack();
         })
@@ -105,11 +93,6 @@ const NightscoutSettingsScreen = props => {
       setErrorMessage(t('Settings.urlMissing'));
     }
   }
-
-  const onPress = () => {
-    database.saveGlucoseSource(selectedId);
-    setIsVisible(!isVisible);
-  };
 
   const saveButton = nightscoutUrl
     ? {

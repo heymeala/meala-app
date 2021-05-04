@@ -57,15 +57,13 @@ const EnterMeal = ({route}, props) => {
 
   const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
-  const [nsTreatmentsUpload, setNsTreatmentsUpload] = useState([]);
+  const [nsTreatmentsUpload, setNsTreatmentsUpload] = useState(null);
   const [foodPicture, setFoodPicture] = useState('');
-
   const [base64ImageData, setBase64ImageData] = useState('');
   const [predictions, setPredictions] = useState([]);
 
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
-
 
   const [date, setDate] = useState(new Date());
 
@@ -83,16 +81,9 @@ const EnterMeal = ({route}, props) => {
   const scrollListReftop = useRef();
   const MealInput = useRef();
   const [gpsEnabled, setGpsEnabled] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
   const [tags, setTags] = useState([]);
 
   const [fatSecretData, setFatSecretData] = useState();
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    checkGps();
-    wait(1000).then(() => setRefreshing(false));
-  }, []);
 
   React.useEffect(() => {
     if (route.params?.scan === true) {
@@ -141,6 +132,7 @@ const EnterMeal = ({route}, props) => {
     }
   }, [route.params?.mealid]);
 
+  //todo: move to app
   useEffect(() => {
     auth()
       .signInAnonymously()
@@ -184,6 +176,7 @@ const EnterMeal = ({route}, props) => {
         setIsLoadingcMeals(false);
       });
   };
+
 
   function saveAll() {
     const fatSecretUserIds = fatSecretData
@@ -289,7 +282,7 @@ const EnterMeal = ({route}, props) => {
     setCarbs(null);
     setFoodPicture('');
     setBase64ImageData('');
-    setNsTreatmentsUpload([]);
+    setNsTreatmentsUpload(null);
     setPredictions([]);
 
     setCMeals([]);
@@ -353,11 +346,6 @@ const EnterMeal = ({route}, props) => {
       <ScrollView
         bounces={false}
         contentInsetAdjustmentBehavior="automatic"
-        refreshControl={
-          !gpsEnabled && (
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          )
-        }
         keyboardShouldPersistTaps="handled"
         ref={scrollListReftop}
         scrollToOverflowEnabled={true}

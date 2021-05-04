@@ -15,12 +15,14 @@ import PermissionListItem from './PermissionListItem';
 import {Text, Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {spacing} from '../../../theme/styles';
+import {useUserSettings} from '../../../hooks/useUserSettings';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
 
   const [glucoseSource, setGlucoseSource] = useState(undefined);
   const [authStatus, setAuthStatus] = useState();
+  const {userSettings, saveUserSettings} = useUserSettings();
 
   /* Permission options */
   const permissions = {
@@ -43,7 +45,7 @@ export default function HealthKitScreen() {
   }, [glucoseSource]);
 
   const saveState = value => {
-    database.saveGlucoseSource(1);
+    saveUserSettings({...userSettings, glucoseSource: 1});
     setGlucoseSource('1');
     // navigation.goBack();
   };
