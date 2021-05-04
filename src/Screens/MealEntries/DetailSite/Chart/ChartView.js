@@ -9,13 +9,13 @@ import {
 } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
-import LocalizationContext from '../../../../LanguageContext';
-import {useProfile} from '../../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
-import LoadingSpinner from '../../../Common/LoadingSpinner';
+import LocalizationContext from '../../../../../LanguageContext';
+import {useProfile} from '../../../../hooks/useProfile';
+import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
+import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
+import LoadingSpinner from '../../../../Common/LoadingSpinner';
 import {Icon, makeStyles, useTheme} from 'react-native-elements';
-import {spacing} from '../../../theme/styles';
+import {spacing} from '../../../../theme/styles';
 import {MAX_CHART_VALUE, MIN_CHART_VALUE} from './chartConstant';
 
 function GeneralChartView(props) {

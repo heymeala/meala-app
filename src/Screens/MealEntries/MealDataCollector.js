@@ -8,7 +8,7 @@ import moment from 'moment';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import {useUserSettings} from '../../hooks/useUserSettings';
 import {HEALTHKIT, NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
-import {SEA_MINUTES} from './DetailSite/chartConstant';
+import {SEA_MINUTES} from './DetailSite/Chart/chartConstant';
 import {filterCoordinates, mapUnit} from './DetailSite/filterCoordinates';
 
 const MealDataCollector = ({navigation, route}, props) => {

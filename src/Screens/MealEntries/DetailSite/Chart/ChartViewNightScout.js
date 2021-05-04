@@ -9,11 +9,11 @@ import {
 } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
-import LocalizationContext from '../../../../LanguageContext';
-import {useProfile} from '../../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRange} from '../../../Common/analyseTimeInRange';
+import LocalizationContext from '../../../../../LanguageContext';
+import {useProfile} from '../../../../hooks/useProfile';
+import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
+import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
+import {analyseTimeInRange} from '../../../../Common/analyseTimeInRange';
 
 function ChartView(props) {
   const {t, locale} = React.useContext(LocalizationContext);

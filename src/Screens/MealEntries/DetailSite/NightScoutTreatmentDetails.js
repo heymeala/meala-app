@@ -2,6 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
+import {spacing} from '../../../theme/styles';
 
 const NightScoutTreatmentDetails = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -13,12 +14,13 @@ const NightScoutTreatmentDetails = props => {
     props.treatments.map((treatments, i) => {
       eventType = null;
       if (treatments.insulin) {
-        insuliCal = t('Entries.directBolus') + treatments.insulin.toFixed(2);
+        insuliCal =
+          t('Entries.directBolus') + ' ' + treatments.insulin.toFixed(2);
       } else {
         insuliCal = null;
       }
       if (treatments.carbs) {
-        carbsCal = t('Entries.carbs') + treatments.carbs.toFixed(2);
+        carbsCal = t('Entries.carbs') + ' ' + treatments.carbs.toFixed(2);
       } else {
         carbsCal = null;
       }
@@ -40,13 +42,11 @@ const NightScoutTreatmentDetails = props => {
       return (
         <View key={treatments._id}>
           {carbsCal || insuliCal || enteredinsulin ? (
-            <View style={{padding: 5}}>
-              <Text>{eventType}</Text>
-              <Text>
-                {carbsCal}
-                {insuliCal}
-                {enteredinsulin}{' '}
-              </Text>
+            <View style={styles.detailsContainer}>
+              {eventType && <Text>{eventType}</Text>}
+              {carbsCal && <Text>{carbsCal}</Text>}
+              {insuliCal && <Text>{insuliCal}</Text>}
+              {enteredinsulin && <Text>{enteredinsulin}</Text>}
             </View>
           ) : null}
         </View>
@@ -69,4 +69,5 @@ export default NightScoutTreatmentDetails;
 
 const useStyles = makeStyles(theme => ({
   text: {fontSize: 18, fontWeight: 'bold'},
+  detailsContainer: {marginVertical: spacing.XS},
 }));
