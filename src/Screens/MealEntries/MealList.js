@@ -7,8 +7,10 @@ import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import {WAITING_TIME} from '../../Common/Constants/waitingTime';
 import {mealsWithoutCgmData} from './mealsWithoutCgmData';
+import {useUserSettings} from '../../hooks/useUserSettings';
+import {NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
+import {nightscoutCall, nightscoutTreatmens} from '../../Common/nightscoutApi';
 
 const MealList = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -16,7 +18,7 @@ const MealList = props => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const {userSettings} = useUserSettings();
   useFocusEffect(
     React.useCallback(() => {
       mealData(search);
@@ -40,8 +42,25 @@ const MealList = props => {
     setRestaurants(filteredMeals);
     setLoading(false);
 
-    const quew = mealsWithoutCgmData(filteredMeals);
-    console.log(quew);
+    if (userSettings.glucoseSource === NIGHTSCOUT) {
+      console.log("nightscout refresh");
+      const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
+      if (notLoadedEntries && notLoadedEntries.length > 0) {
+        notLoadedEntries.map(data => {
+          const nsSugarData = async () => {
+            console.log(data);
+            await nightscoutCall(data.date, data.userMealId);
+            await nightscoutTreatmens(data.date, data.userMealId);
+            const updatedMeals = await database.fetchMealWithName(foodName);
+            const updatedFilteredMeals = updatedMeals.filter(
+              data => data.isDeleted === false,
+            );
+            setRestaurants(updatedFilteredMeals);
+          };
+          nsSugarData();
+        });
+      }
+    }
   }
 
   return loading ? (
