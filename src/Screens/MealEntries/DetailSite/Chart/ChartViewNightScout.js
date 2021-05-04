@@ -22,7 +22,6 @@ function ChartView(props) {
 
   if (props.loading === false) {
     if (screenReaderEnabled) {
-      console.log(props.coordinates);
       return (
         <View>
           {props.coordinates.length > 1 ? (

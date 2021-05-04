@@ -43,7 +43,6 @@ const MealList = props => {
     setLoading(false);
 
     if (userSettings.glucoseSource === NIGHTSCOUT) {
-      console.log("nightscout refresh");
       const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
       if (notLoadedEntries && notLoadedEntries.length > 0) {
         notLoadedEntries.map(data => {

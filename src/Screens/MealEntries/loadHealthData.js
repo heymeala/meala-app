@@ -4,6 +4,11 @@ import {filterCoordinates, mapUnit} from './DetailSite/filterCoordinates';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import {SEA_MINUTES} from './DetailSite/Chart/chartConstant';
+import {
+  permissions,
+  tillDate,
+  fromDate,
+} from './DetailSite/HealthKitPermissions';
 
 export async function loadSugarData(
   mealData,
@@ -72,23 +77,13 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
 
-    const permissions = {
-      permissions: {
-        read: [
-          AppleHealthKit.Constants.Permissions.BloodGlucose,
-          AppleHealthKit.Constants.Permissions.Carbohydrates,
-          AppleHealthKit.Constants.Permissions.HeartRate,
-        ],
-        write: [AppleHealthKit.Constants.Permissions.Steps],
-      },
-    };
-    let fromDate, tillDate;
-    tillDate = moment(foodDate).add(3, 'hours').toISOString();
-    fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+    const tillDate = moment(foodDate).add(3, 'hours').toISOString();
+    const fromDate = moment(foodDate)
+      .subtract(SEA_MINUTES, 'minutes')
+      .toISOString();
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
-
       if (error) {
         console.log('[ERROR] Cannot grant permissions!');
       }
@@ -128,7 +123,7 @@ export async function loadSugarData(
           setCarbs(results.map(data => data.value));
           setCarbCoordinates(
             results.map(coordinates => {
-              const kitCarbs = mapUnit(coordinates.value);
+              const kitCarbs = mapUnit(coordinates.value, settings);
               return {
                 x: new Date(moment(coordinates.startDate).toISOString()),
                 y: kitCarbs,

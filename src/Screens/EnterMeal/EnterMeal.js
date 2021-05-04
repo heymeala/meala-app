@@ -279,7 +279,7 @@ const EnterMeal = ({route}, props) => {
     setRestaurantId('');
     setMealTitle('');
     setNote('');
-    setCarbs(null);
+    setCarbs('');
     setFoodPicture('');
     setBase64ImageData('');
     setNsTreatmentsUpload(null);
@@ -407,7 +407,7 @@ const EnterMeal = ({route}, props) => {
           predictions={predictions}
           handleMealInputBlur={handleMealInputBlur}
         />
-        <HealthKitInputField setCarbs={setCarbs} />
+        <HealthKitInputField carbs={carbs} setCarbs={setCarbs} />
 
         <NightScoutInputFields
           nsTreatmentsUpload={nsTreatmentsUpload}

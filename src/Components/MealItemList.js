@@ -18,6 +18,7 @@ const MealItemsList = props => {
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
   const [tir, setTir] = useState(null);
+
   useEffect(() => {
     const parsedData = JSON.parse(props.item.cgmData);
     const timeInRange = analyseTimeInRange(parsedData);

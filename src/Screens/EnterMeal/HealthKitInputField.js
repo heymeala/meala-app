@@ -3,6 +3,7 @@ import {Input, makeStyles, useTheme} from 'react-native-elements';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import {useUserSettings} from '../../hooks/useUserSettings';
+import { HEALTHKIT } from "../Settings/glucoseSourceConstants";
 
 const HealthKitInputField = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -11,14 +12,15 @@ const HealthKitInputField = props => {
   const {userSettings} = useUserSettings();
 
   const screenReaderEnabled = useScreenReader();
-  const {setCarbs} = props;
-  return userSettings.glucoseSource === 'Healthkit' ? (
+  const {carbs, setCarbs} = props;
+  return userSettings.glucoseSource === HEALTHKIT ? (
     <Input
       inputContainerStyle={styles.inputPadding}
       inputStyle={{fontSize: 15}}
       placeholder={t('AddMeal.Carbs')}
       keyboardType={'numeric'}
       renderErrorMessage={false}
+      value={carbs}
       leftIcon={
         !screenReaderEnabled && {
           type: 'ionicon',
