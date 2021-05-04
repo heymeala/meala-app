@@ -28,7 +28,6 @@ const MealDataCollector = ({navigation, route}, props) => {
   const {settings} = useProfile();
 
   const {userSettings} = useUserSettings();
-
   useEffect(() => {
     let isMounted = true;
     if (route.params?.mealId) {
@@ -85,10 +84,15 @@ const MealDataCollector = ({navigation, route}, props) => {
       const calcInsulin = nsTreatmentData
         .filter(data => (data.isSMB ? data.isSMB === false : data))
         .map(insulin => insulin.insulin);
-      const getCarbCoordinates = filterCoordinates(nsTreatmentData, 'carbs');
+      const getCarbCoordinates = filterCoordinates(
+        nsTreatmentData,
+        'carbs',
+        settings,
+      );
       const getInsulinCoordinates = filterCoordinates(
         nsTreatmentData,
         'insulin',
+        settings,
       );
       setCarbs(calcCarbs);
       setInsulin(calcInsulin);
@@ -96,7 +100,7 @@ const MealDataCollector = ({navigation, route}, props) => {
       setCarbCoordinates(getCarbCoordinates);
       setInsulinCoordinates(getInsulinCoordinates);
       setLoading(false);
-    } else if (userSettings.glucoseSource === HEALTHKIT) {
+    } else if (userSettings && userSettings.glucoseSource === HEALTHKIT) {
       setTreatments(null);
       setInsulinCoordinates(null);
 

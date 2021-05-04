@@ -1,4 +1,5 @@
 import {MAX_CHART_VALUE, MIN_CHART_VALUE} from './chartConstant';
+import {useUserSettings} from '../../../hooks/useUserSettings';
 
 export function mapUnit(value, settings) {
   return settings.unit === 1
@@ -7,7 +8,7 @@ export function mapUnit(value, settings) {
         MIN_CHART_VALUE / settings.unit;
 }
 
-export function filterCoordinates(coordinates, type) {
+export function filterCoordinates(coordinates, type, settings) {
   const filteredCoordinates = coordinates
     .map(data => {
       const time =
@@ -21,7 +22,7 @@ export function filterCoordinates(coordinates, type) {
             )
           : null;
       if (data[type] >= 0 && data[type] && time) {
-        const yAxis = mapUnit(data[type]);
+        const yAxis = mapUnit(data[type], settings);
 
         return {
           x: time,

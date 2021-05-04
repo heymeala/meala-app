@@ -3,6 +3,7 @@ import {Input, makeStyles, useTheme} from 'react-native-elements';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import {useUserSettings} from '../../hooks/useUserSettings';
+import {NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
 
 const NightScoutInputFields = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -12,10 +13,9 @@ const NightScoutInputFields = props => {
 
   const {setNsTreatmentsUpload, nsTreatmentsUpload} = props;
 
-
   const {theme} = useTheme();
   return userSettings.nightscoutTreatmentsUpload &&
-    userSettings.glucoseSource == 2 ? (
+    userSettings.glucoseSource === NIGHTSCOUT ? (
     <>
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
@@ -65,7 +65,6 @@ export default NightScoutInputFields;
 
 const useStyles = makeStyles(theme => ({
   inputPaddingTextarea: {
-    // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
     borderRadius: 6,
     marginBottom: 10,
     height: 70,

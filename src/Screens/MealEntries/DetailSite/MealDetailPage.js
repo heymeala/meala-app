@@ -51,8 +51,7 @@ const MealDetailsComponent = props => {
           carbSumme={carbSumme}
           selectedFood={props.selectedFood}
         />
-        {userSettings.glucoseSource === NIGHTSCOUT &&
-        userSettings.glucoseSource !== DEFAULT ? (
+        {  userSettings.glucoseSource !== DEFAULT ? (
           <GeneralChartView
             loading={props.loading}
             coordinates={props.coordinates}
