@@ -29,7 +29,7 @@ const HealthKitInputField = props => {
           iconStyle: {color: theme.colors.primary},
         }
       }
-      onChangeText={text => setCarbs(parseFloat(text))}
+      onChangeText={text => setCarbs(text)}
     />
   ) : null;
 };

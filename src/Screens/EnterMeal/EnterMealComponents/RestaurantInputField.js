@@ -124,6 +124,7 @@ const RestaurantInputField = props => {
         </TouchableOpacity>
       )}
       <Input
+        disabled={props.editMode}
         ref={RestaurantInput}
         onFocus={handleFocus}
         autoCorrect={false}

@@ -217,7 +217,6 @@ export const database = {
       });
   },
 
-
   fetchRestaurantsWithFilter: filter => {
     return database._open
       .then(realm => {
@@ -546,6 +545,49 @@ export const database = {
             userMealId: id,
             carbs: carbSum,
             treatmentsData: JSON.stringify(treatmentsData),
+          },
+          true,
+        );
+      });
+    });
+  },
+  editMeal: (userMealId, food, picture, date, note) => {
+    return database._open.then(realm => {
+      // console.log(date + 'date Treatements in realm')
+      // let Meal = realm.objects('Meal').filtered('date = $0', date);
+      realm.write(() => {
+        realm.create(
+          'Meal',
+          {
+            userMealId: userMealId,
+            food: food,
+            picture: picture,
+            // carbs: 'float?',
+            date: date,
+            note: note,
+            //  restaurantId: 'string?',
+          },
+          true,
+        );
+      });
+    });
+  },
+  editRestaurant: (restaurantId, name, scope) => {
+    return database._open.then(realm => {
+      // console.log(date + 'date Treatements in realm')
+      // let Meal = realm.objects('Meal').filtered('date = $0', date);
+      realm.write(() => {
+        realm.create(
+          'Restaurant',
+          {
+            id: restaurantId,
+            restaurant_name: name,
+            address: '',
+            //  lat: 'float?',
+            // long: 'float?',
+            restaurantNote: '',
+            isDeleted: false,
+            scope: scope,
           },
           true,
         );

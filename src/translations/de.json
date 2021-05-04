@@ -16,6 +16,8 @@
     "Roll": "Foto aus Bibliothek",
     "PicPopUp": "Foto von Deinem Essen",
     "save": "Speichern",
+    "edit": "Bearbeiten",
+    "copy": "Kopieren",
     "ErrorMessage": "Bitte ausfüllen",
     "firstEntry": "Lege Deine erste Mahlzeit an. Achte darauf, dass Deine Gerichte am Anfang nicht zu vielfältig sind, damit Du aus Deinen Werten lernen kannst. Versuche zudem drei Stunden nach dem Essen keine weiteren Kohlenhydrate aufzunehmen, damit Du erkennst, ob Du richtig geschätzt hast.",
     "notificationAfterMeal": "Schaue Dir Deine letzte Mahlzeit {{mealTitle}} an",

@@ -35,6 +35,7 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
+
         options={{
           tabBarLabel: t('Accessibility.tab.add'),
           tabBarIcon: ({color, focused}) => (

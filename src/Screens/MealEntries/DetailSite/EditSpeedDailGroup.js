@@ -27,6 +27,20 @@ const EditSpeedDialGroup = props => {
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}>
       <SpeedDial.Action
+        accessibilityLabel={'Bearbeiten'}
+        icon={{name: 'edit', color: '#fff'}}
+        //title={t('Entries.copyMeal')}
+        onPress={() =>
+          navigation.navigate('EnterMealStack', {
+            screen: 'EnterMeal',
+            params: {
+              mealid: selectedFood.id,
+              type: 'edit',
+            },
+          })
+        }
+      />
+      <SpeedDial.Action
         accessibilityLabel={t('Entries.copyMeal')}
         icon={{name: 'content-copy', color: '#fff'}}
         //title={t('Entries.copyMeal')}
@@ -35,6 +49,7 @@ const EditSpeedDialGroup = props => {
             screen: 'EnterMeal',
             params: {
               mealid: selectedFood.id,
+              type: 'copy',
             },
           })
         }
