@@ -11,9 +11,11 @@ import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
 import {EmptyListDate} from './Common/EmtyListDate';
 import LoadingSpinner from '../../Common/LoadingSpinner';
+import { useNavigation } from "@react-navigation/core";
 
-const SearchByDate = ({controlBar, navigation}, props) => {
+const DateList = (props) => {
   const {t, locale} = React.useContext(LocalizationContext);
+  const navigation = useNavigation();
 
   moment.locale(locale);
   const [restaurants, setRestaurants] = useState(undefined);
@@ -111,7 +113,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
     return (
       <>
         <View style={styles.container}>
-          {controlBar}
+          {props.controlBar}
           <ReactNativeCalendarStrip
             markedDates={markedDates}
             maxDate={moment()}
@@ -164,7 +166,7 @@ const SearchByDate = ({controlBar, navigation}, props) => {
   );
 };
 
-export default SearchByDate;
+export default DateList;
 
 const styles = StyleSheet.create({
   container: {

@@ -7,8 +7,10 @@ import {useFocusEffect} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
+import {WAITING_TIME} from '../../Common/Constants/waitingTime';
+import {mealsWithoutCgmData} from './mealsWithoutCgmData';
 
-const SearchLatestMeals = (props) => {
+const MealList = props => {
   const {t} = React.useContext(LocalizationContext);
 
   const [search, setSearch] = useState('');
@@ -33,11 +35,13 @@ const SearchLatestMeals = (props) => {
   }
 
   async function mealData(foodName) {
-    await database.fetchMealWithName(foodName).then(meals => {
-      const filteredMeals = meals.filter(data => data.isDeleted === false);
-      setRestaurants(filteredMeals);
-      setLoading(false);
-    });
+    const meals = await database.fetchMealWithName(foodName);
+    const filteredMeals = meals.filter(data => data.isDeleted === false);
+    setRestaurants(filteredMeals);
+    setLoading(false);
+
+    const quew = mealsWithoutCgmData(filteredMeals);
+    console.log(quew);
   }
 
   return loading ? (
@@ -63,4 +67,4 @@ const SearchLatestMeals = (props) => {
   );
 };
 
-export default SearchLatestMeals;
+export default MealList;

@@ -2,8 +2,8 @@ import React from 'react';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
 
-import SearchRestaurants from '../Screens/MealEntries/SearchRestaurants';
-import MealListView from '../Screens/MealEntries/MealListView';
+import MealSearchController from '../Screens/MealEntries/MealSearchController';
+import MealListInRestaurants from '../Screens/MealEntries/MealListInRestaurants';
 import MealDataCollector from '../Screens/MealEntries/MealDataCollector';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,7 +19,7 @@ function SugarStack({navigation}) {
     <Stack.Navigator initialRouteName="meala">
       <Stack.Screen
         name="meala"
-        component={SearchRestaurants}
+        component={MealSearchController}
         options={{
           title: 'meala',
           headerLargeTitle: true,
@@ -54,7 +54,7 @@ function SugarStack({navigation}) {
       />
       <Stack.Screen
         name="MealListView"
-        component={MealListView}
+        component={MealListInRestaurants}
         initialParams={{}}
         options={{
           title: t('Entries.Meals'),

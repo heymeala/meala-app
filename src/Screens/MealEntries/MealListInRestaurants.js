@@ -13,7 +13,7 @@ import {useNavigation, useRoute} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 
-const MealListView = props => {
+const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
   const {t, locale} = React.useContext(LocalizationContext);
   const [loading, setLoading] = useState(true);
@@ -90,7 +90,7 @@ const MealListView = props => {
   }
 };
 
-export default MealListView;
+export default MealListInRestaurants;
 
 export function deleteRestaurant(navigation, id) {
   database.deleteRestaurantSoft(id);
