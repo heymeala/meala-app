@@ -82,7 +82,6 @@ const EnterMeal = ({route}, props) => {
   const MealInput = useRef();
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [tags, setTags] = useState([]);
-
   const [fatSecretData, setFatSecretData] = useState();
 
   React.useEffect(() => {
@@ -121,9 +120,18 @@ const EnterMeal = ({route}, props) => {
     if (route.params?.mealid) {
       console.log('Scan param meal id', route.params.mealid);
       database.fetchMealbyId(route.params.mealid).then(data => {
+        const tags = data.tags.map(data => {
+          return {
+            id: uuid.v4(),
+            name: data.tagEn,
+            active: true,
+          };
+        });
+        setTags(tags);
         setMealTitle(data.food);
         setFoodPicture(data.picture);
-        setCarbs(data.carbs);
+        setAvatarSourceCamera(data.picture ? {uri: data.picture} : undefined);
+        // setCarbs(data.carbs); depends on source
         setNote(data.note);
         database
           .getRestaurantName(data.restaurantId)
@@ -176,7 +184,6 @@ const EnterMeal = ({route}, props) => {
         setIsLoadingcMeals(false);
       });
   };
-
 
   function saveAll() {
     const fatSecretUserIds = fatSecretData
@@ -279,7 +286,7 @@ const EnterMeal = ({route}, props) => {
     setRestaurantId('');
     setMealTitle('');
     setNote('');
-    setCarbs('');
+    setCarbs(null);
     setFoodPicture('');
     setBase64ImageData('');
     setNsTreatmentsUpload(null);
