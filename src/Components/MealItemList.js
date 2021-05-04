@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, Text, View} from 'react-native';
 import {Avatar, Badge, Divider, ListItem} from 'react-native-elements';
 import generateColor from '../Common/generateColor';
@@ -8,20 +8,23 @@ import {analyseTimeInRange} from '../Common/analyseTimeInRange';
 import {useNavigation} from '@react-navigation/core';
 import LocalizationContext from '../../LanguageContext';
 import {useScreenReader} from '../hooks/useScreenReaderEnabled';
+import AccessibleListItem from '../Screens/MealEntries/Accessability/AccessibleListItem';
+import {WAITING_TIME} from '../Common/Constants/waitingTime';
+import {badgeValue} from './badgeValue';
 
-const MealItemsList = (props) => {
+const MealItemsList = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
+  const [tir, setTir] = useState(null);
+  useEffect(() => {
+    const parsedData = JSON.parse(props.item.cgmData);
+    const timeInRange = analyseTimeInRange(parsedData);
+    setTir(timeInRange);
+  }, [props.item.cgmData]);
 
-  const timeInRange =
-    props.item.cgmData !== null || props.item.cgmData
-      ? analyseTimeInRange(JSON.parse(props.item.cgmData))
-      : null;
   let curTime = new Date();
-
-
 
   const LatestMealSubtitle = () => {
     if (props.item) {
@@ -29,7 +32,7 @@ const MealItemsList = (props) => {
         moment(props.item.date).format(),
       ).getTime();
       let nowMinusThree = new Date(
-        moment(curTime).subtract(3, 'hours').format(),
+        moment(curTime).subtract(WAITING_TIME, 'hours').format(),
       ).getTime();
       let progressTime = Math.abs(timeFromLatestMeal - curTime);
       if (timeFromLatestMeal < nowMinusThree) {
@@ -47,20 +50,7 @@ const MealItemsList = (props) => {
         return (
           <>
             {screenReaderEnabled ? (
-              <Text style={{paddingTop: 8}}>
-                {t('Accessibility.Home.wait')}
-
-                {locale === 'de'
-                  ? ' – Letzter Eintrag vor ' +
-                    moment.duration(progressTime).hours() +
-                    ' Stunden und ' +
-                    moment.duration(progressTime).minutes() +
-                    ' Minuten. '
-                  : moment.duration(progressTime).hours() +
-                    ' hours and ' +
-                    moment.duration(progressTime).minutes() +
-                    ' minutes ago '}
-              </Text>
+              <AccessibleListItem progressTime={progressTime} />
             ) : (
               <View>
                 <View>
@@ -95,13 +85,6 @@ const MealItemsList = (props) => {
     }
   };
 
-  const badge = !screenReaderEnabled
-    ? timeInRange !== null
-      ? timeInRange + '%'
-      : null
-    : timeInRange !== null
-    ? timeInRange + '%' + ' \n Zeit im Zielbereich'
-    : null;
   return (
     <View key={props.item.id}>
       <ListItem
@@ -121,16 +104,16 @@ const MealItemsList = (props) => {
             <LatestMealSubtitle />
           </ListItem.Subtitle>
         </ListItem.Content>
-        <Badge
-          value={badge}
-          badgeStyle={{
-            backgroundColor: generateColor(
-              timeInRange !== null ? timeInRange : '#fff',
-            ),
-          }}
-          textStyle={{color: 'black'}}
-          containerStyle={{marginTop: 0}}
-        />
+        {tir && (
+          <Badge
+            value={badgeValue(screenReaderEnabled, tir)}
+            badgeStyle={{
+              backgroundColor: generateColor(tir),
+            }}
+            textStyle={{color: 'black'}}
+            containerStyle={{marginTop: 0}}
+          />
+        )}
         <ListItem.Chevron />
       </ListItem>
       <Divider />

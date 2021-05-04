@@ -8,7 +8,7 @@ import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 
-const SearchLatestMeals = ({navigation, controlBar}, props) => {
+const SearchLatestMeals = (props) => {
   const {t} = React.useContext(LocalizationContext);
 
   const [search, setSearch] = useState('');
@@ -17,13 +17,7 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      let isMounted = true;
-      if (isMounted) {
-        mealData(search);
-      }
-      return () => {
-        isMounted = false;
-      };
+      mealData(search);
     }, []),
   );
 
@@ -56,7 +50,7 @@ const SearchLatestMeals = ({navigation, controlBar}, props) => {
       value={search}
       searchComponent={
         <>
-          {controlBar}
+          {props.controlBar}
           <SearchBar
             platform={Platform.OS}
             placeholder={t('Entries.SearchMeals')}

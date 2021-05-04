@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Button, FAB, useTheme} from 'react-native-elements';
+import {FAB, useTheme} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import {useNavigation, useRoute} from '@react-navigation/core';
@@ -20,6 +20,7 @@ const MealListView = props => {
   const navigation = useNavigation();
   const route = useRoute();
   const {theme} = useTheme();
+
   function loadData(value) {
     const mealdata = route.params?.restaurant;
     const mealDataSoftDeleteData = mealdata.food.filter(
@@ -38,6 +39,7 @@ const MealListView = props => {
     database.deleteMealSoft(id);
     navigation.goBack();
   }
+
   if (loading) {
     return (
       <SafeAreaView>
@@ -89,6 +91,7 @@ const MealListView = props => {
 };
 
 export default MealListView;
+
 export function deleteRestaurant(navigation, id) {
   database.deleteRestaurantSoft(id);
   navigation.goBack();

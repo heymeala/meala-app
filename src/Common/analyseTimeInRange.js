@@ -1,29 +1,27 @@
-import {HYPER, HYPO} from './targetRangeConstants';
+import {HYPER, HYPO} from './Constants/targetRangeConstants';
 
 export function analyseTimeInRange(cgmData) {
   let cgmArray = [];
   let cgmInRange = [];
   let cgmOutOfRange = [];
-  const add = (a, b) => a + b;
+  let timeInRange;
 
-  // console.log(cgmData)
+  if (cgmData) {
+    cgmData.map(data => {
+      if (data.sgv) {
+        cgmArray.push(parseInt(data.sgv));
 
-  cgmData.map(cgmData => {
-    if (cgmData.sgv) {
-      cgmArray.push(parseInt(cgmData.sgv));
-
-      if (parseInt(cgmData.sgv) < HYPER && parseInt(cgmData.sgv) > HYPO) {
-        cgmInRange.push(parseInt(cgmData.sgv));
-      } else {
-        cgmOutOfRange.push(parseInt(cgmData.sgv));
+        if (parseInt(data.sgv) < HYPER && parseInt(data.sgv) > HYPO) {
+          cgmInRange.push(parseInt(data.sgv));
+        } else {
+          cgmOutOfRange.push(parseInt(data.sgv));
+        }
       }
-    }
-  });
-
-  const timeInRange = (cgmInRange.length / cgmArray.length) * 100;
-  // const cgmSum = cgmArray.reduce(add)/cgmArray.length;
-
-  //console.log(cgmInRange.length + "LENGTH:::::" + cgmArray.length)
-
-  return Math.round(timeInRange);
+    });
+    timeInRange = (cgmInRange.length / cgmArray.length) * 100;
+    timeInRange = Math.round(timeInRange);
+  } else {
+    timeInRange = null;
+  }
+  return timeInRange;
 }
