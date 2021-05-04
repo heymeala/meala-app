@@ -155,7 +155,7 @@ function GeneralChartView(props) {
                   },
                 ]}
               />
-              {props.insulinCoordinates.length > 0 && (
+              {props.insulinCoordinates !== null && (
                 <VictoryBar
                   style={{
                     data: {

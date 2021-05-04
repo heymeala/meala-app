@@ -28,7 +28,7 @@ const add = (a, b) => a + b;
 
 // remove smb – settings in android aps
 export function getInsulinInfo(treatments) {
-  if (treatments.length > 0) {
+  if (treatments) {
     const insulin = treatments
       .filter(data => (data.isSMB ? data.isSMB === false : data))
       .map(data => {

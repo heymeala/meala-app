@@ -31,16 +31,12 @@ const MealDetailsComponent = props => {
     () => getDuration(props.treatments, foodDatumMoment),
     [props.treatments, foodDatumMoment],
   );
-  const insulinSumme = React.useMemo(() => getInsulinInfo(props.treatments), [
-    props.treatments,
-  ]);
+  const insulinSumme = getInsulinInfo(props.treatments);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
   const spritzEssAbstandText = React.useMemo(
     () => getSEA(userSettings.glucoseSource, t, duration, insulinSumme),
     [userSettings.glucoseSource, t, duration, insulinSumme],
   );
-
-  console.log(props);
 
   return (
     <>
@@ -55,10 +51,11 @@ const MealDetailsComponent = props => {
           carbSumme={carbSumme}
           selectedFood={props.selectedFood}
         />
-        {(userSettings.glucoseSource === NIGHTSCOUT) !== DEFAULT ? (
+        {userSettings.glucoseSource === NIGHTSCOUT &&
+        userSettings.glucoseSource !== DEFAULT ? (
           <GeneralChartView
             loading={props.loading}
-            coordinates={props.coordiantes}
+            coordinates={props.coordinates}
             selectedFood={props.selectedFood}
             insulinCoordinates={props.insulinCoordinates}
             carbCoordinates={props.carbCoordinates}

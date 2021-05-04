@@ -9,6 +9,7 @@ const NightScoutTreatmentDetails = props => {
   let eventType, enteredinsulin, carbsCal, insuliCal;
   const {carbSumme, insulinSumme} = props;
   const InsulinCarbDetails = () =>
+    props.treatments &&
     props.treatments.map((treatments, i) => {
       eventType = null;
       if (treatments.insulin) {

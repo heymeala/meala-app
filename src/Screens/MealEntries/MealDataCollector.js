@@ -16,9 +16,9 @@ const MealDataCollector = ({navigation, route}, props) => {
   const [carbs, setCarbs] = useState([]);
   const [dateStrings, setDateStrings] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
-  const [treatments, setTreatments] = useState([]);
+  const [treatments, setTreatments] = useState(null);
   const [selectedFood, setSelectedFood] = useState(undefined);
-  const [insulinCoordinates, setInsulinCoordinates] = useState([]);
+  const [insulinCoordinates, setInsulinCoordinates] = useState(null);
   const [carbCoordinates, setCarbCoordinates] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -133,6 +133,9 @@ const MealDataCollector = ({navigation, route}, props) => {
         setLoading(false);
       });
     } else if (userSettings.glucoseSource === HEALTHKIT) {
+      setTreatments(null);
+      setInsulinCoordinates(null);
+
       const permissions = {
         permissions: {
           read: [
@@ -224,7 +227,7 @@ const MealDataCollector = ({navigation, route}, props) => {
           carbs={carbs}
           insulin={insulin}
           dateStrings={dateStrings}
-          coordiantes={coordinates}
+          coordinates={coordinates}
           restaurantName={restaurantName}
           loading={loading}
         />
