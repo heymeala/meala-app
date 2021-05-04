@@ -34,7 +34,7 @@ const EditSpeedDialGroup = props => {
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              mealid: selectedFood.id,
+              meal_id: selectedFood.id,
               type: 'edit',
             },
           })
@@ -48,7 +48,7 @@ const EditSpeedDialGroup = props => {
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              mealid: selectedFood.id,
+              meal_id: selectedFood.id,
               type: 'copy',
             },
           })

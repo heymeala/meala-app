@@ -38,9 +38,9 @@ import uuid from 'react-native-uuid';
 import {useUserSettings} from '../../hooks/useUserSettings';
 
 //process.nextTick = setImmediate;
-var pageTitle = null;
 
 const EnterMeal = ({route}, props) => {
+  const {meal_id, type, id, scan} = route.params;
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   moment.locale(locale);
@@ -84,46 +84,51 @@ const EnterMeal = ({route}, props) => {
   const [tags, setTags] = useState([]);
   const [fatSecretData, setFatSecretData] = useState(null);
   const [editMode, setEditMode] = useState(false);
-  console.log(editMode);
   React.useEffect(() => {
-    if (route.params?.scan === true) {
-      console.log('Scan param ' + route.params.scan);
+    if (scan === true) {
+      console.log('Scan param ' + scan);
       setIsScannerVisible(prevState => true);
-      route.params.scan = false;
     }
-  }, [route.params?.scan]);
+  }, [scan]);
 
   useFocusEffect(
     React.useCallback(() => {
-      if (route.params.type !== 'edit') {
-        setDate(new Date());
+      if (type !== 'edit' && editMode === false) {
+        // setDate(new Date());
       }
-      return () => {
-        pageTitle = null;
-      };
+      return () => {};
     }, []),
   );
   useEffect(() => {
-    if (route.params?.mealid) {
-      database.fetchMealbyId(route.params.mealid).then(data => {
-        const tags = data.tags.map(data => {
+    if (meal_id && type) {
+      console.log(meal_id);
+      database.fetchMealbyId(meal_id).then(data => {
+        const convertedTags = data.tags.map(tagFromDB => {
           return {
             id: uuid.v4(),
-            name: data.tagEn,
+            name: tagFromDB.tagEn,
             active: true,
           };
         });
+
+        setTags(prevArray =>
+          convertedTags.map(cTags => {
+            console.log('tag', cTags);
+            return {...cTags};
+          }),
+        );
         const fatSecretFromDB = data.fatSecretUserFoodEntryIds.map(
-          data => data.foodEntryId,
+          fatSecret => fatSecret.foodEntryId,
         );
         const fatSecretDataExists = fatSecretFromDB.length > 0;
         fatSecretDataExists && setFatSecretData(fatSecretFromDB);
-        setTags(tags);
         setMealTitle(data.food);
-        if (route.params.type === 'edit') {
+        if (type) {
+          console.log('type');
           setUserMealId(data.userMealId);
           //   setRestaurantId(data.restaurantId);
           setMealId(data.id);
+          setDate(data.date);
         }
         setFoodPicture(data.picture);
         setAvatarSourceCamera(data.picture ? {uri: data.picture} : undefined);
@@ -134,16 +139,14 @@ const EnterMeal = ({route}, props) => {
           .then(name => setRestaurantName(name));
       });
     }
-  }, [route.params?.mealid, route.params?.type]);
+  }, [meal_id, type]);
 
   React.useLayoutEffect(() => {
-    if (route.params?.mealid) {
-      if (route.params?.type) {
-        console.log(route.params.type);
-        if (route.params.type === 'edit') {
+    if (meal_id) {
+      if (type) {
+        if (type === 'edit') {
           setEditMode(true);
-          route.params.type = null;
-        } else if (route.params.type === 'copy') {
+        } else if (type === 'copy') {
           setEditMode(false);
         } else {
           setEditMode(prev => false);
@@ -158,17 +161,16 @@ const EnterMeal = ({route}, props) => {
       ),
     });
     return () => {};
-  }, [navigation, route.params.type, editMode]);
+  }, [navigation, type, editMode]);
+  console.log(tags);
 
   useEffect(() => {
-    if (route.params?.id) {
-      setRestaurantId(prevState => route.params.id);
-      console.log('Scan param ' + route.params.id);
-      database
-        .getRestaurantName(route.params.id)
-        .then(name => setRestaurantName(name));
+    if (id) {
+      setRestaurantId(prevState => id);
+      console.log('Scan param ' + id);
+      database.getRestaurantName(id).then(name => setRestaurantName(name));
     }
-  }, [route.params?.id]);
+  }, [id]);
 
   //todo: move to app
   useEffect(() => {
@@ -181,7 +183,8 @@ const EnterMeal = ({route}, props) => {
 
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
-    addTimeBasedTags(tags, setTags, date, t);
+
+    type !== 'edit' && addTimeBasedTags(tags, setTags, date, t);
     getExistingFatSecretProfileData(date, setFatSecretData);
   }, [date]);
 
@@ -254,11 +257,10 @@ const EnterMeal = ({route}, props) => {
       predictions,
       date,
     };
-    console.log(restaurantData);
-    if (route.params?.type && route.params.type === 'edit') {
+    if (type === 'edit') {
       // database.editRestaurant(defaultRestaurantId, restaurantName, scope);
       database
-        .editMeal(userMealId, mealTitle, foodPicture, date, note)
+        .editMeal(userMealId, mealTitle, foodPicture, date, note, tags)
         .then(() => {
           reset();
           navigation.navigate('meala');
@@ -483,10 +485,12 @@ const EnterMeal = ({route}, props) => {
       {editMode && (
         <FAB
           title={'Abbrechen'}
+          titleStyle={'white'}
+          buttonStyle={styles.cancelButton}
           onPress={() => cancel()}
           size={'small'}
           placement={'left'}
-          icon={{name: 'save', color: 'black'}}
+          icon={{name: 'cancel', color: 'white'}}
         />
       )}
     </KeyboardAvoidingView>
@@ -508,5 +512,9 @@ const useStyles = makeStyles((theme, props: Props) => ({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  cancelButton: {
+    backgroundColor: theme.colors.error,
+    color: theme.colors.white,
   },
 }));

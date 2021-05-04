@@ -551,7 +551,11 @@ export const database = {
       });
     });
   },
-  editMeal: (userMealId, food, picture, date, note) => {
+  editMeal: (userMealId, food, picture, date, note, predictions) => {
+    const tags = predictions
+      .filter(data => data.active === true)
+      .map(prediction => prediction.name);
+
     return database._open.then(realm => {
       // console.log(date + 'date Treatements in realm')
       // let Meal = realm.objects('Meal').filtered('date = $0', date);
@@ -569,6 +573,16 @@ export const database = {
           },
           true,
         );
+
+        var newTag = tags.map(tags => {
+          return {tagEn: tags};
+        });
+
+        const meals = realm.objects('Meal').filtered('date = $0', date)[0];
+
+        for (var x = 0; x < newTag.length; x++) {
+          meals.tags.push(newTag[x]);
+        }
       });
     });
   },
