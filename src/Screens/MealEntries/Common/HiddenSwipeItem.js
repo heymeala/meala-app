@@ -1,19 +1,40 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {Icon, makeStyles} from 'react-native-elements';
+import {EDIT_MODE, useEnterMealType} from '../../../hooks/useEnterMealState';
+import {useNavigation} from '@react-navigation/core';
 
 const HiddenSwipeItem = props => {
   const styles = useStyles();
   const {rowData, update} = props;
+  const {changeType} = useEnterMealType();
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.backRightBtn} key={rowData.item.id}>
+    <View style={styles.rowBack}>
       <TouchableOpacity
-        style={styles.rowBack}
+        style={[styles.backRightBtn, styles.backRightBtnLeft]}
+        onPress={() => {
+          changeType({mode: EDIT_MODE, meal_id: rowData.item.id});
+          navigation.navigate('EnterMealStack', {
+            screen: 'EnterMeal',
+            params: {
+              meal_id: rowData.item.id,
+            },
+          });
+        }}>
+        <View key={rowData.item.id}>
+          <Icon name={'edit'} color={'#fff'} />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.backRightBtn}
         onPress={() => {
           update(rowData.item.userMealId);
         }}>
-        <Icon name={'trash-outline'} type={'ionicon'} color={'#fff'} />
+        <View key={rowData.item.id}>
+          <Icon name={'trash-outline'} type={'ionicon'} color={'#fff'} />
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -38,5 +59,9 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     width: 75,
     backgroundColor: '#ac000a',
+  },
+  backRightBtnLeft: {
+    backgroundColor: theme.colors.warning,
+    right: 75,
   },
 }));

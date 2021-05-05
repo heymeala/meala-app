@@ -38,7 +38,7 @@ const MealsListSwipeDelete = ({
         !screenReaderEnabled &&
         (rowData => <HiddenSwipeItem rowData={rowData} update={update} />)
       }
-      rightOpenValue={-75}
+      rightOpenValue={-150}
       leftOpenValue={75}
       previewRowKey={'0'}
       previewOpenValue={-40}
