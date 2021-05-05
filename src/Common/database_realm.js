@@ -280,7 +280,7 @@ export const database = {
         const meals = realm
           .objects('Meal')
           .filtered(
-            `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' `,
+            `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*'  LIMIT(25) `,
           );
         return meals.sorted('date', true);
       })
