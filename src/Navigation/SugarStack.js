@@ -9,7 +9,7 @@ import MealDataCollector from '../Screens/MealEntries/MealDataCollector';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Platform, View} from 'react-native';
 import EnterMeal from '../Screens/EnterMeal/EnterMeal';
-import { useTheme } from "react-native-elements";
+import {useTheme} from 'react-native-elements';
 
 function SugarStack({navigation}) {
   const {t} = React.useContext(LocalizationContext);
@@ -70,9 +70,11 @@ function SugarStack({navigation}) {
       <Stack.Screen
         name="MealDataCollector"
         component={MealDataCollector}
-        initialParams={{}}
         options={{
-          title: t('Entries.MealDetails'),
+          headerHideShadow: true,
+          //headerTranslucent: true,
+
+          title: 'Details',
           headerTintColor: theme.colors.primary,
           headerTitleStyle: {
             color: theme.colors.black,

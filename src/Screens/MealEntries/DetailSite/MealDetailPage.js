@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, ScrollView, View} from 'react-native';
+import {Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
 import {Image, makeStyles, Text} from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
@@ -15,6 +15,7 @@ import EditSpeedDialGroup from './EditSpeedDailGroup';
 import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
 import {useUserSettings} from '../../../hooks/useUserSettings';
 import {DEFAULT, NIGHTSCOUT} from '../../Settings/glucoseSourceConstants';
+import {useNavigation} from '@react-navigation/core';
 
 const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -26,6 +27,12 @@ const MealDetailsComponent = props => {
   const foodDatum = moment(foodDatumMoment).format('lll');
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
+  const navigation = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: foodDatum,
+    });
+  }, [navigation]);
 
   const duration = React.useMemo(
     () => getDuration(props.treatments, foodDatumMoment),
@@ -51,7 +58,7 @@ const MealDetailsComponent = props => {
           carbSumme={carbSumme}
           selectedFood={props.selectedFood}
         />
-        { userSettings.glucoseSource !== DEFAULT ? (
+        {userSettings.glucoseSource !== DEFAULT ? (
           <GeneralChartView
             loading={props.loading}
             coordinates={props.coordinates}

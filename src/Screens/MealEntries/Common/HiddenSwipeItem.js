@@ -52,12 +52,13 @@ const useStyles = makeStyles(theme => ({
   },
   backRightBtn: {
     alignItems: 'center',
-    bottom: 0,
     justifyContent: 'center',
     position: 'absolute',
-    top: 0,
+    bottom: 0,
+    top: 2,
     right: 0,
     width: 75,
+    height: 100,
     backgroundColor: '#ac000a',
   },
   backRightBtnLeft: {

@@ -87,7 +87,7 @@ const MealItemsList = props => {
   };
 
   return (
-    <View key={props.item.id}>
+    <View style={{height:110}} key={props.item.id}>
       <ListItem
         onPress={() =>
           navigation.navigate('MealDataCollector', {mealId: props.item.id})

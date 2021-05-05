@@ -197,7 +197,6 @@ const EnterMeal = ({route, navigation}, props) => {
       meal_id: null,
     });
     changeType({mode: 'default', meal_id: null});
-
     navigation.goBack();
   }
 
@@ -285,6 +284,11 @@ const EnterMeal = ({route, navigation}, props) => {
       )
       .then(() => {
         reset();
+        navigation.setParams({
+          meal_id: null,
+        });
+        changeType({mode: 'default', meal_id: null});
+        //navigation.goBack();
         navigation.navigate('meala');
       });
   }
@@ -470,15 +474,22 @@ const EnterMeal = ({route, navigation}, props) => {
         )}
       </ScrollView>
       <FAB
-        title={type.mode === EDIT_MODE ? t('AddMeal.edit') : t('AddMeal.save')}
+        title={
+          type.mode === EDIT_MODE
+            ? t('AddMeal.edit')
+            : type.mode === COPY_MODE
+            ? t('AddMeal.copy')
+            : t('AddMeal.save')
+        }
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}
+        buttonStyle={{height: 40}}
         icon={{name: 'save', color: 'black'}}
       />
       {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
         <FAB
-          title={'Abbrechen'}
+          title={t('General.cancel')}
           titleStyle={'white'}
           buttonStyle={styles.cancelButton}
           onPress={() => cancel()}
@@ -508,6 +519,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
     justifyContent: 'space-between',
   },
   cancelButton: {
+    height: 40,
     backgroundColor: theme.colors.error,
     color: theme.colors.white,
   },

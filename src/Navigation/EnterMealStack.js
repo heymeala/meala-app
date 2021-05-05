@@ -2,9 +2,7 @@ import React from 'react';
 import EnterMeal from '../Screens/EnterMeal/EnterMeal';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
-import {Platform} from 'react-native';
 import OpenFoodFactsInfos from '../Screens/EnterMeal/BarCodeScanner/Scanner/OpenFoodFactsInfos';
-import {makeStyles} from 'react-native-elements';
 
 function EnterMealStack() {
   const {t} = React.useContext(LocalizationContext);
@@ -15,7 +13,6 @@ function EnterMealStack() {
       <Stack.Screen
         name="EnterMeal"
         initialParams={{mealid: null, type: null}}
-
         component={EnterMeal}
         options={({navigation, route}) => ({
           title: t('AddMeal.AddMealTitle'),
@@ -57,4 +54,3 @@ function EnterMealStack() {
 }
 
 export default EnterMealStack;
-
