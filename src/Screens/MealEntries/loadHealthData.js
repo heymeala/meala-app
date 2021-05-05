@@ -4,11 +4,7 @@ import {filterCoordinates, mapUnit} from './DetailSite/filterCoordinates';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import {SEA_MINUTES} from './DetailSite/Chart/chartConstant';
-import {
-  permissions,
-  tillDate,
-  fromDate,
-} from './DetailSite/HealthKitPermissions';
+import {permissions} from './DetailSite/HealthKitPermissions';
 
 export async function loadSugarData(
   mealData,
@@ -27,7 +23,6 @@ export async function loadSugarData(
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
-
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
     const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
@@ -76,7 +71,7 @@ export async function loadSugarData(
   } else if (userSettings && userSettings.glucoseSource === HEALTHKIT) {
     setTreatments(null);
     setInsulinCoordinates(null);
-
+    console.log("HEALTHKIT LOADING")
     const tillDate = moment(foodDate).add(3, 'hours').toISOString();
     const fromDate = moment(foodDate)
       .subtract(SEA_MINUTES, 'minutes')

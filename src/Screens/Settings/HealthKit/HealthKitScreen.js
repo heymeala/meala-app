@@ -10,19 +10,21 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
-import {database} from '../../../Common/database_realm';
 import PermissionListItem from './PermissionListItem';
-import {Text, Button} from 'react-native-elements';
+import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {spacing} from '../../../theme/styles';
 import {useUserSettings} from '../../../hooks/useUserSettings';
 import {HEALTHKIT} from '../glucoseSourceConstants';
+import moment from 'moment';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
-  const [authStatus, setAuthStatus] = useState();
+  const [authStatus, setAuthStatus] = useState(true);
   const {userSettings, saveUserSettings} = useUserSettings();
-
+  const [glucoseSamples, setGlucoseSamples] = useState([]);
+  const [carbSamples, setCarbSamples] = useState([]);
+  const [heartRateSamples, setHeartRateSamples] = useState([]);
   /* Permission options */
   const permissions = {
     permissions: {
@@ -39,12 +41,57 @@ export default function HealthKitScreen() {
     saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
   };
   const getPermission = () => {
+    const fromDate = moment().subtract(20, 'days').toISOString();
+    const tillDate = moment().toISOString();
+
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
 
       if (error) {
         console.log('[ERROR] Cannot grant permissions!');
       }
+
+      let options = {
+        startDate: fromDate, // required
+        endDate: tillDate, // optional; default now
+      };
+      AppleHealthKit.getBloodGlucoseSamples(
+        options,
+        (callbackError, results) => {
+          /* Samples are now collected from HealthKit */
+          setGlucoseSamples(results);
+          console.log(results.length);
+
+          if (callbackError) {
+            console.log(callbackError);
+            return;
+          }
+        },
+      );
+      AppleHealthKit.getCarbohydratesSamples(
+        options,
+        (callbackError, results) => {
+          /* Samples are now collected from HealthKit */
+          setCarbSamples(results);
+          console.log(results);
+
+          if (callbackError) {
+            console.log(callbackError);
+            return;
+          }
+        },
+      );
+      AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setHeartRateSamples(results);
+        console.log(results);
+
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
+
       getAuthAccess();
       saveState();
     });
@@ -55,19 +102,20 @@ export default function HealthKitScreen() {
       if (err) {
         console.error(err);
       }
-      setAuthStatus(result);
+      setAuthStatus(false);
       console.log(result);
     });
   };
   useEffect(() => {
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      /* Called after we receive a response from the system */
-
-      if (error) {
-        console.log('[ERROR] Cannot grant permissions!');
-      }
-      getAuthAccess();
-    });
+    if (userSettings.glucoseSource === HEALTHKIT) {
+      AppleHealthKit.initHealthKit(permissions, (error: string) => {
+        if (error) {
+          console.log('[ERROR] Cannot grant permissions!');
+        }
+        getAuthAccess();
+        getPermission();
+      });
+    }
   }, []);
 
   return (
@@ -94,7 +142,7 @@ export default function HealthKitScreen() {
               />
             )}
             <View style={styles.sectionContainer}>
-              {authStatus && authStatus.permissions.read[0] !== 1 ? (
+              {authStatus ? (
                 <>
                   <Text style={styles.sectionTitle}>
                     {t('Settings.healthKit.title')}
@@ -112,23 +160,18 @@ export default function HealthKitScreen() {
                 <Text style={styles.spacing}>
                   {t('Settings.healthKit.canRead')}
                 </Text>
+
                 <PermissionListItem
-                  title={'Glucose'}
-                  permission={
-                    authStatus && authStatus.permissions.read[0] === 1
-                  }
+                  title={t('Settings.healthKit.glucose')}
+                  permission={glucoseSamples.length > 0}
                 />
                 <PermissionListItem
-                  title={'Carbohydrates'}
-                  permission={
-                    authStatus && authStatus.permissions.read[1] === 1
-                  }
+                  title={t('Settings.healthKit.carbohydrates')}
+                  permission={carbSamples.length > 0}
                 />
                 <PermissionListItem
-                  title={'HeartRate'}
-                  permission={
-                    authStatus && authStatus.permissions.read[2] === 1
-                  }
+                  title={t('Settings.healthKit.heartRate')}
+                  permission={heartRateSamples.length > 0}
                 />
               </View>
             </View>
@@ -139,8 +182,7 @@ export default function HealthKitScreen() {
                 </Text>
               </>
             ) : (
-              authStatus &&
-              authStatus.permissions.read[0] === 1 && (
+              !authStatus && (
                 <Button
                   title={t('Settings.healthKit.activateHealthKit')}
                   onPress={() => {

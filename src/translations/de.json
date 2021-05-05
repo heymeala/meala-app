@@ -211,7 +211,7 @@
       "canRead": "Durch Apple Health Kit hast Du die Möglichkeit Deine Gesundheitsdaten aus anderen Apps hier in meala mit Deinen Mahlzeiten zu vergleichen",
       "accessButton": "Verbinde Health Kit",
       "noData": "Keine Schritte verfügbar",
-      "hasNoAccess": "Kein Zugriff",
+      "hasNoAccess": "Keine Daten gefunden bzw. kein Zugriff",
       "hasAccess": "Zugriff",
       "glucose": "Blutzucker",
       "carbohydrates": "Kohlenhydrate",

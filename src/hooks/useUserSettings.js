@@ -31,7 +31,10 @@ export const UserSettingsProvider = ({children, userSettings}) => {
         glucoseSource === NIGHTSCOUT
       ) {
         setSettings({...settingsData, glucoseSource: NIGHTSCOUT});
-      } else if ((settingsData && glucoseSource === '1') || HEALTHKIT) {
+      } else if (
+        (settingsData && glucoseSource === '1') ||
+        glucoseSource === HEALTHKIT
+      ) {
         setSettings({...settingsData, glucoseSource: HEALTHKIT});
       } else {
         setSettings({...settingsData, glucoseSource: DEFAULT});

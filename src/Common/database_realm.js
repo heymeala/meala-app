@@ -318,7 +318,6 @@ export const database = {
     nightscoutToken,
     nightscoutTreatmentsUpload,
   ) => {
-    console.log(nightScoutUrl + 'test');
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(
@@ -339,6 +338,7 @@ export const database = {
 
   saveGlucoseSource: (glucoseSource, nightscoutToken) => {
     const getNightscoutToken = nightscoutToken ? nightscoutToken : null;
+    console.log("realm", glucoseSource)
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(
