@@ -70,8 +70,8 @@
       "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
       "exampleTag": "z.B. Sport, Basalratentest, Krank",
       "basalrate": "basal rate testing",
-      "breakfast": "Breakfast"
-
+      "breakfast": "Breakfast",
+      "edit_mode": "We aren't able to edit tags at the moment. We're working on it"
     },
     "foodDataBaseSearch": {
       "title": "Search",

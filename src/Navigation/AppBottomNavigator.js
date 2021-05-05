@@ -6,13 +6,17 @@ import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
-import { useEnterMealType } from "../hooks/useEnterMealState";
+import {
+  COPY_MODE,
+  EDIT_MODE,
+  useEnterMealType,
+} from '../hooks/useEnterMealState';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
   const {t} = React.useContext(LocalizationContext);
   const {theme} = useTheme();
-  const {type} = useEnterMealType()
+  const {type} = useEnterMealType();
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -39,9 +43,8 @@ const AppBottomNavigationStack = () => {
         name="EnterMealStack"
         initialParams={{params: {type: 'default'}}}
         options={({route}) => {
-
           return {
-            tabBarVisible: type.mode !== 'edit',
+            tabBarVisible: type.mode !== EDIT_MODE && type.mode !== COPY_MODE,
             tabBarLabel: t('Accessibility.tab.add'),
             tabBarIcon: ({color, focused}) => (
               <View

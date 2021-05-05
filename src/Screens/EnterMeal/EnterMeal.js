@@ -6,7 +6,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import {Button, FAB, makeStyles} from 'react-native-elements';
+import {Button, FAB, makeStyles, Text} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -35,7 +35,12 @@ import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
 import {useUserSettings} from '../../hooks/useUserSettings';
-import {useEnterMealType} from '../../hooks/useEnterMealState';
+import {
+  COPY_MODE,
+  EDIT_MODE,
+  useEnterMealType,
+} from '../../hooks/useEnterMealState';
+import EditTagMissing from './EnterMealComponents/EditTagMissing';
 
 //process.nextTick = setImmediate;
 
@@ -83,7 +88,6 @@ const EnterMeal = ({route, navigation}, props) => {
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [tags, setTags] = useState([]);
   const [fatSecretData, setFatSecretData] = useState(null);
-  const [editMode, setEditMode] = useState(false);
   React.useEffect(() => {
     if (scan === true) {
       console.log('Scan param ' + scan);
@@ -93,8 +97,8 @@ const EnterMeal = ({route, navigation}, props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (type.mode !== 'edit' && editMode === false) {
-        // setDate(new Date());
+      if (type.mode !== EDIT_MODE) {
+        setDate(new Date());
       }
       return () => {};
     }, []),
@@ -123,8 +127,8 @@ const EnterMeal = ({route, navigation}, props) => {
         const fatSecretDataExists = fatSecretFromDB.length > 0;
         fatSecretDataExists && setFatSecretData(fatSecretFromDB);
         setMealTitle(data.food);
-        if (type) {
-          console.log('type');
+        if (type.mode === EDIT_MODE) {
+          console.log('EDIT MODE');
           setUserMealId(data.userMealId);
           //   setRestaurantId(data.restaurantId);
           setMealId(data.id);
@@ -142,24 +146,19 @@ const EnterMeal = ({route, navigation}, props) => {
   }, [meal_id, type]);
 
   React.useLayoutEffect(() => {
-    if (meal_id) {
-      if (type.mode === 'edit') {
-        setEditMode(true);
-      } else if (type === 'copy') {
-        setEditMode(false);
-      } else {
-        setEditMode(prev => false);
-      }
-    }
-
     navigation.setOptions({
-      title: type.mode === 'edit' ? 'Edit' : t('AddMeal.AddMealTitle'),
+      title:
+        type.mode === EDIT_MODE
+          ? t('AddMeal.edit')
+          : type.mode === COPY_MODE
+          ? t('AddMeal.copy')
+          : t('AddMeal.AddMealTitle'),
       headerRight: () => (
         <HeaderRightIconGroup reset={reset} saveAll={saveAll} />
       ),
     });
     return () => {};
-  }, [navigation, type, editMode]);
+  }, [navigation, type]);
   console.log(tags);
 
   useEffect(() => {
@@ -182,7 +181,7 @@ const EnterMeal = ({route, navigation}, props) => {
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
 
-    type.mode !== 'edit' && addTimeBasedTags(tags, setTags, date, t);
+    type.mode !== EDIT_MODE && addTimeBasedTags(tags, setTags, date, t);
     getExistingFatSecretProfileData(date, setFatSecretData);
   }, [date]);
 
@@ -193,8 +192,12 @@ const EnterMeal = ({route, navigation}, props) => {
   );
 
   function cancel() {
-    changeType({mode: 'default', meal_id: null});
     reset();
+    navigation.setParams({
+      meal_id: null,
+    });
+    changeType({mode: 'default', meal_id: null});
+
     navigation.goBack();
   }
 
@@ -316,8 +319,6 @@ const EnterMeal = ({route, navigation}, props) => {
   };
 
   function reset() {
-    setEditMode(false);
-
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
     setAvatarSourceCamera(undefined);
@@ -462,16 +463,20 @@ const EnterMeal = ({route, navigation}, props) => {
           setNsTreatmentsUpload={setNsTreatmentsUpload}
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
-        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        {type.mode === EDIT_MODE ? (
+          <EditTagMissing />
+        ) : (
+          <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        )}
       </ScrollView>
       <FAB
-        title={editMode ? t('AddMeal.edit') : t('AddMeal.save')}
+        title={type.mode === EDIT_MODE ? t('AddMeal.edit') : t('AddMeal.save')}
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}
         icon={{name: 'save', color: 'black'}}
       />
-      {editMode && (
+      {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
         <FAB
           title={'Abbrechen'}
           titleStyle={'white'}
@@ -481,7 +486,7 @@ const EnterMeal = ({route, navigation}, props) => {
           placement={'left'}
           icon={{name: 'cancel', color: 'white'}}
         />
-      )}
+      ) : null}
     </KeyboardAvoidingView>
   );
 };
