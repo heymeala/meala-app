@@ -442,7 +442,7 @@ const EnterMeal = ({route, navigation}, props) => {
 
         <DatePickerOverlay date={date} setDate={setDate} />
         <RestaurantInputField
-          editMode={false}
+          editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
           handleRestaurantPress={handleRestaurantPress}
           handleRestaurantName={handleRestaurantName}

@@ -161,7 +161,6 @@ export const database = {
       .filter(data => data.active === true)
       .map(prediction => prediction.name);
 
-
     console.log('Save' + restaurantName);
     return database._open
       .then(realm => {
@@ -235,8 +234,7 @@ export const database = {
   ) => {
     return database._open
       .then(realm => {
-        let Meal = realm.objects('Meal')
-
+        const Meal = realm.objects('Meal').filtered('id = $0', userMealId);
         realm.write(() => {
           let restaurantEntry = realm.create(
             'Restaurant',
@@ -247,6 +245,8 @@ export const database = {
               lat: lat === '0' ? null : parseFloat(lat),
               long: lng === '0' ? null : parseFloat(lng),
               restaurantNote: 'notiz',
+              address: '',
+              isDeleted: false,
               scope: scope,
             },
             true,
