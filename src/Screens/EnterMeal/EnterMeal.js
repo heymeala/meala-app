@@ -257,44 +257,35 @@ const EnterMeal = ({route}, props) => {
       predictions,
       date,
     };
-    if (type === 'edit') {
-      // database.editRestaurant(defaultRestaurantId, restaurantName, scope);
-      database
-        .editMeal(userMealId, mealTitle, foodPicture, date, note, tags)
-        .then(() => {
-          reset();
-          navigation.navigate('meala');
-        });
-    } else {
-      database
-        .saveRestaurant(
-          defaultRestaurantName,
-          defaultRestaurantId,
-          defaultMealTitle,
-          foodPicture,
-          note,
-          lat,
-          lng,
-          mealId,
-          userMealId,
-          scope,
-          carbs,
-          tags,
-          date,
-          fatSecretUserIds,
-        )
-        .then(() => uploadImageToServer(restaurantData))
-        .then(() =>
-          analytics().logEvent('Save_Restaurant', {
-            Meal: defaultMealTitle,
-            Restaurant: defaultRestaurantName,
-          }),
-        )
-        .then(() => {
-          reset();
-          navigation.navigate('meala');
-        });
-    }
+
+    database
+      .saveRestaurant(
+        defaultRestaurantName,
+        defaultRestaurantId,
+        defaultMealTitle,
+        foodPicture,
+        note,
+        lat,
+        lng,
+        mealId,
+        userMealId,
+        scope,
+        carbs,
+        tags,
+        date,
+        fatSecretUserIds,
+      )
+      .then(() => uploadImageToServer(restaurantData))
+      .then(() =>
+        analytics().logEvent('Save_Restaurant', {
+          Meal: defaultMealTitle,
+          Restaurant: defaultRestaurantName,
+        }),
+      )
+      .then(() => {
+        reset();
+        navigation.navigate('meala');
+      });
   }
 
   const handleInputMealChange = text => setMealTitle(text);
@@ -422,7 +413,7 @@ const EnterMeal = ({route}, props) => {
 
         <DatePickerOverlay date={date} setDate={setDate} />
         <RestaurantInputField
-          editMode={editMode}
+          editMode={false}
           restaurantName={restaurantName}
           handleRestaurantPress={handleRestaurantPress}
           handleRestaurantName={handleRestaurantName}

@@ -203,12 +203,15 @@ export const database = {
           });
 
           for (var i = 0; i < newMeal.length; i++) {
-            restaurantEntry.food.push(newMeal[i]);
+            //restaurantEntry.food.push(newMeal[i]);
+            restaurantEntry.food.push(realm.create('Meal', newMeal[i], true));
           }
+
           const meals = realm.objects('Meal').filtered('date = $0', date)[0];
 
           for (var x = 0; x < newTag.length; x++) {
-            meals.tags.push(newTag[x]);
+            //     meals.tags.push(newTag[x]);
+            meals.tags.push(realm.create('Tags', newTag[x], true));
           }
         });
       })
@@ -545,63 +548,6 @@ export const database = {
             userMealId: id,
             carbs: carbSum,
             treatmentsData: JSON.stringify(treatmentsData),
-          },
-          true,
-        );
-      });
-    });
-  },
-  editMeal: (userMealId, food, picture, date, note, predictions) => {
-    const tags = predictions
-      .filter(data => data.active === true)
-      .map(prediction => prediction.name);
-
-    return database._open.then(realm => {
-      // console.log(date + 'date Treatements in realm')
-      // let Meal = realm.objects('Meal').filtered('date = $0', date);
-      realm.write(() => {
-        realm.create(
-          'Meal',
-          {
-            userMealId: userMealId,
-            food: food,
-            picture: picture,
-            // carbs: 'float?',
-            date: date,
-            note: note,
-            //  restaurantId: 'string?',
-          },
-          true,
-        );
-
-        var newTag = tags.map(tags => {
-          return {tagEn: tags};
-        });
-
-        const meals = realm.objects('Meal').filtered('date = $0', date)[0];
-
-        for (var x = 0; x < newTag.length; x++) {
-          meals.tags.push(newTag[x]);
-        }
-      });
-    });
-  },
-  editRestaurant: (restaurantId, name, scope) => {
-    return database._open.then(realm => {
-      // console.log(date + 'date Treatements in realm')
-      // let Meal = realm.objects('Meal').filtered('date = $0', date);
-      realm.write(() => {
-        realm.create(
-          'Restaurant',
-          {
-            id: restaurantId,
-            restaurant_name: name,
-            address: '',
-            //  lat: 'float?',
-            // long: 'float?',
-            restaurantNote: '',
-            isDeleted: false,
-            scope: scope,
           },
           true,
         );
