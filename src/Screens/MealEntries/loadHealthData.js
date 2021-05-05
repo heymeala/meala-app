@@ -20,6 +20,7 @@ export async function loadSugarData(
   setCarbCoordinates,
   setInsulinCoordinates,
   setLoading,
+  setStepsPerDay,
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
@@ -71,11 +72,11 @@ export async function loadSugarData(
   } else if (userSettings && userSettings.glucoseSource === HEALTHKIT) {
     setTreatments(null);
     setInsulinCoordinates(null);
-    console.log("HEALTHKIT LOADING")
     const tillDate = moment(foodDate).add(3, 'hours').toISOString();
     const fromDate = moment(foodDate)
       .subtract(SEA_MINUTES, 'minutes')
       .toISOString();
+
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
@@ -125,6 +126,21 @@ export async function loadSugarData(
               };
             }),
           );
+        },
+      );
+
+      let optionsSteps = {
+        date: new Date(foodDate).toISOString(), // optional; default now
+        includeManuallyAdded: true, // optional: default true
+      };
+      AppleHealthKit.getStepCount(
+        (optionsSteps: HealthInputOptions),
+        (err: Object, results: HealthValue) => {
+          if (err) {
+            return;
+          }
+          setStepsPerDay(results.value);
+          console.log(results);
         },
       );
     });

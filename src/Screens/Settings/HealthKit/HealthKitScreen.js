@@ -25,6 +25,7 @@ export default function HealthKitScreen() {
   const [glucoseSamples, setGlucoseSamples] = useState([]);
   const [carbSamples, setCarbSamples] = useState([]);
   const [heartRateSamples, setHeartRateSamples] = useState([]);
+  const [stepSamples, setStepSamples] = useState([]);
   /* Permission options */
   const permissions = {
     permissions: {
@@ -32,8 +33,9 @@ export default function HealthKitScreen() {
         AppleHealthKit.Constants.Permissions.BloodGlucose,
         AppleHealthKit.Constants.Permissions.Carbohydrates,
         AppleHealthKit.Constants.Permissions.HeartRate,
+        AppleHealthKit.Constants.Permissions.Steps,
       ],
-      write: [AppleHealthKit.Constants.Permissions.Steps],
+      write: [AppleHealthKit.Constants.Permissions.Carbohydrates],
     },
   };
 
@@ -43,7 +45,6 @@ export default function HealthKitScreen() {
   const getPermission = () => {
     const fromDate = moment().subtract(20, 'days').toISOString();
     const tillDate = moment().toISOString();
-
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
 
@@ -60,7 +61,6 @@ export default function HealthKitScreen() {
         (callbackError, results) => {
           /* Samples are now collected from HealthKit */
           setGlucoseSamples(results);
-          console.log(results.length);
 
           if (callbackError) {
             console.log(callbackError);
@@ -73,7 +73,6 @@ export default function HealthKitScreen() {
         (callbackError, results) => {
           /* Samples are now collected from HealthKit */
           setCarbSamples(results);
-          console.log(results);
 
           if (callbackError) {
             console.log(callbackError);
@@ -84,13 +83,26 @@ export default function HealthKitScreen() {
       AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
         /* Samples are now collected from HealthKit */
         setHeartRateSamples(results);
-        console.log(results);
 
         if (callbackError) {
           console.log(callbackError);
           return;
         }
       });
+      let optionsSteps = {
+        date: new Date().toISOString(), // optional; default now
+        includeManuallyAdded: true, // optional: default true
+      };
+      AppleHealthKit.getStepCount(
+        (optionsSteps: HealthInputOptions),
+        (err: Object, results: HealthValue) => {
+          if (err) {
+            return;
+          }
+          console.log(results);
+          setStepSamples(results);
+        },
+      );
 
       getAuthAccess();
       saveState();
@@ -160,7 +172,6 @@ export default function HealthKitScreen() {
                 <Text style={styles.spacing}>
                   {t('Settings.healthKit.canRead')}
                 </Text>
-
                 <PermissionListItem
                   title={t('Settings.healthKit.glucose')}
                   permission={glucoseSamples.length > 0}
@@ -172,6 +183,10 @@ export default function HealthKitScreen() {
                 <PermissionListItem
                   title={t('Settings.healthKit.heartRate')}
                   permission={heartRateSamples.length > 0}
+                />
+                <PermissionListItem
+                  title={t('Settings.healthKit.steps')}
+                  permission={stepSamples && stepSamples.value > 0}
                 />
               </View>
             </View>

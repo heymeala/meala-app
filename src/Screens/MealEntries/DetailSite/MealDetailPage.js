@@ -71,8 +71,18 @@ const MealDetailsComponent = props => {
         )}
         <View style={{alignItems: 'center'}}>
           {userSettings.glucoseSource === NIGHTSCOUT && (
-            <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
+            <View>
+              <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
+            </View>
           )}
+          {props.stepsPerDay && (
+            <Text>
+              {t('Settings.healthKit.totalStepsToday', {
+                steps: props.stepsPerDay,
+              })}
+            </Text>
+          )}
+
           {props.selectedFood.picture ? (
             <Image
               source={

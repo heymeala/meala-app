@@ -18,6 +18,7 @@ const MealDataCollector = props => {
   const [insulinCoordinates, setInsulinCoordinates] = useState(null);
   const [carbCoordinates, setCarbCoordinates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [stepsPerDay, setStepsPerDay] = useState(null);
 
   const [restaurantName, setRestaurantName] = useState(null);
   const {settings} = useProfile();
@@ -56,6 +57,7 @@ const MealDataCollector = props => {
         setCarbCoordinates,
         setInsulinCoordinates,
         setLoading,
+        setStepsPerDay,
       ); //TODO:: CLEANUP
     });
   }
@@ -76,6 +78,7 @@ const MealDataCollector = props => {
           coordinates={coordinates}
           restaurantName={restaurantName}
           loading={loading}
+          stepsPerDay={stepsPerDay}
         />
       ) : (
         <LoadingSpinner />
