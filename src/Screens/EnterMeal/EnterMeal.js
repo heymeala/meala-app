@@ -6,7 +6,7 @@ import {
   ScrollView,
   View,
 } from 'react-native';
-import {Button, FAB, makeStyles, Text} from 'react-native-elements';
+import {Button, FAB, makeStyles} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -130,7 +130,7 @@ const EnterMeal = ({route, navigation}, props) => {
         if (type.mode === EDIT_MODE) {
           console.log('EDIT MODE');
           setUserMealId(data.userMealId);
-          //   setRestaurantId(data.restaurantId);
+          setRestaurantId(data.restaurantId);
           setMealId(data.id);
           setDate(data.date);
         }
@@ -241,56 +241,82 @@ const EnterMeal = ({route, navigation}, props) => {
 
     reminderNotification(userMealId, mealId, t, defaultMealTitle);
 
-    const restaurantData = {
-      base64ImageData: base64ImageData,
-      user_id,
-      restaurantName,
-      restaurantId,
-      mealTitle,
-      picId: foodPicture,
-      lat,
-      lng,
-      mealId,
-      userMealId,
-      scope,
-      carbs,
-      predictions,
-      date,
-    };
-
-    database
-      .saveRestaurant(
-        defaultRestaurantName,
-        defaultRestaurantId,
-        defaultMealTitle,
-        foodPicture,
-        note,
+    if (type.mode === EDIT_MODE) {
+      database
+        .editRestaurantAndMeal(
+          restaurantName,
+          restaurantId,
+          mealTitle,
+          foodPicture,
+          note,
+          lat,
+          lng,
+          mealId,
+          userMealId,
+          scope,
+          date,
+        )
+        .then(() => {
+          reset();
+          navigation.setParams({
+            meal_id: null,
+          });
+          changeType({mode: 'default', meal_id: null});
+          //navigation.goBack();
+          navigation.navigate('meala');
+        });
+    } else {
+      const restaurantData = {
+        base64ImageData: base64ImageData,
+        user_id,
+        restaurantName,
+        restaurantId,
+        mealTitle,
+        picId: foodPicture,
         lat,
         lng,
         mealId,
         userMealId,
         scope,
         carbs,
-        tags,
+        predictions,
         date,
-        fatSecretUserIds,
-      )
-      .then(() => uploadImageToServer(restaurantData))
-      .then(() =>
-        analytics().logEvent('Save_Restaurant', {
-          Meal: defaultMealTitle,
-          Restaurant: defaultRestaurantName,
-        }),
-      )
-      .then(() => {
-        reset();
-        navigation.setParams({
-          meal_id: null,
+      };
+
+      database
+        .saveRestaurant(
+          defaultRestaurantName,
+          defaultRestaurantId,
+          defaultMealTitle,
+          foodPicture,
+          note,
+          lat,
+          lng,
+          mealId,
+          userMealId,
+          scope,
+          carbs,
+          tags,
+          date,
+          fatSecretUserIds,
+        )
+        .then(() => uploadImageToServer(restaurantData))
+        .then(() =>
+          analytics().logEvent('Save_Restaurant', {
+            Meal: defaultMealTitle,
+            Restaurant: defaultRestaurantName,
+          }),
+        )
+        .then(() => {
+          reset();
+          navigation.setParams({
+            meal_id: null,
+          });
+          changeType({mode: 'default', meal_id: null});
+          //navigation.goBack();
+          navigation.navigate('meala');
         });
-        changeType({mode: 'default', meal_id: null});
-        //navigation.goBack();
-        navigation.navigate('meala');
-      });
+    }
   }
 
   const handleInputMealChange = text => setMealTitle(text);

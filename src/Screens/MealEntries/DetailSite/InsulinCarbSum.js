@@ -42,10 +42,10 @@ export function getInsulinInfo(treatments) {
     if (filterUndefined.length > 0) {
       return filterUndefined.reduce(add).toFixed(2);
     } else {
-      return [0];
+      return [];
     }
   } else {
-    return [0];
+    return [];
   }
 }
 export function carbSum(carbs) {

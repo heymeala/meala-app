@@ -4,7 +4,7 @@ import {Badge, ListItem, makeStyles, SearchBar} from 'react-native-elements';
 import {EmptyListPlaces} from './Common/EmtyListPlaces';
 import LocalizationContext from '../../../LanguageContext';
 import {spacing} from '../../theme/styles';
-import { useFocusEffect, useNavigation } from "@react-navigation/core";
+import {useFocusEffect, useNavigation} from '@react-navigation/core';
 import {database} from '../../Common/database_realm';
 
 const RestaurantList = props => {
@@ -32,17 +32,23 @@ const RestaurantList = props => {
       const allRestaurantsIsDeleted = allRestaurant.filter(
         restaurants => restaurants.isDeleted === false,
       );
+      console.log(allRestaurantsIsDeleted)
+
       setRestaurants(allRestaurantsIsDeleted);
     } catch (e) {}
   };
-
   const keyExtractor = (item, index) => index.toString();
+
   const renderItem = ({item}) => (
     <View>
       <ListItem
         containerStyle={{paddingVertical: spacing.L}}
         bottomDivider
-        onPress={() => navigation.navigate('MealListView', {restaurant: item})}>
+        onPress={() =>
+          navigation.navigate('MealListView', {
+            restaurant_id: item.id,
+          })
+        }>
         <ListItem.Content>
           <ListItem.Title>{item.restaurant_name}</ListItem.Title>
         </ListItem.Content>

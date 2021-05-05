@@ -16,6 +16,7 @@ import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
 import {useUserSettings} from '../../../hooks/useUserSettings';
 import {DEFAULT, NIGHTSCOUT} from '../../Settings/glucoseSourceConstants';
 import {useNavigation} from '@react-navigation/core';
+import { spacing } from "../../../theme/styles";
 
 const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -70,13 +71,15 @@ const MealDetailsComponent = props => {
           <NoGraphData />
         )}
         <View style={{alignItems: 'center'}}>
-          {userSettings.glucoseSource === NIGHTSCOUT && (
-            <View>
-              <Text style={{paddingBottom: 5}}>{spritzEssAbstandText}</Text>
-            </View>
-          )}
+          {console.log(insulinSumme.length)}
+          {userSettings.glucoseSource === NIGHTSCOUT &&
+            insulinSumme.length > 0 && (
+              <View>
+                <Text style={styles.space}>{spritzEssAbstandText}</Text>
+              </View>
+            )}
           {props.stepsPerDay && (
-            <Text>
+            <Text style={styles.space}>
               {t('Settings.healthKit.totalStepsToday', {
                 steps: props.stepsPerDay,
               })}
@@ -120,4 +123,5 @@ const useStyles = makeStyles((theme, dimension) => ({
     paddingBottom: 5,
     paddingTop: 5,
   },
+  space: {paddingBottom: spacing.S},
 }));

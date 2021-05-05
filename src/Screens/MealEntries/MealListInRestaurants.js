@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   SafeAreaView,
@@ -9,30 +9,32 @@ import {
 import {FAB, useTheme} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
-import {useNavigation, useRoute} from '@react-navigation/core';
+import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 
 const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
+  const route = useRoute();
+  const {restaurant_id} = route.params;
+
   const {t, locale} = React.useContext(LocalizationContext);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const route = useRoute();
   const {theme} = useTheme();
 
-  function loadData(value) {
-    const mealdata = route.params?.restaurant;
-    const mealDataSoftDeleteData = mealdata.food.filter(
-      data => data.isDeleted === false,
-    );
-    setMealDataSoftDelete(mealDataSoftDeleteData);
+  async function loadData(value) {
+    const meals = await database.getRestaurantById(restaurant_id);
+    const filteredMeals = meals.food.filter(data => data.isDeleted === false);
+    setMealDataSoftDelete(filteredMeals);
     setLoading(false);
   }
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData();
+    }, []),
+  );
 
   function deleteMeal(id) {
     PushNotification.cancelLocalNotifications({id: id});

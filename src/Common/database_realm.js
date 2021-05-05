@@ -161,6 +161,7 @@ export const database = {
       .filter(data => data.active === true)
       .map(prediction => prediction.name);
 
+
     console.log('Save' + restaurantName);
     return database._open
       .then(realm => {
@@ -219,6 +220,59 @@ export const database = {
         console.log(error);
       });
   },
+  editRestaurantAndMeal: (
+    restaurantName,
+    restaurantId,
+    mealTitle,
+    picId,
+    note,
+    lat,
+    lng,
+    mealId,
+    userMealId,
+    scope,
+    date,
+  ) => {
+    return database._open
+      .then(realm => {
+        let Meal = realm.objects('Meal')
+
+        realm.write(() => {
+          let restaurantEntry = realm.create(
+            'Restaurant',
+            {
+              id: restaurantId,
+              restaurant_name: restaurantName,
+              food: Meal,
+              lat: lat === '0' ? null : parseFloat(lat),
+              long: lng === '0' ? null : parseFloat(lng),
+              restaurantNote: 'notiz',
+              scope: scope,
+            },
+            true,
+          );
+
+          var newMeal = [
+            {
+              food: mealTitle,
+              picture: picId,
+              date: date,
+              note: note,
+              restaurantId: restaurantId,
+              id: mealId,
+              userMealId: userMealId,
+            },
+          ];
+          for (var i = 0; i < newMeal.length; i++) {
+            //restaurantEntry.food.push(newMeal[i]);
+            restaurantEntry.food.push(realm.create('Meal', newMeal[i], true));
+          }
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
 
   fetchRestaurantsWithFilter: filter => {
     return database._open
@@ -243,6 +297,17 @@ export const database = {
             `isDeleted == false && restaurant_name LIKE[c] '*${filter}*' LIMIT(5) `,
           );
         return restaurants.sorted('restaurant_name');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  getRestaurantById: id => {
+    return database._open
+      .then(realm => {
+        const restaurants = realm.objects('Restaurant').filtered('id = $0', id);
+        console.log('re', restaurants[0]);
+        return restaurants[0];
       })
       .catch(error => {
         console.log(error);
@@ -338,7 +403,7 @@ export const database = {
 
   saveGlucoseSource: (glucoseSource, nightscoutToken) => {
     const getNightscoutToken = nightscoutToken ? nightscoutToken : null;
-    console.log("realm", glucoseSource)
+    console.log('realm', glucoseSource);
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(
