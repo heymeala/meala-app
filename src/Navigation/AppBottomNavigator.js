@@ -35,37 +35,44 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
-
-        options={{
-          tabBarLabel: t('Accessibility.tab.add'),
-          tabBarIcon: ({color, focused}) => (
-            <View
-              style={{
-                position: 'absolute',
-                bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
-                height: 55,
-                width: 55,
-                backgroundColor: theme.colors.white,
-                borderRadius: 55,
-                shadowColor: theme.colors.grey2,
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-                elevation: 6,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="pluscircleo"
-                type="antdesign"
-                size={28}
-                color={color}
-              />
-            </View>
-          ),
+        initialParams={{params: {type: 'default'}}}
+        options={({route}) => {
+          console.log('appbottom', route);
+          const {type} = route.params?.params ?? 'default';
+          console.log("type", type)
+          const isTypeEdit = !!(type && type !== 'edit');
+          return {
+            tabBarVisible: isTypeEdit,
+            tabBarLabel: t('Accessibility.tab.add'),
+            tabBarIcon: ({color, focused}) => (
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
+                  height: 55,
+                  width: 55,
+                  backgroundColor: theme.colors.white,
+                  borderRadius: 55,
+                  shadowColor: theme.colors.grey2,
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+                  elevation: 6,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Icon
+                  name="pluscircleo"
+                  type="antdesign"
+                  size={28}
+                  color={color}
+                />
+              </View>
+            ),
+          };
         }}
         component={EnterMealStack}
       />

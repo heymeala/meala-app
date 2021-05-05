@@ -36,13 +36,15 @@ import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
 import {useUserSettings} from '../../hooks/useUserSettings';
+import {CommonActions} from '@react-navigation/native';
 
 //process.nextTick = setImmediate;
 
-const EnterMeal = ({route}, props) => {
+const EnterMeal = ({route, navigation}, props) => {
   const {meal_id, type, id, scan} = route.params;
+  console.log('type in entermeal ', type);
   const {t, locale} = React.useContext(LocalizationContext);
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   moment.locale(locale);
   const styles = useStyles(props);
   const {userSettings} = useUserSettings();
@@ -195,8 +197,11 @@ const EnterMeal = ({route}, props) => {
   );
 
   function cancel() {
+    navigation.dispatch(CommonActions.setParams({type: 'Wojtek'}));
+
+    navigation.setParams({type: null});
+    navigation.setParams({params: {type: null}});
     reset();
-    navigation.setParams({mealid: null, type: null});
     navigation.goBack();
   }
 
