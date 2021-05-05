@@ -20,6 +20,7 @@ import {
 import {theme} from './src/theme/theme';
 import Icon from './src/CustomMealaFont';
 import {UserSettingsProvider} from './src/hooks/useUserSettings';
+import {EnterMealTypeProvider} from './src/hooks/useEnterMealState';
 
 enableScreens();
 
@@ -105,26 +106,28 @@ const App = props => {
           <ProfileProvider>
             <UserSettingsProvider>
               <ScreenReaderProvider>
-                <View style={{flex: 1}}>
-                  {/*
+                <EnterMealTypeProvider>
+                  <View style={{flex: 1}}>
+                    {/*
                 <StatusBar barStyle={'dark-content'} />
                 */}
-                  <Stack.Navigator
-                    screenOptions={{
-                      headerShown: false,
-                    }}>
-                    {onboarding && (
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerShown: false,
+                      }}>
+                      {onboarding && (
+                        <Stack.Screen
+                          name="Onboarding"
+                          component={OnboardingScreen}
+                        />
+                      )}
                       <Stack.Screen
-                        name="Onboarding"
-                        component={OnboardingScreen}
+                        name="Home"
+                        component={AppBottomNavigationStack}
                       />
-                    )}
-                    <Stack.Screen
-                      name="Home"
-                      component={AppBottomNavigationStack}
-                    />
-                  </Stack.Navigator>
-                </View>
+                    </Stack.Navigator>
+                  </View>
+                </EnterMealTypeProvider>
               </ScreenReaderProvider>
             </UserSettingsProvider>
           </ProfileProvider>

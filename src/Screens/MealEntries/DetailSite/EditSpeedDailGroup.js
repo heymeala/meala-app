@@ -4,6 +4,7 @@ import {makeStyles, SpeedDial} from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import {useNavigation} from '@react-navigation/core';
 import {database} from '../../../Common/database_realm';
+import {useEnterMealType} from '../../../hooks/useEnterMealState';
 
 const EditSpeedDialGroup = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -11,7 +12,7 @@ const EditSpeedDialGroup = props => {
   const [open, setOpen] = useState(false);
   const navigation = useNavigation();
   const {selectedFood} = props;
-
+  const {changeType} = useEnterMealType();
   function softDeleteMeal(id) {
     database.deleteMealSoft(id);
     navigation.goBack();
@@ -30,15 +31,12 @@ const EditSpeedDialGroup = props => {
         accessibilityLabel={'Bearbeiten'}
         icon={{name: 'edit', color: '#fff'}}
         //title={t('Entries.copyMeal')}
-        onPress={() =>
+        onPress={() => {
+          changeType({mode: 'edit', meal_id: selectedFood.id});
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
-            params: {
-              meal_id: selectedFood.id,
-              type: 'edit',
-            },
-          })
-        }
+          });
+        }}
       />
       <SpeedDial.Action
         accessibilityLabel={t('Entries.copyMeal')}

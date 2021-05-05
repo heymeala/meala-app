@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
-  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -17,7 +16,7 @@ import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
 import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
-import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {useFocusEffect} from '@react-navigation/core';
 import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
 import PictureSelector from './PictureSelector';
 import {Tags} from './EnterMealComponents/Tags';
@@ -36,20 +35,19 @@ import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
 import {useUserSettings} from '../../hooks/useUserSettings';
-import {CommonActions} from '@react-navigation/native';
+import {useEnterMealType} from '../../hooks/useEnterMealState';
 
 //process.nextTick = setImmediate;
 
 const EnterMeal = ({route, navigation}, props) => {
-  const {meal_id, type, id, scan} = route.params;
-  console.log('type in entermeal ', type);
+  const {meal_id, id, scan} = route.params;
   const {t, locale} = React.useContext(LocalizationContext);
   //const navigation = useNavigation();
   moment.locale(locale);
   const styles = useStyles(props);
   const {userSettings} = useUserSettings();
   const [user_id, setUser_id] = useState('');
-
+  const {type, changeType} = useEnterMealType();
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
   const [avatarSourceCamera, setAvatarSourceCamera] = useState(undefined);
 
@@ -95,7 +93,7 @@ const EnterMeal = ({route, navigation}, props) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      if (type !== 'edit' && editMode === false) {
+      if (type.mode !== 'edit' && editMode === false) {
         // setDate(new Date());
       }
       return () => {};
@@ -145,19 +143,17 @@ const EnterMeal = ({route, navigation}, props) => {
 
   React.useLayoutEffect(() => {
     if (meal_id) {
-      if (type) {
-        if (type === 'edit') {
-          setEditMode(true);
-        } else if (type === 'copy') {
-          setEditMode(false);
-        } else {
-          setEditMode(prev => false);
-        }
+      if (type.mode === 'edit') {
+        setEditMode(true);
+      } else if (type === 'copy') {
+        setEditMode(false);
+      } else {
+        setEditMode(prev => false);
       }
     }
 
     navigation.setOptions({
-      title: editMode ? 'Edit' : t('AddMeal.AddMealTitle'),
+      title: type.mode === 'edit' ? 'Edit' : t('AddMeal.AddMealTitle'),
       headerRight: () => (
         <HeaderRightIconGroup reset={reset} saveAll={saveAll} />
       ),
@@ -186,7 +182,7 @@ const EnterMeal = ({route, navigation}, props) => {
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
 
-    type !== 'edit' && addTimeBasedTags(tags, setTags, date, t);
+    type.mode !== 'edit' && addTimeBasedTags(tags, setTags, date, t);
     getExistingFatSecretProfileData(date, setFatSecretData);
   }, [date]);
 
@@ -197,10 +193,7 @@ const EnterMeal = ({route, navigation}, props) => {
   );
 
   function cancel() {
-    navigation.dispatch(CommonActions.setParams({type: 'Wojtek'}));
-
-    navigation.setParams({type: null});
-    navigation.setParams({params: {type: null}});
+    changeType({mode: 'default', meal_id: null});
     reset();
     navigation.goBack();
   }
