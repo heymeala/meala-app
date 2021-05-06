@@ -42,7 +42,7 @@ const MealList = props => {
     setRestaurants(filteredMeals);
     setLoading(false);
 
-    if (userSettings.glucoseSource === NIGHTSCOUT) {
+    /*    if (userSettings.glucoseSource === NIGHTSCOUT) {
       const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
       if (notLoadedEntries && notLoadedEntries.length > 0) {
         notLoadedEntries.map(data => {
@@ -51,15 +51,13 @@ const MealList = props => {
             await nightscoutCall(data.date, data.userMealId);
             await nightscoutTreatmens(data.date, data.userMealId);
             const updatedMeals = await database.fetchMealWithName(foodName);
-            const updatedFilteredMeals = updatedMeals.filter(
-              data => data.isDeleted === false,
-            );
+            const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
             setRestaurants(updatedFilteredMeals);
           };
           nsSugarData();
         });
       }
-    }
+    }*/
   }
 
   return loading ? (

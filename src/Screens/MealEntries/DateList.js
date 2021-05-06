@@ -48,7 +48,6 @@ const DateList = props => {
 
   const [fatSecretData, setFatSecretData] = useState();
 
-  useEffect(() => {}, [chosenDateStart]);
 
   useEffect(() => {
     dates();
