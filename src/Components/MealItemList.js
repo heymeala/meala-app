@@ -30,13 +30,10 @@ const MealItemsList = props => {
   const LatestMealSubtitle = () => {
     if (props.item) {
       let timeFromLatestMeal = new Date(moment(props.item.date).format()).getTime();
-      let nowMinusThree = new Date(
-        moment(curTime).subtract(WAITING_TIME, 'hours').format(),
-      ).getTime();
+      let nowMinusThree = new Date(moment(curTime).subtract(WAITING_TIME, 'hours').format()).getTime();
       let progressTime = Math.abs(timeFromLatestMeal - curTime);
       if (timeFromLatestMeal < nowMinusThree) {
-        const cabs =
-          props.item.carbs > 0 ? '\n' + t('General.Carbs') + ' ' + props.item.carbs + 'g' : '';
+        const cabs = props.item.carbs > 0 ? '\n' + t('General.Carbs') + ' ' + props.item.carbs + 'g' : '';
         return (
           <Text>
             {moment(props.item.date).format('lll')}
@@ -98,7 +95,7 @@ const MealItemsList = props => {
             <LatestMealSubtitle />
           </ListItem.Subtitle>
         </ListItem.Content>
-        {tir && (
+        {tir ? (
           <Badge
             value={badgeValue(screenReaderEnabled, tir)}
             badgeStyle={{
@@ -107,7 +104,7 @@ const MealItemsList = props => {
             textStyle={{color: 'black'}}
             containerStyle={{marginTop: 0}}
           />
-        )}
+        ) : null}
         <ListItem.Chevron />
       </ListItem>
       <Divider />

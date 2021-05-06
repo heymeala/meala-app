@@ -1,7 +1,9 @@
 export function badgeValue(screenReaderEnabled, timeInRange) {
   if (!screenReaderEnabled && timeInRange) {
-    return timeInRange + '%';
+    const tir = timeInRange + '%';
+    return tir.toString();
   } else {
-    return timeInRange + '%' + ' \n Zeit im Zielbereich';
+    const tir = timeInRange + '%' + ' Zeit im Zielbereich';
+    return tir.toString();
   }
 }
