@@ -207,16 +207,11 @@ export const database = {
       });
   },
   editRestaurantAndMeal: (
-    restaurantName,
-    restaurantId,
     mealTitle,
     picId,
     note,
-    lat,
-    lng,
     mealId,
     userMealId,
-    scope,
     date,
     fatSecretUserFoodEntryIds,
     predictions,
@@ -229,47 +224,22 @@ export const database = {
             return {tagEn: prediction.name};
           });
         realm.write(() => {
-          const currentMeal = realm.objects('Meal').filtered('id = $0', userMealId);
-
-          let restaurantEntry = realm.create(
-            'Restaurant',
-            {
-              id: restaurantId,
-              restaurant_name: restaurantName,
-              lat: lat === '0' ? null : parseFloat(lat),
-              long: lng === '0' ? null : parseFloat(lng),
-              restaurantNote: 'notiz',
-              address: '',
-              isDeleted: false,
-              scope: scope,
-            },
-            true,
-          );
-          console.log('curent', currentMeal.food);
-
           realm.create(
             'Meal',
             {
-              userMealId: userMealId,
               food: mealTitle,
-
+              picture: picId,
+              date: date,
+              tag: tags,
+              note: note,
+              treatmentsData: null,
+              userMealId: userMealId,
+              tags: tags,
+              fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
             },
             true,
           );
 
-          /*       var newMeal = {
-            food: mealTitle,
-            picture: picId,
-            date: date,
-            note: note,
-            restaurantId: restaurantId,
-            id: mealId,
-            userMealId: userMealId,
-            tags: tags,
-            fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
-          };
-
-          restaurantEntry.food.push(realm.create('Meal', newMeal, true));*/
         });
       })
       .catch(error => {

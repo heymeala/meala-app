@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
 import PermissionListItem from './PermissionListItem';
@@ -17,6 +11,7 @@ import {spacing} from '../../../theme/styles';
 import {useUserSettings} from '../../../hooks/useUserSettings';
 import {HEALTHKIT} from '../glucoseSourceConstants';
 import moment from 'moment';
+import {permissions} from '../../MealEntries/DetailSite/HealthKitPermissions';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -26,18 +21,6 @@ export default function HealthKitScreen() {
   const [carbSamples, setCarbSamples] = useState([]);
   const [heartRateSamples, setHeartRateSamples] = useState([]);
   const [stepSamples, setStepSamples] = useState([]);
-  /* Permission options */
-  const permissions = {
-    permissions: {
-      read: [
-        AppleHealthKit.Constants.Permissions.BloodGlucose,
-        AppleHealthKit.Constants.Permissions.Carbohydrates,
-        AppleHealthKit.Constants.Permissions.HeartRate,
-        AppleHealthKit.Constants.Permissions.Steps,
-      ],
-      write: [AppleHealthKit.Constants.Permissions.Carbohydrates],
-    },
-  };
 
   const saveState = () => {
     saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
@@ -56,30 +39,24 @@ export default function HealthKitScreen() {
         startDate: fromDate, // required
         endDate: tillDate, // optional; default now
       };
-      AppleHealthKit.getBloodGlucoseSamples(
-        options,
-        (callbackError, results) => {
-          /* Samples are now collected from HealthKit */
-          setGlucoseSamples(results);
+      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setGlucoseSamples(results);
 
-          if (callbackError) {
-            console.log(callbackError);
-            return;
-          }
-        },
-      );
-      AppleHealthKit.getCarbohydratesSamples(
-        options,
-        (callbackError, results) => {
-          /* Samples are now collected from HealthKit */
-          setCarbSamples(results);
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
+      AppleHealthKit.getCarbohydratesSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setCarbSamples(results);
 
-          if (callbackError) {
-            console.log(callbackError);
-            return;
-          }
-        },
-      );
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
       AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
         /* Samples are now collected from HealthKit */
         setHeartRateSamples(results);
@@ -93,16 +70,13 @@ export default function HealthKitScreen() {
         date: new Date().toISOString(), // optional; default now
         includeManuallyAdded: true, // optional: default true
       };
-      AppleHealthKit.getStepCount(
-        (optionsSteps: HealthInputOptions),
-        (err: Object, results: HealthValue) => {
-          if (err) {
-            return;
-          }
-          console.log(results);
-          setStepSamples(results);
-        },
-      );
+      AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
+        if (err) {
+          console.log('err 2', err);
+          return;
+        }
+        results ? setStepSamples(results) : setStepSamples(null);
+      });
 
       getAuthAccess();
       saveState();
@@ -134,31 +108,17 @@ export default function HealthKitScreen() {
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
           <View style={styles.body}>
             {userSettings.glucoseSource === HEALTHKIT ? (
-              <Icon
-                style={styles.center}
-                name="ios-heart"
-                color={'#cf2c3c'}
-                size={70}
-              />
+              <Icon style={styles.center} name="ios-heart" color={'#cf2c3c'} size={70} />
             ) : (
-              <Icon
-                style={styles.center}
-                name="heart-dislike-sharp"
-                color={'#cf2c3c'}
-                size={70}
-              />
+              <Icon style={styles.center} name="heart-dislike-sharp" color={'#cf2c3c'} size={70} />
             )}
             <View style={styles.sectionContainer}>
               {authStatus ? (
                 <>
-                  <Text style={styles.sectionTitle}>
-                    {t('Settings.healthKit.title')}
-                  </Text>
+                  <Text style={styles.sectionTitle}>{t('Settings.healthKit.title')}</Text>
                   <Button
                     style={styles.button}
                     onPress={getPermission}
@@ -169,9 +129,7 @@ export default function HealthKitScreen() {
                 <Text h2>{t('Settings.healthKit.titleAccess')}</Text>
               )}
               <View>
-                <Text style={styles.spacing}>
-                  {t('Settings.healthKit.canRead')}
-                </Text>
+                <Text style={styles.spacing}>{t('Settings.healthKit.canRead')}</Text>
                 <PermissionListItem
                   title={t('Settings.healthKit.glucose')}
                   permission={glucoseSamples.length > 0}

@@ -41,10 +41,7 @@ export async function loadSugarData(
     setDates(nsSugarDates);
     setSugar(nsSugarSGV);
 
-    const nsTreatmentData = await nightscoutTreatmens(
-      foodDate,
-      mealData.userMealId,
-    );
+    const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
 
     const calcCarbs = nsTreatmentData
       .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
@@ -53,16 +50,8 @@ export async function loadSugarData(
     const calcInsulin = nsTreatmentData
       .filter(data => (data.isSMB ? data.isSMB === false : data))
       .map(insulin => insulin.insulin);
-    const getCarbCoordinates = filterCoordinates(
-      nsTreatmentData,
-      'carbs',
-      settings,
-    );
-    const getInsulinCoordinates = filterCoordinates(
-      nsTreatmentData,
-      'insulin',
-      settings,
-    );
+    const getCarbCoordinates = filterCoordinates(nsTreatmentData, 'carbs', settings);
+    const getInsulinCoordinates = filterCoordinates(nsTreatmentData, 'insulin', settings);
     setCarbs(calcCarbs);
     setInsulin(calcInsulin);
     setTreatments(nsTreatmentData);
@@ -73,10 +62,7 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
     const tillDate = moment(foodDate).add(3, 'hours').toISOString();
-    const fromDate = moment(foodDate)
-      .subtract(SEA_MINUTES, 'minutes')
-      .toISOString();
-
+    const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
@@ -89,60 +75,53 @@ export async function loadSugarData(
         startDate: fromDate, // required
         endDate: tillDate, // optional; default now
       };
-      AppleHealthKit.getBloodGlucoseSamples(
-        options,
-        (callbackError, results) => {
-          /* Samples are now collected from HealthKit */
-          if (callbackError) {
-            console.log(callbackError);
-            return;
-          }
-          setCoordinates(
-            results.map(coordinates => {
-              return {
-                x: new Date(moment(coordinates.startDate).toISOString()),
-                y: coordinates.value / settings.unit,
-              };
-            }),
-          );
-        },
-      );
+      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+        setCoordinates(
+          results.map(coordinates => {
+            return {
+              x: new Date(moment(coordinates.startDate).toISOString()),
+              y: coordinates.value / settings.unit,
+            };
+          }),
+        );
+      });
 
-      AppleHealthKit.getCarbohydratesSamples(
-        options,
-        (callbackError, results) => {
-          /* Samples are now collected from HealthKit */
-          if (callbackError) {
-            console.log(callbackError);
-            return;
-          }
-          setCarbs(results.map(data => data.value));
-          setCarbCoordinates(
-            results.map(coordinates => {
-              const kitCarbs = mapUnit(coordinates.value, settings);
-              return {
-                x: new Date(moment(coordinates.startDate).toISOString()),
-                y: kitCarbs,
-              };
-            }),
-          );
-        },
-      );
+      AppleHealthKit.getCarbohydratesSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+        setCarbs(results.map(data => data.value));
+        setCarbCoordinates(
+          results.map(coordinates => {
+            const kitCarbs = mapUnit(coordinates.value, settings);
+            return {
+              x: new Date(moment(coordinates.startDate).toISOString()),
+              y: kitCarbs,
+            };
+          }),
+        );
+      });
 
       let optionsSteps = {
         date: new Date(foodDate).toISOString(), // optional; default now
         includeManuallyAdded: true, // optional: default true
       };
-      AppleHealthKit.getStepCount(
-        (optionsSteps: HealthInputOptions),
-        (err: Object, results: HealthValue) => {
-          if (err) {
-            return;
-          }
-          setStepsPerDay(results.value);
-          console.log(results);
-        },
-      );
+      AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
+        if (err) {
+          console.log("err1", err)
+
+          return;
+        }
+        console.log("err5", results)
+        results ?  setStepsPerDay(results.value): setStepsPerDay(null);
+      });
     });
     setLoading(false);
   } else {

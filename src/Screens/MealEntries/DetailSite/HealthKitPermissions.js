@@ -8,6 +8,7 @@ export const permissions = {
       AppleHealthKit.Constants.Permissions.BloodGlucose,
       AppleHealthKit.Constants.Permissions.Carbohydrates,
       AppleHealthKit.Constants.Permissions.HeartRate,
+      AppleHealthKit.Constants.Permissions.Steps,
     ],
     write: [AppleHealthKit.Constants.Permissions.Steps],
   },

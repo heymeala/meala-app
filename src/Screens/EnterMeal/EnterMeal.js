@@ -220,16 +220,11 @@ const EnterMeal = ({route, navigation}, props) => {
     if (type.mode === EDIT_MODE) {
       database
         .editRestaurantAndMeal(
-          restaurantName,
-          restaurantId,
           mealTitle,
           foodPicture,
           note,
-          lat,
-          lng,
           mealId,
           userMealId,
-          scope,
           date,
           fatSecretUserIds,
           tags,

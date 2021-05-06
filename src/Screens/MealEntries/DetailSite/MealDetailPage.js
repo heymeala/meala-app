@@ -16,7 +16,7 @@ import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
 import {useUserSettings} from '../../../hooks/useUserSettings';
 import {DEFAULT, NIGHTSCOUT} from '../../Settings/glucoseSourceConstants';
 import {useNavigation} from '@react-navigation/core';
-import { spacing } from "../../../theme/styles";
+import {spacing} from '../../../theme/styles';
 
 const MealDetailsComponent = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -35,16 +35,17 @@ const MealDetailsComponent = props => {
     });
   }, [navigation]);
 
-  const duration = React.useMemo(
-    () => getDuration(props.treatments, foodDatumMoment),
-    [props.treatments, foodDatumMoment],
-  );
+  const duration = React.useMemo(() => getDuration(props.treatments, foodDatumMoment), [
+    props.treatments,
+    foodDatumMoment,
+  ]);
   const insulinSumme = getInsulinInfo(props.treatments);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
   const spritzEssAbstandText = React.useMemo(
     () => getSEA(userSettings.glucoseSource, t, duration, insulinSumme),
     [userSettings.glucoseSource, t, duration, insulinSumme],
   );
+  console.log(props.stepsPerDay)
 
   return (
     <>
@@ -71,14 +72,12 @@ const MealDetailsComponent = props => {
           <NoGraphData />
         )}
         <View style={{alignItems: 'center'}}>
-          {console.log(insulinSumme.length)}
-          {userSettings.glucoseSource === NIGHTSCOUT &&
-            insulinSumme.length > 0 && (
-              <View>
-                <Text style={styles.space}>{spritzEssAbstandText}</Text>
-              </View>
-            )}
-          {props.stepsPerDay && (
+          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme.length > 0 && (
+            <View>
+              <Text style={styles.space}>{spritzEssAbstandText}</Text>
+            </View>
+          )}
+          {props.stepsPerDay !== null && (
             <Text style={styles.space}>
               {t('Settings.healthKit.totalStepsToday', {
                 steps: props.stepsPerDay,
@@ -88,11 +87,7 @@ const MealDetailsComponent = props => {
 
           {props.selectedFood.picture ? (
             <Image
-              source={
-                props.selectedFood.picture
-                  ? {uri: props.selectedFood.picture}
-                  : null
-              }
+              source={props.selectedFood.picture ? {uri: props.selectedFood.picture} : null}
               style={styles.image}
             />
           ) : null}
