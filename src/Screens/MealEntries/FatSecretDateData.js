@@ -52,7 +52,7 @@ const FatSecretDateData = props => {
   const snackFPE = calculateFPE(snackCalories, snackSumCarbohydrates);
 
   return (
-    <View style={styles.centeredView}>
+    <>
       <PoweredByFatSecret />
       {breakfast.length > 0 && (
         <GroupedMealItems
@@ -92,37 +92,11 @@ const FatSecretDateData = props => {
           icon={'cup_cake'}
         />
       )}
-    </View>
+    </>
   );
 };
 
 export default FatSecretDateData;
 const styles = StyleSheet.create({
-  centeredView: {
-    //   flex: 1,
-    // justifyContent: 'center',
-  },
 
-  openButton: {
-    backgroundColor: '#ffe109',
-    borderRadius: 20,
-    padding: 8,
-  },
-  textStyle: {
-    color: 'black',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  nutritionTitle: {
-    fontWeight: 'bold',
-  },
-  nutritionData: {},
-  nContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
 });

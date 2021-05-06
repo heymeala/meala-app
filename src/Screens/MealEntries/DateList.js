@@ -144,6 +144,7 @@ const DateList = props => {
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={HeaderComponent()}
+      ListFooterComponentStyle={{height: '100%'}}
       ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}
       data={restaurants}
       keyExtractor={keyExtractor}
