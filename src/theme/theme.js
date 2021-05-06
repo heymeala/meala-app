@@ -40,4 +40,10 @@ export const theme = {
     },
     buttonStyle: {borderRadius: 20, backgroundColor: colors_light.secondary},
   },
+  spacing: {
+    XS: 4,
+    S: 8,
+    M: 16,
+    L: 24,
+  },
 };

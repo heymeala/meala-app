@@ -6,7 +6,7 @@ import LocalizationContext from '../../../LanguageContext';
 import {spacing} from '../../theme/styles';
 import LottieView from 'lottie-react-native';
 
-const SearchGiScreen = props => {
+const GlyxSearchScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
@@ -107,7 +107,7 @@ const SearchGiScreen = props => {
   );
 };
 
-export default SearchGiScreen;
+export default GlyxSearchScreen;
 
 const useStyles = makeStyles((theme, dimensions) => ({
   container: {padding: spacing.S},

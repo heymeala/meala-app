@@ -11,9 +11,9 @@ import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
 import {EmptyListDate} from './Common/EmtyListDate';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import { useNavigation } from "@react-navigation/core";
+import {useNavigation} from '@react-navigation/core';
 
-const DateList = (props) => {
+const DateList = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
@@ -23,10 +23,7 @@ const DateList = (props) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    showRestaurants(
-      chosenDateStart.startOf('day').toDate(),
-      chosenDateStart.endOf('day').toDate(),
-    );
+    showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
 
     return () => {
       //todo: clean up function
@@ -42,9 +39,7 @@ const DateList = (props) => {
   }
 
   const keyExtractor = (item, index) => item.id;
-  const renderItem = ({item}) => (
-    <MealItemList item={item} navigation={props.navigation} />
-  );
+  const renderItem = ({item}) => <MealItemList item={item} navigation={props.navigation} />;
 
   const [whiteListDataBaseDates, setWhiteListDataBaseDates] = useState([]);
 
@@ -65,14 +60,10 @@ const DateList = (props) => {
     function () {
       let isMounted = true;
 
-      Keychain.hasInternetCredentials(
-        'https://www.fatsecret.com/oauth/authorize',
-      ).then(result => {
+      Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
         if (result !== false) {
           // get Date from DatePicker and Calculate days since epoch
-          var myEpoch = Math.trunc(
-            chosenDateStart.valueOf() / 1000.0 / 60 / 60 / 24,
-          );
+          var myEpoch = Math.trunc(chosenDateStart.valueOf() / 1000.0 / 60 / 60 / 24);
           getFoodByDateFromUser(myEpoch, null).then(data => {
             if (isMounted) {
               if (data.food_entries) {
@@ -153,15 +144,11 @@ const DateList = (props) => {
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={HeaderComponent()}
-      ListFooterComponent={
-        fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />
-      }
+      ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      ListEmptyComponent={
-        !fatSecretData && <EmptyListDate navigation={navigation} />
-      }
+      ListEmptyComponent={!fatSecretData && <EmptyListDate navigation={navigation} />}
     />
   );
 };

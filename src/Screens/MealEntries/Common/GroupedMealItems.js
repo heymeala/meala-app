@@ -1,15 +1,21 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import LocalizationContext from '../../../../LanguageContext';
-import {Tooltip} from 'react-native-elements';
+import {Icon, ListItem, makeStyles, Tooltip, useTheme, Text} from 'react-native-elements';
+import {spacing} from '../../../theme/styles';
+import NutritionDetailItem from '../NutritionDetailItem';
 
-const GroupedMealItems = (props) => {
+const GroupedMealItems = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const {data, sum} = props;
+  const [expanded, setExpanded] = useState(false);
+  const styles = useStyles();
+  const {theme} = useTheme();
+
   return (
     <View>
       <Tooltip
-        backgroundColor={'#f9de1c'}
+        backgroundColor={theme.colors.secondary}
         width={250}
         height={80}
         popover={
@@ -19,50 +25,80 @@ const GroupedMealItems = (props) => {
             <Text> {t('Entries.fpu_formula')} </Text>
           </>
         }>
-        <>
-          <Text style={styles.title}>{props.title}</Text>
-
-          <Text style={{...styles.text, paddingLeft: 8, paddingBottom: 8}}>
-            {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |
-              {t('Entries.fpu')} {props.fpe}
-          </Text>
-        </>
+        <ListItem.Accordion
+          containerStyle={styles.accordion}
+          content={
+            <>
+              <Icon
+                name={props.icon}
+                size={props.iconSize || 20}
+                style={styles.icon}
+                type={'meala'}
+              />
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text h4>{props.title}</Text>
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  <Text>
+                    {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |
+                    {t('Entries.fpu')} {props.fpe}
+                  </Text>
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </>
+          }
+          isExpanded={expanded}
+          onPress={() => {
+            setExpanded(!expanded);
+          }}>
+          {data.map((data, i) => {
+            return (
+              <View key={i} style={styles.container}>
+                <View style={styles.titleContainer}>
+                  <Text style={[styles.nutritionText, styles.text]}>{data.food_entry_name}</Text>
+                  <Text style={styles.ccal}>
+                    , {data.calories} {t('AddMeal.nutritionData.calories')}
+                  </Text>
+                </View>
+                <NutritionDetailItem
+                  data={data.carbohydrate}
+                  text={t('AddMeal.nutritionData.carbohydrate')}
+                />
+                <NutritionDetailItem data={data.fat} text={t('AddMeal.nutritionData.fat')} />
+                <NutritionDetailItem
+                  data={data.protein}
+                  text={t('AddMeal.nutritionData.protein')}
+                />
+              </View>
+            );
+          })}
+        </ListItem.Accordion>
       </Tooltip>
-      {data.map((data, i) => {
-        return (
-          <View key={i} style={styles.container}>
-            <View style={{padding: 20}}>
-              <Text style={styles.text}>{data.food_entry_name}</Text>
-              <Text>
-                {t('AddMeal.nutritionData.calories')}: {data.calories}
-              </Text>
-              <Text>
-                {t('AddMeal.nutritionData.carbohydrate')}: {data.carbohydrate}
-              </Text>
-            </View>
-          </View>
-        );
-      })}
     </View>
   );
 };
 
 export default GroupedMealItems;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
-    flex: 1,
+    padding: theme.spacing.M,
     backgroundColor: 'white',
+  },
+  titleContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    paddingVertical: theme.spacing.XS,
   },
+  accordion: {backgroundColor: theme.colors.grey5},
+  icon: {padding: theme.spacing.M},
   title: {
-    padding: 8,
-    paddingTop: 20,
     fontWeight: 'bold',
   },
+  ccal: {fontSize: 10},
   text: {
     fontWeight: 'bold',
   },
-});
+  nutritionText: {paddingVertical: theme.spacing.XS},
+}));

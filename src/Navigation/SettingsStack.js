@@ -3,7 +3,7 @@ import SettingsOverview from '../Screens/Settings/SettingsOverview';
 import NightscoutSettingsScreen from '../Screens/Settings/NightscoutSettingsScreen';
 import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
 import AboutScreen from '../Screens/Settings/AboutScreen';
-import SearchGiScreen from '../Screens/Settings/SearchGiScreen';
+import GlyxSearchScreen from '../Screens/Settings/GlyxSearchScreen';
 import StatisticScreen from '../Screens/Settings/StatisticScreen';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
@@ -124,7 +124,7 @@ function SettingsStack() {
       />
       <Stack.Screen
         name="SearchGiScreen"
-        component={SearchGiScreen}
+        component={GlyxSearchScreen}
         initialParams={{}}
         options={{
           title: t('GI.NavigationBarTitle'),
