@@ -1,11 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {database} from '../Common/database_realm';
 import {defaultUserSettings, UserSettingsContext} from './UserSettingsContext';
-import {
-  DEFAULT,
-  HEALTHKIT,
-  NIGHTSCOUT,
-} from '../Screens/Settings/glucoseSourceConstants';
+import {DEFAULT, HEALTHKIT, NIGHTSCOUT} from '../Screens/Settings/glucoseSourceConstants';
 
 export const UserSettingsProvider = ({children, userSettings}) => {
   const [settings, setSettings] = useState(userSettings || defaultUserSettings);
@@ -26,15 +22,9 @@ export const UserSettingsProvider = ({children, userSettings}) => {
     const profileSettings = async () => {
       const settingsData = await database.getSettings();
       const glucoseSource = await database.getGlucoseSource();
-      if (
-        (settingsData && glucoseSource === '2') ||
-        glucoseSource === NIGHTSCOUT
-      ) {
+      if ((settingsData && glucoseSource === '2') || glucoseSource === NIGHTSCOUT) {
         setSettings({...settingsData, glucoseSource: NIGHTSCOUT});
-      } else if (
-        (settingsData && glucoseSource === '1') ||
-        glucoseSource === HEALTHKIT
-      ) {
+      } else if ((settingsData && glucoseSource === '1') || glucoseSource === HEALTHKIT) {
         setSettings({...settingsData, glucoseSource: HEALTHKIT});
       } else {
         setSettings({...settingsData, glucoseSource: DEFAULT});

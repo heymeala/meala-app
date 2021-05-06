@@ -239,7 +239,6 @@ export const database = {
             },
             true,
           );
-
         });
       })
       .catch(error => {
@@ -370,23 +369,26 @@ export const database = {
 
   saveGlucoseSource: (glucoseSource, nightscoutToken) => {
     const getNightscoutToken = nightscoutToken ? nightscoutToken : null;
-    console.log('realm', glucoseSource);
-    return database._open.then(realm => {
-      realm.write(() => {
-        realm.create(
-          'Settings',
-          {
-            id: 'glucoseSource',
-            glucoseSource: glucoseSource.toString(),
-            nightscoutUrl: null,
-            nightscoutStatus: null,
-            nightscoutVersion: null,
-            nightscoutToken: getNightscoutToken,
-          },
-          true,
-        );
+    return database._open
+      .then(realm => {
+        realm.write(() => {
+          realm.create(
+            'Settings',
+            {
+              id: 'glucoseSource',
+              glucoseSource: glucoseSource.toString(),
+              nightscoutUrl: null,
+              nightscoutStatus: null,
+              nightscoutVersion: null,
+              nightscoutToken: getNightscoutToken,
+            },
+            true,
+          );
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-    });
   },
 
   getSettings: () => {
@@ -442,7 +444,7 @@ export const database = {
           true,
         );
       });
-      console.log(onboardingState[0].onboarding);
+      //console.log(onboardingState[0].onboarding);
       return onboardingState[0].onboarding;
     });
   },

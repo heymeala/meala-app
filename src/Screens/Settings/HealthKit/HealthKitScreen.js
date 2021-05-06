@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import {Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
 import PermissionListItem from './PermissionListItem';
@@ -12,6 +12,7 @@ import {useUserSettings} from '../../../hooks/useUserSettings';
 import {HEALTHKIT} from '../glucoseSourceConstants';
 import moment from 'moment';
 import {permissions} from '../../MealEntries/DetailSite/HealthKitPermissions';
+import {hkSteps} from './steps';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -20,7 +21,7 @@ export default function HealthKitScreen() {
   const [glucoseSamples, setGlucoseSamples] = useState([]);
   const [carbSamples, setCarbSamples] = useState([]);
   const [heartRateSamples, setHeartRateSamples] = useState([]);
-  const [stepSamples, setStepSamples] = useState([]);
+  const [stepSamples, setStepSamples] = useState();
 
   const saveState = () => {
     saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
@@ -30,6 +31,7 @@ export default function HealthKitScreen() {
     const tillDate = moment().toISOString();
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
+      console.log('Get Permission');
 
       if (error) {
         console.log('[ERROR] Cannot grant permissions!');
@@ -66,17 +68,8 @@ export default function HealthKitScreen() {
           return;
         }
       });
-      let optionsSteps = {
-        date: new Date().toISOString(), // optional; default now
-        includeManuallyAdded: true, // optional: default true
-      };
-      AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
-        if (err) {
-          console.log('err 2', err);
-          return;
-        }
-        results ? setStepSamples(results) : setStepSamples(null);
-      });
+
+      hkSteps(setStepSamples);
 
       getAuthAccess();
       saveState();
@@ -89,7 +82,6 @@ export default function HealthKitScreen() {
         console.error(err);
       }
       setAuthStatus(false);
-      console.log(result);
     });
   };
   useEffect(() => {
@@ -98,7 +90,7 @@ export default function HealthKitScreen() {
         if (error) {
           console.log('[ERROR] Cannot grant permissions!');
         }
-        getAuthAccess();
+        //    getAuthAccess();
         getPermission();
       });
     }

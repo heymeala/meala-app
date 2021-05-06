@@ -5,6 +5,7 @@ import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import {SEA_MINUTES} from './DetailSite/Chart/chartConstant';
 import {permissions} from './DetailSite/HealthKitPermissions';
+import {Platform} from 'react-native';
 
 export async function loadSugarData(
   mealData,
@@ -109,19 +110,22 @@ export async function loadSugarData(
         );
       });
 
-      let optionsSteps = {
-        date: new Date(foodDate).toISOString(), // optional; default now
-        includeManuallyAdded: true, // optional: default true
-      };
-      AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
-        if (err) {
-          console.log("err1", err)
+      const majorVersionIOS = parseInt(Platform.Version, 10);
+      if (majorVersionIOS >= 13) {
+        console.log('ios >= 13');
 
-          return;
-        }
-        console.log("err5", results)
-        results ?  setStepsPerDay(results.value): setStepsPerDay(null);
-      });
+        let optionsSteps = {
+          date: new Date(foodDate).toISOString(), // optional; default now
+          includeManuallyAdded: true, // optional: default true
+        };
+        AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
+          if (err) {
+            console.log('err', err);
+            return;
+          }
+          results ? setStepsPerDay(results.value) : setStepsPerDay(null);
+        });
+      }
     });
     setLoading(false);
   } else {

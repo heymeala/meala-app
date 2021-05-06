@@ -29,18 +29,14 @@ const MealItemsList = props => {
 
   const LatestMealSubtitle = () => {
     if (props.item) {
-      let timeFromLatestMeal = new Date(
-        moment(props.item.date).format(),
-      ).getTime();
+      let timeFromLatestMeal = new Date(moment(props.item.date).format()).getTime();
       let nowMinusThree = new Date(
         moment(curTime).subtract(WAITING_TIME, 'hours').format(),
       ).getTime();
       let progressTime = Math.abs(timeFromLatestMeal - curTime);
       if (timeFromLatestMeal < nowMinusThree) {
         const cabs =
-          props.item.carbs > 0
-            ? '\n' + t('General.Carbs') + ' ' + props.item.carbs + 'g'
-            : '';
+          props.item.carbs > 0 ? '\n' + t('General.Carbs') + ' ' + props.item.carbs + 'g' : '';
         return (
           <Text>
             {moment(props.item.date).format('lll')}
@@ -87,11 +83,8 @@ const MealItemsList = props => {
   };
 
   return (
-    <View style={{height:110}} key={props.item.id}>
-      <ListItem
-        onPress={() =>
-          navigation.navigate('MealDataCollector', {mealId: props.item.id})
-        }>
+    <View style={{height: 110}} key={props.item.id}>
+      <ListItem onPress={() => navigation.navigate('MealDataCollector', {mealId: props.item.id})}>
         <Avatar
           rounded
           title={props.item.food[0]}
