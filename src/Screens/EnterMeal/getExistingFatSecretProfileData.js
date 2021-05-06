@@ -1,7 +1,11 @@
 import * as Keychain from 'react-native-keychain';
 import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
 
-export function getExistingFatSecretProfileData(date, setFatSecretData) {
+export function getExistingFatSecretProfileData(
+  date,
+  existingFatSecretIds,
+  setFatSecretData,
+) {
   Keychain.hasInternetCredentials(
     'https://www.fatsecret.com/oauth/authorize',
   ).then(result => {
@@ -13,13 +17,20 @@ export function getExistingFatSecretProfileData(date, setFatSecretData) {
         if (data.food_entries) {
           if (data.food_entries.food_entry.length >= 0) {
             const checkedData = data.food_entries.food_entry.map(items => {
-              return {...items, checked: false};
+              const checked =
+                existingFatSecretIds &&
+                existingFatSecretIds.includes(items.food_entry_id);
+              return {...items, checked};
             });
             setFatSecretData(checkedData);
           } else if (data.food_entries.food_entry) {
-            setFatSecretData([
-              {...data.food_entries.food_entry, checked: false},
-            ]);
+            const checked =
+              existingFatSecretIds &&
+              existingFatSecretIds.includes(
+                data.food_entries.food_entry.food_entry_id,
+              );
+
+            setFatSecretData([{...data.food_entries.food_entry, checked}]);
           }
           // console.log(data);
         } else {

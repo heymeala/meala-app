@@ -41,13 +41,11 @@ import {
   useEnterMealType,
 } from '../../hooks/useEnterMealState';
 import EditTagMissing from './EnterMealComponents/EditTagMissing';
-
-//process.nextTick = setImmediate;
+import {useExistingDataFromDB} from './hooks/useExistingFatSecretIds';
 
 const EnterMeal = ({route, navigation}, props) => {
   const {meal_id, id, scan} = route.params;
   const {t, locale} = React.useContext(LocalizationContext);
-  //const navigation = useNavigation();
   moment.locale(locale);
   const styles = useStyles(props);
   const {userSettings} = useUserSettings();
@@ -88,6 +86,8 @@ const EnterMeal = ({route, navigation}, props) => {
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [tags, setTags] = useState([]);
   const [fatSecretData, setFatSecretData] = useState(null);
+  const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
+
   React.useEffect(() => {
     if (scan === true) {
       setIsScannerVisible(prevState => true);
@@ -102,44 +102,21 @@ const EnterMeal = ({route, navigation}, props) => {
       return () => {};
     }, []),
   );
-  useEffect(() => {
-    if (meal_id && type) {
-      database.fetchMealbyId(meal_id).then(data => {
-        const convertedTags = data.tags.map(tagFromDB => {
-          return {
-            id: uuid.v4(),
-            name: tagFromDB.tagEn,
-            active: true,
-          };
-        });
 
-        setTags(prevArray =>
-          convertedTags.map(cTags => {
-            return {...cTags};
-          }),
-        );
-        const fatSecretFromDB = data.fatSecretUserFoodEntryIds.map(
-          fatSecret => fatSecret.foodEntryId,
-        );
-        const fatSecretDataExists = fatSecretFromDB.length > 0;
-        fatSecretDataExists && setFatSecretData(fatSecretFromDB);
-        setMealTitle(data.food);
-        if (type.mode === EDIT_MODE) {
-          setUserMealId(data.userMealId);
-          setRestaurantId(data.restaurantId);
-          setMealId(data.id);
-          setDate(data.date);
-        }
-        setFoodPicture(data.picture);
-        setAvatarSourceCamera(data.picture ? {uri: data.picture} : undefined);
-        // setCarbs(data.carbs); depends on source
-        setNote(data.note);
-        database
-          .getRestaurantName(data.restaurantId)
-          .then(name => setRestaurantName(name));
-      });
-    }
-  }, [meal_id, type]);
+  useExistingDataFromDB(
+    meal_id,
+    setTags,
+    setExistingFatSecretIds,
+    setMealTitle,
+    setUserMealId,
+    setRestaurantId,
+    setMealId,
+    setDate,
+    setFoodPicture,
+    setAvatarSourceCamera,
+    setNote,
+    setRestaurantName,
+  );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -174,10 +151,14 @@ const EnterMeal = ({route, navigation}, props) => {
 
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
-
-    type.mode !== EDIT_MODE && addTimeBasedTags(tags, setTags, date, t);
-    getExistingFatSecretProfileData(date, setFatSecretData);
-    console.log(fatSecretData)
+    if (type.mode !== EDIT_MODE) {
+      addTimeBasedTags(tags, setTags, date, t);
+    }
+    getExistingFatSecretProfileData(
+      date,
+      existingFatSecretIds,
+      setFatSecretData,
+    );
   }, [date]);
 
   useFocusEffect(
