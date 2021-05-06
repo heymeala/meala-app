@@ -8,7 +8,6 @@ import {calculateFPE, reduceNutritionValues} from '../../utils/reducer';
 const FatSecretDateData = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const fatSecretData = props.fatSecretData;
-  console.log(fatSecretData);
   const breakfast = fatSecretData.filter(data => data.meal === 'Breakfast');
   const lunch = fatSecretData.filter(data => data.meal === 'Lunch');
   const dinner = fatSecretData.filter(data => data.meal === 'Dinner');
@@ -97,6 +96,4 @@ const FatSecretDateData = props => {
 };
 
 export default FatSecretDateData;
-const styles = StyleSheet.create({
 
-});

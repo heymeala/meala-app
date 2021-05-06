@@ -14,7 +14,7 @@ const GroupedMealItems = props => {
 
   return (
     <>
-           <Tooltip
+      <Tooltip
         backgroundColor={theme.colors.secondary}
         width={250}
         height={80}
@@ -25,53 +25,56 @@ const GroupedMealItems = props => {
             <Text> {t('Entries.fpu_formula')} </Text>
           </>
         }>
-      <ListItem.Accordion
-        containerStyle={styles.accordion}
-        content={
-          <>
-            <Icon
-              name={props.icon}
-              size={props.iconSize || 20}
-              style={styles.icon}
-              type={'meala'}
-            />
-            <ListItem.Content>
-              <ListItem.Title>
-                <Text h4>{props.title}</Text>
-              </ListItem.Title>
-              <ListItem.Subtitle>
-                <Text>
-                  {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |
-                  {t('Entries.fpu')} {props.fpe}
-                </Text>
-              </ListItem.Subtitle>
-            </ListItem.Content>
-          </>
-        }
-        isExpanded={expanded}
-        onPress={() => {
-          setExpanded(!expanded);
-        }}>
-        {data.map((data, i) => {
-          return (
-            <View key={i} style={styles.container}>
-              <View style={styles.titleContainer}>
-                <Text style={[styles.nutritionText, styles.text]}>{data.food_entry_name}</Text>
-                <Text style={styles.ccal}>
-                  , {data.calories} {t('AddMeal.nutritionData.calories')}
-                </Text>
-              </View>
-              <NutritionDetailItem
-                data={data.carbohydrate}
-                text={t('AddMeal.nutritionData.carbohydrate')}
+        <ListItem.Accordion
+          containerStyle={styles.accordion}
+          content={
+            <>
+              <Icon
+                name={props.icon}
+                size={props.iconSize || 20}
+                style={styles.icon}
+                type={'meala'}
               />
-              <NutritionDetailItem data={data.fat} text={t('AddMeal.nutritionData.fat')} />
-              <NutritionDetailItem data={data.protein} text={t('AddMeal.nutritionData.protein')} />
-            </View>
-          );
-        })}
-      </ListItem.Accordion>
-    </Tooltip>
+              <ListItem.Content>
+                <ListItem.Title>
+                  <Text h4>{props.title}</Text>
+                </ListItem.Title>
+                <ListItem.Subtitle>
+                  <Text>
+                    {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |
+                    {t('Entries.fpu')} {props.fpe}
+                  </Text>
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </>
+          }
+          isExpanded={expanded}
+          onPress={() => {
+            setExpanded(!expanded);
+          }}>
+          {data.map((data, i) => {
+            return (
+              <View key={i} style={styles.container}>
+                <View style={styles.titleContainer}>
+                  <Text style={[styles.nutritionText, styles.text]}>{data.food_entry_name}</Text>
+                  <Text style={styles.ccal}>
+                    , {data.calories} {t('AddMeal.nutritionData.calories')}
+                  </Text>
+                </View>
+                <NutritionDetailItem
+                  data={data.carbohydrate}
+                  text={t('AddMeal.nutritionData.carbohydrate')}
+                />
+                <NutritionDetailItem data={data.fat} text={t('AddMeal.nutritionData.fat')} />
+                <NutritionDetailItem
+                  data={data.protein}
+                  text={t('AddMeal.nutritionData.protein')}
+                />
+              </View>
+            );
+          })}
+        </ListItem.Accordion>
+      </Tooltip>
     </>
   );
 };
@@ -89,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     paddingVertical: theme.spacing.XS,
   },
   accordion: {backgroundColor: theme.colors.grey5},
-  icon: {padding: theme.spacing.M},
+  icon: {paddingLeft: 0, paddingRight: theme.spacing.M},
   title: {
     fontWeight: 'bold',
   },

@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, View, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import MealItemList from '../../Components/MealItemList';
-import {EmptyListHome} from './Common/EmtyListHome';
 import LocalizationContext from '../../../LanguageContext';
 import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import * as Keychain from 'react-native-keychain';
@@ -19,15 +18,13 @@ const DateList = props => {
 
   moment.locale(locale);
   const [restaurants, setRestaurants] = useState(undefined);
-  const [chosenDateStart, setChosenDateStart] = useState(moment(new Date()));
+  const [chosenDateStart, setChosenDateStart] = useState(moment());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
-
     return () => {
-      //todo: clean up function
-      //your cleanup code codes here
+      // cleanup code codes here
     };
   }, []);
 

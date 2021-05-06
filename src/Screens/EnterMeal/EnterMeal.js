@@ -1,11 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  View,
-} from 'react-native';
+import {Keyboard, KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
 import {Button, FAB, makeStyles} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
@@ -35,12 +29,7 @@ import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
 import uuid from 'react-native-uuid';
 import {useUserSettings} from '../../hooks/useUserSettings';
-import {
-  COPY_MODE,
-  EDIT_MODE,
-  useEnterMealType,
-} from '../../hooks/useEnterMealState';
-import EditTagMissing from './EnterMealComponents/EditTagMissing';
+import {COPY_MODE, EDIT_MODE, useEnterMealType} from '../../hooks/useEnterMealState';
 import {useExistingDataFromDB} from './hooks/useExistingFatSecretIds';
 
 const EnterMeal = ({route, navigation}, props) => {
@@ -126,9 +115,11 @@ const EnterMeal = ({route, navigation}, props) => {
           : type.mode === COPY_MODE
           ? t('AddMeal.copy')
           : t('AddMeal.AddMealTitle'),
-      headerRight: () => (
-        <HeaderRightIconGroup reset={reset} saveAll={saveAll} />
-      ),
+      headerRight: () => {
+        if (type.mode !== EDIT_MODE) {
+          return <HeaderRightIconGroup reset={reset} saveAll={saveAll} />;
+        }
+      },
     });
     return () => {};
   }, [navigation, type]);
@@ -154,11 +145,7 @@ const EnterMeal = ({route, navigation}, props) => {
     if (type.mode !== EDIT_MODE) {
       addTimeBasedTags(tags, setTags, date, t);
     }
-    getExistingFatSecretProfileData(
-      date,
-      existingFatSecretIds,
-      setFatSecretData,
-    );
+    getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
   }, [date]);
 
   useFocusEffect(
@@ -209,13 +196,14 @@ const EnterMeal = ({route, navigation}, props) => {
           })
       : [];
 
-    uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
-
     const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
-    reminderNotification(userMealId, mealId, t, defaultMealTitle);
+    if (type.mode !== EDIT_MODE) {
+      reminderNotification(userMealId, mealId, t, defaultMealTitle);
+      uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
+    }
 
     if (type.mode === EDIT_MODE) {
       database
@@ -235,7 +223,6 @@ const EnterMeal = ({route, navigation}, props) => {
             meal_id: null,
           });
           changeType({mode: 'default', meal_id: null});
-          //navigation.goBack();
           navigation.navigate('meala');
         });
     } else {
@@ -467,8 +454,7 @@ const EnterMeal = ({route, navigation}, props) => {
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
 
-          <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
-
+        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
       </ScrollView>
       <FAB
         title={
