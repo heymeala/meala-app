@@ -55,6 +55,7 @@ const EditSpeedDialGroup = props => {
             screen: 'EnterMeal',
             params: {
               meal_id: selectedFood.id,
+              type: COPY_MODE,
             },
           });
         }}

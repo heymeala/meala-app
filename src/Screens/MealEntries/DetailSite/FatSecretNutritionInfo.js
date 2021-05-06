@@ -33,19 +33,21 @@ const FatSecretNutritionInfo = props => {
   return fatSecretData ? (
     <View>
       <PoweredByFatSecret />
-      {fatSecretData.map(data => {
+      {fatSecretData.map((data, i) => {
         return (
-          <Card>
-            <View key={data.food_entry_id}>
-              <Text>{data.food_entry_name}</Text>
-              <Text>
-                {t('AddMeal.nutritionData.calories')}: {data.calories}
-              </Text>
-              <Text>
-                {t('AddMeal.nutritionData.carbohydrate')}: {data.carbohydrate}
-              </Text>
-            </View>
-          </Card>
+          <View key={i}>
+            <Card>
+              <View key={data.food_entry_id}>
+                <Text>{data.food_entry_name}</Text>
+                <Text>
+                  {t('AddMeal.nutritionData.calories')}: {data.calories}
+                </Text>
+                <Text>
+                  {t('AddMeal.nutritionData.carbohydrate')}: {data.carbohydrate}
+                </Text>
+              </View>
+            </Card>
+          </View>
         );
       })}
     </View>

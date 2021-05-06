@@ -90,7 +90,6 @@ const EnterMeal = ({route, navigation}, props) => {
   const [fatSecretData, setFatSecretData] = useState(null);
   React.useEffect(() => {
     if (scan === true) {
-      console.log('Scan param ' + scan);
       setIsScannerVisible(prevState => true);
     }
   }, [scan]);
@@ -105,7 +104,6 @@ const EnterMeal = ({route, navigation}, props) => {
   );
   useEffect(() => {
     if (meal_id && type) {
-      console.log(meal_id);
       database.fetchMealbyId(meal_id).then(data => {
         const convertedTags = data.tags.map(tagFromDB => {
           return {
@@ -117,7 +115,6 @@ const EnterMeal = ({route, navigation}, props) => {
 
         setTags(prevArray =>
           convertedTags.map(cTags => {
-            console.log('tag', cTags);
             return {...cTags};
           }),
         );
@@ -128,7 +125,6 @@ const EnterMeal = ({route, navigation}, props) => {
         fatSecretDataExists && setFatSecretData(fatSecretFromDB);
         setMealTitle(data.food);
         if (type.mode === EDIT_MODE) {
-          console.log('EDIT MODE');
           setUserMealId(data.userMealId);
           setRestaurantId(data.restaurantId);
           setMealId(data.id);
@@ -159,12 +155,10 @@ const EnterMeal = ({route, navigation}, props) => {
     });
     return () => {};
   }, [navigation, type]);
-  console.log(tags);
 
   useEffect(() => {
     if (id) {
       setRestaurantId(prevState => id);
-      console.log('Scan param ' + id);
       database.getRestaurantName(id).then(name => setRestaurantName(name));
     }
   }, [id]);
@@ -183,6 +177,7 @@ const EnterMeal = ({route, navigation}, props) => {
 
     type.mode !== EDIT_MODE && addTimeBasedTags(tags, setTags, date, t);
     getExistingFatSecretProfileData(date, setFatSecretData);
+    console.log(fatSecretData)
   }, [date]);
 
   useFocusEffect(
@@ -255,6 +250,7 @@ const EnterMeal = ({route, navigation}, props) => {
           userMealId,
           scope,
           date,
+          fatSecretUserIds,
         )
         .then(() => {
           reset();

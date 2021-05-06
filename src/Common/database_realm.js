@@ -231,6 +231,7 @@ export const database = {
     userMealId,
     scope,
     date,
+    fatSecretUserFoodEntryIds,
   ) => {
     return database._open
       .then(realm => {
@@ -261,6 +262,7 @@ export const database = {
               restaurantId: restaurantId,
               id: mealId,
               userMealId: userMealId,
+              fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
             },
           ];
           for (var i = 0; i < newMeal.length; i++) {
