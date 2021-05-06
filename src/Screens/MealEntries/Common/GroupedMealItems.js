@@ -14,7 +14,7 @@ const GroupedMealItems = props => {
 
   return (
     <>
-      {/*      <Tooltip
+           <Tooltip
         backgroundColor={theme.colors.secondary}
         width={250}
         height={80}
@@ -24,7 +24,7 @@ const GroupedMealItems = props => {
             <Text>{t('Entries.calculation')}</Text>
             <Text> {t('Entries.fpu_formula')} </Text>
           </>
-        }>*/}
+        }>
       <ListItem.Accordion
         containerStyle={styles.accordion}
         content={
@@ -71,7 +71,7 @@ const GroupedMealItems = props => {
           );
         })}
       </ListItem.Accordion>
-      {/*</Tooltip>*/}
+    </Tooltip>
     </>
   );
 };

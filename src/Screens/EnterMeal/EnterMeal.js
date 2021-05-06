@@ -232,6 +232,7 @@ const EnterMeal = ({route, navigation}, props) => {
           scope,
           date,
           fatSecretUserIds,
+          tags,
         )
         .then(() => {
           reset();
@@ -470,11 +471,9 @@ const EnterMeal = ({route, navigation}, props) => {
           setNsTreatmentsUpload={setNsTreatmentsUpload}
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
-        {type.mode === EDIT_MODE ? (
-          <EditTagMissing />
-        ) : (
+
           <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
-        )}
+
       </ScrollView>
       <FAB
         title={
