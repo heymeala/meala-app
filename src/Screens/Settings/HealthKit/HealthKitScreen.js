@@ -1,61 +1,78 @@
 import React, {useEffect, useState} from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
-import {database} from '../../../Common/database_realm';
 import PermissionListItem from './PermissionListItem';
-import {Text, Button} from 'react-native-elements';
+import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {spacing} from '../../../theme/styles';
+import {useUserSettings} from '../../../hooks/useUserSettings';
+import {HEALTHKIT} from '../glucoseSourceConstants';
+import moment from 'moment';
+import {permissions} from '../../MealEntries/DetailSite/HealthKitPermissions';
+import {hkSteps} from './steps';
 
 export default function HealthKitScreen() {
   const {t, locale} = React.useContext(LocalizationContext);
+  const [authStatus, setAuthStatus] = useState(true);
+  const {userSettings, saveUserSettings} = useUserSettings();
+  const [glucoseSamples, setGlucoseSamples] = useState([]);
+  const [carbSamples, setCarbSamples] = useState([]);
+  const [heartRateSamples, setHeartRateSamples] = useState([]);
+  const [stepSamples, setStepSamples] = useState();
 
-  const [glucoseSource, setGlucoseSource] = useState(undefined);
-  const [authStatus, setAuthStatus] = useState();
-
-  /* Permission options */
-  const permissions = {
-    permissions: {
-      read: [
-        AppleHealthKit.Constants.Permissions.BloodGlucose,
-        AppleHealthKit.Constants.Permissions.Carbohydrates,
-        AppleHealthKit.Constants.Permissions.HeartRate,
-      ],
-      write: [AppleHealthKit.Constants.Permissions.Steps],
-    },
-  };
-
-  useEffect(() => {
-    database
-      .getGlucoseSource()
-      .then(glucoseSource =>
-        glucoseSource ? setGlucoseSource(glucoseSource) : undefined,
-      );
-  }, [glucoseSource]);
-
-  const saveState = value => {
-    database.saveGlucoseSource(1);
-    setGlucoseSource('1');
-    // navigation.goBack();
+  const saveState = () => {
+    saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
   };
   const getPermission = () => {
+    const fromDate = moment().subtract(20, 'days').toISOString();
+    const tillDate = moment().toISOString();
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
+      console.log('Get Permission');
 
       if (error) {
         console.log('[ERROR] Cannot grant permissions!');
       }
+
+      let options = {
+        startDate: fromDate, // required
+        endDate: tillDate, // optional; default now
+      };
+      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setGlucoseSamples(results);
+
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
+      AppleHealthKit.getCarbohydratesSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setCarbSamples(results);
+
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
+      AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        setHeartRateSamples(results);
+
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+      });
+
+      hkSteps(setStepSamples);
+
       getAuthAccess();
-      saveState(1);
+      saveState();
     });
   };
 
@@ -64,50 +81,36 @@ export default function HealthKitScreen() {
       if (err) {
         console.error(err);
       }
-      setAuthStatus(result);
-      console.log(result);
+      setAuthStatus(false);
     });
   };
   useEffect(() => {
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      /* Called after we receive a response from the system */
-
-      if (error) {
-        console.log('[ERROR] Cannot grant permissions!');
-      }
-      getAuthAccess();
-    });
+    if (userSettings.glucoseSource === HEALTHKIT) {
+      AppleHealthKit.initHealthKit(permissions, (error: string) => {
+        if (error) {
+          console.log('[ERROR] Cannot grant permissions!');
+        }
+        //    getAuthAccess();
+        getPermission();
+      });
+    }
   }, []);
 
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
+        <ScrollView contentInsetAdjustmentBehavior="automatic" style={styles.scrollView}>
           <View style={styles.body}>
-            {glucoseSource === '1' ? (
-              <Icon
-                style={styles.center}
-                name="ios-heart"
-                color={'#cf2c3c'}
-                size={70}
-              />
+            {userSettings.glucoseSource === HEALTHKIT ? (
+              <Icon style={styles.center} name="ios-heart" color={'#cf2c3c'} size={70} />
             ) : (
-              <Icon
-                style={styles.center}
-                name="heart-dislike-sharp"
-                color={'#cf2c3c'}
-                size={70}
-              />
+              <Icon style={styles.center} name="heart-dislike-sharp" color={'#cf2c3c'} size={70} />
             )}
             <View style={styles.sectionContainer}>
-              {authStatus && authStatus.permissions.read[0] !== 1 ? (
+              {authStatus ? (
                 <>
-                  <Text style={styles.sectionTitle}>
-                    {t('Settings.healthKit.title')}
-                  </Text>
+                  <Text style={styles.sectionTitle}>{t('Settings.healthKit.title')}</Text>
                   <Button
                     style={styles.button}
                     onPress={getPermission}
@@ -118,42 +121,37 @@ export default function HealthKitScreen() {
                 <Text h2>{t('Settings.healthKit.titleAccess')}</Text>
               )}
               <View>
-                <Text style={styles.spacing}>
-                  {t('Settings.healthKit.canRead')}
-                </Text>
+                <Text style={styles.spacing}>{t('Settings.healthKit.canRead')}</Text>
                 <PermissionListItem
-                  title={'Glucose'}
-                  permission={
-                    authStatus && authStatus.permissions.read[0] === 1
-                  }
+                  title={t('Settings.healthKit.glucose')}
+                  permission={glucoseSamples.length > 0}
                 />
                 <PermissionListItem
-                  title={'Carbohydrates'}
-                  permission={
-                    authStatus && authStatus.permissions.read[1] === 1
-                  }
+                  title={t('Settings.healthKit.carbohydrates')}
+                  permission={carbSamples.length > 0}
                 />
                 <PermissionListItem
-                  title={'HeartRate'}
-                  permission={
-                    authStatus && authStatus.permissions.read[2] === 1
-                  }
+                  title={t('Settings.healthKit.heartRate')}
+                  permission={heartRateSamples.length > 0}
+                />
+                <PermissionListItem
+                  title={t('Settings.healthKit.steps')}
+                  permission={stepSamples && stepSamples.value > 0}
                 />
               </View>
             </View>
-            {glucoseSource === '1' ? (
+            {userSettings.glucoseSource === HEALTHKIT ? (
               <>
                 <Text h4 style={styles.center}>
                   {t('Settings.healthKit.healthKitActivated')}
                 </Text>
               </>
             ) : (
-              authStatus &&
-              authStatus.permissions.read[0] === 1 && (
+              !authStatus && (
                 <Button
                   title={t('Settings.healthKit.activateHealthKit')}
                   onPress={() => {
-                    saveState(1);
+                    saveState();
                   }}
                 />
               )

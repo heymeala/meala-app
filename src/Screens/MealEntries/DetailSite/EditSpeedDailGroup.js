@@ -4,6 +4,11 @@ import {makeStyles, SpeedDial} from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import {useNavigation} from '@react-navigation/core';
 import {database} from '../../../Common/database_realm';
+import {
+  COPY_MODE,
+  EDIT_MODE,
+  useEnterMealType,
+} from '../../../hooks/useEnterMealState';
 
 const EditSpeedDialGroup = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -11,7 +16,7 @@ const EditSpeedDialGroup = props => {
   const [open, setOpen] = useState(false);
   const navigation = useNavigation();
   const {selectedFood} = props;
-
+  const {changeType} = useEnterMealType();
   function softDeleteMeal(id) {
     database.deleteMealSoft(id);
     navigation.goBack();
@@ -27,17 +32,33 @@ const EditSpeedDialGroup = props => {
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}>
       <SpeedDial.Action
-        accessibilityLabel={t('Entries.copyMeal')}
-        icon={{name: 'content-copy', color: '#fff'}}
+        accessibilityLabel={'Bearbeiten'}
+        icon={{name: 'edit', color: '#fff'}}
         //title={t('Entries.copyMeal')}
-        onPress={() =>
+        onPress={() => {
+          changeType({mode: EDIT_MODE, meal_id: selectedFood.id});
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              mealid: selectedFood.id,
+              meal_id: selectedFood.id,
             },
-          })
-        }
+          });
+        }}
+      />
+      <SpeedDial.Action
+        accessibilityLabel={t('Entries.copyMeal')}
+        icon={{name: 'content-copy', color: '#fff'}}
+        //title={t('Entries.copyMeal')}
+        onPress={() => {
+          changeType({mode: COPY_MODE, meal_id: selectedFood.id});
+          navigation.navigate('EnterMealStack', {
+            screen: 'EnterMeal',
+            params: {
+              meal_id: selectedFood.id,
+              type: COPY_MODE,
+            },
+          });
+        }}
       />
       <SpeedDial.Action
         accessibilityLabel={t('Entries.delete')}

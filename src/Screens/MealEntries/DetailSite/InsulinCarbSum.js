@@ -28,7 +28,7 @@ const add = (a, b) => a + b;
 
 // remove smb – settings in android aps
 export function getInsulinInfo(treatments) {
-  if (treatments.length > 0) {
+  if (treatments) {
     const insulin = treatments
       .filter(data => (data.isSMB ? data.isSMB === false : data))
       .map(data => {
@@ -42,10 +42,10 @@ export function getInsulinInfo(treatments) {
     if (filterUndefined.length > 0) {
       return filterUndefined.reduce(add).toFixed(2);
     } else {
-      return [0];
+      return [];
     }
   } else {
-    return [0];
+    return [];
   }
 }
 export function carbSum(carbs) {
@@ -57,15 +57,13 @@ export function carbSum(carbs) {
 }
 
 export function getSEA(checkSettings, t, duration, InsulinSumme) {
-  return checkSettings === 'Nightscout'
-    ? InsulinSumme.length > 1
-      ? duration.asMilliseconds() < 0
-        ? t('Entries.youHave') +
-          Math.abs(Math.round(duration.asMinutes())) +
-          t('Entries.before')
-        : t('Entries.youHave') +
-          Math.abs(Math.round(duration.asMinutes())) +
-          t('Entries.after')
-      : t('Entries.calculating')
-    : null;
+  return InsulinSumme.length > 1
+    ? duration.asMilliseconds() < 0
+      ? t('Entries.youHave') +
+        Math.abs(Math.round(duration.asMinutes())) +
+        t('Entries.before')
+      : t('Entries.youHave') +
+        Math.abs(Math.round(duration.asMinutes())) +
+        t('Entries.after')
+    : t('Entries.calculating');
 }

@@ -5,8 +5,8 @@ import {ListItem, makeStyles, SearchBar, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {spacing} from '../../theme/styles';
 import LottieView from 'lottie-react-native';
-
-const SearchGiScreen = props => {
+import {mapNumber} from '../../utils/map';
+const GlyxSearchScreen = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
@@ -30,8 +30,7 @@ const SearchGiScreen = props => {
       setData([]);
     }
   };
-  const mapNumber = (value, x1, y1, x2, y2) =>
-    ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
+
 
   function colorCode(value) {
     const low = [0, 40];
@@ -107,7 +106,7 @@ const SearchGiScreen = props => {
   );
 };
 
-export default SearchGiScreen;
+export default GlyxSearchScreen;
 
 const useStyles = makeStyles((theme, dimensions) => ({
   container: {padding: spacing.S},

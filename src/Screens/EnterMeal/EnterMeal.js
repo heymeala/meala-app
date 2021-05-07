@@ -1,14 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  RefreshControl,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Button, FAB, makeStyles, Text} from 'react-native-elements';
+import {Keyboard, KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
+import {Button, FAB, makeStyles} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
@@ -18,10 +10,9 @@ import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
 import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
-import {useFocusEffect, useNavigation} from '@react-navigation/core';
+import {useFocusEffect} from '@react-navigation/core';
 import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
 import PictureSelector from './PictureSelector';
-import {wait} from '../../Common/wait';
 import {Tags} from './EnterMealComponents/Tags';
 import {mealTypeByTime} from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
@@ -36,48 +27,37 @@ import NightScoutInputFields from './NightScoutTreatmentsInputFields';
 import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
 import {spacing} from '../../theme/styles';
+import uuid from 'react-native-uuid';
+import {useUserSettings} from '../../hooks/useUserSettings';
+import {COPY_MODE, EDIT_MODE, useEnterMealType} from '../../hooks/useEnterMealState';
+import {useExistingDataFromDB} from './hooks/useExistingFatSecretIds';
 
-var uuid = require('react-native-uuid');
-
-process.nextTick = setImmediate;
-
-const EnterMeal = ({route}, props) => {
+const EnterMeal = ({route, navigation}, props) => {
+  const {meal_id, id, scan} = route.params;
   const {t, locale} = React.useContext(LocalizationContext);
-  const navigation = useNavigation();
   moment.locale(locale);
   const styles = useStyles(props);
-
+  const {userSettings} = useUserSettings();
   const [user_id, setUser_id] = useState('');
-
+  const {type, changeType} = useEnterMealType();
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
   const [avatarSourceCamera, setAvatarSourceCamera] = useState(undefined);
 
   const [restaurantName, setRestaurantName] = useState('');
   const [restaurantId, setRestaurantId] = useState('');
   const [mealTitle, setMealTitle] = useState('');
-  const [restaurantStreet, setRestaurantStreet] = useState('');
 
-  const [notiz, setNotiz] = useState('');
+  const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
-  const [nightscoutInsulin, setNightscoutInsulin] = useState();
-  const [nightscoutCarbs, setNightscoutCarbs] = useState();
-
-  const [glucoseDataSource, setGlucoseDataSource] = useState('');
+  const [nsTreatmentsUpload, setNsTreatmentsUpload] = useState(null);
   const [foodPicture, setFoodPicture] = useState('');
-
-  const [clarifaiImagebase, setClarifaiImagebase] = useState('');
+  const [base64ImageData, setBase64ImageData] = useState('');
   const [predictions, setPredictions] = useState([]);
 
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
 
-  const [errorMessageRestaurantName, setErrorMessageRestaurantName] = useState(
-    '',
-  );
-  const [errorMessageMealTitle, setErrorMessageMealTitle] = useState('');
-
   const [date, setDate] = useState(new Date());
-  const [isDateOverlayVisible, setDateOverlayVisible] = useState(false); // Overlay
 
   const [cMeals, setCMeals] = useState([]);
   const [mealIsFocused, setMealIsFocused] = useState(false);
@@ -93,78 +73,79 @@ const EnterMeal = ({route}, props) => {
   const scrollListReftop = useRef();
   const MealInput = useRef();
   const [gpsEnabled, setGpsEnabled] = useState(true);
-  const [refreshing, setRefreshing] = React.useState(false);
   const [tags, setTags] = useState([]);
-  const [settings, setSettings] = useState();
-
-  const [fatSecretData, setFatSecretData] = useState();
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    checkGps();
-    wait(1000).then(() => setRefreshing(false));
-  }, []);
+  const [fatSecretData, setFatSecretData] = useState(null);
+  const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
 
   React.useEffect(() => {
-    if (route.params?.scan === true) {
-      console.log('Scan param ' + route.params.scan);
+    if (scan === true) {
       setIsScannerVisible(prevState => true);
-      route.params.scan = false;
     }
-  }, [route.params?.scan]);
+  }, [scan]);
 
   useFocusEffect(
     React.useCallback(() => {
-      setDate(new Date());
+      if (type.mode !== EDIT_MODE) {
+        setDate(new Date());
+      }
+      return () => {};
     }, []),
+  );
+
+  useExistingDataFromDB(
+    meal_id,
+    setTags,
+    setExistingFatSecretIds,
+    setMealTitle,
+    setUserMealId,
+    setRestaurantId,
+    setMealId,
+    setDate,
+    setFoodPicture,
+    setAvatarSourceCamera,
+    setNote,
+    setRestaurantName,
   );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <HeaderRightIconGroup reset={reset} saveAll={saveAll} />
-      ),
+      title:
+        type.mode === EDIT_MODE
+          ? t('AddMeal.edit')
+          : type.mode === COPY_MODE
+          ? t('AddMeal.copy')
+          : t('AddMeal.AddMealTitle'),
+      headerRight: () => {
+        if (type.mode !== EDIT_MODE) {
+          return <HeaderRightIconGroup reset={reset} saveAll={saveAll} />;
+        }
+      },
     });
-  }, [navigation]);
+    return () => {};
+  }, [navigation, type]);
 
   useEffect(() => {
-    if (route.params?.id) {
-      setRestaurantId(prevState => route.params.id);
-      console.log('Scan param ' + route.params.id);
-      database
-        .getRestaurantName(route.params.id)
-        .then(name => setRestaurantName(name));
+    if (id) {
+      setRestaurantId(prevState => id);
+      database.getRestaurantName(id).then(name => setRestaurantName(name));
     }
-  }, [route.params?.id]);
+  }, [id]);
 
-  useEffect(() => {
-    if (route.params?.mealid) {
-      console.log('Scan param meal id ' + route.params.mealid);
-      database.fetchMealbyId(route.params.mealid).then(data => {
-        setMealTitle(data.food);
-        setFoodPicture(data.picture);
-        setCarbs(data.carbs);
-        setNotiz(data.note);
-        database
-          .getRestaurantName(data.restaurantId)
-          .then(name => setRestaurantName(name));
-      });
-    }
-  }, [route.params?.mealid]);
-
+  //todo: move to app
   useEffect(() => {
     auth()
       .signInAnonymously()
       .then(data => {
         setUser_id(data.user.uid);
-        getSettings().then(r => console.log(r));
       });
   }, []);
 
   useEffect(() => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
-    addTimeBasedTags(tags, setTags, date, t);
-    getExistingFatSecretProfileData(date, setFatSecretData);
+    if (type.mode !== EDIT_MODE) {
+      addTimeBasedTags(tags, setTags, date, t);
+    }
+    getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
   }, [date]);
 
   useFocusEffect(
@@ -173,10 +154,19 @@ const EnterMeal = ({route}, props) => {
     }, [gpsEnabled]),
   );
 
+  function cancel() {
+    reset();
+    navigation.setParams({
+      meal_id: null,
+    });
+    changeType({mode: 'default', meal_id: null});
+    navigation.goBack();
+  }
+
   const handleScannerFood = data => {
     setRestaurantName(prevState => t('General.various'));
     setRestaurantId(prevState => t('General.various'));
-    setNotiz(data.note ? data.note : null);
+    setNote(data.note ? data.note : null);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());
     setMealTitle(data.meal);
@@ -197,19 +187,6 @@ const EnterMeal = ({route}, props) => {
       });
   };
 
-  async function getSettings() {
-    const profileSettings = await database.getSettings();
-    setSettings(profileSettings);
-    const getGlucoseSource = await database.getGlucoseSource();
-    if (settings && getGlucoseSource == 2) {
-      setGlucoseDataSource('Nightscout');
-    } else if (getGlucoseSource == 1) {
-      setGlucoseDataSource('Healthkit');
-    } else {
-      setGlucoseDataSource('Error');
-    }
-  }
-
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
@@ -219,68 +196,87 @@ const EnterMeal = ({route}, props) => {
           })
       : [];
 
-    uploadToNightScout(
-      nightscoutCarbs,
-      nightscoutInsulin,
-      notiz,
-      settings,
-      date,
-    );
-
     const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
-    reminderNotification(userMealId, mealId, t, defaultMealTitle);
+    if (type.mode !== EDIT_MODE) {
+      reminderNotification(userMealId, mealId, t, defaultMealTitle);
+      uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
+    }
 
-    const restaurantData = {
-      clarifaiImagebase,
-      user_id,
-      restaurantName,
-      restaurantStreet,
-      restaurantId,
-      mealTitle,
-      picId: foodPicture,
-      notiz,
-      lat,
-      lng,
-      mealId,
-      userMealId,
-      scope,
-      carbs,
-      predictions,
-      date,
-    };
-    console.log(restaurantData);
-    database
-      .saveRestaurant(
-        defaultRestaurantName,
-        restaurantStreet,
-        defaultRestaurantId,
-        defaultMealTitle,
-        foodPicture,
-        notiz,
+    if (type.mode === EDIT_MODE) {
+      database
+        .editRestaurantAndMeal(
+          mealTitle,
+          foodPicture,
+          note,
+          mealId,
+          userMealId,
+          date,
+          fatSecretUserIds,
+          tags,
+        )
+        .then(() => {
+          reset();
+          navigation.setParams({
+            meal_id: null,
+          });
+          changeType({mode: 'default', meal_id: null});
+          navigation.navigate('meala');
+        });
+    } else {
+      const restaurantData = {
+        base64ImageData: base64ImageData,
+        user_id,
+        restaurantName,
+        restaurantId,
+        mealTitle,
+        picId: foodPicture,
         lat,
         lng,
         mealId,
         userMealId,
         scope,
         carbs,
-        tags,
+        predictions,
         date,
-        fatSecretUserIds,
-      )
-      .then(() => uploadImageToServer(restaurantData))
-      .then(() =>
-        analytics().logEvent('Save_Restaurant', {
-          Meal: defaultMealTitle,
-          Restaurant: defaultRestaurantName,
-        }),
-      )
-      .then(() => {
-        reset();
-        navigation.navigate('meala');
-      });
+      };
+
+      database
+        .saveRestaurant(
+          defaultRestaurantName,
+          defaultRestaurantId,
+          defaultMealTitle,
+          foodPicture,
+          note,
+          lat,
+          lng,
+          mealId,
+          userMealId,
+          scope,
+          carbs,
+          tags,
+          date,
+          fatSecretUserIds,
+        )
+        .then(() => uploadImageToServer(restaurantData))
+        .then(() =>
+          analytics().logEvent('Save_Restaurant', {
+            Meal: defaultMealTitle,
+            Restaurant: defaultRestaurantName,
+          }),
+        )
+        .then(() => {
+          reset();
+          navigation.setParams({
+            meal_id: null,
+          });
+          changeType({mode: 'default', meal_id: null});
+          //navigation.goBack();
+          navigation.navigate('meala');
+        });
+    }
   }
 
   const handleInputMealChange = text => setMealTitle(text);
@@ -319,17 +315,12 @@ const EnterMeal = ({route}, props) => {
     setRestaurantName('');
     setRestaurantId('');
     setMealTitle('');
-    setRestaurantStreet('');
-    setNotiz('');
+    setNote('');
     setCarbs(null);
-    setGlucoseDataSource('');
     setFoodPicture('');
-    setClarifaiImagebase('');
-    setErrorMessageMealTitle('');
-    setErrorMessageRestaurantName('');
-
+    setBase64ImageData('');
+    setNsTreatmentsUpload(null);
     setPredictions([]);
-    setDateOverlayVisible(false);
 
     setCMeals([]);
     setMealIsFocused(true);
@@ -392,18 +383,13 @@ const EnterMeal = ({route}, props) => {
       <ScrollView
         bounces={false}
         contentInsetAdjustmentBehavior="automatic"
-        refreshControl={
-          !gpsEnabled && (
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          )
-        }
         keyboardShouldPersistTaps="handled"
         ref={scrollListReftop}
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
         <PictureSelector
           setFoodPicture={setFoodPicture}
-          setClarifaiImagebase={setClarifaiImagebase}
+          setClarifaiImagebase={setBase64ImageData}
           setDate={setDate}
           setPredictions={setPredictions}
           setTags={setTags}
@@ -414,30 +400,17 @@ const EnterMeal = ({route}, props) => {
           setIsScannerVisible={setIsScannerVisible}
         />
 
-        <TouchableOpacity
-          accessible={true}
-          accessibilityRole="button"
-          onPress={() => setDateOverlayVisible(true)}>
-          <Text style={styles.date}>
-            {moment(date.toISOString()).format('lll')}
-          </Text>
-        </TouchableOpacity>
-
-        <DatePickerOverlay
-          date={date}
-          setDate={setDate}
-          isVisible={isDateOverlayVisible}
-          close={() => setDateOverlayVisible(false)}
-        />
+        <DatePickerOverlay date={date} setDate={setDate} />
         <RestaurantInputField
+          editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
-          errorMessage={errorMessageRestaurantName}
           handleRestaurantPress={handleRestaurantPress}
           handleRestaurantName={handleRestaurantName}
           lat={lat}
           lng={lng}
           gpsEnabled={gpsEnabled}
         />
+
         <View style={styles.spacing}>
           {fatSecretData && (
             <>
@@ -472,31 +445,42 @@ const EnterMeal = ({route}, props) => {
           Gericht={mealTitle}
           predictions={predictions}
           handleMealInputBlur={handleMealInputBlur}
-          errorMessage={errorMessageMealTitle ? errorMessageMealTitle : null}
         />
-        <HealthKitInputField
-          glucoseDataSource={glucoseDataSource}
-          setCarbs={setCarbs}
-        />
+        <HealthKitInputField carbs={carbs} setCarbs={setCarbs} />
 
         <NightScoutInputFields
-          settings={settings}
-          nightscoutCarbs={nightscoutCarbs}
-          setNightscoutCarbs={setNightscoutCarbs}
-          nightscoutInsulin={nightscoutInsulin}
-          setNightscoutInsulin={setNightscoutInsulin}
+          nsTreatmentsUpload={nsTreatmentsUpload}
+          setNsTreatmentsUpload={setNsTreatmentsUpload}
         />
-        <NoteInputField notiz={notiz} setNotiz={setNotiz} />
+        <NoteInputField notiz={note} setNotiz={setNote} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
       </ScrollView>
       <FAB
-        title={t('AddMeal.save')}
+        title={
+          type.mode === EDIT_MODE
+            ? t('AddMeal.edit')
+            : type.mode === COPY_MODE
+            ? t('AddMeal.copy')
+            : t('AddMeal.save')
+        }
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}
+        buttonStyle={{height: 40}}
         icon={{name: 'save', color: 'black'}}
       />
+      {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
+        <FAB
+          title={t('General.cancel')}
+          titleStyle={'white'}
+          buttonStyle={styles.cancelButton}
+          onPress={() => cancel()}
+          size={'small'}
+          placement={'left'}
+          icon={{name: 'cancel', color: 'white'}}
+        />
+      ) : null}
     </KeyboardAvoidingView>
   );
 };
@@ -505,11 +489,7 @@ export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
   wrapper: {flexGrow: 1, height: '100%'},
-  date: {
-    textAlign: 'center',
-    color: theme.colors.primary,
-    paddingBottom: 15,
-  },
+
   spacing: {
     alignItems: 'flex-start',
     paddingHorizontal: spacing.L,
@@ -520,5 +500,10 @@ const useStyles = makeStyles((theme, props: Props) => ({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  cancelButton: {
+    height: 40,
+    backgroundColor: theme.colors.error,
+    color: theme.colors.white,
   },
 }));

@@ -6,11 +6,17 @@ import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
+import {
+  COPY_MODE,
+  EDIT_MODE,
+  useEnterMealType,
+} from '../hooks/useEnterMealState';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
   const {t} = React.useContext(LocalizationContext);
   const {theme} = useTheme();
+  const {type} = useEnterMealType();
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -35,36 +41,40 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
-        options={{
-          tabBarLabel: t('Accessibility.tab.add'),
-          tabBarIcon: ({color, focused}) => (
-            <View
-              style={{
-                position: 'absolute',
-                bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
-                height: 55,
-                width: 55,
-                backgroundColor: theme.colors.white,
-                borderRadius: 55,
-                shadowColor: theme.colors.grey2,
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-                elevation: 6,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="pluscircleo"
-                type="antdesign"
-                size={28}
-                color={color}
-              />
-            </View>
-          ),
+        initialParams={{params: {type: 'default'}}}
+        options={({route}) => {
+          return {
+            tabBarVisible: type.mode !== EDIT_MODE && type.mode !== COPY_MODE,
+            tabBarLabel: t('Accessibility.tab.add'),
+            tabBarIcon: ({color, focused}) => (
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
+                  height: 55,
+                  width: 55,
+                  backgroundColor: theme.colors.white,
+                  borderRadius: 55,
+                  shadowColor: theme.colors.grey2,
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.27,
+                  shadowRadius: 4.65,
+                  elevation: 6,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Icon
+                  name="pluscircleo"
+                  type="antdesign"
+                  size={28}
+                  color={color}
+                />
+              </View>
+            ),
+          };
         }}
         component={EnterMealStack}
       />

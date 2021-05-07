@@ -16,6 +16,8 @@
     "Roll": "Choose from library",
     "PicPopUp": "Picture of your food",
     "save": "Save",
+    "edit": "Edit",
+    "copy": "Copy",
     "ErrorMessage": "Please fill out",
     "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated.",
     "notificationAfterMeal": "Have a look at your last meal: {{mealTitle}}",
@@ -68,8 +70,8 @@
       "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
       "exampleTag": "z.B. Sport, Basalratentest, Krank",
       "basalrate": "basal rate testing",
-      "breakfast": "Breakfast"
-
+      "breakfast": "Breakfast",
+      "edit_mode": "We aren't able to edit tags at the moment. We're working on it"
     },
     "foodDataBaseSearch": {
       "title": "Search",
@@ -217,7 +219,8 @@
       "glucose": "Blood Glucose",
       "carbohydrates": "Carbohydrates",
       "heartRate": "Heart Rate",
-      "totalStepsToday": "Total steps today {{steps}}",
+      "steps": "Steps per day",
+      "totalStepsToday": "Total steps {{steps}}",
       "totalGlucoseValues":  "We found {{length}} glucose values within the last hours",
       "healthKitActivated":  "HealthKit is active",
       "activateHealthKit": "Activate HealthKit",

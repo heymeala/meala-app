@@ -124,10 +124,9 @@ const RestaurantInputField = props => {
         </TouchableOpacity>
       )}
       <Input
+        disabled={props.editMode}
         ref={RestaurantInput}
         onFocus={handleFocus}
-        renderErrorMessage={!screenReaderEnabled}
-        // accessibilityLabel={t('Accessibility.EnterMeal.restaurant')}
         autoCorrect={false}
         inputContainerStyle={style.inputPadding}
         inputStyle={{fontSize: 20}}
@@ -136,7 +135,6 @@ const RestaurantInputField = props => {
         onChangeText={text => searchFilterFunction(text)}
         value={props.restaurantName}
         onBlur={handleFocus}
-        errorMessage={props.errorMessage ? props.errorMessage : null}
       />
       <View style={{paddingBottom: 8}}>
         {toggleFocus &&

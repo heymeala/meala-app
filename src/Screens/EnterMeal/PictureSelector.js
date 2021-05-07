@@ -6,10 +6,17 @@ import {makeStyles} from 'react-native-elements';
 import {imageDetectionClarifai} from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
+import {
+  COPY_MODE,
+  DEFAULT_MODE,
+  EDIT_MODE,
+  useEnterMealType,
+} from '../../hooks/useEnterMealState';
 
 const PictureSelector = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const styles = useStyles();
+  const {type} = useEnterMealType();
   const {
     setFoodPicture,
     setDate,
@@ -128,11 +135,13 @@ const PictureSelector = props => {
         icon="ios-albums"
         avatarSource={props.avatarSourceLibrary}
       />
-      <EnterMealButton
-        onPress={() => props.setIsScannerVisible(true)}
-        name={t('AddMeal.barCode')}
-        icon="ios-barcode"
-      />
+      {type.mode === DEFAULT_MODE && (
+        <EnterMealButton
+          onPress={() => props.setIsScannerVisible(true)}
+          name={t('AddMeal.barCode')}
+          icon="ios-barcode"
+        />
+      )}
     </View>
   );
 };

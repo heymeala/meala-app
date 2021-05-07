@@ -9,13 +9,14 @@ import {
 } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
-import LocalizationContext from '../../../../LanguageContext';
-import {useProfile} from '../../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
-import LoadingSpinner from '../../../Common/LoadingSpinner';
+import LocalizationContext from '../../../../../LanguageContext';
+import {useProfile} from '../../../../hooks/useProfile';
+import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
+import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
+import LoadingSpinner from '../../../../Common/LoadingSpinner';
 import {Icon, makeStyles, useTheme} from 'react-native-elements';
-import {spacing} from '../../../theme/styles';
+import {spacing} from '../../../../theme/styles';
+import {MAX_CHART_VALUE, MIN_CHART_VALUE} from './chartConstant';
 
 function GeneralChartView(props) {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -29,7 +30,7 @@ function GeneralChartView(props) {
       <View
         style={{
           alignSelf: 'center',
-          top: props.y - 18,
+          top: props.y - 28,
           left: props.x - 6,
           position: 'absolute',
         }}>
@@ -38,6 +39,15 @@ function GeneralChartView(props) {
       </View>
     </G>
   );
+
+  function mapUnitBack(value) {
+    return settings.unit === 1
+      ? value - MIN_CHART_VALUE
+      : Math.round(
+          (value - MIN_CHART_VALUE / settings.unit) *
+            (MAX_CHART_VALUE / settings.unit),
+        );
+  }
 
   const eatingChartStyle = {
     data: {
@@ -144,46 +154,37 @@ function GeneralChartView(props) {
                 />
               )}
               <VictoryBar
+                barWidth={3}
                 style={eatingChartStyle}
                 labels={['']}
                 labelComponent={<CustomLabel />}
-                size={1.5}
                 data={[
                   {
                     x: new Date(moment(props.selectedFood.date).format()),
-                    y: 300 / settings.unit,
+                    y: 270 / settings.unit,
                   },
                 ]}
               />
-              {props.insulinCoordinates.length > 0 && (
+              {props.insulinCoordinates !== null && (
                 <VictoryBar
+                  barWidth={5}
                   style={{
                     data: {
                       fill: '#99E8D7',
                       fillOpacity: 0.7,
-                      strokeWidth: 4,
+                      strokeWidth: 1,
                     },
                   }}
-                  size={2}
                   data={props.insulinCoordinates}
                 />
               )}
               {props.carbCoordinates.length > 0 && (
                 <VictoryBar
+                  barWidth={1}
                   style={{
                     data: {fill: '#37619C', strokeWidth: 1.5},
                   }}
-                  labels={({datum}) =>
-                    `${
-                      settings.unit === 1
-                        ? datum.y - 50
-                        : Math.round(
-                            (datum.y - 50 / settings.unit) *
-                              (300 / settings.unit),
-                          )
-                    }`
-                  }
-                  size={3}
+                  labels={({datum}) => `${mapUnitBack(datum.y)}`}
                   data={props.carbCoordinates}
                 />
               )}

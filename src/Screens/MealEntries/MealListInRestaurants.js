@@ -1,51 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {Button, FAB, useTheme} from 'react-native-elements';
+import React, {useState} from 'react';
+import {ActivityIndicator, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {FAB, useTheme} from 'react-native-elements';
 import {database} from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
-import {useNavigation, useRoute} from '@react-navigation/core';
+import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
-const MealListView = props => {
+const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
+  const route = useRoute();
+  const {restaurant_id} = route.params;
+
   const {t, locale} = React.useContext(LocalizationContext);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const route = useRoute();
   const {theme} = useTheme();
-  function loadData(value) {
-    const mealdata = route.params?.restaurant;
-    const mealDataSoftDeleteData = mealdata.food.filter(
-      data => data.isDeleted === false,
-    );
-    setMealDataSoftDelete(mealDataSoftDeleteData);
+
+  async function loadData(value) {
+    const meals = await database.getRestaurantById(restaurant_id);
+    const filteredMeals = meals.food.filter(data => data.isDeleted === false);
+    setMealDataSoftDelete(filteredMeals);
     setLoading(false);
   }
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData();
+    }, []),
+  );
 
   function deleteMeal(id) {
     PushNotification.cancelLocalNotifications({id: id});
     database.deleteMealSoft(id);
     navigation.goBack();
   }
+
   if (loading) {
-    return (
-      <SafeAreaView>
-        <View style={{flex: 1}}>
-          <ActivityIndicator />
-        </View>
-      </SafeAreaView>
-    );
+    return <LoadingSpinner />;
   } else {
     return (
       <>
@@ -76,9 +69,7 @@ const MealListView = props => {
             <Text>{t('Entries.noData')}</Text>
             <FAB
               color={theme.colors.error}
-              onPress={() =>
-                deleteRestaurant(navigation, route.params?.restaurant.id)
-              }
+              onPress={() => deleteRestaurant(navigation, restaurant_id)}
               title={t('Entries.deleteRestaurant')}
             />
           </View>
@@ -88,7 +79,8 @@ const MealListView = props => {
   }
 };
 
-export default MealListView;
+export default MealListInRestaurants;
+
 export function deleteRestaurant(navigation, id) {
   database.deleteRestaurantSoft(id);
   navigation.goBack();

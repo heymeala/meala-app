@@ -19,6 +19,8 @@ import {
 } from './src/hooks/useScreenReaderEnabled';
 import {theme} from './src/theme/theme';
 import Icon from './src/CustomMealaFont';
+import {UserSettingsProvider} from './src/hooks/useUserSettings';
+import {EnterMealTypeProvider} from './src/hooks/useEnterMealState';
 
 enableScreens();
 
@@ -102,28 +104,32 @@ const App = props => {
           //useDark={colorScheme === 'dark'}
         >
           <ProfileProvider>
-            <ScreenReaderProvider>
-              <View style={{flex: 1}}>
-                {/*
+            <UserSettingsProvider>
+              <ScreenReaderProvider>
+                <EnterMealTypeProvider>
+                  <View style={{flex: 1}}>
+                    {/*
                 <StatusBar barStyle={'dark-content'} />
                 */}
-                <Stack.Navigator
-                  screenOptions={{
-                    headerShown: false,
-                  }}>
-                  {onboarding && (
-                    <Stack.Screen
-                      name="Onboarding"
-                      component={OnboardingScreen}
-                    />
-                  )}
-                  <Stack.Screen
-                    name="Home"
-                    component={AppBottomNavigationStack}
-                  />
-                </Stack.Navigator>
-              </View>
-            </ScreenReaderProvider>
+                    <Stack.Navigator
+                      screenOptions={{
+                        headerShown: false,
+                      }}>
+                      {onboarding && (
+                        <Stack.Screen
+                          name="Onboarding"
+                          component={OnboardingScreen}
+                        />
+                      )}
+                      <Stack.Screen
+                        name="Home"
+                        component={AppBottomNavigationStack}
+                      />
+                    </Stack.Navigator>
+                  </View>
+                </EnterMealTypeProvider>
+              </ScreenReaderProvider>
+            </UserSettingsProvider>
           </ProfileProvider>
         </ThemeProvider>
       </NavigationContainer>

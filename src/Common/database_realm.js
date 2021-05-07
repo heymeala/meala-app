@@ -143,11 +143,10 @@ export const database = {
 
   saveRestaurant: (
     restaurantName,
-    restaurantStreet,
     restaurantId,
     mealTitle,
     picId,
-    notiz,
+    note,
     lat,
     lng,
     mealId,
@@ -160,7 +159,9 @@ export const database = {
   ) => {
     const tags = predictions
       .filter(data => data.active === true)
-      .map(prediction => prediction.name);
+      .map(prediction => {
+        return {tagEn: prediction.name};
+      });
 
     console.log('Save' + restaurantName);
     return database._open
@@ -171,7 +172,7 @@ export const database = {
             {
               id: restaurantId,
               restaurant_name: restaurantName,
-              address: restaurantStreet,
+              address: '',
               lat: lat === '0' ? null : parseFloat(lat),
               long: lng === '0' ? null : parseFloat(lng),
               restaurantNote: 'notiz',
@@ -181,50 +182,64 @@ export const database = {
             true,
           );
 
-          var newMeal = [
-            {
-              food: mealTitle,
-              picture: picId,
-              date: date,
-              tag: tags,
-              note: notiz,
-              cgmData: null,
-              restaurantId: restaurantId,
-              treatmentsData: null,
-              isDeleted: false,
-              id: mealId,
-              userMealId: userMealId,
-              carbs: carbs,
-              fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
-            },
-          ];
+          var newMeal = {
+            food: mealTitle,
+            picture: picId,
+            date: date,
+            tag: tags,
+            note: note,
+            cgmData: null,
+            restaurantId: restaurantId,
+            treatmentsData: null,
+            isDeleted: false,
+            id: mealId,
+            userMealId: userMealId,
+            carbs: carbs,
+            tags: tags,
+            fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
+          };
 
-          var newTag = tags.map(tags => {
-            return {tagEn: tags};
-          });
-
-          for (var i = 0; i < newMeal.length; i++) {
-            restaurantEntry.food.push(newMeal[i]);
-          }
-          const meals = realm.objects('Meal').filtered('date = $0', date)[0];
-
-          for (var x = 0; x < newTag.length; x++) {
-            meals.tags.push(newTag[x]);
-          }
+          restaurantEntry.food.push(realm.create('Meal', newMeal, true));
         });
       })
       .catch(error => {
         console.log(error);
       });
   },
-
-  countNumberOfRestaurants: () => {
+  editRestaurantAndMeal: (
+    mealTitle,
+    picId,
+    note,
+    mealId,
+    userMealId,
+    date,
+    fatSecretUserFoodEntryIds,
+    predictions,
+  ) => {
     return database._open
       .then(realm => {
-        const restaurants = realm
-          .objects('Restaurant')
-          .filtered('food.isDeleted == false && food.@count > 0').length;
-        return restaurants;
+        const tags = predictions
+          .filter(data => data.active === true)
+          .map(prediction => {
+            return {tagEn: prediction.name};
+          });
+        realm.write(() => {
+          realm.create(
+            'Meal',
+            {
+              food: mealTitle,
+              picture: picId,
+              date: date,
+              tag: tags,
+              note: note,
+              treatmentsData: null,
+              userMealId: userMealId,
+              tags: tags,
+              fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
+            },
+            true,
+          );
+        });
       })
       .catch(error => {
         console.log(error);
@@ -250,10 +265,19 @@ export const database = {
       .then(realm => {
         const restaurants = realm
           .objects('Restaurant')
-          .filtered(
-            `isDeleted == false && restaurant_name LIKE[c] '*${filter}*' LIMIT(5) `,
-          );
+          .filtered(`isDeleted == false && restaurant_name LIKE[c] '*${filter}*' LIMIT(5) `);
         return restaurants.sorted('restaurant_name');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
+  getRestaurantById: id => {
+    return database._open
+      .then(realm => {
+        const restaurants = realm.objects('Restaurant').filtered('id = $0', id);
+        console.log('re', restaurants[0]);
+        return restaurants[0];
       })
       .catch(error => {
         console.log(error);
@@ -264,11 +288,7 @@ export const database = {
       .then(realm => {
         const meals = realm
           .objects('Meal')
-          .filtered(
-            'isDeleted == false && date >= $0 && date < $1',
-            startDate,
-            endDate,
-          );
+          .filtered('isDeleted == false && date >= $0 && date < $1', startDate, endDate);
         return meals;
       })
       .catch(error => {
@@ -290,9 +310,7 @@ export const database = {
       .then(realm => {
         const meals = realm
           .objects('Meal')
-          .filtered(
-            `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' `,
-          );
+          .filtered(`isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' SORT(date DESC) LIMIT(25) `);
         return meals.sorted('date', true);
       })
       .catch(error => {
@@ -329,7 +347,6 @@ export const database = {
     nightscoutToken,
     nightscoutTreatmentsUpload,
   ) => {
-    console.log(nightScoutUrl + 'test');
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(
@@ -350,22 +367,26 @@ export const database = {
 
   saveGlucoseSource: (glucoseSource, nightscoutToken) => {
     const getNightscoutToken = nightscoutToken ? nightscoutToken : null;
-    return database._open.then(realm => {
-      realm.write(() => {
-        realm.create(
-          'Settings',
-          {
-            id: 'glucoseSource',
-            glucoseSource: glucoseSource.toString(),
-            nightscoutUrl: null,
-            nightscoutStatus: null,
-            nightscoutVersion: null,
-            nightscoutToken: getNightscoutToken,
-          },
-          true,
-        );
+    return database._open
+      .then(realm => {
+        realm.write(() => {
+          realm.create(
+            'Settings',
+            {
+              id: 'glucoseSource',
+              glucoseSource: glucoseSource.toString(),
+              nightscoutUrl: null,
+              nightscoutStatus: null,
+              nightscoutVersion: null,
+              nightscoutToken: getNightscoutToken,
+            },
+            true,
+          );
+        });
+      })
+      .catch(error => {
+        console.log(error);
       });
-    });
   },
 
   getSettings: () => {
@@ -409,9 +430,7 @@ export const database = {
     return database._open.then(realm => {
       let onboardingState = realm.objects('Profile').filtered('id = "1"');
       let counter = 0;
-      onboardingState.length === 0
-        ? (counter = 1)
-        : (counter = onboardingState[0].onboarding + 1);
+      onboardingState.length === 0 ? (counter = 1) : (counter = onboardingState[0].onboarding + 1);
 
       realm.write(() => {
         realm.create(
@@ -423,7 +442,7 @@ export const database = {
           true,
         );
       });
-      console.log(onboardingState[0].onboarding);
+      //console.log(onboardingState[0].onboarding);
       return onboardingState[0].onboarding;
     });
   },
@@ -440,9 +459,7 @@ export const database = {
   getGlucoseSource: () => {
     return database._open
       .then(realm => {
-        const glucoseSource = realm
-          .objects('Settings')
-          .filtered('id = "glucoseSource"');
+        const glucoseSource = realm.objects('Settings').filtered('id = "glucoseSource"');
         if (typeof glucoseSource[0] !== 'undefined') {
           return glucoseSource[0].glucoseSource;
         } else {
