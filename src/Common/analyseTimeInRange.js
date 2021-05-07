@@ -6,11 +6,10 @@ export function analyseTimeInRange(cgmData) {
   let cgmOutOfRange = [];
   let timeInRange;
 
-  if (cgmData) {
+  if (cgmData && cgmData.length > 0) {
     cgmData.map(data => {
       if (data.sgv) {
         cgmArray.push(parseInt(data.sgv));
-
         if (parseInt(data.sgv) < HYPER && parseInt(data.sgv) > HYPO) {
           cgmInRange.push(parseInt(data.sgv));
         } else {
@@ -20,6 +19,7 @@ export function analyseTimeInRange(cgmData) {
     });
     timeInRange = (cgmInRange.length / cgmArray.length) * 100;
     timeInRange = Math.round(timeInRange);
+    console.log(timeInRange)
   } else {
     timeInRange = null;
   }

@@ -41,25 +41,18 @@ const MealDetailsComponent = props => {
   ]);
   const insulinSumme = getInsulinInfo(props.treatments);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
-  const spritzEssAbstandText = React.useMemo(
-    () => getSEA(userSettings.glucoseSource, t, duration, insulinSumme),
-    [userSettings.glucoseSource, t, duration, insulinSumme],
-  );
-  console.log(props.stepsPerDay)
+  const spritzEssAbstandText = React.useMemo(() => getSEA(userSettings.glucoseSource, t, duration, insulinSumme), [
+    userSettings.glucoseSource,
+    t,
+    duration,
+    insulinSumme,
+  ]);
 
   return (
     <>
       <ScrollView style={styles.wrapper}>
-        <MetaInfoHeader
-          date={foodDatum}
-          food={props.selectedFood.food}
-          restaurantName={props.restaurantName}
-        />
-        <CircleGroup
-          insulinSumme={insulinSumme}
-          carbSumme={carbSumme}
-          selectedFood={props.selectedFood}
-        />
+        <MetaInfoHeader date={foodDatum} food={props.selectedFood.food} restaurantName={props.restaurantName} />
+        <CircleGroup insulinSumme={insulinSumme} carbSumme={carbSumme} selectedFood={props.selectedFood} />
         {userSettings.glucoseSource !== DEFAULT ? (
           <GeneralChartView
             loading={props.loading}
@@ -93,11 +86,7 @@ const MealDetailsComponent = props => {
           ) : null}
         </View>
         {userSettings.glucoseSource === NIGHTSCOUT && (
-          <NightScoutTreatmentDetails
-            treatments={props.treatments}
-            insulinSumme={insulinSumme}
-            carbSumme={carbSumme}
-          />
+          <NightScoutTreatmentDetails treatments={props.treatments} insulinSumme={insulinSumme} carbSumme={carbSumme} />
         )}
         <MealNote selectedFood={props.selectedFood} />
         <FatSecretNutritionInfo selectedFood={selectedFood} />

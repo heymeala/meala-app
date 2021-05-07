@@ -42,10 +42,15 @@ const MealList = props => {
     setRestaurants(filteredMeals);
     setLoading(false);
 
-    /*    if (userSettings.glucoseSource === NIGHTSCOUT) {
+    if (userSettings.glucoseSource === NIGHTSCOUT) {
       const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
-      if (notLoadedEntries && notLoadedEntries.length > 0) {
-        notLoadedEntries.map(data => {
+      const slicedMeals = notLoadedEntries.slice(0, 2);
+      console.log('notLoadedEntries', notLoadedEntries);
+      console.log('slicedMeals', slicedMeals);
+      if (slicedMeals && slicedMeals.length > 0) {
+        console.log('2', slicedMeals);
+
+        slicedMeals.map(data => {
           const nsSugarData = async () => {
             console.log(data);
             await nightscoutCall(data.date, data.userMealId);
@@ -57,7 +62,7 @@ const MealList = props => {
           nsSugarData();
         });
       }
-    }*/
+    }
   }
 
   return loading ? (

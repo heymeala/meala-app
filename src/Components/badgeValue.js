@@ -1,5 +1,9 @@
 export function badgeValue(screenReaderEnabled, timeInRange) {
-  if (!screenReaderEnabled && timeInRange) {
+  if (!screenReaderEnabled) {
+    if (timeInRange === null) {
+      return '';
+    }
+    console.log(timeInRange);
     const tir = timeInRange + '%';
     return tir.toString();
   } else {

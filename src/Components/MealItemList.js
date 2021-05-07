@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, Text, View} from 'react-native';
 import {Avatar, Badge, Divider, ListItem} from 'react-native-elements';
-import generateColor from '../Common/generateColor';
+import { generateColor, gradientPercentageColor, textColor } from "../Common/generateColor";
 import moment from 'moment';
 import ProgressBar from 'react-native-progress/Bar';
 import {analyseTimeInRange} from '../Common/analyseTimeInRange';
@@ -21,8 +21,8 @@ const MealItemsList = props => {
 
   useEffect(() => {
     const parsedData = JSON.parse(props.item.cgmData);
-    const timeInRange = analyseTimeInRange(parsedData);
-    setTir(timeInRange);
+    const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
+    setTir(timeInRange); // string with tir description and calculation
   }, [props.item.cgmData]);
 
   let curTime = new Date();
@@ -95,16 +95,16 @@ const MealItemsList = props => {
             <LatestMealSubtitle />
           </ListItem.Subtitle>
         </ListItem.Content>
-        {tir ? (
-          <Badge
-            value={badgeValue(screenReaderEnabled, tir)}
-            badgeStyle={{
-              backgroundColor: generateColor(tir),
-            }}
-            textStyle={{color: 'black'}}
-            containerStyle={{marginTop: 0}}
-          />
-        ) : null}
+
+        <Badge
+          value={badgeValue(screenReaderEnabled, tir)}
+          badgeStyle={{
+            backgroundColor: gradientPercentageColor(tir),
+          }}
+          textStyle={{color: textColor(tir)}}
+          containerStyle={{marginTop: 0}}
+        />
+
         <ListItem.Chevron />
       </ListItem>
       <Divider />
