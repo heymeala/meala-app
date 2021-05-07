@@ -310,9 +310,7 @@ export const database = {
       .then(realm => {
         const meals = realm
           .objects('Meal')
-          .filtered(
-            `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*'  LIMIT(25) `,
-          );
+          .filtered(`isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' SORT(date DESC) LIMIT(25) `);
         return meals.sorted('date', true);
       })
       .catch(error => {

@@ -44,7 +44,7 @@ export function gradientPercentageColor(numColor) {
 export function textColor(value) {
   let color;
   if (value <= LOW_BOUND) {
-    color = '#fff';
+    color = '#000';
   } else if (value > LOW_BOUND && value < HIGH_BOUND) {
     color = '#000';
   } else if (value >= HIGH_BOUND) {
