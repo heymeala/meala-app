@@ -11,6 +11,7 @@ import {mealsWithoutCgmData} from './mealsWithoutCgmData';
 import {useUserSettings} from '../../hooks/useUserSettings';
 import {NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
 import {nightscoutCall, nightscoutTreatmens} from '../../Common/nightscoutApi';
+import SearchRecipes from '../Recipes/SearchRecipes';
 
 const MealList = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -18,6 +19,7 @@ const MealList = props => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [blur, setBlur] = useState(false);
   const {userSettings} = useUserSettings();
   useFocusEffect(
     React.useCallback(() => {
@@ -64,6 +66,11 @@ const MealList = props => {
       }
     }
   }
+  const handleBlur = () => {
+    if (search.length > 3) {
+      setBlur(true);
+    }
+  };
 
   return loading ? (
     <LoadingSpinner />
@@ -81,6 +88,7 @@ const MealList = props => {
             placeholder={t('Entries.SearchMeals')}
             onChangeText={updateSearch}
             value={search}
+            onBlur={handleBlur}
           />
         </>
       }

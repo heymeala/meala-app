@@ -1,18 +1,25 @@
 import {Dimensions, Linking, View} from 'react-native';
-import {FAB, makeStyles, Text} from 'react-native-elements';
+import { Button, FAB, makeStyles, Text } from "react-native-elements";
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import {spacing} from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
+import SearchRecipes from "../../Recipes/SearchRecipes";
 
 export const EmptyListHome = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
+
+
+
   if (props.value.length > 0) {
     return (
-      <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
+      <>
+        <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
+        <SearchRecipes search={props.value} />
+      </>
     );
   } else {
     return (
@@ -21,9 +28,7 @@ export const EmptyListHome = props => {
           <Text h1 h1Style={styles.infoTextHeadline}>
             {t('Entries.empty.home.title')}
           </Text>
-          <Text style={styles.infoText}>
-            {t('Entries.empty.home.description')}
-          </Text>
+          <Text style={styles.infoText}>{t('Entries.empty.home.description')}</Text>
         </View>
 
         <LottieView
