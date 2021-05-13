@@ -1,15 +1,15 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Button, Card, makeStyles, Text} from 'react-native-elements';
-import NutritionDetails from './MealEntries/Common/NutritionDetails';
-import LocalizationContext from '../../LanguageContext';
+import NutritionDetails from '../MealEntries/Common/NutritionDetails';
+import LocalizationContext from '../../../LanguageContext';
 
 const RecipesList = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {item} = props;
+  const {item, recipeDetails} = props;
   return (
-    <Card containerStyle={{borderRadius: 10}} key={item.recipe_id}>
+    <Card containerStyle={{borderRadius: 10}}>
       <Card.Title>{item.recipe_name}</Card.Title>
       <Card.Divider />
       {item.recipe_image ? <Card.Image source={{uri: item.recipe_image}} /> : null}

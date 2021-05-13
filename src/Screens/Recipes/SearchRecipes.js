@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Platform, View} from 'react-native';
-import {Button, Card, Icon, makeStyles, Text} from 'react-native-elements';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {Button, makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {getRecipeDetails, searchRecipes} from '../../Common/fatsecret/fatsecretApi';
-import GroupedMealItems from '../MealEntries/Common/GroupedMealItems';
-import NutritionDetails from '../MealEntries/Common/NutritionDetails';
 import {translate} from '../../Common/translate';
-import RecipesList from '../RecipesList';
+import RecipesList from './RecipesList';
+import RecipeDetailModal from './RecipeDetailModal';
 
 const SearchRecipes = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -15,6 +14,8 @@ const SearchRecipes = props => {
   const [recipe, setRecipe] = useState(null);
   const [translatedRecipe, setTranslatedRecipe] = useState(null);
   const [noRecipeResults, setNoRecipeResults] = useState(false);
+  const [open, setOpen] = useState(false);
+
   /*
 recipe_description: "A great pasta substitute."
   recipe_id: "332"
@@ -33,7 +34,7 @@ recipe_description: "A great pasta substitute."
     searchRecipes(translatedSearchText, 15).then(r => {
       if (r.recipes) {
         setRecipes(r.recipes.recipe);
-        console.log(r.recipes.total_results);
+        console.log(r.recipes);
         setNoRecipeResults(true);
       } else {
         setRecipes(null);
@@ -46,28 +47,38 @@ recipe_description: "A great pasta substitute."
   function recipeDetails(id) {
     getRecipeDetails(id).then(d => {
       console.log(d);
-      setRecipe(d);
+      setRecipe(d.recipe);
+      setOpen(true);
     });
   }
 
   return (
-    <View style={{padding: 4}}>
-      {recipes ? (
-        recipes.filter(data => data.recipe_image).map(item => <RecipesList item={item} />)
-      ) : noRecipeResults ? (
-        <View>
-          <Text>Leider keine Mahlzeiten aus der Community gefunden.</Text>
-        </View>
-      ) : (
-        <>
-          <Text h3>
-            Du hast noch kein Eintrag mit dem namen {props.search}, aber Du kannst nach ähnliches Mahlzeiten
-            aus der Community suchen
-          </Text>
-          <Button title={'Suchen'} onPress={() => searchForRecipes()} />
-        </>
-      )}
-    </View>
+    <>
+      <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
+      <View style={{padding: 4}}>
+        {recipes ? (
+          recipes
+            .filter(data => data.recipe_image)
+            .map(item => (
+              <View key={item.recipe_id}>
+                <RecipesList item={item} recipeDetails={recipeDetails} />
+              </View>
+            ))
+        ) : noRecipeResults ? (
+          <View>
+            <Text>Leider keine Mahlzeiten aus der Community gefunden.</Text>
+          </View>
+        ) : (
+          <>
+            <Text h3>
+              Du hast noch kein Eintrag mit dem namen {props.search}, aber Du kannst nach ähnliches Mahlzeiten
+              aus der Community suchen
+            </Text>
+            <Button title={'Suchen'} onPress={() => searchForRecipes()} />
+          </>
+        )}
+      </View>
+    </>
   );
 };
 
