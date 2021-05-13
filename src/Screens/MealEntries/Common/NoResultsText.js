@@ -21,7 +21,6 @@ export default NoResultsText;
 
 const useStyles = makeStyles(theme => ({
   noResultsContainer: {
-    flex: 1,
     justifyContent: 'center',
     height: 150,
     alignItems: 'center',

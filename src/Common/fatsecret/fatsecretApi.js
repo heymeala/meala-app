@@ -54,7 +54,7 @@ export async function searchFood(query, maxResults = 5) {
   return response.json();
 }
 
-export async function searchRecipes(query, maxResults = 5) {
+export async function searchRecipes(query, maxResults) {
   const method = 'recipes.search';
   const queryParams = [
     ...getOauthParameters(),

@@ -4,6 +4,7 @@ import LocalizationContext from '../../../../LanguageContext';
 import {Icon, ListItem, makeStyles, Tooltip, useTheme, Text} from 'react-native-elements';
 import {spacing} from '../../../theme/styles';
 import NutritionDetailItem from '../NutritionDetailItem';
+import NutritionDetails from './NutritionDetails';
 
 const GroupedMealItems = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -29,20 +30,15 @@ const GroupedMealItems = props => {
           containerStyle={styles.accordion}
           content={
             <>
-              <Icon
-                name={props.icon}
-                size={props.iconSize || 20}
-                style={styles.icon}
-                type={'meala'}
-              />
+              <Icon name={props.icon} size={props.iconSize || 20} style={styles.icon} type={'meala'} />
               <ListItem.Content>
                 <ListItem.Title>
                   <Text h4>{props.title}</Text>
                 </ListItem.Title>
                 <ListItem.Subtitle>
                   <Text>
-                    {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |
-                    {t('Entries.fpu')} {props.fpe}
+                    {props.carbohydrates}g {t('AddMeal.nutritionData.carbohydrate')} |{t('Entries.fpu')}{' '}
+                    {props.fpe}
                   </Text>
                 </ListItem.Subtitle>
               </ListItem.Content>
@@ -54,22 +50,8 @@ const GroupedMealItems = props => {
           }}>
           {data.map((data, i) => {
             return (
-              <View key={i} style={styles.container}>
-                <View style={styles.titleContainer}>
-                  <Text style={[styles.nutritionText, styles.text]}>{data.food_entry_name}</Text>
-                  <Text style={styles.ccal}>
-                    , {data.calories} {t('AddMeal.nutritionData.calories')}
-                  </Text>
-                </View>
-                <NutritionDetailItem
-                  data={data.carbohydrate}
-                  text={t('AddMeal.nutritionData.carbohydrate')}
-                />
-                <NutritionDetailItem data={data.fat} text={t('AddMeal.nutritionData.fat')} />
-                <NutritionDetailItem
-                  data={data.protein}
-                  text={t('AddMeal.nutritionData.protein')}
-                />
+              <View key={i}>
+                <NutritionDetails data={data} />
               </View>
             );
           })}

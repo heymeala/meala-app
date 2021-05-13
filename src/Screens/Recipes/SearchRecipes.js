@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
-import {Button, makeStyles, Text} from 'react-native-elements';
+import {Platform, View} from 'react-native';
+import {Button, Card, Icon, makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {getRecipeDetails, searchRecipes} from '../../Common/fatsecret/fatsecretApi';
+import GroupedMealItems from '../MealEntries/Common/GroupedMealItems';
+import NutritionDetails from '../MealEntries/Common/NutritionDetails';
+import {translate} from '../../Common/translate';
+import RecipesList from '../RecipesList';
 
 const SearchRecipes = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const {t, locale} = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [recipes, setRecipes] = useState(null);
   const [recipe, setRecipe] = useState(null);
-
+  const [translatedRecipe, setTranslatedRecipe] = useState(null);
+  const [noRecipeResults, setNoRecipeResults] = useState(false);
   /*
 recipe_description: "A great pasta substitute."
   recipe_id: "332"
@@ -23,29 +28,45 @@ recipe_description: "A great pasta substitute."
   recipe_url: "https://www.fatsecret.com/recipes/zucchini-noodles/Default.aspx"
   */
 
-  function searchForRecipes() {
-    searchRecipes(props.search, 5).then(r => {
+  async function searchForRecipes() {
+    const translatedSearchText = await translate(locale, props.search);
+    searchRecipes(translatedSearchText, 15).then(r => {
       if (r.recipes) {
         setRecipes(r.recipes.recipe);
+        console.log(r.recipes.total_results);
+        setNoRecipeResults(true);
       } else {
         setRecipes(null);
+        setNoRecipeResults(true);
       }
       console.log(r);
     });
   }
 
-  useEffect(() => {
-    /*    getRecipeDetails('73894').then(d => {
+  function recipeDetails(id) {
+    getRecipeDetails(id).then(d => {
       console.log(d);
       setRecipe(d);
-    });*/
-  }, []);
+    });
+  }
 
   return (
-    <View>
-      <Button title={'Search for Community meals'} onPress={() => searchForRecipes()} />
-
-      {recipes ? recipes.map(item => <Text key={item.recipe_id}>{item.recipe_name}</Text>) : null}
+    <View style={{padding: 4}}>
+      {recipes ? (
+        recipes.filter(data => data.recipe_image).map(item => <RecipesList item={item} />)
+      ) : noRecipeResults ? (
+        <View>
+          <Text>Leider keine Mahlzeiten aus der Community gefunden.</Text>
+        </View>
+      ) : (
+        <>
+          <Text h3>
+            Du hast noch kein Eintrag mit dem namen {props.search}, aber Du kannst nach ähnliches Mahlzeiten
+            aus der Community suchen
+          </Text>
+          <Button title={'Suchen'} onPress={() => searchForRecipes()} />
+        </>
+      )}
     </View>
   );
 };

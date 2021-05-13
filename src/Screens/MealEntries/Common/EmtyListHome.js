@@ -17,8 +17,10 @@ export const EmptyListHome = props => {
   if (props.value.length > 0) {
     return (
       <>
-        <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
+
+      {/*  <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />*/}
         <SearchRecipes search={props.value} />
+
       </>
     );
   } else {
