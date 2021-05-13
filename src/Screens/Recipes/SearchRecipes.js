@@ -6,6 +6,7 @@ import {getRecipeDetails, searchRecipes} from '../../Common/fatsecret/fatsecretA
 import {translate} from '../../Common/translate';
 import RecipesList from './RecipesList';
 import RecipeDetailModal from './RecipeDetailModal';
+import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 
 const SearchRecipes = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -57,25 +58,32 @@ recipe_description: "A great pasta substitute."
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
       <View style={{padding: 4}}>
         {recipes ? (
-          recipes
-            .filter(data => data.recipe_image)
-            .map(item => (
-              <View key={item.recipe_id}>
-                <RecipesList item={item} recipeDetails={recipeDetails} />
-              </View>
-            ))
+          <>
+            {recipes
+              .filter(data => data.recipe_image)
+              .map(item => (
+                <View key={item.recipe_id}>
+                  <RecipesList item={item} recipeDetails={recipeDetails} />
+                </View>
+              ))}
+            <PoweredByFatSecret />
+
+          </>
         ) : noRecipeResults ? (
-          <View>
-            <Text>Leider keine Mahlzeiten aus der Community gefunden.</Text>
+          <View style={styles.container}>
+            <Text h3>Leider keine Mahlzeiten aus der Community gefunden.</Text>
           </View>
         ) : (
-          <>
-            <Text h3>
-              Du hast noch kein Eintrag mit dem namen {props.search}, aber Du kannst nach ähnliches Mahlzeiten
-              aus der Community suchen
+          <View style={styles.container}>
+            <Text h3 style={styles.text}>
+              Du hast noch keinen Eintrag mit dem Namen{' '}
+              <Text h3 style={styles.bold}>
+                {props.search}
+              </Text>
+              , aber Du kannst nach ähnliches Mahlzeiten aus der Community suchen
             </Text>
             <Button title={'Suchen'} onPress={() => searchForRecipes()} />
-          </>
+          </View>
         )}
       </View>
     </>
@@ -84,4 +92,8 @@ recipe_description: "A great pasta substitute."
 
 export default SearchRecipes;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  container: {padding: theme.spacing.M},
+  text: {paddingVertical: theme.spacing.M},
+  bold: {fontWeight: 'bold'},
+}));
