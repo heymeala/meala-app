@@ -10,14 +10,11 @@ const FatSecretQuiz = props => {
   const styles = useStyles();
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [answers, setAnswers] = useState([]);
-
+  const [validated, setValidated] = useState(false);
   function randomValues(value) {
     const threshold = 3;
     let aboveThreshold = false;
     let rnd = 3;
-    /*    rnd = (Math.random() * value + value / 2).toFixed(2);
-    aboveThreshold = Math.abs(rnd - value) < threshold;
-    console.log(aboveThreshold);*/
 
     do {
       rnd = (Math.random() * value + value / 2).toFixed(2);
@@ -29,19 +26,35 @@ const FatSecretQuiz = props => {
     return rnd;
   }
 
+  const fatSecretRecipes = ['8866808', '8307492'];
+
   useEffect(() => {
-    getRecipeDetails('8307492').then(recipe => {
+    const randomRecipe = fatSecretRecipes[Math.floor(Math.random() * fatSecretRecipes.length)];
+    getRecipeDetails(randomRecipe).then(recipe => {
       setRecipeDetails(recipe.recipe);
 
       const array = [
-        randomValues(recipe.recipe.serving_sizes.serving.carbohydrate),
-        recipe.recipe.serving_sizes.serving.carbohydrate,
-        randomValues(recipe.recipe.serving_sizes.serving.carbohydrate),
-        randomValues(recipe.recipe.serving_sizes.serving.carbohydrate),
+        {id: 1, value: randomValues(recipe.recipe.serving_sizes.serving.carbohydrate), right: false},
+        {id: 2, value: recipe.recipe.serving_sizes.serving.carbohydrate, right: true},
+        {id: 3, value: randomValues(recipe.recipe.serving_sizes.serving.carbohydrate), right: false},
+        {id: 4, value: randomValues(recipe.recipe.serving_sizes.serving.carbohydrate), right: false},
       ];
       setAnswers(prev => shuffle(array));
     });
   }, []);
+
+  function validate(answer) {
+    console.log(answer);
+    setValidated(true);
+  }
+
+  function color(answer) {
+    return validated
+      ? answer
+        ? {backgroundColor: 'green'}
+        : {backgroundColor: 'red'}
+      : {backgroundColor: 'yellow'};
+  }
 
   return recipeDetails !== null ? (
     <View>
@@ -52,7 +65,15 @@ const FatSecretQuiz = props => {
       {recipeDetails.serving_sizes && (
         <View style={styles.desc}>
           {answers &&
-            answers.map((answer, i) => <Button key={i} style={styles.answerButton} title={answer + 'g'} />)}
+            answers.map((answer, i) => (
+              <Button
+                buttonStyle={color(answer.right)}
+                key={i}
+                style={styles.answerButton}
+                onPress={() => validate(answer.right)}
+                title={answer.value + 'g'}
+              />
+            ))}
         </View>
       )}
       <Text h2>{t('Recipes.ingredients')}</Text>
@@ -85,5 +106,5 @@ const useStyles = makeStyles(theme => ({
   root: {minHeight: 700},
   image: {width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L},
   desc: {paddingVertical: theme.spacing.S},
-  answerButton: {padding: theme.spacing.XS},
+  answerButton: {padding: theme.spacing.S},
 }));
