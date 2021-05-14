@@ -194,7 +194,7 @@ export const database = {
             isDeleted: false,
             id: mealId,
             userMealId: userMealId,
-            carbs: carbs,
+            carbs: parseFloat(carbs),
             tags: tags,
             fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
           };
