@@ -11,10 +11,11 @@ const FatSecretQuiz = props => {
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [validated, setValidated] = useState(false);
+  const [current,setCurrent] = useState(0)
   function randomValues(value) {
     const threshold = 3;
     let aboveThreshold = false;
-    let rnd = 3;
+    let rnd;
 
     do {
       rnd = (Math.random() * value + value / 2).toFixed(2);
@@ -26,11 +27,28 @@ const FatSecretQuiz = props => {
     return rnd;
   }
 
-  const fatSecretRecipes = ['8866808', '8307492'];
+  const fatSecretRecipes = [
+    '8866808',
+    '8307492',
+    '5373738',
+    '8953356',
+    '11736480',
+    '9216766',
+    '8447633',
+    '8289890',
+    '8285578',
+    '13291554',
+    '12119207',
+    '9661813',
+    '8215434',
+    '7536700',
+  ];
 
   useEffect(() => {
-    const randomRecipe = fatSecretRecipes[Math.floor(Math.random() * fatSecretRecipes.length)];
-    getRecipeDetails(randomRecipe).then(recipe => {
+
+    const randomRecipe = shuffle(fatSecretRecipes);
+    console.log(randomRecipe[0])
+    getRecipeDetails(randomRecipe[0]).then(recipe => {
       setRecipeDetails(recipe.recipe);
 
       const array = [
@@ -42,7 +60,7 @@ const FatSecretQuiz = props => {
       setAnswers(prev => shuffle(array));
     });
   }, []);
-
+//todo: detect image array
   function validate(answer) {
     console.log(answer);
     setValidated(true);
