@@ -179,6 +179,11 @@
     "licence": "Data from \nOpen Food Facts"
 
   },
+  "Recipes": {
+    "directions": "Directions",
+    "ingredients" : "Ingredients",
+    "show_recipe" : "Show recipe"
+  },
   "Settings": {
     "SettingsTitle": "Settings",
     "SettingsDrawNavigator": "Settings",

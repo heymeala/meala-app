@@ -6,6 +6,7 @@ import {GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
 import Modal from 'react-native-modal';
 
 import NutritionModalView from './NutritionModalView';
+import {translate} from '../../../Common/translate';
 
 const AddMealAttributes = props => {
   const {locale} = React.useContext(LocalizationContext);
@@ -20,8 +21,7 @@ const AddMealAttributes = props => {
   const [isServingListVisible, setServingListVisible] = useState(false);
   const [isNutritionData, setNutritionData] = useState(false);
   const [serving, setServing] = useState(null);
-  const apiKey =
-    Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
+  const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 
   const [chipSearch, setChipSearch] = useState('');
   let url = 'https://translation.googleapis.com/language/translate/v2';
@@ -70,18 +70,15 @@ const AddMealAttributes = props => {
     return setServingListVisible(prevState => !prevState);
   }
 
-  function startSearch() {
+  async function startSearch() {
     if (search.length > 2) {
       if (locale === 'de') {
-        return fetch(url).then(googleTranslateRes =>
-          googleTranslateRes.json().then(data => {
-            searchFood(data.data.translations[0].translatedText).then(data => {
-              setServingListVisible(false);
-              setNutritionData(false);
-              setFoodsData(prevState => data);
-            });
-          }),
-        );
+        const translatedFoodSearchText = await translate(locale, search);
+        searchFood(translatedFoodSearchText).then(data => {
+          setServingListVisible(false);
+          setNutritionData(false);
+          setFoodsData(prevState => data);
+        });
       } else {
         return searchFood(search).then(data => {
           setServingListVisible(false);

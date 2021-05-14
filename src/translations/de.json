@@ -176,6 +176,12 @@
     "onePortion": "Eine Portion",
     "licence": "Daten von \nOpen Food Facts"
   },
+  "Recipes": {
+    "directions": "Anleitung",
+    "ingredients" : "Zutaten",
+    "show_recipe" : "Rezept anzeigen"
+
+  },
   "Settings": {
     "SettingsDrawNavigator": "Einstellungen",
     "SettingsTitle": "Einstellungen",

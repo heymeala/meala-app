@@ -6,12 +6,7 @@ import {makeStyles} from 'react-native-elements';
 import {imageDetectionClarifai} from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
-import {
-  COPY_MODE,
-  DEFAULT_MODE,
-  EDIT_MODE,
-  useEnterMealType,
-} from '../../hooks/useEnterMealState';
+import {COPY_MODE, DEFAULT_MODE, EDIT_MODE, useEnterMealType} from '../../hooks/useEnterMealState';
 
 const PictureSelector = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -26,15 +21,13 @@ const PictureSelector = props => {
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
   } = props;
-  function handleImageLoadStates(response) {
+  async function handleImageLoadStates(response) {
     setFoodPicture(
-      (prevState => Platform.OS === 'android')
-        ? response.uri
-        : 'data:image/jpeg;base64,' + response.base64,
+      (prevState => Platform.OS === 'android') ? response.uri : 'data:image/jpeg;base64,' + response.base64,
     );
     setClarifaiImagebase(prevState => response.base64);
     response.timestamp && setDate(prevState => new Date(response.timestamp));
-    imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
+    await imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
   }
 
   function selectLibraryTapped() {
@@ -66,15 +59,12 @@ const PictureSelector = props => {
     try {
       console.log('Camera permission try');
 
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        {
-          title: t('AddMeal.Permission'),
-          message: t('AddMeal.grantPermission'),
-          buttonNegative: t('General.cancel'),
-          buttonPositive: 'OK',
-        },
-      );
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
+        title: t('AddMeal.Permission'),
+        message: t('AddMeal.grantPermission'),
+        buttonNegative: t('General.cancel'),
+        buttonPositive: 'OK',
+      });
 
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('Camera permission given');
@@ -120,11 +110,7 @@ const PictureSelector = props => {
   return (
     <View style={styles.container}>
       <EnterMealButton
-        onPress={
-          Platform.OS === 'android'
-            ? requestCameraPermission
-            : selectCameraTapped
-        }
+        onPress={Platform.OS === 'android' ? requestCameraPermission : selectCameraTapped}
         name={t('AddMeal.camera')}
         icon="ios-camera"
         avatarSource={props.avatarSourceCamera}

@@ -19,7 +19,7 @@ const RecipeDetails = props => {
             <Text>{ingre.ingredient_description}</Text>
           </View>
         ))}
-      <Text h2>Beschreibung</Text>
+      <Text h2>{t('Recipes.directions')}</Text>
 
       {recipe.directions &&
         recipe.directions.direction.map((desc, i) => (

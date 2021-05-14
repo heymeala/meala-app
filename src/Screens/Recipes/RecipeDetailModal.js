@@ -6,7 +6,7 @@ import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
 import {spacing} from '../../theme/styles';
 import RecipeDetails from './RecipeDetails';
 import LocalizationContext from '../../../LanguageContext';
-import PoweredByFatSecret from "../../Common/fatsecret/PoweredByFatSecret";
+import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 
 const RecipeDetailModal = props => {
   const {t} = React.useContext(LocalizationContext);
@@ -38,9 +38,7 @@ const RecipeDetailModal = props => {
                 <RecipeDetails recipe={recipe} />
               </View>
               <PoweredByFatSecret />
-
             </View>
-
           </ScrollView>
           <FAB placement={'right'} title={'Okay'} onPress={() => acceptDialog()} />
         </View>
