@@ -1,11 +1,9 @@
 import React from 'react';
-import {Platform} from 'react-native';
-import {CLARIFAI, GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
+import {CLARIFAI} from '@env';
 import {translate} from '../../Common/translate';
 const Clarifai = require('clarifai');
 
 export async function imageDetectionClarifai(clarifaiImagebase, setPredictions, locale, setTags) {
-  const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
   const clarifai = new Clarifai.App({
     apiKey: CLARIFAI,
   });
@@ -19,7 +17,6 @@ export async function imageDetectionClarifai(clarifaiImagebase, setPredictions, 
       if (locale === 'de') {
         const translatedFoodSearchText = await translate(locale, foodTags.name, 'en', 'de');
 
-        console.log(translatedFoodSearchText);
         setPredictions(prevArray => [
           ...prevArray,
           {
