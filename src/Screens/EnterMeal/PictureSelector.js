@@ -21,13 +21,13 @@ const PictureSelector = props => {
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
   } = props;
-  async function handleImageLoadStates(response) {
+  function handleImageLoadStates(response) {
     setFoodPicture(
       (prevState => Platform.OS === 'android') ? response.uri : 'data:image/jpeg;base64,' + response.base64,
     );
     setClarifaiImagebase(prevState => response.base64);
     response.timestamp && setDate(prevState => new Date(response.timestamp));
-    await imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
+    imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
   }
 
   function selectLibraryTapped() {

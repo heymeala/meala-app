@@ -73,7 +73,7 @@ const AddMealAttributes = props => {
   async function startSearch() {
     if (search.length > 2) {
       if (locale === 'de') {
-        const translatedFoodSearchText = await translate(locale, search);
+        const translatedFoodSearchText = await translate(locale, search,'de','en');
         searchFood(translatedFoodSearchText).then(data => {
           setServingListVisible(false);
           setNutritionData(false);

@@ -31,7 +31,7 @@ recipe_description: "A great pasta substitute."
   */
 
   async function searchForRecipes() {
-    const translatedSearchText = await translate(locale, props.search);
+    const translatedSearchText = await translate(locale, props.search, 'de', 'en');
     searchRecipes(translatedSearchText, 15).then(r => {
       if (r.recipes) {
         setRecipes(r.recipes.recipe);
