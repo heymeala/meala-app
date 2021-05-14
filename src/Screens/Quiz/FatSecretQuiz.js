@@ -14,11 +14,17 @@ const FatSecretQuiz = props => {
   function randomValues(value) {
     const threshold = 3;
     let aboveThreshold = false;
-    let rnd;
-    while (aboveThreshold === false) {
-      rnd = (Math.random() * 10).toFixed(2);
-      aboveThreshold = Math.abs(rnd - value) < threshold;
-    }
+    let rnd = 3;
+    /*    rnd = (Math.random() * value + value / 2).toFixed(2);
+    aboveThreshold = Math.abs(rnd - value) < threshold;
+    console.log(aboveThreshold);*/
+
+    do {
+      rnd = (Math.random() * value + value / 2).toFixed(2);
+      aboveThreshold = Math.abs(rnd - value) > threshold;
+      console.log(aboveThreshold);
+      console.log(rnd);
+    } while (aboveThreshold === false);
 
     return rnd;
   }
