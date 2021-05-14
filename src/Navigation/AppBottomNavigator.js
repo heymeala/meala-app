@@ -11,6 +11,7 @@ import {
   EDIT_MODE,
   useEnterMealType,
 } from '../hooks/useEnterMealState';
+import Quiz from "../Screens/Quiz/Quiz";
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
@@ -89,6 +90,8 @@ const AppBottomNavigationStack = () => {
           ),
         })}
       />
+
+
     </Tab.Navigator>
   );
 };

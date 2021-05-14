@@ -75,11 +75,7 @@ const SettingsOverview = props => {
             : 'Kohlenhydrate Quiz. Noch nicht Barrierefrei',
           icon: 'einstein',
           iconType: 'meala',
-          link: 'DataSourceScreen',
-          weblink:
-            locale === 'de'
-              ? 'https://quiz.heymeala.com?sh=meala_app&lng=de'
-              : 'https://quiz.heymeala.com?sh=meala_app&lng=en',
+          link: 'Quiz',
         },
         {
           name: t('GI.NavigationBarTitle'),

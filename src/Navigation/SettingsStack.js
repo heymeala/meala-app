@@ -13,22 +13,21 @@ import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
 import TidePool from '../Screens/Settings/TidePool';
+import Quiz from '../Screens/Quiz/Quiz';
+import {Icon} from 'react-native-elements';
 
 function SettingsStack() {
   const {t} = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator
-      initialRouteName="SettingsOverview"
-      screenOptions={{gestureEnabled: false}}>
+    <Stack.Navigator initialRouteName="SettingsOverview" screenOptions={{gestureEnabled: false}}>
       <Stack.Screen
         name="SettingsOverview"
         component={SettingsOverview}
         options={{
           headerLargeTitle: true,
-          headerTranslucent:
-            Platform.OS !== 'android' && Platform.Version >= 13,
+          headerTranslucent: Platform.OS !== 'android' && Platform.Version >= 13,
           headerStyle:
             Platform.OS !== 'android' && Platform.Version >= 13
               ? {
@@ -106,6 +105,16 @@ function SettingsStack() {
         component={Libre}
         options={{
           title: 'Libre',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={Quiz}
+        options={{
+          title: 'Quiz',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
