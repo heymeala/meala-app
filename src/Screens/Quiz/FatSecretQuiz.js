@@ -1,35 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Button, Image, makeStyles, Text} from 'react-native-elements';
 import {getRecipeDetails} from '../../Common/fatsecret/fatsecretApi';
 import LocalizationContext from '../../../LanguageContext';
 import {shuffle} from '../../utils/shuffel';
 
-const fatSecretRecipes = [
-  '8866808',
-  '8307492',
-  '5373738',
-  '8953356',
-  '11736480',
-  '9216766',
-  '8447633',
-  '8289890',
-  '8285578',
-  '13291554',
-  '12119207',
-  '9661813',
-  '8215434',
-  '7536700',
-];
-
 const FatSecretQuiz = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
+  const {fsRecipeIds} = props;
   const [recipeDetails, setRecipeDetails] = useState(null);
-  const fsRecipeIds = useRef(shuffle(fatSecretRecipes));
   const [answers, setAnswers] = useState([]);
   const [validated, setValidated] = useState(false);
   const [current, setCurrent] = useState(0);
+
   function randomValues(value) {
     const threshold = value > 5 ? 3 : 0.4;
     let aboveThreshold = false;
@@ -45,22 +29,23 @@ const FatSecretQuiz = props => {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [current]);
+
   function validate(answer) {
-    console.log(answer);
     setValidated(true);
     setTimeout(() => {
-      setCurrent(prevState => prevState + 1);
-      load();
+      if (current < fsRecipeIds.length - 1) {
+        setCurrent(prevState => {
+          return prevState + 1;
+        });
+      }
     }, 1500);
   }
 
   function load() {
     if (fsRecipeIds.current !== null) {
-      getRecipeDetails(fsRecipeIds.current[current]).then(recipe => {
+      getRecipeDetails(fsRecipeIds[current]).then(recipe => {
         setRecipeDetails(recipe.recipe);
-        console.log(recipe);
-        console.log(current);
 
         const array = [
           {id: 1, value: randomValues(recipe.recipe.serving_sizes.serving.carbohydrate), right: false},
