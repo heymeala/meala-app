@@ -39,7 +39,4 @@ const Quiz = props => {
 export default Quiz;
 
 const useStyles = makeStyles(theme => ({
-  root: {minHeight: 700},
-  image: {width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L},
-  desc: {paddingVertical: theme.spacing.S},
 }));
