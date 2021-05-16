@@ -35,13 +35,9 @@ export function loadQuestionRecipes(fsRecipeIds, current, setRecipeDetails, setA
           value: (randomValueArray[1] * recipe.recipe.serving_sizes.serving.carbohydrate).toFixed(0),
           right: false,
         },
-        {
-          id: 3,
-          value: (randomValueArray[2] * recipe.recipe.serving_sizes.serving.carbohydrate).toFixed(0),
-          right: false,
-        },
         {id: 4, value: parseInt(recipe.recipe.serving_sizes.serving.carbohydrate), right: true},
       ];
+
       setAnswers(prev => shuffle(array));
       setValidated(false);
     });

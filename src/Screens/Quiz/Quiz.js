@@ -58,13 +58,13 @@ const Quiz = props => {
     '1586500',
     '8016123',
   ];
-  const testData = ['6906467', '5803093', '5444848'];
-  const fsRecipeIds = useRef(shuffle(locale === 'de' ? testData : fatSecretRecipesEN));
+  const fsRecipeIds = shuffle(locale === 'de' ? fatSecretRecipesDE : fatSecretRecipesEN);
+  const slicedIds = useRef(fsRecipeIds.slice(0, 3));
 
   return (
     <SafeAreaView>
       <ScrollView style={styles.root}>
-        <FatSecretQuiz fsRecipeIds={fsRecipeIds.current} />
+        <FatSecretQuiz fsRecipeIds={slicedIds.current} />
       </ScrollView>
     </SafeAreaView>
   );

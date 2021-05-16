@@ -12,6 +12,7 @@ import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
+import Finish from './Finish';
 
 const FatSecretQuiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -23,6 +24,7 @@ const FatSecretQuiz = props => {
   const [current, setCurrent] = useState(0);
   const [answer, setAnswer] = useState(false);
   const [finish, setFinish] = useState(false);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const animation = useRef(null);
   const screenReaderEnabled = useScreenReader();
   const timer = screenReaderEnabled ? 15000 : 1500;
@@ -50,17 +52,25 @@ const FatSecretQuiz = props => {
   function validate(userAnswer) {
     setAnswer(userAnswer);
     setValidated(true);
+    setAnsweredQuestions(prevAnswers => {
+      return [
+        ...prevAnswers,
+        {
+          userAnswer: userAnswer,
+          recipeId: recipeDetails.recipe_id,
+          name: recipeDetails.recipe_name,
+          recipeDetails,
+        },
+      ];
+    });
 
     timeOut.current = setTimeout(() => {
       counter();
     }, timer);
   }
+
   if (finish) {
-    return (
-      <View style={styles.container}>
-        <Text h2>{t('Quiz.done')}</Text>
-      </View>
-    );
+    return <Finish answeredQuestions={answeredQuestions} />;
   }
 
   if (validated && screenReaderEnabled) {
