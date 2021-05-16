@@ -182,6 +182,14 @@
     "show_recipe" : "Rezept anzeigen"
 
   },
+  "Quiz": {
+    "question": "Wie viele Kohlenhydrate hat das folgende Gericht?",
+    "gram": " Gramm",
+    "g": "g",
+    "total_servings": "Für insgesamt {{total}} Portionen",
+    "done": "Das wars schon. Starte noch einmal oder komme in ein paar Tagen noch einmal vorbei"
+
+  },
   "Settings": {
     "SettingsDrawNavigator": "Einstellungen",
     "SettingsTitle": "Einstellungen",
@@ -307,6 +315,11 @@
       "carbs": " gramm Kohlenhydrate",
       "values": "Wir haben {{values}} Werte für diesen Eintrag gefunden. Die Angaben sind in",
       "percentage": "prozent Deiner Werte liegen im Zielbereich"
+    },
+    "Quiz": {
+      "answer_right_carbs": "Richtig. {{name}} hat {{serving}} Gramm Kohlenhydrate",
+      "answer_wrong_carbs": "Leider falsch - {{name}} hat {{serving}} Gramm Kohlenhydrate",
+      "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden"
     },
     "tab": {
       "home": "Gespeicherte Mahlzeiten",

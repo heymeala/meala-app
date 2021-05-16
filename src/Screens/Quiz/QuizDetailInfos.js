@@ -11,7 +11,7 @@ const QuizDetailInfos = props => {
     <>
       <View style={styles.verticalSpacing}>
         <Text h2>{t('Recipes.ingredients')}</Text>
-        <Text>für insgesamt {recipeDetails.number_of_servings} Portionen</Text>
+        <Text>{t('Quiz.total_servings', {total: recipeDetails.number_of_servings})}</Text>
       </View>
       {recipeDetails.ingredients &&
         recipeDetails.ingredients.ingredient.map((ingre, i) => (
@@ -47,5 +47,4 @@ const useStyles = makeStyles(theme => ({
   verticalSpacing: {paddingVertical: theme.spacing.M},
   desc: {paddingVertical: theme.spacing.S},
   descContainer: {display: 'flex', flexDirection: 'row', paddingRight: 30},
-
 }));

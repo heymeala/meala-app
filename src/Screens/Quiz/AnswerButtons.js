@@ -3,12 +3,14 @@ import {View} from 'react-native';
 import {Button, makeStyles, Text, useTheme} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {createButtonColor} from './createButtonColor';
+import { useScreenReader } from "../../hooks/useScreenReaderEnabled";
 
 const AnswerButtons = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
   const {answers, recipeDetails, validate, validated} = props;
   const {theme} = useTheme();
+  const screenReaderEnabled = useScreenReader();
 
   return (
     recipeDetails.serving_sizes && (
@@ -18,12 +20,12 @@ const AnswerButtons = props => {
             <Button
               buttonStyle={createButtonColor(answer.right, validated, theme)}
               key={i}
-              style={styles.answerButton}
+              containerStyle={styles.answerButton}
               onPress={() => (!validated ? validate(answer.right) : null)}
               title={
                 <>
                   <Text h2>{answer.value}</Text>
-                  <Text>g</Text>
+                  <Text>{screenReaderEnabled ? t('Quiz.gram') : t('Quiz.g')}</Text>
                 </>
               }
             />
@@ -36,6 +38,6 @@ const AnswerButtons = props => {
 export default AnswerButtons;
 
 const useStyles = makeStyles(theme => ({
-  answerButton: {padding: theme.spacing.S},
+  answerButton: {margin: theme.spacing.S},
   desc: {paddingVertical: theme.spacing.S},
 }));

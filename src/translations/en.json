@@ -7,7 +7,7 @@
     "AddMealSubtitle": "e.g. Restaurant, Home",
     "LastMealTitle": "Last meal",
     "RestaurantInput": "Place / Restaurant",
-    "MealInput":"What do you eat",
+    "MealInput": "What do you eat",
     "Picture": "Choose a picture or scan a barcode",
     "Note": "Note",
     "Carbs": "Carbs in gram",
@@ -24,7 +24,7 @@
     "notificationLunch": "What do you have for lunch?",
     "notificationDinner": "What do you eat for dinner?",
     "tags": "Here you can see the top 8 tags - You can also search for these tags to filter meals",
-    "exp" : "Caution experimental – Similar meals:",
+    "exp": "Caution experimental – Similar meals:",
     "resetTitle": "Reset?",
     "resetMessage": "Reset all fields",
     "camera": "Camera",
@@ -47,7 +47,7 @@
       "title": "Search",
       "button": "Search Food Database",
       "nodata": "–",
-      "calories":"Calories",
+      "calories": "Calories",
       "carbohydrate": "Carbs",
       "cholesterol": "Cholesterol",
       "fat": "Fat",
@@ -56,7 +56,7 @@
       "number_of_units": "Units",
       "polyunsaturated_fat": "polyunsaturated fat",
       "potassium": "Potassium",
-      "protein":"Protein",
+      "protein": "Protein",
       "saturated_fat": "saturated fat",
       "serving": "Serving",
       "sodium": "Sodium",
@@ -83,10 +83,10 @@
   "Entries": {
     "BottomBarTitle": "Entries",
     "NavigationBarTitle": "meala",
-    "Search" : "Search for saved places",
+    "Search": "Search for saved places",
     "SearchMeals": "Search for saved meals",
 
-    "Meals" : "Meals",
+    "Meals": "Meals",
     "MealDetails": "Details",
     "Date": "Date",
     "Places": "Visited Places",
@@ -120,12 +120,12 @@
     "community": "An app for the community",
     "noSearchResult": "You have no meal with the name ",
     "noSearchResultPlaces": "You have no places with the name ",
-    "noDataSource" : "Unfortunately, we cannot present a more detailed analysis. You don't have any health data connected to meala yet. Go to the settings to add data sources.",
+    "noDataSource": "Unfortunately, we cannot present a more detailed analysis. You don't have any health data connected to meala yet. Go to the settings to add data sources.",
     "notEnoughData": "Not enough data in the Healthkit. At least two measurements are required.",
     "youHave": "You bolused ",
     "before": " minutes before your meal",
     "after": " minutes after your meal",
-    "anotherEntry" : "add another meal",
+    "anotherEntry": "add another meal",
     "copyMeal": "Copy this meal",
     "delete": "Delete",
     "directBolus": " Direct Bolus: ",
@@ -168,21 +168,28 @@
   "BarCode": {
     "BottomBarTitle": "Barcode",
     "Intro": "Food search\nScan a barcode to get Carbohydrate Information",
-    "AddMeal" :  "Add meal",
-    "gPortion" : "g Carbohydrate per portion",
-    "g100" : "{{nutrition}} per 100g",
+    "AddMeal": "Add meal",
+    "gPortion": "g Carbohydrate per portion",
+    "g100": "{{nutrition}} per 100g",
     "noInfo": "No information available",
     "portion": "One portions weights {{weight}} and has",
     "allergens": "Allergens",
     "nutriscore": "Nutriscore",
     "onePortion": "One serving",
     "licence": "Data from \nOpen Food Facts"
-
   },
   "Recipes": {
     "directions": "Directions",
-    "ingredients" : "Ingredients",
-    "show_recipe" : "Show recipe"
+    "ingredients": "Ingredients",
+    "show_recipe": "Show recipe"
+  },
+  "Quiz": {
+    "question": "How many carbs does the following meal has?",
+    "gram": " gram",
+    "g": "g",
+    "total_servings": "{{total}} servings total",
+    "done": "That's it. Come back in a few days or start again"
+
   },
   "Settings": {
     "SettingsTitle": "Settings",
@@ -226,8 +233,8 @@
       "heartRate": "Heart Rate",
       "steps": "Steps per day",
       "totalStepsToday": "Total steps {{steps}}",
-      "totalGlucoseValues":  "We found {{length}} glucose values within the last hours",
-      "healthKitActivated":  "HealthKit is active",
+      "totalGlucoseValues": "We found {{length}} glucose values within the last hours",
+      "healthKitActivated": "HealthKit is active",
       "activateHealthKit": "Activate HealthKit",
       "goToSettings": "Go to the settings and check the permission for Apple Health."
     },
@@ -243,7 +250,7 @@
       "connect": "Connect",
       "Login": "Login",
       "loginSuccess": "Connection successful",
-    "valid": "Enter the Code you got from the FatSecret page. If you forgot please login again and save the code"
+      "valid": "Enter the Code you got from the FatSecret page. If you forgot please login again and save the code"
     },
     "Dexcom": {
       "text": "Do you have an US Dexcom Account or know someone? We're looking for Test-Users. Let us know and send us an email: mail@heymeala.com",
@@ -253,14 +260,13 @@
       "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
-
     }
   },
   "About": {
     "DrawNavigatorTitle": "About meala",
     "NavigationBarTitle": "About meala",
     "title": "Why meala",
-    "p1" : "The estimation of carbohydrates is the most influential source of error in diabetes therapy - This resulted in a survey with over 100 participants and is the reason for this app. Learning from your own mistakes and drawing on the experience of other users - this is what the App meala allows restaurant visitors. Depending on the location, others already use recorded meals with their nutritional values or recorded by the user himself via image recognition. Three hours after the meal, the app analyzes the carbohydrate and spray-eating distance estimates and indicates whether the target range has been reached.",
+    "p1": "The estimation of carbohydrates is the most influential source of error in diabetes therapy - This resulted in a survey with over 100 participants and is the reason for this app. Learning from your own mistakes and drawing on the experience of other users - this is what the App meala allows restaurant visitors. Depending on the location, others already use recorded meals with their nutritional values or recorded by the user himself via image recognition. Three hours after the meal, the app analyzes the carbohydrate and spray-eating distance estimates and indicates whether the target range has been reached.",
     "p2": "meala must not be used to make medical decisions. It is a research tool only and is provided as is without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Schuld the program prove defective, you assume the cost of all necessary servicing, repair or correction.",
     "p2Title": "Disclaimer"
   },
@@ -269,10 +275,10 @@
     "Meal": "Meal",
     "Save": "Save",
     "Accept": "Accept",
-    "enableGps":  "Please enable GPS to search Restaurants nearby",
+    "enableGps": "Please enable GPS to search Restaurants nearby",
     "Cancel": "Cancel",
     "Carbs": "Carbohydrates",
-    "eg" : "e.g.",
+    "eg": "e.g.",
     "delete": "Delete",
     "welcome": "Welcome to meala - your meal assistant",
     "various": "Other",
@@ -287,13 +293,12 @@
     "Onboarding": {
       "next": "next Button",
       "skip": "jump to disclaimer"
-
     },
     "EnterMeal": {
       "reset": "Reset all",
       "camera": "Open ",
       "addTag": "Add a new tag",
-      "similarMeals":"Search for similar meals",
+      "similarMeals": "Search for similar meals",
       "fatsecret": "The data is presented by FatSecret",
       "meal": "What do you eat? ",
       "restaurant": "Where do you eat? "
@@ -305,13 +310,17 @@
       "wait": "First values can only be displayed after 3 to 6 hours",
       "dexcom": "Not enough data available, check if data is available in Healthkit. Data from Dexcom is only available after 6 hours.",
       "button": "Button"
-
     },
-    "MealDetails":{
+    "MealDetails": {
       "insulin": " units Insulin",
       "carbs": " gram Carbohydrates",
       "values": "We found {{values}} values for this meal. The glucose values are in",
       "percentage": "percent are in range"
+    },
+    "Quiz": {
+      "answer_right_carbs": "Thats right. {{name}} has {{serving}} gram carbohydrates",
+      "answer_wrong_carbs": "Thats wrong - {{name}} hhasat {{serving}} gram carbohydrates",
+      "next": "- tap twice to go to the next question or wait ten seconds"
     },
     "tab": {
       "home": "Saved Meals",
