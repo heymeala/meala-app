@@ -1,96 +1,15 @@
 import React from 'react';
+import {
+  MealSchema,
+  RestaurantSchema,
+  SettingsSchemaV3,
+  tagsSchema,
+  ProfileSchema,
+  FatSecretFoodEntryIdsSchema,
+} from './Constants/realmSchema';
 
 const Realm = require('realm');
 // Define your models and their properties
-
-let MealSchema = {
-  name: 'Meal',
-  primaryKey: 'userMealId',
-
-  properties: {
-    id: 'string',
-    food: 'string',
-    picture: 'string',
-    carbs: 'float?',
-    date: 'date',
-    tags: {type: 'list', objectType: 'Tags'},
-    note: 'string',
-    cgmData: 'string?',
-    treatmentsData: 'string?',
-    restaurantId: 'string?',
-    restaurants: {
-      type: 'linkingObjects',
-      objectType: 'Restaurant',
-      property: 'food',
-    },
-    isDeleted: 'bool',
-    userMealId: 'string',
-    fatSecretUserFoodEntryIds: {
-      type: 'list',
-      objectType: 'FatSecretFoodEntryIds',
-    },
-  },
-};
-
-let tagsSchema = {
-  name: 'Tags',
-  properties: {
-    tagEn: 'string?',
-  },
-};
-let FatSecretFoodEntryIdsSchema = {
-  name: 'FatSecretFoodEntryIds',
-  properties: {
-    foodEntryId: 'string?',
-  },
-};
-
-// https://realm.io/docs/javascript/latest/api/tutorial-query-language.html  linking objects
-
-let RestaurantSchema = {
-  name: 'Restaurant',
-  primaryKey: 'id',
-  properties: {
-    id: 'string',
-    food: {type: 'list', objectType: 'Meal'},
-    restaurant_name: 'string',
-    address: 'string',
-    lat: 'float?',
-    long: 'float?',
-    restaurantNote: 'string',
-    isDeleted: 'bool',
-    scope: 'string?',
-  },
-};
-
-let SettingsSchemaV3 = {
-  name: 'Settings',
-  primaryKey: 'id',
-  properties: {
-    id: 'string',
-    nightscoutUrl: 'string?',
-    nightscoutStatus: 'string?',
-    nightscoutVersion: 'string?',
-    glucoseSource: 'string?',
-    nightscoutToken: 'string?',
-    nightscoutTreatmentsUpload: 'bool?',
-  },
-};
-
-let ProfileSchema = {
-  name: 'Profile',
-  primaryKey: 'id',
-  properties: {
-    id: 'int',
-    onboarding: 'int',
-    name: 'string?',
-    type: 'string?',
-    analytics: 'bool?',
-    unit: 'float?',
-    targetLow: 'int?',
-    targetHigh: 'int?',
-  },
-};
 
 export const database = {
   _open: Realm.open({
@@ -310,7 +229,9 @@ export const database = {
       .then(realm => {
         const meals = realm
           .objects('Meal')
-          .filtered(`isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' SORT(date DESC) LIMIT(25) `);
+          .filtered(
+            `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' SORT(date DESC) LIMIT(25) `,
+          );
         return meals.sorted('date', true);
       })
       .catch(error => {
