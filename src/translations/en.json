@@ -184,6 +184,8 @@
     "show_recipe": "Show recipe"
   },
   "Quiz": {
+    "guess_question": "Test your knowledge?",
+    "guess_subtitle": "New questions every day",
     "recipe_description": "Beschreibung",
     "question_carbs": "How many carbs does the following meal has?",
     "question_calories": "How many calories does the following meal has?",
