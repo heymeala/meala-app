@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {database} from '../../Common/database_realm';
 import moment from 'moment';
-import MealItemList from '../../Components/MealItemList';
 import LocalizationContext from '../../../LanguageContext';
 import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import * as Keychain from 'react-native-keychain';
@@ -11,6 +10,7 @@ import FatSecretDateData from './FatSecretDateData';
 import {EmptyListDate} from './Common/EmtyListDate';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import {useNavigation} from '@react-navigation/core';
+import {MealItemsList} from '../../Components/MealItemList';
 
 const DateList = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -36,7 +36,7 @@ const DateList = props => {
   }
 
   const keyExtractor = (item, index) => item.id;
-  const renderItem = ({item}) => <MealItemList item={item} navigation={props.navigation} />;
+  const renderItem = ({item}) => <MealItemsList item={item} navigation={props.navigation} />;
 
   const [whiteListDataBaseDates, setWhiteListDataBaseDates] = useState([]);
 
@@ -47,7 +47,6 @@ const DateList = props => {
   }
 
   const [fatSecretData, setFatSecretData] = useState();
-
 
   useEffect(() => {
     dates();
@@ -80,10 +79,7 @@ const DateList = props => {
         }
       });
 
-      showRestaurants(
-        chosenDateStart.startOf('day').toDate(),
-        chosenDateStart.endOf('day').toDate(),
-      );
+      showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
       return () => {
         isMounted = false;
       };

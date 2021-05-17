@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { forwardRef, useEffect, useState } from "react";
 import {Dimensions, Text, View} from 'react-native';
 import {Avatar, Badge, Divider, ListItem} from 'react-native-elements';
 import { generateColor, gradientPercentageColor, textColor } from "../Common/generateColor";
@@ -12,7 +12,7 @@ import AccessibleListItem from '../Screens/MealEntries/Accessability/AccessibleL
 import {WAITING_TIME} from '../Common/Constants/waitingTime';
 import {badgeValue} from './badgeValue';
 
-const MealItemsList = props => {
+export const MealItemsList = React.forwardRef((props, ref) => {
   const {t, locale} = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const screenReaderEnabled = useScreenReader();
@@ -80,7 +80,7 @@ const MealItemsList = props => {
   };
 
   return (
-    <View style={{height: 110}} key={props.item.id}>
+    <View style={{height: 110}} key={props.item.id} ref={ref}>
       <ListItem onPress={() => navigation.navigate('MealDataCollector', {mealId: props.item.id})}>
         <Avatar
           rounded
@@ -110,6 +110,5 @@ const MealItemsList = props => {
       <Divider />
     </View>
   );
-};
+});
 
-export default MealItemsList;
