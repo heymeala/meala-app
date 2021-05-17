@@ -202,7 +202,11 @@
     "done": "That's it. Come back in a few days or start again",
     "right": "Right",
     "wrong": "Wrong",
-    "results": "right answers"
+    "results": {
+      "one": "{{count}} right answer",
+      "other": "{{count}} right answers",
+      "zero": "{{count}} right answers"
+    }
 
   },
   "Settings": {

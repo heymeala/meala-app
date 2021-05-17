@@ -178,9 +178,8 @@
   },
   "Recipes": {
     "directions": "Anleitung",
-    "ingredients" : "Zutaten",
-    "show_recipe" : "Rezept anzeigen"
-
+    "ingredients": "Zutaten",
+    "show_recipe": "Rezept anzeigen"
   },
   "Quiz": {
     "recipe_description": "Beschreibung",
@@ -201,8 +200,11 @@
     "done": "Das war es schon. Starte noch einmal oder komme in ein paar Tagen noch einmal vorbei",
     "right": "Richtig",
     "wrong": "Falsch",
-    "results": "richtige Antworten"
-
+    "results": {
+      "one": "{{count}} richtige Antwort",
+      "other": "{{count}} richtige Antworten",
+      "zero": "{{count}} richtige Antworten"
+    }
   },
   "Settings": {
     "SettingsDrawNavigator": "Einstellungen",

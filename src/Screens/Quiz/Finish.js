@@ -17,7 +17,7 @@ const Finish = props => {
     <View style={styles.container}>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
       <Text h1 style={styles.text}>
-        {numberOfRightAnswers} {t('Quiz.results')}
+        {t('Quiz.results', {count: numberOfRightAnswers})}
       </Text>
       {answeredQuestions.map((item, i) => (
         <View key={i}>
