@@ -5,7 +5,7 @@ import LocalizationContext from '../../../LanguageContext';
 import {serving} from '../../utils/specialTranslations';
 import QuizDetailInfos from './QuizDetailInfos';
 import AnswerButtons from './AnswerButtons';
-import {loadQuestionRecipes} from './loadQuestionRecipes';
+import {loadQuestionRecipes, quizServings} from './loadQuestionRecipes';
 import LottieView from 'lottie-react-native';
 import right from '../../assets/animations/quiz/confetti.json';
 import wrong from '../../assets/animations/quiz/wrong-answer.json';
@@ -13,11 +13,12 @@ import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
 import Finish from './Finish';
+import AccessibleAnswer from './AccessibleAnswer';
 
 const FatSecretQuiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {fsRecipeIds} = props;
+  const {fsRecipeIds, quizType} = props;
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -28,13 +29,14 @@ const FatSecretQuiz = props => {
   const animation = useRef(null);
   const screenReaderEnabled = useScreenReader();
   const timer = screenReaderEnabled ? 15000 : 1500;
-  const timeOut = useRef();
+  const timeOut = useRef(null);
+  const question = useRef(getTranslatedQuestion(quizType));
   useEffect(() => {
     loadQuestionRecipes(fsRecipeIds, current, setRecipeDetails, setAnswers, setValidated);
   }, [current]);
 
   useEffect(() => {
-    if (validated && !screenReaderEnabled) {
+    if (validated && !screenReaderEnabled && animation.current !== null) {
       animation.current.play();
     }
   }, [validated]);
@@ -46,6 +48,20 @@ const FatSecretQuiz = props => {
       });
     } else {
       setFinish(true);
+    }
+  }
+
+  function getTranslatedQuestion(type) {
+    if (type === quizServings.carbs) {
+      return t('Quiz.question_carbs');
+    } else if (type === quizServings.calories) {
+      return t('Quiz.question_calories');
+    } else if (type === quizServings.fat) {
+      return t('Quiz.question_fat');
+    } else if (type === quizServings.fpe) {
+      return t('Quiz.question_fpe');
+    } else if (type === quizServings.protein) {
+      return t('Quiz.question_protein');
     }
   }
 
@@ -75,29 +91,14 @@ const FatSecretQuiz = props => {
 
   if (validated && screenReaderEnabled) {
     return (
-      <TouchableOpacity
-        accessible={true}
-        accessibilityRole="button"
-        onPress={() => {
-          clearTimeout(timeOut.current);
-          counter();
-        }}>
-        <Text h2 style={styles.accessibleButton}>
-          {answer
-            ? t('Accessibility.Quiz.answer_right_carbs', {
-                name: recipeDetails.recipe_name,
-                serving: recipeDetails.serving_sizes.serving.carbohydrate,
-              }) +
-              ' ' +
-              t('Accessibility.Quiz.next')
-            : t('Accessibility.Quiz.answer_wrong_carbs', {
-                name: recipeDetails.recipe_name,
-                serving: recipeDetails.serving_sizes.serving.carbohydrate,
-              }) +
-              ' ' +
-              t('Accessibility.Quiz.next')}
-        </Text>
-      </TouchableOpacity>
+      <AccessibleAnswer
+        counter={counter}
+        answer={answer}
+        answers={answers}
+        serving={quizType}
+        recipeDetails={recipeDetails}
+        timeOut={timeOut}
+      />
     );
   }
 
@@ -105,7 +106,7 @@ const FatSecretQuiz = props => {
     <>
       <View style={styles.container}>
         <Text h2 style={styles.text}>
-          {t('Quiz.question')}
+          {question.current}
         </Text>
 
         <Image
@@ -127,7 +128,9 @@ const FatSecretQuiz = props => {
           answers={answers}
           validate={validate}
           validated={validated}
+          serving={quizType}
         />
+
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>
       {validated && !screenReaderEnabled ? (
@@ -163,10 +166,4 @@ const useStyles = makeStyles(theme => ({
   container: {padding: theme.spacing.M},
   image: {width: '100%', height: 250, borderRadius: 5, marginBottom: theme.spacing.L},
   text: {padding: theme.spacing.S},
-  accessibleButton: {
-    height: DEVICE_HEIGHT,
-    textAlignVertical: 'center',
-    textAlign: 'center',
-    paddingHorizontal: theme.spacing.M,
-  },
 }));

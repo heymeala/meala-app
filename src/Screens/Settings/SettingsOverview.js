@@ -70,9 +70,7 @@ const SettingsOverview = props => {
       title: 'E-Learning',
       data: [
         {
-          name: !screenReaderEnabled
-            ? 'Carb Quiz'
-            : 'Kohlenhydrate Quiz. Noch nicht Barrierefrei',
+          name: !screenReaderEnabled ? 'Carb Quiz' : 'Kohlenhydrate Quiz',
           icon: 'einstein',
           iconType: 'meala',
           link: 'Quiz',
@@ -103,8 +101,7 @@ const SettingsOverview = props => {
         {
           name: t('Settings.privacy'),
           icon: 'md-lock-closed-sharp',
-          weblink:
-            'https://www.meal-advisor.com/policies/meala_datenschutz.pdf',
+          weblink: 'https://www.meal-advisor.com/policies/meala_datenschutz.pdf',
         },
       ],
     },
@@ -116,9 +113,7 @@ const SettingsOverview = props => {
           sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}
           renderItem={({item}) => <SettingsListItem data={item} />}
-          renderSectionHeader={({section: {title}}) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
+          renderSectionHeader={({section: {title}}) => <Text style={styles.header}>{title}</Text>}
           ListFooterComponent={<SettingsFooter />}
         />
       </View>

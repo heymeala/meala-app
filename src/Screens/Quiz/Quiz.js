@@ -1,12 +1,15 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {SafeAreaView, ScrollView} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import {ListItem, makeStyles} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import FatSecretQuiz from './FatSecretQuiz';
 import {shuffle} from '../../utils/shuffel';
+import {quizServings} from './loadQuestionRecipes';
 
 const Quiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
+  const [quizType, setQuizType] = useState(null);
+  console.log(quizType);
   const styles = useStyles();
   const fatSecretRecipesDE = [
     '8866808',
@@ -61,10 +64,34 @@ const Quiz = props => {
   const fsRecipeIds = shuffle(locale === 'de' ? fatSecretRecipesDE : fatSecretRecipesEN);
   const slicedIds = useRef(fsRecipeIds.slice(0, 3));
 
+  if (quizType !== null) {
+    return (
+      <SafeAreaView>
+        <ScrollView style={styles.root}>
+          <FatSecretQuiz fsRecipeIds={slicedIds.current} quizType={quizType} />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.root}>
-        <FatSecretQuiz fsRecipeIds={slicedIds.current} />
+        <ListItem onPress={() => setQuizType(quizServings.carbohydrate)}>
+          <ListItem.Title>{t('Quiz.carbohydrates_game')}</ListItem.Title>
+        </ListItem>
+        <ListItem onPress={() => setQuizType(quizServings.calories)}>
+          <ListItem.Title>{t('Quiz.calories_game')}</ListItem.Title>
+        </ListItem>
+        <ListItem onPress={() => setQuizType(quizServings.fat)}>
+          <ListItem.Title>{t('Quiz.fat_game')}</ListItem.Title>
+        </ListItem>
+        <ListItem onPress={() => setQuizType(quizServings.protein)}>
+          <ListItem.Title>{t('Quiz.protein_game')}</ListItem.Title>
+        </ListItem>
+        <ListItem onPress={() => setQuizType(quizServings.fpe)}>
+          <ListItem.Title>{t('Quiz.fpe_game')}</ListItem.Title>
+        </ListItem>
       </ScrollView>
     </SafeAreaView>
   );

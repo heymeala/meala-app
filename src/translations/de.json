@@ -183,11 +183,25 @@
 
   },
   "Quiz": {
-    "question": "Wie viele Kohlenhydrate hat das folgende Gericht?",
+    "recipe_description": "Beschreibung",
+    "question_carbs": "Wie viele Kohlenhydrate hat das folgende Gericht?",
+    "question_calories": "Wie viele Kalorien hat das folgende Gericht?",
+    "question_fat": "Wie viel Fett hat das folgende Gericht?",
+    "question_fpe": "Wie viele Fett Protein Einheiten (FPE) hat das folgende Gericht?",
+    "question_protein": "Wie viel Eiweiß hat das folgende Gericht?",
+    "carbohydrates_game": "Schätze Kohlenhydrate in Gramm",
+    "fat_game": "Schätze Fett in Gramm",
+    "protein_game": "Schätze den Eiweißgehalt",
+    "fpe_game": "Schätze die Fett Protein Einheiten",
+    "calories_game": "Schätze Kalorien",
     "gram": " Gramm",
     "g": "g",
+    "fpe": "FPE",
     "total_servings": "Für insgesamt {{total}} Portionen",
-    "done": "Das wars schon. Starte noch einmal oder komme in ein paar Tagen noch einmal vorbei"
+    "done": "Das war es schon. Starte noch einmal oder komme in ein paar Tagen noch einmal vorbei",
+    "right": "Richtig",
+    "wrong": "Falsch",
+    "results": "richtige Antworten"
 
   },
   "Settings": {
@@ -317,9 +331,14 @@
       "percentage": "prozent Deiner Werte liegen im Zielbereich"
     },
     "Quiz": {
-      "answer_right_carbs": "Richtig. {{name}} hat {{serving}} Gramm Kohlenhydrate",
-      "answer_wrong_carbs": "Leider falsch - {{name}} hat {{serving}} Gramm Kohlenhydrate",
-      "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden"
+      "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",
+      "answer_wrong": "Leider falsch - {{name}} hat {{serving}} {{type}}",
+      "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden",
+      "answer_carbs": "Gramm Kohlenhydrate",
+      "answer_calories": "Gramm Kalorien",
+      "answer_fat": "Gramm Fett",
+      "answer_fpe": "Fett Protein Einheiten",
+      "answer_protein": "Gramm Eiweiß"
     },
     "tab": {
       "home": "Gespeicherte Mahlzeiten",

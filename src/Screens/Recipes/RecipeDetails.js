@@ -19,14 +19,25 @@ const RecipeDetails = props => {
             <Text>{ingre.ingredient_description}</Text>
           </View>
         ))}
-      <Text h2>{t('Recipes.directions')}</Text>
 
-      {recipe.directions &&
-        recipe.directions.direction.map((desc, i) => (
-          <View style={styles.desc} key={i}>
-            <Text>{desc.direction_description}</Text>
-          </View>
-        ))}
+      <Text h2 style={styles.verticalSpacing}>
+        {t('Recipes.directions')}
+      </Text>
+
+      {recipe.directions && Array.isArray(recipe.directions.direction)
+        ? recipe.directions.direction.map((desc, i) => (
+            <View style={styles.desc} key={i}>
+              <View style={styles.descContainer}>
+                <View>
+                  <Text>{desc.direction_number}. </Text>
+                </View>
+                <View>
+                  <Text>{desc.direction_description}</Text>
+                </View>
+              </View>
+            </View>
+          ))
+        : null}
     </View>
   );
 };
@@ -37,4 +48,5 @@ const useStyles = makeStyles(theme => ({
   root: {minHeight: 700},
   image: {width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L},
   desc: {paddingVertical: theme.spacing.S},
+  descContainer: {display: 'flex', flexDirection: 'row', width: '90%'},
 }));

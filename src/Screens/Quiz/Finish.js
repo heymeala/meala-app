@@ -11,11 +11,14 @@ const Finish = props => {
   const {answeredQuestions} = props;
   const [open, setOpen] = useState(false);
   const [recipe, setRecipe] = useState(null);
+  const rightAnswers = answeredQuestions.filter(item => item.userAnswer);
+  const numberOfRightAnswers = rightAnswers.length;
   return (
     <View style={styles.container}>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
-
-      <Text h2>{t('Quiz.done')}</Text>
+      <Text h1 style={styles.text}>
+        {numberOfRightAnswers} {t('Quiz.results')}
+      </Text>
       {answeredQuestions.map((item, i) => (
         <View key={i}>
           <RecipeAnsweredCardItem
@@ -26,10 +29,16 @@ const Finish = props => {
           />
         </View>
       ))}
+      <View style={styles.container}>
+        <Text h3>{t('Quiz.done')}</Text>
+      </View>
     </View>
   );
 };
 
 export default Finish;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  container: {padding: theme.spacing.S},
+  text: {textAlign: 'center'},
+}));

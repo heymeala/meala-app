@@ -3,15 +3,28 @@ import {View} from 'react-native';
 import {Button, makeStyles, Text, useTheme} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {createButtonColor} from './createButtonColor';
-import { useScreenReader } from "../../hooks/useScreenReaderEnabled";
+import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 
 const AnswerButtons = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {answers, recipeDetails, validate, validated} = props;
+  const {answers, recipeDetails, validate, validated, serving} = props;
   const {theme} = useTheme();
   const screenReaderEnabled = useScreenReader();
 
+  function getUnitTranslations(serving) {
+    if (serving === 'fpe') {
+      return t('Quiz.fpe');
+    } else {
+      if (screenReaderEnabled) {
+        return t('Quiz.gram');
+      } else {
+        return t('Quiz.g');
+      }
+    }
+  }
+
+  const unit = getUnitTranslations(serving);
   return (
     recipeDetails.serving_sizes && (
       <View style={styles.desc}>
@@ -24,8 +37,8 @@ const AnswerButtons = props => {
               onPress={() => (!validated ? validate(answer.right) : null)}
               title={
                 <>
-                  <Text h2>{answer.value}</Text>
-                  <Text>{screenReaderEnabled ? t('Quiz.gram') : t('Quiz.g')}</Text>
+                  <Text h2>{answer[serving]}</Text>
+                  <Text>{unit}</Text>
                 </>
               }
             />

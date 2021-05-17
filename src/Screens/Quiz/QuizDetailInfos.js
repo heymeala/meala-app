@@ -10,6 +10,11 @@ const QuizDetailInfos = props => {
   return (
     <>
       <View style={styles.verticalSpacing}>
+        <Text h2>{t('Quiz.recipe_description')}</Text>
+        <Text h3>{recipeDetails.recipe_description}</Text>
+      </View>
+
+      <View style={styles.verticalSpacing}>
         <Text h2>{t('Recipes.ingredients')}</Text>
         <Text>{t('Quiz.total_servings', {total: recipeDetails.number_of_servings})}</Text>
       </View>
@@ -19,24 +24,6 @@ const QuizDetailInfos = props => {
             <Text h4>- {ingre.ingredient_description}</Text>
           </View>
         ))}
-      <Text h2 style={styles.verticalSpacing}>
-        {t('Recipes.directions')}
-      </Text>
-
-      {recipeDetails.directions && Array.isArray(recipeDetails.directions.direction)
-        ? recipeDetails.directions.direction.map((desc, i) => (
-            <View style={styles.desc} key={i}>
-              <View style={styles.descContainer}>
-                <View>
-                  <Text>{desc.direction_number}. </Text>
-                </View>
-                <View>
-                  <Text>{desc.direction_description}</Text>
-                </View>
-              </View>
-            </View>
-          ))
-        : null}
     </>
   );
 };
