@@ -30,9 +30,9 @@ const MealsListSwipeDelete = ({searchComponent, mealDataSoftDelete, value, updat
       }
       rightOpenValue={-150}
       leftOpenValue={75}
-      previewRowKey={'0'}
-      previewOpenValue={-40}
-      previewOpenDelay={3000}
+      previewRowKey={mealDataSoftDelete[0].id}
+      previewOpenValue={-30}
+      previewOpenDelay={2000}
     />
   );
 };
