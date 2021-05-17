@@ -25,7 +25,9 @@ const MealsListSwipeDelete = ({searchComponent, mealDataSoftDelete, value, updat
       closeOnRowPress={true}
       closeOnScroll={true}
       ListFooterComponent={<LotteHomeAnimation value={value} listLength={listLength} />}
-      renderHiddenItem={!screenReaderEnabled ? rowData => <HiddenSwipeItem rowData={rowData} update={update} /> : null}
+      renderHiddenItem={
+        !screenReaderEnabled ? rowData => <HiddenSwipeItem rowData={rowData} update={update} /> : null
+      }
       rightOpenValue={-150}
       leftOpenValue={75}
       previewRowKey={'0'}
