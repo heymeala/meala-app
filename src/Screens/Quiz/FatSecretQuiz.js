@@ -14,6 +14,34 @@ import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
+var Sound = require('react-native-sound');
+var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      rightSound.getDuration() +
+      'number of channels: ' +
+      rightSound.getNumberOfChannels(),
+  );
+});
+
+var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      wrongSound.getDuration() +
+      'number of channels: ' +
+      wrongSound.getNumberOfChannels(),
+  );
+});
 
 const FatSecretQuiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -33,12 +61,38 @@ const FatSecretQuiz = props => {
   const timer = screenReaderEnabled ? 15000 : 1500;
   const timeOut = useRef(null);
   const question = useRef(getTranslatedQuestion(quizType));
+
   useEffect(() => {
     loadQuestionRecipes(fsRecipeIds, current, setRecipeDetails, setAnswers, setValidated);
   }, [current]);
 
+  function playSound() {
+    // Play the sound with an onEnd callback
+    if (playWrongAnimation) {
+      wrongSound.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    } else {
+      rightSound.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    }
+  }
+
   useEffect(() => {
-    if ((validated && !screenReaderEnabled && animation.current !== null) || (playWrongAnimation && !screenReaderEnabled && animation.current !== null) ) {
+    if (
+      (validated && !screenReaderEnabled && animation.current !== null) ||
+      (playWrongAnimation && !screenReaderEnabled && animation.current !== null)
+    ) {
+      playSound();
       animation.current.play();
     }
   }, [validated, playWrongAnimation]);

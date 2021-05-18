@@ -25,6 +25,8 @@
 		F3399BDF25BD9CFC0073B4AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3399BE125BD9CFC0073B4AB /* InfoPlist.strings */; };
 		F365529925A2182A00EAC671 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F365529825A2182A00EAC671 /* HealthKit.framework */; };
 		F3DB3C35263ACEE600703B99 /* meala.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3DB3C34263ACEE600703B99 /* meala.ttf */; };
+		F3EF55992654108800EFDFAA /* wrong.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F3EF55972654108800EFDFAA /* wrong.mp3 */; };
+		F3EF559A2654108800EFDFAA /* right.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F3EF55982654108800EFDFAA /* right.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,8 @@
 		F365529725A2182900EAC671 /* meala.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = meala.entitlements; path = meala/meala.entitlements; sourceTree = "<group>"; };
 		F365529825A2182A00EAC671 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		F3DB3C34263ACEE600703B99 /* meala.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = meala.ttf; sourceTree = "<group>"; };
+		F3EF55972654108800EFDFAA /* wrong.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wrong.mp3; sourceTree = "<group>"; };
+		F3EF55982654108800EFDFAA /* right.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = right.mp3; sourceTree = "<group>"; };
 		F40561410D2F928AB646E9D8 /* Pods-meala-mealaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meala-mealaTests.release.xcconfig"; path = "Target Support Files/Pods-meala-mealaTests/Pods-meala-mealaTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,6 +186,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F3EF55982654108800EFDFAA /* right.mp3 */,
+				F3EF55972654108800EFDFAA /* wrong.mp3 */,
 				F3DB3C34263ACEE600703B99 /* meala.ttf */,
 				F32DBAF826380A0E00E65C86 /* SecularOne-Regular.ttf */,
 				13B07FAE1A68108700A75B9A /* meala */,
@@ -364,7 +370,9 @@
 				F3DB3C35263ACEE600703B99 /* meala.ttf in Resources */,
 				F33099AB259D090C005B7DC4 /* Pacifico-Regular.ttf in Resources */,
 				F32DBAF926380A0F00E65C86 /* SecularOne-Regular.ttf in Resources */,
+				F3EF559A2654108800EFDFAA /* right.mp3 in Resources */,
 				F3309A32259D19EB005B7DC4 /* GoogleService-Info.plist in Resources */,
+				F3EF55992654108800EFDFAA /* wrong.mp3 in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				F3399BDF25BD9CFC0073B4AB /* InfoPlist.strings in Resources */,
