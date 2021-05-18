@@ -33,8 +33,10 @@ const AnswerButtons = props => {
             <Button
               buttonStyle={createButtonColor(answer.right, validated, theme)}
               key={i}
+              disabled={answer.pressed}
+              disabledStyle={{backgroundColor: 'red'}}
               containerStyle={styles.answerButton}
-              onPress={() => (!validated ? validate(answer.right) : null)}
+              onPress={() => (!validated ? validate(answer.right, answer.id) : null)}
               title={
                 <>
                   <Text h2>{answer[serving]}</Text>

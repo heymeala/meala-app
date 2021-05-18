@@ -26,6 +26,7 @@ const FatSecretQuiz = props => {
   const [answer, setAnswer] = useState(false);
   const [finish, setFinish] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const [tries, setTries] = useState(1);
   const animation = useRef(null);
   const screenReaderEnabled = useScreenReader();
   const timer = screenReaderEnabled ? 15000 : 1500;
@@ -65,28 +66,48 @@ const FatSecretQuiz = props => {
     }
   }
 
-  function validate(userAnswer) {
-    setAnswer(userAnswer);
-    setValidated(true);
-    setAnsweredQuestions(prevAnswers => {
-      return [
-        ...prevAnswers,
-        {
-          userAnswer: userAnswer,
-          recipeId: recipeDetails.recipe_id,
-          name: recipeDetails.recipe_name,
-          recipeDetails,
-        },
-      ];
-    });
+  function validate(userAnswer, id) {
+    if (userAnswer) {
+      setAnswer(userAnswer);
+      setValidated(true);
 
-    timeOut.current = setTimeout(() => {
-      counter();
-    }, timer);
+      setAnsweredQuestions(prevAnswers => {
+        return [
+          ...prevAnswers,
+          {
+            userAnswer: userAnswer,
+            recipeId: recipeDetails.recipe_id,
+            name: recipeDetails.recipe_name,
+            recipeDetails,
+            tries,
+          },
+        ];
+      });
+      setTries(1);
+
+      timeOut.current = setTimeout(() => {
+        counter();
+      }, timer);
+    } else {
+
+      setTries(prevState => prevState + 1);
+      setAnswers(prevState => {
+        return prevState.map(data => {
+          if (data.id === id) {
+            return {
+              ...data,
+              pressed: true,
+            };
+          } else return {...data};
+        });
+      });
+
+    }
   }
+  console.log(answeredQuestions);
 
   if (finish) {
-    return <Finish answeredQuestions={answeredQuestions} />;
+    return <Finish answeredQuestions={answeredQuestions} setFinish={setFinish} />;
   }
 
   if (validated && screenReaderEnabled) {
