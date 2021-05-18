@@ -5,11 +5,14 @@ import LocalizationContext from '../../../../LanguageContext';
 import {spacing} from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
+import { useNavigation } from "@react-navigation/core";
 
 export const EmptyListPlaces = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
+  const navigation = useNavigation();
+
   if (props.value.length > 0) {
     return (
       <NoResultsText
@@ -40,7 +43,7 @@ export const EmptyListPlaces = props => {
           title={'Quiz'}
           placement={'left'}
           onPress={() =>
-            Linking.openURL('https://quiz.heymeala.com?sh=meala_app&lng=de')
+            navigation.navigate('Quiz' )
           }
         />
       </View>

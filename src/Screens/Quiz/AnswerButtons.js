@@ -39,8 +39,14 @@ const AnswerButtons = props => {
               onPress={() => (!validated ? validate(answer.right, answer.id) : null)}
               title={
                 <>
-                  <Text h2>{answer[serving]}</Text>
-                  <Text>{unit}</Text>
+                  {answer.pressed ? (
+                    <Text h2>{t('Quiz.again')}</Text>
+                  ) : (
+                    <>
+                      <Text h2>{answer[serving]}</Text>
+                      <Text>{unit}</Text>
+                    </>
+                  )}
                 </>
               }
             />

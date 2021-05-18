@@ -27,6 +27,7 @@ const FatSecretQuiz = props => {
   const [finish, setFinish] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [tries, setTries] = useState(1);
+  const [playWrongAnimation, setPlayWrongAnimation] = useState(null);
   const animation = useRef(null);
   const screenReaderEnabled = useScreenReader();
   const timer = screenReaderEnabled ? 15000 : 1500;
@@ -37,10 +38,10 @@ const FatSecretQuiz = props => {
   }, [current]);
 
   useEffect(() => {
-    if (validated && !screenReaderEnabled && animation.current !== null) {
+    if ((validated && !screenReaderEnabled && animation.current !== null) || playWrongAnimation) {
       animation.current.play();
     }
-  }, [validated]);
+  }, [validated, playWrongAnimation]);
 
   function counter() {
     if (current < fsRecipeIds.length - 1) {
@@ -52,8 +53,14 @@ const FatSecretQuiz = props => {
     }
   }
 
+  function reset() {
+    setFinish(false)
+    setValidated(false);
+    props.setQuizType(null);
+  }
+
   function getTranslatedQuestion(type) {
-    if (type === quizServings.carbs) {
+    if (type === quizServings.carbohydrate) {
       return t('Quiz.question_carbs');
     } else if (type === quizServings.calories) {
       return t('Quiz.question_calories');
@@ -89,8 +96,8 @@ const FatSecretQuiz = props => {
         counter();
       }, timer);
     } else {
-
       setTries(prevState => prevState + 1);
+      setAnswer(userAnswer);
       setAnswers(prevState => {
         return prevState.map(data => {
           if (data.id === id) {
@@ -102,12 +109,22 @@ const FatSecretQuiz = props => {
         });
       });
 
+      setPlayWrongAnimation(true);
+      setTimeout(() => {
+        setPlayWrongAnimation(false);
+      }, timer);
     }
   }
-  console.log(answeredQuestions);
 
   if (finish) {
-    return <Finish answeredQuestions={answeredQuestions} setFinish={setFinish} />;
+    return (
+      <Finish
+        answeredQuestions={answeredQuestions}
+        setFinish={setFinish}
+        quizType={quizType}
+        reset={reset}
+      />
+    );
   }
 
   if (validated && screenReaderEnabled) {
@@ -154,7 +171,7 @@ const FatSecretQuiz = props => {
 
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>
-      {validated && !screenReaderEnabled ? (
+      {(validated && !screenReaderEnabled) || playWrongAnimation ? (
         <>
           <View
             style={{
@@ -165,14 +182,14 @@ const FatSecretQuiz = props => {
               right: 0,
               height: '100%',
               width: '100%',
-            }}
-          />
-          <LottieView
-            ref={animation}
-            style={{width: '100%', position: 'absolute', top: 0}}
-            source={answer ? right : wrong}
-            loop={false}
-          />
+            }}>
+            <LottieView
+              ref={animation}
+              style={{width: '100%', position: 'absolute', top: 0}}
+              source={answer ? right : wrong}
+              loop={false}
+            />
+          </View>
         </>
       ) : null}
       <PoweredByFatSecret />

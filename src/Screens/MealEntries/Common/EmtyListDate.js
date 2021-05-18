@@ -33,7 +33,7 @@ export const EmptyListDate = ({navigation}) => {
         title={'Quiz'}
         placement={'left'}
         onPress={() =>
-          Linking.openURL('https://quiz.heymeala.com?sh=meala_app&lng=de')
+          navigation.navigate('Quiz' )
         }
       />
     </View>

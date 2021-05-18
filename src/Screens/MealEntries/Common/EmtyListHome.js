@@ -1,26 +1,24 @@
 import {Dimensions, Linking, View} from 'react-native';
-import { Button, FAB, makeStyles, Text } from "react-native-elements";
+import {Button, FAB, makeStyles, Text} from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import {spacing} from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
-import SearchRecipes from "../../Recipes/SearchRecipes";
+import SearchRecipes from '../../Recipes/SearchRecipes';
+import {useNavigation} from '@react-navigation/core';
 
 export const EmptyListHome = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
-
-
+  const navigation = useNavigation();
 
   if (props.value.length > 0) {
     return (
       <>
-
-      {/*  <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />*/}
+        {/*  <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />*/}
         <SearchRecipes search={props.value} />
-
       </>
     );
   } else {
@@ -44,11 +42,7 @@ export const EmptyListHome = props => {
           title={'Quiz'}
           placement={'left'}
           onPress={() =>
-            Linking.openURL(
-              locale === 'de'
-                ? 'https://quiz.heymeala.com?sh=meala_app&lng=de'
-                : 'https://quiz.heymeala.com?sh=meala_app&lng=en',
-            )
+            navigation.navigate('Quiz' )
           }
         />
       </View>

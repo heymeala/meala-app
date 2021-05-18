@@ -12,7 +12,7 @@ import CategoryListItem from './CategoryListItem';
 const Quiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const [quizType, setQuizType] = useState(null);
-  console.log(quizType);
+  const totalQuestions = 5;
   const styles = useStyles();
   const fatSecretRecipesDE = [
     '8866808',
@@ -65,13 +65,13 @@ const Quiz = props => {
     '8016123',
   ];
   const fsRecipeIds = shuffle(locale === 'de' ? fatSecretRecipesDE : fatSecretRecipesEN);
-  const slicedIds = useRef(fsRecipeIds.slice(0, 3));
+  const slicedIds = useRef(fsRecipeIds.slice(0, totalQuestions));
 
   if (quizType !== null) {
     return (
       <SafeAreaView>
         <ScrollView style={styles.root}>
-          <FatSecretQuiz fsRecipeIds={slicedIds.current} quizType={quizType} />
+          <FatSecretQuiz fsRecipeIds={slicedIds.current} quizType={quizType} setQuizType={setQuizType} />
         </ScrollView>
       </SafeAreaView>
     );
@@ -89,30 +89,35 @@ const Quiz = props => {
           quizServings={quizServings.carbohydrate}
           title={t('Quiz.carbohydrates_game')}
           subtitle={''}
+          badge={totalQuestions}
         />
         <CategoryListItem
           setQuizType={setQuizType}
           quizServings={quizServings.calories}
           title={t('Quiz.calories_game')}
           subtitle={''}
+          badge={totalQuestions}
         />
         <CategoryListItem
           setQuizType={setQuizType}
           quizServings={quizServings.fat}
           title={t('Quiz.fat_game')}
           subtitle={''}
+          badge={totalQuestions}
         />
         <CategoryListItem
           setQuizType={setQuizType}
           quizServings={quizServings.protein}
           title={t('Quiz.protein_game')}
           subtitle={''}
+          badge={totalQuestions}
         />
         <CategoryListItem
           setQuizType={setQuizType}
           quizServings={quizServings.fpe}
           title={t('Quiz.fpe_game')}
           subtitle={''}
+          badge={totalQuestions}
         />
       </ScrollView>
     </SafeAreaView>

@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Platform, View} from 'react-native';
 import EnterMeal from '../Screens/EnterMeal/EnterMeal';
 import {useTheme} from 'react-native-elements';
+import Quiz from "../Screens/Quiz/Quiz";
 
 function SugarStack({navigation}) {
   const {t} = React.useContext(LocalizationContext);
@@ -84,6 +85,16 @@ function SugarStack({navigation}) {
           },
           headerStyle: {
             backgroundColor: theme.colors.white,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={Quiz}
+        options={{
+          title: 'Quiz',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
           },
         }}
       />

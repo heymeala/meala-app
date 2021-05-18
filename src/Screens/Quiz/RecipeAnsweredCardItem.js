@@ -7,7 +7,7 @@ const RecipeAnsweredCardItem = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
   const {item, setOpen, setRecipe, userAnswer, tries} = props;
-  const background = userAnswer ? 'rgba(140,205,56,0.79)' : 'rgb(172,57,57)';
+  const background = tries === 1 ? 'rgba(140,205,56,0.79)' : 'rgb(172,57,57)';
 
   function openModal(id) {
     setOpen(true);
@@ -18,10 +18,10 @@ const RecipeAnsweredCardItem = props => {
     <View style={{backgroundColor: background, paddingVertical: 12, marginVertical: 4}}>
       <Card containerStyle={{...styles.container}} wrapperStyle={styles.wrapper}>
         <View style={styles.iconLabel}>
+          {/*
           <Icon name={userAnswer ? 'check' : 'cancel'} color={background} />
-          <Text>
-            {tries} Versuche {userAnswer ? t('Quiz.right') : t('Quiz.wrong')}
-          </Text>
+*/}
+          <Text>{t('Quiz.tries_result', {tries: tries})}</Text>
         </View>
         <Card.Title h2>{item.recipe_name}</Card.Title>
         <Card.Divider />

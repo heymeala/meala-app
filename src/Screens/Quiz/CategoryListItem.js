@@ -14,7 +14,7 @@ const CategoryListItem = props => {
         <ListItem.Title h3>{title}</ListItem.Title>
         {subtitle ? <ListItem.Subtitle>{subtitle}</ListItem.Subtitle> : null}
       </ListItem.Content>
-      {badge ? <Badge value={2} /> : null}
+      {badge ? <Badge value={badge} /> : null}
 
       <ListItem.Chevron />
     </ListItem>

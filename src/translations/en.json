@@ -203,7 +203,10 @@
     "total_servings": "{{total}} servings total",
     "done": "That's it. Come back in a few days or start again",
     "right": "Right",
-    "wrong": "Wrong",
+    "wrong": "rong",
+    "tries_result": "Right after {{tries}}. try",
+    "again": "Try again",
+    "score": "Points",
     "results": {
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",
@@ -304,7 +307,9 @@
     "various": "Other",
     "cancel": "Cancel",
     "reset": "Reset",
-    "close": "Close"
+    "close": "Close",
+    "back": "back"
+
   },
   "Onboarding": {
     "next": "next"

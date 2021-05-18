@@ -199,9 +199,12 @@
     "g": "g",
     "fpe": "FPE",
     "total_servings": "Für insgesamt {{total}} Portionen",
-    "done": "Das war es schon. Starte noch einmal oder komme in ein paar Tagen noch einmal vorbei",
+    "done": "Teste Dein Wissen auch in anderen Bereichen",
     "right": "Richtig",
     "wrong": "Falsch",
+    "tries_result": "Beim {{tries}}. Versuch richtig",
+    "again": "Versuche es noch einmal",
+    "score": "Punkte",
     "results": {
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",
@@ -301,7 +304,8 @@
     "various": "Sonstiges",
     "cancel": "Abbrechen",
     "reset": "Zurücksetzen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "back": "zurück"
   },
   "Onboarding": {
     "next": "weiter"
