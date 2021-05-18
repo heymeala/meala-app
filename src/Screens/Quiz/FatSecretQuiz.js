@@ -38,7 +38,7 @@ const FatSecretQuiz = props => {
   }, [current]);
 
   useEffect(() => {
-    if ((validated && !screenReaderEnabled && animation.current !== null) || playWrongAnimation) {
+    if ((validated && !screenReaderEnabled && animation.current !== null) || (playWrongAnimation && !screenReaderEnabled && animation.current !== null) ) {
       animation.current.play();
     }
   }, [validated, playWrongAnimation]);
@@ -54,7 +54,7 @@ const FatSecretQuiz = props => {
   }
 
   function reset() {
-    setFinish(false)
+    setFinish(false);
     setValidated(false);
     props.setQuizType(null);
   }
@@ -118,12 +118,7 @@ const FatSecretQuiz = props => {
 
   if (finish) {
     return (
-      <Finish
-        answeredQuestions={answeredQuestions}
-        setFinish={setFinish}
-        quizType={quizType}
-        reset={reset}
-      />
+      <Finish answeredQuestions={answeredQuestions} setFinish={setFinish} quizType={quizType} reset={reset} />
     );
   }
 
@@ -171,7 +166,7 @@ const FatSecretQuiz = props => {
 
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>
-      {(validated && !screenReaderEnabled) || playWrongAnimation ? (
+      {(validated && !screenReaderEnabled) || (playWrongAnimation && !screenReaderEnabled) ? (
         <>
           <View
             style={{
