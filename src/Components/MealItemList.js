@@ -1,7 +1,7 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, {forwardRef, useEffect, useState} from 'react';
 import {Dimensions, Text, View} from 'react-native';
 import {Avatar, Badge, Divider, ListItem} from 'react-native-elements';
-import { generateColor, gradientPercentageColor, textColor } from "../Common/generateColor";
+import {generateColor, gradientPercentageColor, textColor} from '../Common/generateColor';
 import moment from 'moment';
 import ProgressBar from 'react-native-progress/Bar';
 import {analyseTimeInRange} from '../Common/analyseTimeInRange';
@@ -20,9 +20,12 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   const [tir, setTir] = useState(null);
 
   useEffect(() => {
-    const parsedData = JSON.parse(props.item.cgmData);
-    const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
-    setTir(timeInRange); // string with tir description and calculation
+    if (props.item.cgmData) {
+      console.log('props.item.cgmData,', props.item.cgmData);
+      const parsedData = JSON.parse(props.item.cgmData);
+      const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
+      setTir(timeInRange); // string with tir description and calculation
+    }
   }, [props.item.cgmData]);
 
   let curTime = new Date();
@@ -111,4 +114,3 @@ export const MealItemsList = React.forwardRef((props, ref) => {
     </View>
   );
 });
-

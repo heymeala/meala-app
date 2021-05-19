@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {Button, Icon, makeStyles, Text} from 'react-native-elements';
 import RecipeDetailModal from '../Recipes/RecipeDetailModal';
@@ -8,6 +8,22 @@ import LottieView from 'lottie-react-native';
 import right from '../../assets/animations/quiz/confetti.json';
 import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import winner from '../../assets/animations/quiz/winner.json';
+import Sound from 'react-native-sound';
+
+var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
+  if (error) {
+    console.log('failed to load the sound', error);
+    return;
+  }
+  // loaded successfully
+  console.log(
+    'duration in seconds: ' +
+      scoreSound.getDuration() +
+      'number of channels: ' +
+      scoreSound.getNumberOfChannels(),
+  );
+});
+
 const Finish = props => {
   const {t} = React.useContext(LocalizationContext);
   const styles = useStyles();
@@ -27,6 +43,17 @@ const Finish = props => {
       }
     })
     .reduce((a, b) => a + b, 0);
+
+
+  useEffect(() => {
+    scoreSound.play(success => {
+      if (success) {
+        console.log('successfully finished playing');
+      } else {
+        console.log('playback failed due to audio decoding errors');
+      }
+    });
+  }, []);
 
   return (
     <View style={styles.container}>

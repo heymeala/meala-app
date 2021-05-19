@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
@@ -13,7 +13,7 @@ const AccessibleAnswer = props => {
   const servingAnswer = rightAnswer.current[0];
   const type = useRef(handleQuizTypeTranslation());
   const answerText = useRef(getAnswer());
-
+  console.log(DEVICE_HEIGHT);
   function handleQuizTypeTranslation() {
     if (serving === quizServings.carbohydrate) {
       return t('Accessibility.Quiz.answer_carbs');
@@ -53,17 +53,19 @@ const AccessibleAnswer = props => {
   }
 
   return (
-    <TouchableOpacity
-      accessible={true}
-      accessibilityRole="button"
-      onPress={() => {
-        clearTimeout(timeOut.current);
-        counter();
-      }}>
-      <Text h2 style={styles.accessibleButton}>
-        {answerText.current}
-      </Text>
-    </TouchableOpacity>
+    <SafeAreaView>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityRole="button"
+        onPress={() => {
+          clearTimeout(timeOut.current);
+          counter();
+        }}>
+        <Text h2 style={styles.accessibleButton}>
+          {answerText.current}
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 

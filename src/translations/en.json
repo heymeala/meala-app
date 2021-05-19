@@ -186,7 +186,7 @@
   "Quiz": {
     "guess_question": "Test your knowledge?",
     "guess_subtitle": "You'll get three possible answers for every question. Choose one and retry till you get the right one",
-    "recipe_description": "Beschreibung",
+    "recipe_description": "Description",
     "question_carbs": "How many carbs does the following meal has?",
     "question_calories": "How many calories does the following meal has?",
     "question_fat": "How many fat does the following meal has?",

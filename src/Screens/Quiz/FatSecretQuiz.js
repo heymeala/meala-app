@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import {Image, makeStyles, Text} from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import {serving} from '../../utils/specialTranslations';
@@ -11,10 +11,10 @@ import right from '../../assets/animations/quiz/confetti.json';
 import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
 import Sound from 'react-native-sound';
+
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
@@ -42,6 +42,8 @@ var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
       wrongSound.getNumberOfChannels(),
   );
 });
+
+
 
 const FatSecretQuiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
@@ -79,6 +81,8 @@ const FatSecretQuiz = props => {
       });
     } else {
       rightSound.play(success => {
+        props.scrollToTop();
+
         if (success) {
           console.log('successfully finished playing');
         } else {
@@ -179,7 +183,6 @@ const FatSecretQuiz = props => {
       <Finish answeredQuestions={answeredQuestions} setFinish={setFinish} quizType={quizType} reset={reset} />
     );
   }
-
   if (validated && screenReaderEnabled) {
     return (
       <AccessibleAnswer
