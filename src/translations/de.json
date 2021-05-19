@@ -183,7 +183,7 @@
   },
   "Quiz": {
     "guess_question": "Wie gut kannst du Mahlzeiten einschätzen?",
-    "guess_subtitle": "Jeden Tag neue Fragen",
+    "guess_subtitle": "Zu jedem der unteren Themen gibt es 5 Fragen. Du erhältst zu jeder Frage drei Antwortmöglichkeiten. Versuche es solange, bis du die richtige Antwort findest",
     "recipe_description": "Beschreibung",
     "question_carbs": "Wie viele Kohlenhydrate hat das folgende Gericht?",
     "question_calories": "Wie viele Kalorien hat das folgende Gericht?",

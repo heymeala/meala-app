@@ -15,7 +15,7 @@ const QuizDetailInfos = props => {
       </View>
 
       <View style={styles.verticalSpacing}>
-        <Text h2>{t('Recipes.ingredients')}</Text>
+        <Text accessibilityRole={'header'} h2>{t('Recipes.ingredients')}</Text>
         <Text>{t('Quiz.total_servings', {total: recipeDetails.number_of_servings})}</Text>
       </View>
       {recipeDetails.ingredients &&

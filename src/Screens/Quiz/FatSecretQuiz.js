@@ -14,7 +14,7 @@ import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
 import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
-var Sound = require('react-native-sound');
+import Sound from 'react-native-sound';
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
@@ -59,6 +59,7 @@ const FatSecretQuiz = props => {
   const animation = useRef(null);
   const screenReaderEnabled = useScreenReader();
   const timer = screenReaderEnabled ? 15000 : 1500;
+  const soundTimer = screenReaderEnabled ? 0 : 1500;
   const timeOut = useRef(null);
   const question = useRef(getTranslatedQuestion(quizType));
 
@@ -94,6 +95,9 @@ const FatSecretQuiz = props => {
     ) {
       playSound();
       animation.current.play();
+    } else if ((validated && screenReaderEnabled) || (playWrongAnimation && screenReaderEnabled)) {
+      playSound();
+      console.log('play');
     }
   }, [validated, playWrongAnimation]);
 
@@ -166,7 +170,7 @@ const FatSecretQuiz = props => {
       setPlayWrongAnimation(true);
       setTimeout(() => {
         setPlayWrongAnimation(false);
-      }, timer);
+      }, soundTimer);
     }
   }
 
@@ -192,7 +196,7 @@ const FatSecretQuiz = props => {
   return recipeDetails !== null ? (
     <>
       <View style={styles.container}>
-        <Text h2 style={styles.text}>
+        <Text accessibilityRole={'header'} h2 style={styles.text}>
           {question.current}
         </Text>
 
@@ -206,7 +210,9 @@ const FatSecretQuiz = props => {
         />
 
         <View>
-          <Text h2>{recipeDetails.recipe_name}</Text>
+          <Text h2 accessibilityRole={'header'}>
+            {recipeDetails.recipe_name}
+          </Text>
           <Text>{serving(locale, recipeDetails.serving_sizes.serving.serving_size)}</Text>
         </View>
 

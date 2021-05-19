@@ -9,7 +9,7 @@ const RecipeDetails = props => {
   const {recipe} = props;
   return (
     <View style={styles.root}>
-      <Image style={styles.image} source={{uri: recipe.recipe_images.recipe_image}} />
+      <Image style={styles.image} source={{uri: Array.isArray(recipe.recipe_images.recipe_image) ? recipe.recipe_images[0].recipe_image : recipe.recipe_images.recipe_image}} />
       <Text h2>{recipe.recipe_name}</Text>
 
       {recipe.ingredients &&
