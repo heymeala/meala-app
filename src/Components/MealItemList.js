@@ -104,6 +104,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
           badgeStyle={{
             backgroundColor: gradientPercentageColor(tir),
           }}
+
           textStyle={{color: textColor(tir)}}
           containerStyle={{marginTop: 0}}
         />
