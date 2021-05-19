@@ -1,6 +1,6 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import {Dimensions, View} from 'react-native';
-import {Avatar, Badge, Divider, ListItem,Text} from 'react-native-elements';
+import {Avatar, Badge, Divider, ListItem, Text} from 'react-native-elements';
 import {generateColor, gradientPercentageColor, textColor} from '../Common/generateColor';
 import moment from 'moment';
 import ProgressBar from 'react-native-progress/Bar';
@@ -93,7 +93,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
           overlayContainerStyle={{backgroundColor: '#f9de1c'}}
         />
         <ListItem.Content>
-          <ListItem.Title >{props.item.food}</ListItem.Title>
+          <ListItem.Title>{props.item.food}</ListItem.Title>
           <ListItem.Subtitle>
             <LatestMealSubtitle />
           </ListItem.Subtitle>
@@ -104,7 +104,6 @@ export const MealItemsList = React.forwardRef((props, ref) => {
           badgeStyle={{
             backgroundColor: gradientPercentageColor(tir),
           }}
-
           textStyle={{color: textColor(tir)}}
           containerStyle={{marginTop: 0}}
         />
