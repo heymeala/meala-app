@@ -10,7 +10,7 @@ const RecipeDetails = props => {
   return (
     <View style={styles.root}>
       <Image style={styles.image} source={{uri: Array.isArray(recipe.recipe_images.recipe_image) ? recipe.recipe_images[0].recipe_image : recipe.recipe_images.recipe_image}} />
-      <Text h2>{recipe.recipe_name}</Text>
+      <Text accessibilityRole={'header'} h2>{recipe.recipe_name}</Text>
 
       {recipe.ingredients &&
         recipe.ingredients.ingredient.map((ingre, i) => (
@@ -20,7 +20,7 @@ const RecipeDetails = props => {
           </View>
         ))}
 
-      <Text h2 style={styles.verticalSpacing}>
+      <Text accessibilityRole={'header'} h2 style={styles.verticalSpacing}>
         {t('Recipes.directions')}
       </Text>
 

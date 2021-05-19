@@ -23,7 +23,7 @@ const RecipeAnsweredCardItem = props => {
 */}
           <Text>{t('Quiz.tries_result', {tries: tries})}</Text>
         </View>
-        <Card.Title h2>{item.recipe_name}</Card.Title>
+        <Card.Title h2 accessibilityRole={'header'}>{item.recipe_name}</Card.Title>
         <Card.Divider />
         {item.recipe_images ? (
           <Card.Image

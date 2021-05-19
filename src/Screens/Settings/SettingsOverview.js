@@ -113,7 +113,7 @@ const SettingsOverview = props => {
           sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}
           renderItem={({item}) => <SettingsListItem data={item} />}
-          renderSectionHeader={({section: {title}}) => <Text style={styles.header}>{title}</Text>}
+          renderSectionHeader={({section: {title}}) => <Text accessibilityRole={'header'} style={styles.header}>{title}</Text>}
           ListFooterComponent={<SettingsFooter />}
         />
       </View>

@@ -58,7 +58,7 @@ const Finish = props => {
   return (
     <View style={styles.container}>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
-      <Text h1 style={styles.text}>
+      <Text accessibilityRole={'header'} h1 style={styles.text}>
         {score} {t('Quiz.score')}
       </Text>
       <LottieView style={{width: '100%'}} source={winner} loop={false} autoPlay />
