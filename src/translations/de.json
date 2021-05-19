@@ -322,7 +322,10 @@
       "similarMeals": "Suche nach ähnlichen Mahlzeiten",
       "fatsecret": "Diese Daten werden von FatSecret bereitgestellt",
       "meal": "Was hast Du gegessen? ",
-      "restaurant": "Wo isst Du Deine Mahlzeit? "
+      "restaurant": "Wo isst Du Deine Mahlzeit? ",
+      "lable": "Drücken um dieses Markierung zu entfernen",
+      "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann"
+
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",
@@ -336,7 +339,9 @@
       "insulin": " Einheiten Insulin",
       "carbs": " gramm Kohlenhydrate",
       "values": "Wir haben {{values}} Werte für diesen Eintrag gefunden. Die Angaben sind in",
-      "percentage": "prozent Deiner Werte liegen im Zielbereich"
+      "percentage": "prozent Deiner Werte liegen im Zielbereich",
+      "speedDail": "Menü öffnet drei weitere Buttons zum Löschen, Bearbeiten und Kopieren. Wische nach Links"
+
     },
     "Quiz": {
       "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",

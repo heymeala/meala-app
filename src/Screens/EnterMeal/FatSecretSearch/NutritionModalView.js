@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Image, makeStyles, SearchBar} from 'react-native-elements';
 import PredictionCips from './PredictionCips';
 import FatSecretNutritionDetails from './FatSecretNutritionDetails';
@@ -40,30 +33,22 @@ const NutritionModalView = props => {
   return (
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
-        <ScrollView
-          ref={scrollViewRef}
-          onScroll={handleOnScroll}
-          scrollEventThrottle={16}>
-          <Text style={styles.title}>
+        <ScrollView ref={scrollViewRef} onScroll={handleOnScroll} scrollEventThrottle={16}>
+          <Text accessibilityRole={'header'} style={styles.title}>
             {t('AddMeal.foodDataBaseSearch.title')}
           </Text>
-          <Text style={{...styles.modalText}}>
-            {t('AddMeal.foodDataBaseSearch.subtitle')}
-          </Text>
+          <Text style={{...styles.modalText}}>{t('AddMeal.foodDataBaseSearch.subtitle')}</Text>
 
           <SearchBar
             platform={Platform.OS}
+            accessibilityRole={'search'}
             placeholder={t('AddMeal.foodDataBaseSearch.searchPlaceholder')}
             onChangeText={text => handleSearch(text)}
             value={search}
             onBlur={() => startSearch()}
           />
           <View style={styles.chipsContainer}>
-            <PredictionCips
-              chipsArray={chipsArray}
-              setSearch={setSearch}
-              setChipSearch={setChipSearch}
-            />
+            <PredictionCips chipsArray={chipsArray} setSearch={setSearch} setChipSearch={setChipSearch} />
           </View>
           <View>
             {isServingListVisible && !isNutritionData ? (
@@ -72,6 +57,7 @@ const NutritionModalView = props => {
                   <TouchableOpacity
                     style={{padding: 8}}
                     key={i}
+                    accessibilityRole={'button'}
                     onPress={() => {
                       setNutritionData(true);
                       setServing(i);
@@ -80,8 +66,8 @@ const NutritionModalView = props => {
                   </TouchableOpacity>
                 ))
               ) : foodDetailData.servings.serving ? (
-                <TouchableOpacity onPress={() => setNutritionData(true)}>
-                  <Text style={{padding: 8}}>
+                <TouchableOpacity accessibilityRole={'button'} onPress={() => setNutritionData(true)}>
+                  <Text  style={{padding: 8}}>
                     {foodDetailData.servings.serving.serving_description}
                   </Text>
                 </TouchableOpacity>
@@ -89,10 +75,7 @@ const NutritionModalView = props => {
                 <Text>"no data"</Text>
               )
             ) : isServingListVisible && isNutritionData ? (
-              <FatSecretNutritionDetails
-                foodDetailData={foodDetailData}
-                serving={serving}
-              />
+              <FatSecretNutritionDetails foodDetailData={foodDetailData} serving={serving} />
             ) : (
               <FoodSuggestions
                 foodsData={foodsData}
@@ -108,8 +91,7 @@ const NutritionModalView = props => {
               <Image
                 style={{width: 120, height: 17}}
                 source={{
-                  uri:
-                    'https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.png',
+                  uri: 'https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.png',
                 }}
               />
             </TouchableOpacity>

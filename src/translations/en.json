@@ -326,7 +326,9 @@
       "similarMeals": "Search for similar meals",
       "fatsecret": "The data is presented by FatSecret",
       "meal": "What do you eat? ",
-      "restaurant": "Where do you eat? "
+      "restaurant": "Where do you eat? ",
+      "lable": "Press to remove the lable",
+      "add_lable": "Opens a dialog that lets you enter custom lables"
     },
     "Home": {
       "newEntry": "Add a new meal entry",
@@ -340,7 +342,8 @@
       "insulin": " units Insulin",
       "carbs": " gram Carbohydrates",
       "values": "We found {{values}} values for this meal. The glucose values are in",
-      "percentage": "percent are in range"
+      "percentage": "percent are in range",
+      "speedDail": "Opens a speed dail menu. Swipe left to access the menu items"
     },
     "Quiz": {
       "answer_right": "Thats right. {{name}} has {{serving}} {{type}}",

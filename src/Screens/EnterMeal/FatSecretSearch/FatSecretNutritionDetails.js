@@ -9,15 +9,12 @@ const FatSecretNutritionDetails = props => {
   const windowWidth = Dimensions.get('window').width;
 
   return (
-    <View style={{width: windowWidth - 150}}>
+    <View accessible={true} style={{width: windowWidth - 150}}>
       <Text style={{paddingBottom: 8}}>
-        {foodDetailData.food_name} -
-        {foodDetailData.servings[serving].serving.serving_description}
+        {foodDetailData.food_name} -{foodDetailData.servings[serving].serving.serving_description}
       </Text>
       <NutritionDetails
-        foodDetailData={
-          foodDetailData.servings[serving].serving.metric_serving_amount
-        }
+        foodDetailData={foodDetailData.servings[serving].serving.metric_serving_amount}
         unit={foodDetailData.servings[serving].serving.metric_serving_unit}
         title={t('AddMeal.nutritionData.serving')}
       />

@@ -14,6 +14,7 @@ const PredictionsChips = props => {
           backgroundColor: data.active ? '#ffe109' : '#e5e5e5',
         }}>
         <TouchableOpacity
+          accessibilityRole={'button'}
           onPress={() => {
             setSearch(data.name);
             setChipSearch(data.name);

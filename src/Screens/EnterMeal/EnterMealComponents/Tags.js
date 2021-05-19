@@ -68,16 +68,15 @@ export const Tags = props => {
 
   return (
     <>
-      <View style={{display: 'flex', flexDirection: 'row', padding: 8, paddingBottom:80}}>
+      <View style={{display: 'flex', flexDirection: 'row', padding: 8, paddingBottom: 80}}>
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"
+          accessibilityHint={t('Accessibility.EnterMeal.add_lable')}
           accessibilityLabel={t('Accessibility.EnterMeal.addTag')}
           style={{...styles.openButton}}
           onPress={() => setVisible(true)}>
-          <Text style={{padding: 6, color: '#fff'}}>
-            {t('AddMeal.tag.addTag')}
-          </Text>
+          <Text style={{padding: 6, color: '#fff'}}>{t('AddMeal.tag.addTag')}</Text>
         </TouchableOpacity>
         <ScrollView horizontal={true}>
           {props.tags &&
@@ -86,6 +85,8 @@ export const Tags = props => {
               .map((tags, i) => {
                 return (
                   <TouchableOpacity
+                    accessibilityRole="button"
+                    accessibilityHint={t('Accessibility.EnterMeal.lable')}
                     key={i}
                     style={{...styles.openButton, backgroundColor: '#d7d4a3'}}
                     onPress={() => props.removeTag(tags.id)}>
@@ -108,11 +109,12 @@ export const Tags = props => {
           onAccessibilityEscape={() => setVisible(false)}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{...styles.modalText, fontWeight: 'bold'}}>
+              <Text accessibilityRole={'header'} style={{...styles.modalText, fontWeight: 'bold'}}>
                 {t('AddMeal.tag.addATag')}
               </Text>
               <Text style={styles.modalText}>{t('AddMeal.tag.findTag')}</Text>
               <SearchBar
+                accessibilityRole={'search'}
                 platform={Platform.OS}
                 placeholder={t('AddMeal.tag.exampleTag')}
                 onChangeText={text => setTag(text)}
@@ -141,8 +143,7 @@ export const Tags = props => {
                   </TouchableOpacity>
                 ))}
               </View>
-              <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <TouchableOpacity
                   accessibilityRole="button"
                   style={{

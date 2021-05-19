@@ -25,6 +25,7 @@ const EditSpeedDialGroup = props => {
   return (
     <SpeedDial
       isOpen={open}
+      accessibilityHint={t('Accessibility.MealDetails.speedDail')}
       accessibilityLabel={'Öffne Menü'}
       overlayColor={'transparent'}
       icon={{name: 'edit', color: '#fff'}}

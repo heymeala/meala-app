@@ -55,7 +55,7 @@ const NightScoutTreatmentDetails = props => {
 
   return (
     <View style={{padding: 20}}>
-      <Text style={styles.text}>Details</Text>
+      <Text accessibilityRole={'header'} style={styles.text}>Details</Text>
       <InsulinCarbDetails />
       <Text style={styles.text}>Insulin: {insulinSumme}u</Text>
       <Text style={styles.text}>

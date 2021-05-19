@@ -11,11 +11,12 @@ const FatSecretOverviewList = props => {
     <TouchableOpacity
       style={{padding: 8}}
       key={data.food_id}
+      accessibilityRole={'button'}
       onPress={() =>
         searchFatSecret(data.food_id, toggleList, t, setFoodDetailData)
       }>
       <View style={{paddingBottom: 5}}>
-        <Text style={{fontWeight: 'bold'}}>
+        <Text accessibilityRole={'header'} style={{fontWeight: 'bold'}}>
           {data.food_name}
           {data.brand_name && ' – ' + data.brand_name}
         </Text>
