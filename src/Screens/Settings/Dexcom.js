@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Linking, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Input, Button} from 'react-native-elements';
-import {authorize} from 'react-native-app-auth';
-import {DEXCOM_ID, DEXCOM_SECRET} from '@env';
+import React, { useEffect, useState } from 'react';
+import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Input, Button } from 'react-native-elements';
+import { authorize } from 'react-native-app-auth';
+import { DEXCOM_ID, DEXCOM_SECRET } from '@env';
 import SaveButton from '../../Common/SaveButton';
 import LocalizationContext from '../../../LanguageContext';
 import BlueButton from '../../Common/BlueButton';
@@ -12,7 +12,7 @@ const axios = require('axios').default;
 import qs from 'qs';
 
 const Dexcom = () => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [code, setCode] = useState();
   moment.locale(locale);
   const apiUrl = 'api';
@@ -67,13 +67,9 @@ const Dexcom = () => {
   async function getTokens() {
     try {
       // Retrieve the credentials
-      const credentials = await Keychain.getInternetCredentials(
-        'https://api.dexcom.com/v2/oauth2/token',
-      );
+      const credentials = await Keychain.getInternetCredentials('https://api.dexcom.com/v2/oauth2/token');
       if (credentials) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.server,
-        );
+        console.log('Credentials successfully loaded for user ' + credentials.server);
         setAccessToken(credentials.username);
         setRefreshToken(credentials.password);
         setHasLoggedInOnce(true);
@@ -87,11 +83,7 @@ const Dexcom = () => {
   }
 
   async function saveAccessToken(access, refresh) {
-    await Keychain.setInternetCredentials(
-      'https://api.dexcom.com/v2/oauth2/token',
-      access,
-      refresh,
-    );
+    await Keychain.setInternetCredentials('https://api.dexcom.com/v2/oauth2/token', access, refresh);
     await getTokens();
   }
 
@@ -122,10 +114,7 @@ const Dexcom = () => {
               setAccessToken(response.data.access_token);
               setRefreshToken(response.data.refresh_token);
               setHasLoggedInOnce(true);
-              saveAccessToken(
-                response.data.access_token,
-                response.data.refresh_token,
-              );
+              saveAccessToken(response.data.access_token, response.data.refresh_token);
             })
             .catch(function (error) {
               console.log('Auth Error', error);
@@ -164,16 +153,12 @@ const Dexcom = () => {
                 setRefreshToken(response.data.refresh_token);
                 setHasLoggedInOnce(true);
                 try {
-                  saveAccessToken(
-                    response.data.access_token,
-                    response.data.refresh_token,
-                  );
+                  saveAccessToken(response.data.access_token, response.data.refresh_token);
                 } catch (e) {
                   console.log('Keychain Error');
                 }
                 // 2) Change Authorization header
-                originalRequest.headers['Authorization'] =
-                  'Bearer ' + response.data.access_token;
+                originalRequest.headers['Authorization'] = 'Bearer ' + response.data.access_token;
                 // 3) return originalRequest object with Axios.
                 axios(originalRequest)
                   .then(function (response) {
@@ -194,9 +179,7 @@ const Dexcom = () => {
   }
 
   function getSGVDataToken() {
-    const startDate = moment()
-      .subtract(6, 'hours')
-      .format('YYYY-MM-DDTHH:mm:ss');
+    const startDate = moment().subtract(6, 'hours').format('YYYY-MM-DDTHH:mm:ss');
     const endDate = moment().subtract(3, 'hours').format('YYYY-MM-DDTHH:mm:ss');
 
     const options = {
@@ -223,16 +206,12 @@ const Dexcom = () => {
                 setRefreshToken(response.data.refresh_token);
                 setHasLoggedInOnce(true);
                 try {
-                  saveAccessToken(
-                    response.data.access_token,
-                    response.data.refresh_token,
-                  );
+                  saveAccessToken(response.data.access_token, response.data.refresh_token);
                 } catch (e) {
                   console.log('Keychain Error');
                 }
                 // 2) Change Authorization header
-                originalRequest.headers['Authorization'] =
-                  'Bearer ' + response.data.access_token;
+                originalRequest.headers['Authorization'] = 'Bearer ' + response.data.access_token;
                 // 3) return originalRequest object with Axios.
                 axios(originalRequest)
                   .then(function (response) {
@@ -253,9 +232,7 @@ const Dexcom = () => {
   }
 
   async function deleteKey() {
-    await Keychain.resetInternetCredentials(
-      'https://api.dexcom.com/v2/oauth2/token',
-    );
+    await Keychain.resetInternetCredentials('https://api.dexcom.com/v2/oauth2/token');
   }
 
   return (
@@ -267,22 +244,15 @@ const Dexcom = () => {
             <SaveButton title={'Login'} onPress={() => axiosAuthorizer()} />
           ) : (
             <>
-              <BlueButton
-                title={'Get Date Range Info'}
-                onPress={() => axiosGetDataRange()}
-              />
-              <BlueButton
-                title={'Get Glucose Data'}
-                onPress={() => getSGVDataToken()}
-              />
+              <BlueButton title={'Get Date Range Info'} onPress={() => axiosGetDataRange()} />
+              <BlueButton title={'Get Glucose Data'} onPress={() => getSGVDataToken()} />
 
               <Button title={'Delete'} onPress={() => deleteKey()} />
             </>
           )}
           {dataRange && (
             <Text>
-              End: {dataRange.egvs.end.displayTime} Start:{' '}
-              {dataRange.egvs.start.displayTime}
+              End: {dataRange.egvs.end.displayTime} Start: {dataRange.egvs.start.displayTime}
             </Text>
           )}
           {cgm && (

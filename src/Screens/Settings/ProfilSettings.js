@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Linking, Platform, TouchableOpacity, View} from 'react-native';
-import {CheckBox, makeStyles, Text} from 'react-native-elements';
-import {useProfile} from '../../hooks/useProfile';
-import {database} from '../../Common/database_realm';
+import React, { useEffect, useState } from 'react';
+import { Linking, Platform, TouchableOpacity, View } from 'react-native';
+import { CheckBox, makeStyles, Text } from 'react-native-elements';
+import { useProfile } from '../../hooks/useProfile';
+import { database } from '../../Common/database_realm';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import {useNavigation} from '@react-navigation/core';
-import {spacing} from '../../theme/styles';
+import { useNavigation } from '@react-navigation/core';
+import { spacing } from '../../theme/styles';
 
 const ProfilSettings = () => {
-  const {settings, saveProfile} = useProfile();
+  const { settings, saveProfile } = useProfile();
   const [checked, setChecked] = useState(settings.unit === 1);
   const [notification, setNotification] = useState(true);
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const styles = useStyles();
 
@@ -27,7 +27,7 @@ const ProfilSettings = () => {
   }
   useEffect(() => {
     if (Platform.OS === 'ios') {
-      PushNotificationIOS.checkPermissions(({alert, badge, sound}) => {
+      PushNotificationIOS.checkPermissions(({ alert, badge, sound }) => {
         if (!alert || !badge || !sound) {
           setNotification(false);
         }
@@ -63,7 +63,7 @@ const ProfilSettings = () => {
         checked={!checked}
         onPress={() => switchToMmol(18.02)}
       />
-      <Text h3 style={{textAlign: 'center', ...styles.text}}>
+      <Text h3 style={{ textAlign: 'center', ...styles.text }}>
         {t('Settings.profile.example')} {Math.round(100 / settings.unit)}{' '}
         {settings.unit === 1 ? 'mg/dL' : 'mmol/L'}
       </Text>
@@ -71,7 +71,7 @@ const ProfilSettings = () => {
         <View style={styles.notificationContainer}>
           <Text h2> {t('Settings.profile.reminder')}</Text>
           <TouchableOpacity onPress={() => Linking.openSettings()}>
-            <Text style={{color: 'red', ...styles.text}} h3>
+            <Text style={{ color: 'red', ...styles.text }} h3>
               {t('Settings.profile.notifications')}
             </Text>
           </TouchableOpacity>
@@ -82,10 +82,10 @@ const ProfilSettings = () => {
 };
 export default ProfilSettings;
 const useStyles = makeStyles(theme => ({
-  container: {flex: 1, padding: 24},
+  container: { flex: 1, padding: 24 },
   headline: {},
-  checkBoxText: {flex: 1, flexGrow: 1},
-  text: {paddingVertical: spacing.M},
-  notificationContainer: {marginVertical: 60},
-  checkBoxContainer: {borderRadius: 30},
+  checkBoxText: { flex: 1, flexGrow: 1 },
+  text: { paddingVertical: spacing.M },
+  notificationContainer: { marginVertical: 60 },
+  checkBoxContainer: { borderRadius: 30 },
 }));

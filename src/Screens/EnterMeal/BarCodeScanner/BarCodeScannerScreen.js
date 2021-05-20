@@ -1,27 +1,25 @@
-import React, {useState} from 'react';
-import {Dimensions, Linking, TouchableOpacity, View} from 'react-native';
-import {Button, Image, makeStyles, Text, useTheme} from 'react-native-elements';
+import React, { useState } from 'react';
+import { Dimensions, Linking, TouchableOpacity, View } from 'react-native';
+import { Button, Image, makeStyles, Text, useTheme } from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import LocalizationContext from '../../../../LanguageContext';
 import ScannerResults from './Scanner/ScannerResults';
 import Modal from 'react-native-modal';
-import {spacing} from '../../../theme/styles';
-import {openFoodFactsApi} from './openFoodFactsApi';
+import { spacing } from '../../../theme/styles';
+import { openFoodFactsApi } from './openFoodFactsApi';
 
 const ScanScreen = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const [data, setData] = useState('');
   const [status, setStatus] = useState(true);
   const [openModal, setModal] = useState(false);
   const styles = useStyles();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const newEntry = () => {
     const carbs = data.nutriments && data.nutriments.carbohydrates_100g;
     const meal = data.product_name && data.product_name;
 
-    const serving =
-      data.serving_size &&
-      t('BarCode.portion', {weight: data.serving_size}) + '\n';
+    const serving = data.serving_size && t('BarCode.portion', { weight: data.serving_size }) + '\n';
 
     const note = `${serving !== undefined ? serving : ''} ${
       carbs !== undefined
@@ -33,7 +31,7 @@ const ScanScreen = props => {
           })
         : ''
     }`;
-    props.handleScannerFood({carbs: carbs, meal: meal, note: note});
+    props.handleScannerFood({ carbs: carbs, meal: meal, note: note });
     props.toggleScanner();
   };
   const onSuccess = async e => {
@@ -111,12 +109,12 @@ const ScanScreen = props => {
           reactivate={true}
           reactivateTimeout={1000}
           showMarker={true}
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           notAuthorizedView={
             <>
               <Text>{t('AddMeal.Permission')}</Text>
               <Button
-                buttonStyle={{backgroundColor: '#000'}}
+                buttonStyle={{ backgroundColor: '#000' }}
                 title={t('AddMeal.grantPermission')}
                 onPress={() => Linking.openSettings()}
               />
@@ -125,10 +123,10 @@ const ScanScreen = props => {
           customMarker={
             <Image
               source={require('../../../assets/marker.png')}
-              style={{width: Dimensions.get('window').width - 50, height: 45}}
+              style={{ width: Dimensions.get('window').width - 50, height: 45 }}
             />
           }
-          cameraStyle={{height: 240, overflow: 'hidden'}}
+          cameraStyle={{ height: 240, overflow: 'hidden' }}
           topViewStyle={{
             backgroundColor: theme.colors.grey0,
             color: theme.colors.white,
@@ -136,7 +134,7 @@ const ScanScreen = props => {
             justifyContent: 'flex-end',
             paddingBottom: spacing.M,
           }}
-          containerStyle={{backgroundColor: theme.colors.black}}
+          containerStyle={{ backgroundColor: theme.colors.black }}
           bottomViewStyle={{
             backgroundColor: theme.colors.secondary,
             color: theme.colors.black,
@@ -146,12 +144,12 @@ const ScanScreen = props => {
             <View>
               <Button
                 type={'outline'}
-                titleStyle={{color: 'black'}}
+                titleStyle={{ color: 'black' }}
                 buttonStyle={{
                   marginBottom: spacing.S,
                   borderColor: 'black',
                 }}
-                containerStyle={{paddingVertical: spacing.XS}}
+                containerStyle={{ paddingVertical: spacing.XS }}
                 onPress={() => props.toggleScanner()}
                 title={t('General.cancel')}
               />
@@ -162,7 +160,7 @@ const ScanScreen = props => {
     );
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Scanner />
     </View>
   );

@@ -1,18 +1,25 @@
-import {Dimensions, Linking, View} from 'react-native';
-import {FAB, makeStyles, Text} from 'react-native-elements';
+import { Dimensions, Linking, View } from 'react-native';
+import { Button, FAB, makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
+import SearchRecipes from '../../Recipes/SearchRecipes';
+import { useNavigation } from '@react-navigation/core';
 
 export const EmptyListHome = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
+  const navigation = useNavigation();
+
   if (props.value.length > 0) {
     return (
-      <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />
+      <>
+        {/*  <NoResultsText text={t('Entries.noSearchResult')} value={props.value} />*/}
+        <SearchRecipes search={props.value} />
+      </>
     );
   } else {
     return (
@@ -21,9 +28,7 @@ export const EmptyListHome = props => {
           <Text h1 h1Style={styles.infoTextHeadline}>
             {t('Entries.empty.home.title')}
           </Text>
-          <Text style={styles.infoText}>
-            {t('Entries.empty.home.description')}
-          </Text>
+          <Text style={styles.infoText}>{t('Entries.empty.home.description')}</Text>
         </View>
 
         <LottieView
@@ -33,25 +38,15 @@ export const EmptyListHome = props => {
           loop
         />
 
-        <FAB
-          title={'Quiz'}
-          placement={'left'}
-          onPress={() =>
-            Linking.openURL(
-              locale === 'de'
-                ? 'https://quiz.heymeala.com?sh=meala_app&lng=de'
-                : 'https://quiz.heymeala.com?sh=meala_app&lng=en',
-            )
-          }
-        />
+        <FAB title={'Quiz'} placement={'left'} onPress={() => navigation.navigate('Quiz')} />
       </View>
     );
   }
 };
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  image: {width: dimensions.width, height: 950},
-  animation: {width: dimensions.width, alignSelf: 'center'},
+  image: { width: dimensions.width, height: 950 },
+  animation: { width: dimensions.width, alignSelf: 'center' },
 
   wrapper: {
     flex: 1,
@@ -82,6 +77,6 @@ const useStyles = makeStyles((theme, dimensions) => ({
     flex: 1,
     alignItems: 'center',
   },
-  imagePlaceholder: {backgroundColor: theme.colors.white},
-  text: {paddingBottom: spacing.M},
+  imagePlaceholder: { backgroundColor: theme.colors.white },
+  text: { paddingBottom: spacing.M },
 }));

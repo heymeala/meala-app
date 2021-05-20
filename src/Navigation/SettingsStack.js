@@ -5,37 +5,36 @@ import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
 import AboutScreen from '../Screens/Settings/AboutScreen';
 import GlyxSearchScreen from '../Screens/Settings/GlyxSearchScreen';
 import StatisticScreen from '../Screens/Settings/StatisticScreen';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
 import ProfilSettings from '../Screens/Settings/ProfilSettings';
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
 import TidePool from '../Screens/Settings/TidePool';
+import Quiz from '../Screens/Quiz/Quiz';
+import { Icon } from 'react-native-elements';
 
 function SettingsStack() {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator
-      initialRouteName="SettingsOverview"
-      screenOptions={{gestureEnabled: false}}>
+    <Stack.Navigator initialRouteName="SettingsOverview" screenOptions={{ gestureEnabled: false }}>
       <Stack.Screen
         name="SettingsOverview"
         component={SettingsOverview}
         options={{
           headerLargeTitle: true,
-          headerTranslucent:
-            Platform.OS !== 'android' && Platform.Version >= 13,
+          headerTranslucent: Platform.OS !== 'android' && Platform.Version >= 13,
           headerStyle:
             Platform.OS !== 'android' && Platform.Version >= 13
               ? {
                   backgroundColor: 'transparent',
                   blurEffect: 'light',
                 }
-              : {backgroundColor: 'white'},
+              : { backgroundColor: 'white' },
 
           title: t('Settings.SettingsTitle'),
           headerTitleStyle: {
@@ -106,6 +105,16 @@ function SettingsStack() {
         component={Libre}
         options={{
           title: 'Libre',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={Quiz}
+        options={{
+          title: 'Quiz',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

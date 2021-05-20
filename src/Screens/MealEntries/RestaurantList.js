@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {FlatList, Platform, View} from 'react-native';
-import {Badge, ListItem, makeStyles, SearchBar} from 'react-native-elements';
-import {EmptyListPlaces} from './Common/EmtyListPlaces';
+import React, { useState } from 'react';
+import { FlatList, Platform, View } from 'react-native';
+import { Badge, ListItem, makeStyles, SearchBar } from 'react-native-elements';
+import { EmptyListPlaces } from './Common/EmtyListPlaces';
 import LocalizationContext from '../../../LanguageContext';
-import {spacing} from '../../theme/styles';
-import {useFocusEffect, useNavigation} from '@react-navigation/core';
-import {database} from '../../Common/database_realm';
+import { spacing } from '../../theme/styles';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
+import { database } from '../../Common/database_realm';
 
 const RestaurantList = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
@@ -29,20 +29,18 @@ const RestaurantList = props => {
   const showRestaurants = async text => {
     try {
       const allRestaurant = await database.fetchRestaurantsWithFilter(text);
-      const allRestaurantsIsDeleted = allRestaurant.filter(
-        restaurants => restaurants.isDeleted === false,
-      );
-      console.log(allRestaurantsIsDeleted)
+      const allRestaurantsIsDeleted = allRestaurant.filter(restaurants => restaurants.isDeleted === false);
+      console.log(allRestaurantsIsDeleted);
 
       setRestaurants(allRestaurantsIsDeleted);
     } catch (e) {}
   };
   const keyExtractor = (item, index) => index.toString();
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <View>
       <ListItem
-        containerStyle={{paddingVertical: spacing.L}}
+        containerStyle={{ paddingVertical: spacing.L }}
         bottomDivider
         onPress={() =>
           navigation.navigate('MealListView', {
@@ -54,9 +52,9 @@ const RestaurantList = props => {
         </ListItem.Content>
         <Badge
           value={item.food.filter(item => item.isDeleted === false).length}
-          badgeStyle={{backgroundColor: '#bfbfb4'}}
-          textStyle={{color: 'black'}}
-          containerStyle={{marginTop: 0}}
+          badgeStyle={{ backgroundColor: '#bfbfb4' }}
+          textStyle={{ color: 'black' }}
+          containerStyle={{ marginTop: 0 }}
         />
         <ListItem.Chevron />
       </ListItem>
@@ -68,7 +66,7 @@ const RestaurantList = props => {
   };
   return (
     <FlatList
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1 }}
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={
         <>
@@ -84,9 +82,7 @@ const RestaurantList = props => {
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-      ListEmptyComponent={
-        <EmptyListPlaces value={search} navigation={navigation} />
-      }
+      ListEmptyComponent={<EmptyListPlaces value={search} navigation={navigation} />}
     />
   );
 };

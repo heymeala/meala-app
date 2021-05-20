@@ -1,28 +1,31 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, Text, View} from 'react-native';
-import {Avatar, Badge, Divider, ListItem} from 'react-native-elements';
-import { generateColor, gradientPercentageColor, textColor } from "../Common/generateColor";
+import React, { forwardRef, useEffect, useState } from 'react';
+import { Dimensions, View } from 'react-native';
+import { Avatar, Badge, Divider, ListItem, Text } from 'react-native-elements';
+import { generateColor, gradientPercentageColor, textColor } from '../Common/generateColor';
 import moment from 'moment';
 import ProgressBar from 'react-native-progress/Bar';
-import {analyseTimeInRange} from '../Common/analyseTimeInRange';
-import {useNavigation} from '@react-navigation/core';
+import { analyseTimeInRange } from '../Common/analyseTimeInRange';
+import { useNavigation } from '@react-navigation/core';
 import LocalizationContext from '../../LanguageContext';
-import {useScreenReader} from '../hooks/useScreenReaderEnabled';
+import { useScreenReader } from '../hooks/useScreenReaderEnabled';
 import AccessibleListItem from '../Screens/MealEntries/Accessability/AccessibleListItem';
-import {WAITING_TIME} from '../Common/Constants/waitingTime';
-import {badgeValue} from './badgeValue';
+import { WAITING_TIME } from '../Common/Constants/waitingTime';
+import { badgeValue } from './badgeValue';
 
-const MealItemsList = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+export const MealItemsList = React.forwardRef((props, ref) => {
+  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
   const [tir, setTir] = useState(null);
 
   useEffect(() => {
-    const parsedData = JSON.parse(props.item.cgmData);
-    const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
-    setTir(timeInRange); // string with tir description and calculation
+    if (props.item.cgmData) {
+    //  console.log('props.item.cgmData,', props.item.cgmData);
+      const parsedData = JSON.parse(props.item.cgmData);
+      const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
+      setTir(timeInRange); // string with tir description and calculation
+    }
   }, [props.item.cgmData]);
 
   let curTime = new Date();
@@ -48,7 +51,7 @@ const MealItemsList = props => {
             ) : (
               <View>
                 <View>
-                  <Text style={{paddingTop: 8}}>
+                  <Text style={{ paddingTop: 8 }}>
                     {locale === 'de'
                       ? 'Vor ' +
                         moment.duration(progressTime).hours() +
@@ -62,7 +65,7 @@ const MealItemsList = props => {
                   </Text>
                 </View>
 
-                <View style={{paddingTop: 5}}>
+                <View style={{ paddingTop: 5 }}>
                   <ProgressBar
                     color="#F9DE1C"
                     progress={moment.duration(progressTime) / 100000 / 60 / 3}
@@ -80,14 +83,14 @@ const MealItemsList = props => {
   };
 
   return (
-    <View style={{height: 110}} key={props.item.id}>
-      <ListItem onPress={() => navigation.navigate('MealDataCollector', {mealId: props.item.id})}>
+    <View style={{ height: 110 }} key={props.item.id} ref={ref}>
+      <ListItem onPress={() => navigation.navigate('MealDataCollector', { mealId: props.item.id })}>
         <Avatar
           rounded
           title={props.item.food[0]}
-          source={props.item.picture ? {uri: props.item.picture} : null}
+          source={props.item.picture ? { uri: props.item.picture } : null}
           size={'large'}
-          overlayContainerStyle={{backgroundColor: '#f9de1c'}}
+          overlayContainerStyle={{ backgroundColor: '#f9de1c' }}
         />
         <ListItem.Content>
           <ListItem.Title>{props.item.food}</ListItem.Title>
@@ -101,8 +104,8 @@ const MealItemsList = props => {
           badgeStyle={{
             backgroundColor: gradientPercentageColor(tir),
           }}
-          textStyle={{color: textColor(tir)}}
-          containerStyle={{marginTop: 0}}
+          textStyle={{ color: textColor(tir) }}
+          containerStyle={{ marginTop: 0 }}
         />
 
         <ListItem.Chevron />
@@ -110,6 +113,4 @@ const MealItemsList = props => {
       <Divider />
     </View>
   );
-};
-
-export default MealItemsList;
+});

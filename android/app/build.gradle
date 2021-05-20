@@ -132,8 +132,8 @@ android {
         applicationId "com.heymeala"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 42
-        versionName "1.1.1"
+        versionCode 47
+        versionName "1.1.2"
        missingDimensionStrategy 'react-native-camera', 'general'
        multiDexEnabled true
            manifestPlaceholders = [
@@ -211,7 +211,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules##
 
 
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:18.0.2'
 
         implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

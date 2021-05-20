@@ -1,22 +1,19 @@
 import React from 'react';
-import {Platform, View} from 'react-native';
+import { Platform, View } from 'react-native';
 import SugarStack from './SugarStack';
-import {Icon, useTheme} from 'react-native-elements';
+import { Icon, useTheme } from 'react-native-elements';
 import EnterMealStack from './EnterMealStack';
 import SettingsStack from './SettingsStack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
-import {
-  COPY_MODE,
-  EDIT_MODE,
-  useEnterMealType,
-} from '../hooks/useEnterMealState';
+import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealState';
+import Quiz from '../Screens/Quiz/Quiz';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
-  const {t} = React.useContext(LocalizationContext);
-  const {theme} = useTheme();
-  const {type} = useEnterMealType();
+  const { t } = React.useContext(LocalizationContext);
+  const { theme } = useTheme();
+  const { type } = useEnterMealType();
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -33,7 +30,7 @@ const AppBottomNavigationStack = () => {
         component={SugarStack}
         options={{
           tabBarLabel: t('Accessibility.tab.home'),
-          tabBarIcon: ({focused, color, size}) => (
+          tabBarIcon: ({ focused, color, size }) => (
             <Icon name="bars" size={28} type={'antdesign'} color={color} />
           ),
         }}
@@ -41,12 +38,12 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="EnterMealStack"
-        initialParams={{params: {type: 'default'}}}
-        options={({route}) => {
+        initialParams={{ params: { type: 'default' } }}
+        options={({ route }) => {
           return {
             tabBarVisible: type.mode !== EDIT_MODE && type.mode !== COPY_MODE,
             tabBarLabel: t('Accessibility.tab.add'),
-            tabBarIcon: ({color, focused}) => (
+            tabBarIcon: ({ color, focused }) => (
               <View
                 style={{
                   position: 'absolute',
@@ -66,12 +63,7 @@ const AppBottomNavigationStack = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Icon
-                  name="pluscircleo"
-                  type="antdesign"
-                  size={28}
-                  color={color}
-                />
+                <Icon name="pluscircleo" type="antdesign" size={28} color={color} />
               </View>
             ),
           };
@@ -82,9 +74,9 @@ const AppBottomNavigationStack = () => {
       <Tab.Screen
         name="SettingsStack"
         component={SettingsStack}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarLabel: t('Accessibility.tab.settings'),
-          tabBarIcon: ({focused, color, size}) => (
+          tabBarIcon: ({ focused, color, size }) => (
             <Icon name="settings" type="octicon" size={28} color={color} />
           ),
         })}

@@ -1,10 +1,10 @@
-import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import { ActivityIndicator, SafeAreaView, View } from 'react-native';
 import React from 'react';
-import {makeStyles, useTheme} from 'react-native-elements';
+import { makeStyles, useTheme } from 'react-native-elements';
 
 const LoadingSpinner = () => {
   const styles = useStyles();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   return (
     <SafeAreaView>
       <View style={styles.loadingSpinner}>

@@ -1,38 +1,28 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {AccessibilityInfo} from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { AccessibilityInfo } from 'react-native';
 
 export const ScreenReaderContext = React.createContext(false);
 
-export const ScreenReaderProvider = ({children}) => {
+export const ScreenReaderProvider = ({ children }) => {
   const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
 
   useEffect(() => {
-    AccessibilityInfo.addEventListener(
-      'screenReaderChanged',
-      handleScreenReaderToggled,
-    );
+    AccessibilityInfo.addEventListener('screenReaderChanged', handleScreenReaderToggled);
 
-    AccessibilityInfo.isScreenReaderEnabled().then((screenReaderEnabled) => {
+    AccessibilityInfo.isScreenReaderEnabled().then(screenReaderEnabled => {
       setScreenReaderEnabled(screenReaderEnabled);
     });
 
     return () => {
-      AccessibilityInfo.removeEventListener(
-        'screenReaderChanged',
-        handleScreenReaderToggled,
-      );
+      AccessibilityInfo.removeEventListener('screenReaderChanged', handleScreenReaderToggled);
     };
   }, []);
 
-  const handleScreenReaderToggled = (screenReaderEnabled) => {
+  const handleScreenReaderToggled = screenReaderEnabled => {
     setScreenReaderEnabled(screenReaderEnabled);
   };
 
-  return (
-    <ScreenReaderContext.Provider value={screenReaderEnabled}>
-      {children}
-    </ScreenReaderContext.Provider>
-  );
+  return <ScreenReaderContext.Provider value={screenReaderEnabled}>{children}</ScreenReaderContext.Provider>;
 };
 
 export const useScreenReader = () => useContext(ScreenReaderContext);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {mapNumber} from '../utils/map';
+import { mapNumber } from '../utils/map';
 
 const LOW_BOUND = 40;
 const HIGH_BOUND = 80;

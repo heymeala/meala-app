@@ -1,26 +1,23 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, useColorScheme, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {registerCustomIconType, ThemeProvider} from 'react-native-elements';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, useColorScheme, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { registerCustomIconType, ThemeProvider } from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
 import AppBottomNavigationStack from './src/Navigation/AppBottomNavigator';
 import analytics from '@react-native-firebase/analytics';
 import OnboardingScreen from './src/Screens/OnboardingScreen';
-import {database} from './src/Common/database_realm';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
-import {enableScreens} from 'react-native-screens';
-import {navigationRef} from './src/Navigation/RootNavigation';
-import {ProfileProvider} from './src/hooks/useProfile';
-import {
-  ScreenReaderProvider,
-  useScreenReader,
-} from './src/hooks/useScreenReaderEnabled';
-import {theme} from './src/theme/theme';
+import { database } from './src/Common/database_realm';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { enableScreens } from 'react-native-screens';
+import { navigationRef } from './src/Navigation/RootNavigation';
+import { ProfileProvider } from './src/hooks/useProfile';
+import { ScreenReaderProvider, useScreenReader } from './src/hooks/useScreenReaderEnabled';
+import { theme } from './src/theme/theme';
 import Icon from './src/CustomMealaFont';
-import {UserSettingsProvider} from './src/hooks/useUserSettings';
-import {EnterMealTypeProvider} from './src/hooks/useEnterMealState';
+import { UserSettingsProvider } from './src/hooks/useUserSettings';
+import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
 
 enableScreens();
 
@@ -31,7 +28,7 @@ const App = props => {
   const screenReaderEnabled = useScreenReader();
   const localizationContext = React.useMemo(
     () => ({
-      t: (scope, options) => i18n.t(scope, {locale, ...options}),
+      t: (scope, options) => i18n.t(scope, { locale, ...options }),
       locale,
       setLocale,
     }),
@@ -63,8 +60,7 @@ const App = props => {
     database
       .saveOnbording()
       .then(onboardingState =>
-        onboardingState > showOnboardingFirst &&
-        onboardingState !== showOnboardingLast
+        onboardingState > showOnboardingFirst && onboardingState !== showOnboardingLast
           ? setOnboarding(false)
           : setOnboarding(true),
       );
@@ -83,9 +79,7 @@ const App = props => {
       <NavigationContainer
         // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
-        onReady={() =>
-          (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
-        }
+        onReady={() => (routeNameRef.current = navigationRef.current.getCurrentRoute().name)}
         onStateChange={() => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
@@ -107,7 +101,7 @@ const App = props => {
             <UserSettingsProvider>
               <ScreenReaderProvider>
                 <EnterMealTypeProvider>
-                  <View style={{flex: 1}}>
+                  <View style={{ flex: 1 }}>
                     {/*
                 <StatusBar barStyle={'dark-content'} />
                 */}
@@ -115,16 +109,8 @@ const App = props => {
                       screenOptions={{
                         headerShown: false,
                       }}>
-                      {onboarding && (
-                        <Stack.Screen
-                          name="Onboarding"
-                          component={OnboardingScreen}
-                        />
-                      )}
-                      <Stack.Screen
-                        name="Home"
-                        component={AppBottomNavigationStack}
-                      />
+                      {onboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
+                      <Stack.Screen name="Home" component={AppBottomNavigationStack} />
                     </Stack.Navigator>
                   </View>
                 </EnterMealTypeProvider>

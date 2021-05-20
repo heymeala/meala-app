@@ -1,12 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text, useTheme} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text, useTheme } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const RoundInsulinInfoItem = props => {
   const styles = useStyles();
-  const {value, unit, infoText} = props;
-  const {theme} = useTheme();
+  const { value, unit, infoText } = props;
+  const { theme } = useTheme();
   return (
     <>
       <Text style={styles.valueText}>
@@ -16,11 +16,7 @@ const RoundInsulinInfoItem = props => {
       <Text style={styles.text}>{infoText}</Text>
       <View accessible={false} style={styles.container}>
         <View style={styles.insulinIconContainer}>
-          <FontAwesome5
-            name={props.icon}
-            size={17}
-            color={theme.colors.white}
-          />
+          <FontAwesome5 name={props.icon} size={17} color={theme.colors.white} />
         </View>
       </View>
     </>
@@ -30,7 +26,7 @@ const RoundInsulinInfoItem = props => {
 export default RoundInsulinInfoItem;
 
 const useStyles = makeStyles(theme => ({
-  container: {left: 60, top: -0, position: 'absolute'},
+  container: { left: 60, top: -0, position: 'absolute' },
   text: {
     textAlign: 'center',
     fontSize: 10,

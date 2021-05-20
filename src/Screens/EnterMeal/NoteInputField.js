@@ -1,18 +1,18 @@
 import React from 'react';
-import {Keyboard, ScrollView, View} from 'react-native';
-import {Input, makeStyles} from 'react-native-elements';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
+import { Keyboard, ScrollView, View } from 'react-native';
+import { Input, makeStyles } from 'react-native-elements';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 
 const NoteInputField = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const screenReaderEnabled = useScreenReader();
-  const {notiz, setNotiz} = props;
+  const { notiz, setNotiz } = props;
   return (
     <Input
       inputContainerStyle={styles.inputPaddingTextarea}
-      inputStyle={{fontSize: 15}}
+      inputStyle={{ fontSize: 15 }}
       placeholder={t('AddMeal.Note')}
       numberOfLines={3}
       renderErrorMessage={false}
@@ -26,8 +26,8 @@ const NoteInputField = props => {
         !screenReaderEnabled && {
           type: 'ionicon',
           name: 'ios-information-circle',
-          containerStyle: {paddingRight: 10},
-          iconStyle: {color: '#154d80'},
+          containerStyle: { paddingRight: 10 },
+          iconStyle: { color: '#154d80' },
         }
       }
       onChangeText={text => setNotiz(text)}

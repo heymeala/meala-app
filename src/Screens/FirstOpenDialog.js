@@ -1,16 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, ScrollView, View} from 'react-native';
-import {FAB, Icon, ListItem, makeStyles, Text} from 'react-native-elements';
-import {database} from '../Common/database_realm';
+import React, { useEffect, useRef, useState } from 'react';
+import { Dimensions, ScrollView, View } from 'react-native';
+import { FAB, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
+import { database } from '../Common/database_realm';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
-import {DEVICE_HEIGHT} from '../utils/deviceHeight';
+import { DEVICE_HEIGHT } from '../utils/deviceHeight';
 import LottieView from 'lottie-react-native';
 import ListItemWithIcon from './MealEntries/Common/ListItemWithIcon';
-import {spacing} from '../theme/styles';
+import { spacing } from '../theme/styles';
 
 const FirstOpenDialog = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
   const [open, setOpen] = useState(false);
@@ -46,9 +46,7 @@ const FirstOpenDialog = props => {
         <View style={styles.modalView}>
           <ScrollView>
             <View style={styles.wrapper}>
-              <View
-                onStartShouldSetResponder={() => true}
-                style={styles.container}>
+              <View onStartShouldSetResponder={() => true} style={styles.container}>
                 <LottieView
                   style={styles.animation}
                   source={require('../assets/animations/food_animation.json')}
@@ -63,10 +61,7 @@ const FirstOpenDialog = props => {
                 <Text h4 h4Style={styles.text}>
                   {t('Entries.firstOpenDialog.subtitle')}
                 </Text>
-                <ListItemWithIcon
-                  title={t('Entries.firstOpenDialog.Nightscout')}
-                  icon={'nightscout'}
-                />
+                <ListItemWithIcon title={t('Entries.firstOpenDialog.Nightscout')} icon={'nightscout'} />
                 <ListItemWithIcon
                   title={t('Entries.firstOpenDialog.FatSecret')}
                   icon={'apps'}
@@ -77,10 +72,7 @@ const FirstOpenDialog = props => {
                   icon={'heart'}
                   type={'ionicon'}
                 />
-                <ListItemWithIcon
-                  title={t('Entries.firstOpenDialog.Dexcom')}
-                  icon={'dexcom'}
-                />
+                <ListItemWithIcon title={t('Entries.firstOpenDialog.Dexcom')} icon={'dexcom'} />
                 <ListItemWithIcon
                   title={t('Entries.firstOpenDialog.Tidepool')}
                   icon={'tidepool'}
@@ -94,11 +86,7 @@ const FirstOpenDialog = props => {
               </View>
             </View>
           </ScrollView>
-          <FAB
-            placement={'right'}
-            title={'Okay'}
-            onPress={() => acceptDialog()}
-          />
+          <FAB placement={'right'} title={'Okay'} onPress={() => acceptDialog()} />
         </View>
       </View>
     </Modal>
@@ -108,8 +96,8 @@ const FirstOpenDialog = props => {
 export default FirstOpenDialog;
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  modal: {marginHorizontal: 0, marginBottom: 0, paddingTop: DEVICE_HEIGHT / 6},
-  animation: {height: 150, alignSelf: 'center'},
+  modal: { marginHorizontal: 0, marginBottom: 0, paddingTop: DEVICE_HEIGHT / 6 },
+  animation: { height: 150, alignSelf: 'center' },
   centeredView: {
     //  flex: 1,
     justifyContent: 'flex-end',
@@ -135,5 +123,5 @@ const useStyles = makeStyles((theme, dimensions) => ({
       height: 2,
     },
   },
-  text: {paddingVertical: spacing.S},
+  text: { paddingVertical: spacing.S },
 }));

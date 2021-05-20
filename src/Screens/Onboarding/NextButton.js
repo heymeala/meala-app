@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LocalizationContext from '../../../LanguageContext';
 
 const NextButton = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -14,11 +14,7 @@ const NextButton = props => {
       accessible={true}
       accessibilityLabel={t('Accessibility.Onboarding.next')}
       accessibilityRole="button">
-      <Icon
-        name="ios-arrow-forward"
-        color="rgba(255, 255, 255, .9)"
-        size={24}
-      />
+      <Icon name="ios-arrow-forward" color="rgba(255, 255, 255, .9)" size={24} />
     </View>
   );
 };

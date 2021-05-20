@@ -1,7 +1,7 @@
 import hmacsha1 from 'hmacsha1';
 import React from 'react';
 import Keychain from 'react-native-keychain';
-import {FATSECRET_CONSUMER_KEY, FATSECRET_CONSUMER_SECRET} from '@env';
+import { FATSECRET_CONSUMER_KEY, FATSECRET_CONSUMER_SECRET } from '@env';
 
 const queryString = require('query-string');
 
@@ -17,9 +17,7 @@ function getOauthParameters() {
   const timestamp = Math.round(new Date().getTime() / 1000);
   return [
     ['oauth_consumer_key', FATSECRET_CONSUMER_KEY].join('='),
-    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join(
-      '=',
-    ),
+    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
     ['oauth_signature_method', OAUTH_SIGNATURE_METHOD].join('='),
     ['oauth_timestamp', timestamp].join('='),
     ['oauth_version', OAUTH_VERSION].join('='),
@@ -27,9 +25,7 @@ function getOauthParameters() {
 }
 
 export function signRequest(baseUrl, queryParams, secret, httpMethod = 'GET') {
-  const signatureKey = secret
-    ? `${FATSECRET_CONSUMER_SECRET}&${secret}`
-    : `${FATSECRET_CONSUMER_SECRET}&`;
+  const signatureKey = secret ? `${FATSECRET_CONSUMER_SECRET}&${secret}` : `${FATSECRET_CONSUMER_SECRET}&`;
   const signatureBaseString = [
     httpMethod,
     encodeURIComponent(baseUrl),
@@ -54,6 +50,36 @@ export async function searchFood(query, maxResults = 5) {
   return response.json();
 }
 
+export async function searchRecipes(query, maxResults) {
+  const method = 'recipes.search';
+  const queryParams = [
+    ...getOauthParameters(),
+    ['format', 'json'].join('='),
+    ['max_results', maxResults].join('='),
+    ['method', method].join('='),
+    ['search_expression', encodeURIComponent(query)].join('='),
+  ].sort((a, b) => a.localeCompare(b));
+  const sha = signRequest(API_BASE, queryParams);
+  queryParams.push(['oauth_signature', sha].join('='));
+  const response = await fetch(`${API_PATH}?${queryParams.join('&')}`);
+  return response.json();
+}
+
+export async function getRecipeDetails(id) {
+  const method = 'recipe.get';
+  const queryParams = [
+    ...getOauthParameters(),
+    ['format', 'json'].join('='),
+    ['recipe_id', id].join('='),
+    ['method', method].join('='),
+    ['search_expression', encodeURIComponent(id)].join('='),
+  ].sort((a, b) => a.localeCompare(b));
+  const sha = signRequest(API_BASE, queryParams);
+  queryParams.push(['oauth_signature', sha].join('='));
+  const response = await fetch(`${API_PATH}?${queryParams.join('&')}`);
+  return response.json();
+}
+
 export async function getFood(foodId) {
   const method = 'food.get';
   const queryParams = [
@@ -71,9 +97,7 @@ export async function getFood(foodId) {
 function getOauthSignature() {
   const timestamp = Math.round(new Date().getTime() / 1000);
   return [
-    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join(
-      '=',
-    ),
+    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
     ['oauth_version', OAUTH_VERSION].join('='),
     ['oauth_callback', 'oob'].join('='),
     ['oauth_timestamp', timestamp].join('='),
@@ -83,9 +107,7 @@ function getOauthSignature() {
 }
 
 export async function getOauthUrl() {
-  const queryParams = [...getOauthSignature()].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const queryParams = [...getOauthSignature()].sort((a, b) => a.localeCompare(b));
 
   const sha = signRequest(OAUTH_REQUEST_TOKEN, queryParams);
   queryParams.push(['oauth_signature', sha].join('='));
@@ -93,8 +115,8 @@ export async function getOauthUrl() {
   const urlFetch = `${OAUTH_REQUEST_TOKEN}?${queryParams.join('&')}`;
 
   return fetch(urlFetch)
-    .then((response) => response.text())
-    .then((html) => {
+    .then(response => response.text())
+    .then(html => {
       const params = queryString.parse(html);
       return params;
     });
@@ -105,9 +127,7 @@ function getOauthAccessToken(token, code) {
 
   return [
     ['oauth_token', token].join('='),
-    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join(
-      '=',
-    ),
+    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
     ['oauth_version', OAUTH_VERSION].join('='),
     ['oauth_verifier', code].join('='),
     ['oauth_timestamp', timestamp].join('='),
@@ -117,19 +137,17 @@ function getOauthAccessToken(token, code) {
 }
 
 export function getAccessToken(token, secret, code) {
-  const queryParams = [...getOauthAccessToken(token, code)].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const queryParams = [...getOauthAccessToken(token, code)].sort((a, b) => a.localeCompare(b));
   const sha = signRequest(OAUTH_ACESS_TOKEN, queryParams, secret);
   queryParams.push(['oauth_signature', sha].join('='));
   const accessToken = `${OAUTH_ACESS_TOKEN}?${queryParams.join('&')}`;
 
   return fetch(accessToken)
     .then(
-      (response) => response.text(), // .json(), etc.
+      response => response.text(), // .json(), etc.
       // same as function(response) {return response.text();}
     )
-    .then((html) => {
+    .then(html => {
       const params = queryString.parse(html);
       return params;
     });
@@ -142,9 +160,7 @@ function getFoodByDateParams(token) {
     ['oauth_consumer_key', FATSECRET_CONSUMER_KEY].join('='),
     ['oauth_signature_method', OAUTH_SIGNATURE_METHOD].join('='),
     ['oauth_timestamp', timestamp].join('='),
-    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join(
-      '=',
-    ),
+    ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
     ['oauth_version', OAUTH_VERSION].join('='),
     ['oauth_token', token].join('='),
   ];
@@ -163,9 +179,7 @@ export async function getFoodByDateFromUser(date, foodEntryId) {
 
   try {
     // Retrieve the credentials
-    const credentials = await Keychain.getInternetCredentials(
-      'https://www.fatsecret.com/oauth/authorize',
-    );
+    const credentials = await Keychain.getInternetCredentials('https://www.fatsecret.com/oauth/authorize');
     if (credentials) {
       const queryParams = [
         ...getFoodByDateParams(credentials.username),

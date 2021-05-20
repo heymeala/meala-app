@@ -3,5 +3,6 @@ export function calculateFPE(calories, carbohydrates) {
 }
 
 export function reduceNutritionValues(data, type) {
-  return data.reduce((a, v) => a + Number(v[type]), 0).toFixed(2);
+  const fpe = data.reduce((a, v) => a + Number(v[type]), 0).toFixed(2);
+  return fpe;
 }

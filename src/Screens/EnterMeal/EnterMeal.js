@@ -1,45 +1,45 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Keyboard, KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
-import {Button, FAB, makeStyles} from 'react-native-elements';
-import {database} from '../../Common/database_realm';
+import React, { useEffect, useRef, useState } from 'react';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { Button, FAB, makeStyles } from 'react-native-elements';
+import { database } from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
 import MealInputField from './EnterMealComponents/MealInputField';
 import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
-import {uploadImageToServer} from './EnterMealComponents/imageUploadToServer';
+import { uploadImageToServer } from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
-import {DatePickerOverlay} from './EnterMealComponents/DatePickerOverlay';
-import {useFocusEffect} from '@react-navigation/core';
+import { DatePickerOverlay } from './EnterMealComponents/DatePickerOverlay';
+import { useFocusEffect } from '@react-navigation/core';
 import ScanScreen from './BarCodeScanner/BarCodeScannerScreen';
 import PictureSelector from './PictureSelector';
-import {Tags} from './EnterMealComponents/Tags';
-import {mealTypeByTime} from '../../utils/timeOfDay';
+import { Tags } from './EnterMealComponents/Tags';
+import { mealTypeByTime } from '../../utils/timeOfDay';
 import FatSecretUserDataModal from './EnterMealComponents/FatSecretUserDataModal';
-import {COMMUNITY_MEALS_URL} from '@env';
-import {addTimeBasedTags} from './addTimebasedTags';
-import {getExistingFatSecretProfileData} from './getExistingFatSecretProfileData';
-import {checkGps} from './checkGPS';
-import {reminderNotification} from './ReminderNotification';
+import { COMMUNITY_MEALS_URL } from '@env';
+import { addTimeBasedTags } from './addTimebasedTags';
+import { getExistingFatSecretProfileData } from './getExistingFatSecretProfileData';
+import { checkGps } from './checkGPS';
+import { reminderNotification } from './ReminderNotification';
 import HeaderRightIconGroup from './HeaderRightIconGroup';
-import {uploadToNightScout} from './uploadToNightScout';
+import { uploadToNightScout } from './uploadToNightScout';
 import NightScoutInputFields from './NightScoutTreatmentsInputFields';
 import HealthKitInputField from './HealthKitInputField';
 import NoteInputField from './NoteInputField';
-import {spacing} from '../../theme/styles';
+import { spacing } from '../../theme/styles';
 import uuid from 'react-native-uuid';
-import {useUserSettings} from '../../hooks/useUserSettings';
-import {COPY_MODE, EDIT_MODE, useEnterMealType} from '../../hooks/useEnterMealState';
-import {useExistingDataFromDB} from './hooks/useExistingFatSecretIds';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
+import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 
-const EnterMeal = ({route, navigation}, props) => {
-  const {meal_id, id, scan} = route.params;
-  const {t, locale} = React.useContext(LocalizationContext);
+const EnterMeal = ({ route, navigation }, props) => {
+  const { meal_id, id, scan } = route.params;
+  const { t, locale } = React.useContext(LocalizationContext);
   moment.locale(locale);
   const styles = useStyles(props);
-  const {userSettings} = useUserSettings();
+  const { userSettings } = useUserSettings();
   const [user_id, setUser_id] = useState('');
-  const {type, changeType} = useEnterMealType();
+  const { type, changeType } = useEnterMealType();
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
   const [avatarSourceCamera, setAvatarSourceCamera] = useState(undefined);
 
@@ -136,6 +136,7 @@ const EnterMeal = ({route, navigation}, props) => {
     auth()
       .signInAnonymously()
       .then(data => {
+        console.log(data.user.uid)
         setUser_id(data.user.uid);
       });
   }, []);
@@ -159,7 +160,7 @@ const EnterMeal = ({route, navigation}, props) => {
     navigation.setParams({
       meal_id: null,
     });
-    changeType({mode: 'default', meal_id: null});
+    changeType({ mode: 'default', meal_id: null });
     navigation.goBack();
   }
 
@@ -192,7 +193,7 @@ const EnterMeal = ({route, navigation}, props) => {
       ? fatSecretData
           .filter(data => data.checked)
           .map(data => {
-            return {foodEntryId: data.food_entry_id};
+            return { foodEntryId: data.food_entry_id };
           })
       : [];
 
@@ -207,22 +208,13 @@ const EnterMeal = ({route, navigation}, props) => {
 
     if (type.mode === EDIT_MODE) {
       database
-        .editRestaurantAndMeal(
-          mealTitle,
-          foodPicture,
-          note,
-          mealId,
-          userMealId,
-          date,
-          fatSecretUserIds,
-          tags,
-        )
+        .editRestaurantAndMeal(mealTitle, foodPicture, note, mealId, userMealId, date, fatSecretUserIds, tags)
         .then(() => {
           reset();
           navigation.setParams({
             meal_id: null,
           });
-          changeType({mode: 'default', meal_id: null});
+          changeType({ mode: 'default', meal_id: null });
           navigation.navigate('meala');
         });
     } else {
@@ -272,7 +264,7 @@ const EnterMeal = ({route, navigation}, props) => {
           navigation.setParams({
             meal_id: null,
           });
-          changeType({mode: 'default', meal_id: null});
+          changeType({ mode: 'default', meal_id: null });
           //navigation.goBack();
           navigation.navigate('meala');
         });
@@ -297,7 +289,7 @@ const EnterMeal = ({route, navigation}, props) => {
 
   const handleMealInputFocus = () => {
     setMealIsFocused(true);
-    scrollListReftop.current.scrollTo({x: 0, y: 100, animated: true});
+    scrollListReftop.current.scrollTo({ x: 0, y: 100, animated: true });
   };
 
   const handleMealInputBlur = () => setMealIsFocused(false);
@@ -370,16 +362,9 @@ const EnterMeal = ({route, navigation}, props) => {
   const [visible, setVisible] = useState(false);
 
   return isScannerVisible ? (
-    <ScanScreen
-      toggleScanner={() => setIsScannerVisible(false)}
-      handleScannerFood={handleScannerFood}
-    />
+    <ScanScreen toggleScanner={() => setIsScannerVisible(false)} handleScannerFood={handleScannerFood} />
   ) : (
-    <KeyboardAvoidingView
-      style={styles.wrapper}
-      behavior="padding"
-      enabled
-      keyboardVerticalOffset={offset}>
+    <KeyboardAvoidingView style={styles.wrapper} behavior="padding" enabled keyboardVerticalOffset={offset}>
       <ScrollView
         bounces={false}
         contentInsetAdjustmentBehavior="automatic"
@@ -467,8 +452,8 @@ const EnterMeal = ({route, navigation}, props) => {
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}
-        buttonStyle={{height: 40}}
-        icon={{name: 'save', color: 'black'}}
+        buttonStyle={{ height: 40 }}
+        icon={{ name: 'save', color: 'black' }}
       />
       {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
         <FAB
@@ -478,7 +463,7 @@ const EnterMeal = ({route, navigation}, props) => {
           onPress={() => cancel()}
           size={'small'}
           placement={'left'}
-          icon={{name: 'cancel', color: 'white'}}
+          icon={{ name: 'cancel', color: 'white' }}
         />
       ) : null}
     </KeyboardAvoidingView>
@@ -488,14 +473,14 @@ const EnterMeal = ({route, navigation}, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
-  wrapper: {flexGrow: 1, height: '100%'},
+  wrapper: { flexGrow: 1, height: '100%' },
 
   spacing: {
     alignItems: 'flex-start',
     paddingHorizontal: spacing.L,
     marginBottom: spacing.M,
   },
-  fatSecretButton: {paddingHorizontal: spacing.L},
+  fatSecretButton: { paddingHorizontal: spacing.L },
   container: {
     flexGrow: 1,
     flexDirection: 'column',

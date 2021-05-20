@@ -1,9 +1,9 @@
 import React from 'react';
-import {makeStyles, Text} from 'react-native-elements';
+import { makeStyles, Text } from 'react-native-elements';
 
 const AccessibleFoodInfoText = props => {
   const styles = useStyles();
-  const {value, unit, infoText} = props;
+  const { value, unit, infoText } = props;
 
   return (
     <>

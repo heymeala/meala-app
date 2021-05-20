@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
 const Dialog = (title, message, t, reset) => {
   Alert.alert(
@@ -11,9 +11,9 @@ const Dialog = (title, message, t, reset) => {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => reset()},
+      { text: 'OK', onPress: () => reset() },
     ],
-    {cancelable: false},
+    { cancelable: false },
   );
 };
 

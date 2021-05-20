@@ -15,10 +15,10 @@ export const theme = {
     background: colors_light.background,
   },
   FAB: {
-    titleStyle: {color: colors_light.black},
+    titleStyle: { color: colors_light.black },
   },
   Text: {
-    style: {fontSize: 16},
+    style: { fontSize: 16 },
     h4Style: {
       fontSize: 16,
       fontWeight: 'bold',
@@ -38,7 +38,7 @@ export const theme = {
     titleStyle: {
       color: colors_light.black,
     },
-    buttonStyle: {borderRadius: 20, backgroundColor: colors_light.secondary},
+    buttonStyle: { borderRadius: 20, backgroundColor: colors_light.secondary },
   },
   spacing: {
     XS: 4,

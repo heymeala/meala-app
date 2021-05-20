@@ -1,23 +1,17 @@
-import Svg, {Rect} from 'react-native-svg';
-import {ActivityIndicator, Dimensions, Text, View} from 'react-native';
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryGroup,
-  VictoryScatter,
-} from 'victory-native';
+import Svg, { Rect } from 'react-native-svg';
+import { ActivityIndicator, Dimensions, Text, View } from 'react-native';
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryScatter } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
 import LocalizationContext from '../../../../../LanguageContext';
-import {useProfile} from '../../../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRange} from '../../../../Common/analyseTimeInRange';
+import { useProfile } from '../../../../hooks/useProfile';
+import { analyseTimeInRangeHealthKit } from '../../../../Common/realm/timeInRangeHealthKit';
+import { useScreenReader } from '../../../../hooks/useScreenReaderEnabled';
+import { analyseTimeInRange } from '../../../../Common/analyseTimeInRange';
 
 function ChartView(props) {
-  const {t, locale} = React.useContext(LocalizationContext);
-  const {settings} = useProfile();
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { settings } = useProfile();
   const screenReaderEnabled = useScreenReader();
 
   if (props.loading === false) {
@@ -26,21 +20,20 @@ function ChartView(props) {
         <View>
           {props.coordinates.length > 1 ? (
             <>
-              <Text style={{padding: 8, fontSize: 18}}>
+              <Text style={{ padding: 8, fontSize: 18 }}>
                 {t('Accessibility.MealDetails.values', {
                   values: props.coordinates.length,
                 })}{' '}
                 {settings.unit === 1 ? 'miligram pro deziliter' : 'mili mol'}
               </Text>
-              <Text style={{padding: 8, fontSize: 18}}>
-                {analyseTimeInRangeHealthKit(props.coordinates)}{' '}
-                {t('Accessibility.MealDetails.percentage')}{' '}
+              <Text style={{ padding: 8, fontSize: 18 }}>
+                {analyseTimeInRangeHealthKit(props.coordinates)} {t('Accessibility.MealDetails.percentage')}{' '}
               </Text>
 
               {props.coordinates
                 .filter((data, i) => i % 3 === 0)
                 .map((data, i) => (
-                  <Text key={i} style={{padding: 8, fontSize: 18}}>
+                  <Text key={i} style={{ padding: 8, fontSize: 18 }}>
                     {moment(data.x).format('LT')} – {data.y}
                   </Text>
                 ))}
@@ -81,9 +74,9 @@ function ChartView(props) {
           <VictoryChart
             standalone={false}
             width={Dimensions.get('window').width + 20}
-            minDomain={{y: 50 / settings.unit}}
-            scale={{x: 'time'}}
-            maxDomain={{y: 300 / settings.unit}}>
+            minDomain={{ y: 50 / settings.unit }}
+            scale={{ x: 'time' }}
+            maxDomain={{ y: 300 / settings.unit }}>
             <VictoryAxis
               tickFormat={
                 locale === 'de'
@@ -102,7 +95,7 @@ function ChartView(props) {
               <VictoryScatter
                 style={{
                   data: {
-                    fill: ({datum}) =>
+                    fill: ({ datum }) =>
                       datum.y > 160 / settings.unit
                         ? '#ffd420'
                         : datum.y < 70 / settings.unit
@@ -143,16 +136,13 @@ function ChartView(props) {
               />
               <VictoryBar
                 style={{
-                  data: {fill: '#37619C', strokeWidth: 1.5},
+                  data: { fill: '#37619C', strokeWidth: 1.5 },
                 }}
-                labels={({datum}) =>
+                labels={({ datum }) =>
                   `${
                     settings.unit === 1
                       ? datum.y - 50
-                      : Math.round(
-                          (datum.y - 50 / settings.unit) *
-                            (300 / settings.unit),
-                        )
+                      : Math.round((datum.y - 50 / settings.unit) * (300 / settings.unit))
                   }`
                 }
                 size={3}
@@ -164,13 +154,7 @@ function ChartView(props) {
       );
     }
   } else {
-    return (
-      <ActivityIndicator
-        style={{paddingTop: 20, paddingBottom: 20}}
-        size="large"
-        color="#0000ff"
-      />
-    );
+    return <ActivityIndicator style={{ paddingTop: 20, paddingBottom: 20 }} size="large" color="#0000ff" />;
   }
 }
 

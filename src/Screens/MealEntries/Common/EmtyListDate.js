@@ -1,12 +1,12 @@
-import {Dimensions, Linking, View} from 'react-native';
-import {FAB, makeStyles, Text} from 'react-native-elements';
+import { Dimensions, Linking, View } from 'react-native';
+import { FAB, makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 
-export const EmptyListDate = ({navigation}) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+export const EmptyListDate = ({ navigation }) => {
+  const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
 
@@ -17,8 +17,8 @@ export const EmptyListDate = ({navigation}) => {
           Ein ganz besonderer Tag
         </Text>
         <Text style={styles.infoText}>
-          Du suchst nach einem genauen Tag? Oder dein Arzt fragt nach einem
-          bestimmten Datum? Dann bist du hier richtig.
+          Du suchst nach einem genauen Tag? Oder dein Arzt fragt nach einem bestimmten Datum? Dann bist du
+          hier richtig.
         </Text>
       </View>
 
@@ -29,20 +29,14 @@ export const EmptyListDate = ({navigation}) => {
         loop
       />
 
-      <FAB
-        title={'Quiz'}
-        placement={'left'}
-        onPress={() =>
-          Linking.openURL('https://quiz.heymeala.com?sh=meala_app&lng=de')
-        }
-      />
+      <FAB title={'Quiz'} placement={'left'} onPress={() => navigation.navigate('Quiz')} />
     </View>
   );
 };
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  image: {width: dimensions.width, height: 950},
-  animation: {width: dimensions.width, alignSelf: 'center'},
+  image: { width: dimensions.width, height: 950 },
+  animation: { width: dimensions.width, alignSelf: 'center' },
   wrapper: {
     flex: 1,
     justifyContent: 'space-between',
@@ -72,6 +66,6 @@ const useStyles = makeStyles((theme, dimensions) => ({
     flex: 1,
     alignItems: 'center',
   },
-  imagePlaceholder: {backgroundColor: theme.colors.white},
-  text: {paddingBottom: spacing.M},
+  imagePlaceholder: { backgroundColor: theme.colors.white },
+  text: { paddingBottom: spacing.M },
 }));

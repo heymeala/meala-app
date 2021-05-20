@@ -1,8 +1,8 @@
-import {Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {database} from '../Common/database_realm';
-import {makeStyles} from 'react-native-elements';
-import {spacing} from '../theme/styles';
+import { Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { database } from '../Common/database_realm';
+import { makeStyles } from 'react-native-elements';
+import { spacing } from '../theme/styles';
 
 var _ = require('lodash');
 
@@ -25,13 +25,13 @@ const MealTags = props => {
 
   const tagArray = tags
     ? tags.map(items => {
-        return {tag: items.tagEn};
+        return { tag: items.tagEn };
       })
     : null;
 
   const result = _(tagArray)
     .groupBy('tag')
-    .map((items, name) => ({name, count: items.length}))
+    .map((items, name) => ({ name, count: items.length }))
     .sortBy('count')
     .reverse()
     .take(8)
@@ -44,7 +44,7 @@ const MealTags = props => {
           paddingTop: 30,
           alignItems: 'center',
         }}>
-        <Text style={{padding: 15}}>{props.t('AddMeal.tags')}</Text>
+        <Text style={{ padding: 15 }}>{props.t('AddMeal.tags')}</Text>
         {result.map((items, i) => (
           <View key={i} style={styles.container}>
             <Text style={styles.text}>
@@ -61,7 +61,7 @@ const MealTags = props => {
           paddingTop: 30,
           alignItems: 'center',
         }}>
-        <Text style={{padding: 15}}>{props.t('Statistics.noData')}</Text>
+        <Text style={{ padding: 15 }}>{props.t('Statistics.noData')}</Text>
       </View>
     );
 };

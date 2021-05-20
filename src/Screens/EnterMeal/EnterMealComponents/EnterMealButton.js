@@ -1,11 +1,11 @@
-import {Image, TouchableOpacity, View} from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {makeStyles, Text} from 'react-native-elements';
+import { makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
 export default function EnterMealButton(props) {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -14,11 +14,7 @@ export default function EnterMealButton(props) {
         accessible={true}
         accessibilityLabel={t('Accessibility.EnterMeal.camera') + props.name}
         accessibilityRole={'button'}
-        style={[
-          styles.avatarSmall,
-          styles.avatarContainer,
-          {marginBottom: 20},
-        ]}>
+        style={[styles.avatarSmall, styles.avatarContainer, { marginBottom: 20 }]}>
         {props.avatarSource === undefined ? (
           <>
             <Icon name={props.icon} color={'#fff'} type="ionicon" size={35} />

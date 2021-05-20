@@ -1,19 +1,18 @@
 import React from 'react';
-import {Linking, Text, TouchableOpacity, View} from 'react-native';
+import { Linking, Text, TouchableOpacity, View } from 'react-native';
 
-import {makeStyles, SocialIcon} from 'react-native-elements';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
+import { makeStyles, SocialIcon } from 'react-native-elements';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 
 const SettingsFooter = () => {
   const screenReaderEnabled = useScreenReader();
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
-    <View style={{padding: 20}}>
-      <TouchableOpacity
-        onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
+    <View style={{ padding: 20 }}>
+      <TouchableOpacity onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
         <Text>{t('Settings.feedback')}</Text>
       </TouchableOpacity>
       {!screenReaderEnabled && (
@@ -21,11 +20,9 @@ const SettingsFooter = () => {
           <SocialIcon
             light
             onPress={() =>
-              Linking.openURL('instagram://user?username=heymeala').catch(
-                () => {
-                  Linking.openURL('https://www.instagram.com/heymeala');
-                },
-              )
+              Linking.openURL('instagram://user?username=heymeala').catch(() => {
+                Linking.openURL('https://www.instagram.com/heymeala');
+              })
             }
             type="instagram"
           />
@@ -37,11 +34,9 @@ const SettingsFooter = () => {
           <SocialIcon
             light
             onPress={() =>
-              Linking.openURL('twitter://user?screen_name=heymeala').catch(
-                () => {
-                  Linking.openURL('https://www.twitter.com/heymeala');
-                },
-              )
+              Linking.openURL('twitter://user?screen_name=heymeala').catch(() => {
+                Linking.openURL('https://www.twitter.com/heymeala');
+              })
             }
             type="twitter"
           />

@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 import FatSecretOverviewList from './OverviewList';
 import LocalizationContext from '../../../../LanguageContext';
 
 const FoodSuggestions = props => {
-  const {foodsData, toggleList, setFoodDetailData} = props;
-  const {t} = React.useContext(LocalizationContext);
+  const { foodsData, toggleList, setFoodDetailData } = props;
+  const { t } = React.useContext(LocalizationContext);
 
   if (foodsData.foods) {
     if (foodsData.foods.total_results === '0') {

@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LocalizationContext from '../../../LanguageContext';
 
 const SkipButton = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -18,7 +18,7 @@ const SkipButton = props => {
         name="ios-arrow-forward"
         color="rgba(255, 255, 255, .9)"
         size={24}
-        style={{backgroundColor: 'transparent'}}
+        style={{ backgroundColor: 'transparent' }}
       />
     </View>
   );

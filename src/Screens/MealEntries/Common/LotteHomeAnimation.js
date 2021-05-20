@@ -1,16 +1,16 @@
 import React from 'react';
-import {Dimensions, View} from 'react-native';
-import {Icon, makeStyles, Text} from 'react-native-elements';
+import { Dimensions, View } from 'react-native';
+import { Icon, makeStyles, Text } from 'react-native-elements';
 import LottieView from 'lottie-react-native';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 import LocalizationContext from '../../../../LanguageContext';
 
 const LottieHomeAnimation = props => {
   const dimensions = Dimensions.get('window');
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
 
   const styles = useStyles(dimensions);
-  const {listLength} = props;
+  const { listLength } = props;
   const first = listLength > 0 && listLength <= 2;
   const second = listLength === 3;
   const third = listLength > 3;
@@ -47,12 +47,12 @@ const LottieHomeAnimation = props => {
 export default LottieHomeAnimation;
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  animation: {width: dimensions.width},
+  animation: { width: dimensions.width },
   container: {
     flex: 1,
     justifyContent: 'center',
     height: 150,
     alignItems: 'center',
   },
-  text: {padding: spacing.M},
+  text: { padding: spacing.M },
 }));

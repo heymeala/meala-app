@@ -1,4 +1,4 @@
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 export default async function openLink(url) {

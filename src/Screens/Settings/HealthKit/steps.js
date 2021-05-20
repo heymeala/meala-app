@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 import AppleHealthKit from 'react-native-health';
 
 export function hkSteps(setStepSamples) {

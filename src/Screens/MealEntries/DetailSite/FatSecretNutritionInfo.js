@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
-import {Card, makeStyles, Text} from 'react-native-elements';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { Card, makeStyles, Text } from 'react-native-elements';
 import PoweredByFatSecret from '../../../Common/fatsecret/PoweredByFatSecret';
 import LocalizationContext from '../../../../LanguageContext';
-import {getFoodByDateFromUser} from '../../../Common/fatsecret/fatsecretApi';
+import { getFoodByDateFromUser } from '../../../Common/fatsecret/fatsecretApi';
 
 const FatSecretNutritionInfo = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [fatSecretData, setFatSecretData] = useState();
-  const {selectedFood} = props;
+  const { selectedFood } = props;
 
   useEffect(() => {
     selectedFood.fatSecretUserFoodEntryIds &&
@@ -18,9 +18,9 @@ const FatSecretNutritionInfo = props => {
           if (data.food_entries) {
             setFatSecretData(prevState => {
               if (prevState) {
-                return [{...data.food_entries.food_entry}, ...prevState];
+                return [{ ...data.food_entries.food_entry }, ...prevState];
               } else {
-                return [{...data.food_entries.food_entry}];
+                return [{ ...data.food_entries.food_entry }];
               }
             });
           } else {

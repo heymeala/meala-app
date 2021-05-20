@@ -4,8 +4,7 @@ export const enSlides = [
   {
     key: 1,
     title: 'Find Meal',
-    text:
-      "Find meals based on your location and learn from your own and others' experiences. \n\n",
+    text: "Find meals based on your location and learn from your own and others' experiences. \n\n",
     image: require('../../assets/onboarding/1.png'),
     backgroundColor: '#fff',
   },

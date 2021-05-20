@@ -151,7 +151,8 @@
     "fpu_long": "Fett Protein Einheit",
     "fpu": " FPE: ",
     "fpu_formula": "(KCal - (Kohlenhydrate*4)) / 100",
-    "informationFrom": "Information von"
+    "informationFrom": "Information von",
+    "details": "Details"
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -175,6 +176,43 @@
     "nutriscore": "Nutriscore",
     "onePortion": "Eine Portion",
     "licence": "Daten von \nOpen Food Facts"
+  },
+  "Recipes": {
+    "directions": "Anleitung",
+    "ingredients": "Zutaten",
+    "show_recipe": "Rezept anzeigen"
+  },
+  "Quiz": {
+    "guess_question": "Wie gut kannst du Mahlzeiten einschätzen?",
+    "guess_subtitle": "Zu jedem der unteren Themen gibt es 5 Fragen. Du erhältst zu jeder Frage drei Antwortmöglichkeiten. Versuche es solange, bis du die richtige Antwort findest",
+    "recipe_description": "Beschreibung",
+    "question_carbs": "Wie viele Kohlenhydrate hat das folgende Gericht?",
+    "question_calories": "Wie viele Kalorien hat das folgende Gericht?",
+    "question_fat": "Wie viel Fett hat das folgende Gericht?",
+    "question_fpe": "Wie viele Fett Protein Einheiten (FPE) hat das folgende Gericht?",
+    "question_protein": "Wie viel Eiweiß hat das folgende Gericht?",
+    "carbohydrates_game": "Kohlenhydrate",
+    "fat_game": "Fett",
+    "protein_game": "Eiweißgehalt",
+    "fpe_game": "Fett Protein Einheiten",
+    "calories_game": "Kalorien",
+    "gram": " Gramm",
+    "g": "g",
+    "fpe": "FPE",
+    "calories": "kcal",
+    "total_servings": "Für insgesamt {{total}} Portionen",
+    "done": "Teste Dein Wissen auch in anderen Bereichen",
+    "right": "Richtig",
+    "wrong": "Falsch",
+    "tries_result": "Beim {{tries}}. Versuch richtig",
+    "again": "Versuche es noch einmal",
+    "score": "Punkte",
+    "hint": "Hinweis",
+    "results": {
+      "one": "{{count}} richtige Antwort",
+      "other": "{{count}} richtige Antworten",
+      "zero": "{{count}} richtige Antworten"
+    }
   },
   "Settings": {
     "SettingsDrawNavigator": "Einstellungen",
@@ -263,13 +301,15 @@
     "enableGps": "Bitte aktiviere GPS, um Restaurants in der Nähe zu suchen.",
     "Cancel": "Abbrechen",
     "Carbs": "Kohlenhydrate",
+    "insulin": "Insulin",
     "eg": "z.B.",
     "delete": "Löschen",
     "welcome": "Willkommen bei meala - Deiner Mahlzeiten-Assistentin",
     "various": "Sonstiges",
     "cancel": "Abbrechen",
     "reset": "Zurücksetzen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "back": "zurück"
   },
   "Onboarding": {
     "next": "weiter"
@@ -286,7 +326,9 @@
       "similarMeals": "Suche nach ähnlichen Mahlzeiten",
       "fatsecret": "Diese Daten werden von FatSecret bereitgestellt",
       "meal": "Was hast Du gegessen? ",
-      "restaurant": "Wo isst Du Deine Mahlzeit? "
+      "restaurant": "Wo isst Du Deine Mahlzeit? ",
+      "lable": "Drücken um dieses Markierung zu entfernen",
+      "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann"
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",
@@ -300,7 +342,20 @@
       "insulin": " Einheiten Insulin",
       "carbs": " gramm Kohlenhydrate",
       "values": "Wir haben {{values}} Werte für diesen Eintrag gefunden. Die Angaben sind in",
-      "percentage": "prozent Deiner Werte liegen im Zielbereich"
+      "percentage": "prozent Deiner Werte liegen im Zielbereich",
+      "speedDail": "Menü öffnet drei weitere Buttons zum Löschen, Bearbeiten und Kopieren. Wische nach Links",
+      "open_menu": "Öffne Menü",
+      "edit": "Bearbeiten"
+    },
+    "Quiz": {
+      "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",
+      "answer_wrong": "Leider falsch - {{name}} hat {{serving}} {{type}}",
+      "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden",
+      "answer_carbs": "Gramm Kohlenhydrate",
+      "answer_calories": "Gramm Kalorien",
+      "answer_fat": "Gramm Fett",
+      "answer_fpe": "Fett Protein Einheiten",
+      "answer_protein": "Gramm Eiweiß"
     },
     "tab": {
       "home": "Gespeicherte Mahlzeiten",

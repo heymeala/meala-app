@@ -1,19 +1,13 @@
-import React, {useState} from 'react';
-import {Divider, Input, Text} from 'react-native-elements';
-import {
-  ActivityIndicator,
-  Keyboard,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, { useState } from 'react';
+import { Divider, Input, Text } from 'react-native-elements';
+import { ActivityIndicator, Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LocalizationContext from '../../../../LanguageContext';
 import AddMealAttributes from '../FatSecretSearch/AddMealAttributes';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 
 const MealInputField = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [visible, setVisible] = useState(false);
   const screenReaderEnabled = useScreenReader();
 
@@ -30,16 +24,10 @@ const MealInputField = props => {
       !props.isLoadingcMeals ? (
         props.cMeals.map(items => (
           <View key={items.meal_id}>
-            <TouchableOpacity
-              onPress={() => props.handleMealPress(items.meal, items.meal_id)}>
-              <View style={{flexDirection: 'row', padding: 3}}>
-                <Icon
-                  style={{paddingTop: 3}}
-                  color="#F9DE1C"
-                  name="ios-add"
-                  size={20}
-                />
-                <Text style={{padding: 5}}>{items.meal}</Text>
+            <TouchableOpacity onPress={() => props.handleMealPress(items.meal, items.meal_id)}>
+              <View style={{ flexDirection: 'row', padding: 3 }}>
+                <Icon style={{ paddingTop: 3 }} color="#F9DE1C" name="ios-add" size={20} />
+                <Text style={{ padding: 5 }}>{items.meal}</Text>
               </View>
             </TouchableOpacity>
             <Divider />
@@ -57,15 +45,15 @@ const MealInputField = props => {
         ref={props.MealInput}
         onFocus={props.handleMealInputFocus}
         inputContainerStyle={styles.inputPadding}
-        inputStyle={{fontSize: 20}}
+        inputStyle={{ fontSize: 20 }}
         placeholder={t('AddMeal.MealInput')}
         autoCorrect={false}
         leftIcon={
           !screenReaderEnabled && {
             type: 'ionicon',
             name: 'ios-pizza',
-            containerStyle: {paddingRight: 10},
-            iconStyle: {color: '#154d80'},
+            containerStyle: { paddingRight: 10 },
+            iconStyle: { color: '#154d80' },
           }
         }
         rightIcon={
@@ -73,13 +61,7 @@ const MealInputField = props => {
             accessibilityRole="button"
             accessibilityLabel={t('Accessibility.EnterMeal.similarMeals')}
             onPress={() => modalVisible()}>
-            <Icon
-              reverse
-              name="ios-search"
-              type="ionicon"
-              color="#154d80"
-              size={25}
-            />
+            <Icon reverse name="ios-search" type="ionicon" color="#154d80" size={25} />
           </TouchableOpacity>
         }
         onChangeText={text => handleSearch(text)}
@@ -93,9 +75,7 @@ const MealInputField = props => {
         modalVisible={modalVisible}
       />
 
-      <View style={{paddingBottom: 10}}>
-        {props.mealIsFocused && <CommunityMeals />}
-      </View>
+      <View style={{ paddingBottom: 10 }}>{props.mealIsFocused && <CommunityMeals />}</View>
     </View>
   );
 };

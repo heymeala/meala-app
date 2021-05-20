@@ -36,16 +36,14 @@ export function getInsulinInfo(treatments) {
           return data.insulin.toFixed(2);
         }
       });
-    const filterUndefined = insulin
-      .filter(data => data !== undefined)
-      .map(data => parseFloat(data));
+    const filterUndefined = insulin.filter(data => data !== undefined).map(data => parseFloat(data));
     if (filterUndefined.length > 0) {
       return filterUndefined.reduce(add).toFixed(2);
     } else {
-      return [];
+      return null;
     }
   } else {
-    return [];
+    return null;
   }
 }
 export function carbSum(carbs) {
@@ -57,13 +55,9 @@ export function carbSum(carbs) {
 }
 
 export function getSEA(checkSettings, t, duration, InsulinSumme) {
-  return InsulinSumme.length > 1
+  return InsulinSumme
     ? duration.asMilliseconds() < 0
-      ? t('Entries.youHave') +
-        Math.abs(Math.round(duration.asMinutes())) +
-        t('Entries.before')
-      : t('Entries.youHave') +
-        Math.abs(Math.round(duration.asMinutes())) +
-        t('Entries.after')
+      ? t('Entries.youHave') + Math.abs(Math.round(duration.asMinutes())) + t('Entries.before')
+      : t('Entries.youHave') + Math.abs(Math.round(duration.asMinutes())) + t('Entries.after')
     : t('Entries.calculating');
 }

@@ -1,21 +1,17 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
 
-export const ScannerModalResults = (props) => {
+export const ScannerModalResults = props => {
   const [visible, setVisible] = useState(false);
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
 
   return (
     <>
-      <View style={{display: 'flex', flexDirection: 'row', padding: 8}}>
-        <TouchableOpacity
-          style={{...styles.openButton}}
-          onPress={() => setVisible(true)}>
-          <Text style={{padding: 6, color: '#fff'}}>
-            {t('AddMeal.tag.addTag')}
-          </Text>
+      <View style={{ display: 'flex', flexDirection: 'row', padding: 8 }}>
+        <TouchableOpacity style={{ ...styles.openButton }} onPress={() => setVisible(true)}>
+          <Text style={{ padding: 6, color: '#fff' }}>{t('AddMeal.tag.addTag')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -30,9 +26,7 @@ export const ScannerModalResults = (props) => {
           swipeDirection={['down']}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{...styles.modalText, fontWeight: 'bold'}}>
-                {t('AddMeal.tag.addATag')}
-              </Text>
+              <Text style={{ ...styles.modalText, fontWeight: 'bold' }}>{t('AddMeal.tag.addATag')}</Text>
               <Text style={styles.modalText}>{t('AddMeal.tag.findTag')}</Text>
             </View>
           </View>

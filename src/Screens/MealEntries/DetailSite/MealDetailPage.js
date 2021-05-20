@@ -1,6 +1,6 @@
 import React from 'react';
-import {Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
-import {Image, makeStyles, Text} from 'react-native-elements';
+import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../../LanguageContext';
@@ -12,18 +12,18 @@ import MealNote from './MealNote';
 import NightScoutTreatmentDetails from './NightScoutTreatmentDetails';
 import FatSecretNutritionInfo from './FatSecretNutritionInfo';
 import EditSpeedDialGroup from './EditSpeedDailGroup';
-import {carbSum, getDuration, getInsulinInfo, getSEA} from './InsulinCarbSum';
-import {useUserSettings} from '../../../hooks/useUserSettings';
-import {DEFAULT, NIGHTSCOUT} from '../../Settings/glucoseSourceConstants';
-import {useNavigation} from '@react-navigation/core';
-import {spacing} from '../../../theme/styles';
+import { carbSum, getDuration, getInsulinInfo, getSEA } from './InsulinCarbSum';
+import { useUserSettings } from '../../../hooks/useUserSettings';
+import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
+import { useNavigation } from '@react-navigation/core';
+import { spacing } from '../../../theme/styles';
 
 const MealDetailsComponent = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
-  const {userSettings} = useUserSettings();
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { userSettings } = useUserSettings();
 
   moment.locale(locale);
-  const {selectedFood} = props;
+  const { selectedFood } = props;
   const foodDatumMoment = moment(selectedFood.date).format();
   const foodDatum = moment(foodDatumMoment).format('lll');
   const dimension = Dimensions.get('window');
@@ -41,17 +41,19 @@ const MealDetailsComponent = props => {
   ]);
   const insulinSumme = getInsulinInfo(props.treatments);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
-  const spritzEssAbstandText = React.useMemo(() => getSEA(userSettings.glucoseSource, t, duration, insulinSumme), [
-    userSettings.glucoseSource,
-    t,
-    duration,
-    insulinSumme,
-  ]);
+  const spritzEssAbstandText = React.useMemo(
+    () => getSEA(userSettings.glucoseSource, t, duration, insulinSumme),
+    [userSettings.glucoseSource, t, duration, insulinSumme],
+  );
 
   return (
     <>
       <ScrollView style={styles.wrapper}>
-        <MetaInfoHeader date={foodDatum} food={props.selectedFood.food} restaurantName={props.restaurantName} />
+        <MetaInfoHeader
+          date={foodDatum}
+          food={props.selectedFood.food}
+          restaurantName={props.restaurantName}
+        />
         <CircleGroup insulinSumme={insulinSumme} carbSumme={carbSumme} selectedFood={props.selectedFood} />
         {userSettings.glucoseSource !== DEFAULT ? (
           <GeneralChartView
@@ -64,8 +66,8 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <View style={{alignItems: 'center'}}>
-          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme.length > 0 && (
+        <View style={{ alignItems: 'center' }}>
+          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <View>
               <Text style={styles.space}>{spritzEssAbstandText}</Text>
             </View>
@@ -80,13 +82,17 @@ const MealDetailsComponent = props => {
 
           {props.selectedFood.picture ? (
             <Image
-              source={props.selectedFood.picture ? {uri: props.selectedFood.picture} : null}
+              source={props.selectedFood.picture ? { uri: props.selectedFood.picture } : null}
               style={styles.image}
             />
           ) : null}
         </View>
         {userSettings.glucoseSource === NIGHTSCOUT && (
-          <NightScoutTreatmentDetails treatments={props.treatments} insulinSumme={insulinSumme} carbSumme={carbSumme} />
+          <NightScoutTreatmentDetails
+            treatments={props.treatments}
+            insulinSumme={insulinSumme}
+            carbSumme={carbSumme}
+          />
         )}
         <MealNote selectedFood={props.selectedFood} />
         <FatSecretNutritionInfo selectedFood={selectedFood} />
@@ -99,7 +105,7 @@ const MealDetailsComponent = props => {
 export default MealDetailsComponent;
 
 const useStyles = makeStyles((theme, dimension) => ({
-  wrapper: {backgroundColor: '#fbfbfb'},
+  wrapper: { backgroundColor: '#fbfbfb' },
   image: {
     width: dimension.width - 20,
     height: dimension.height / 1.5,
@@ -107,5 +113,5 @@ const useStyles = makeStyles((theme, dimension) => ({
     paddingBottom: 5,
     paddingTop: 5,
   },
-  space: {paddingBottom: spacing.S},
+  space: { paddingBottom: spacing.S },
 }));

@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
-import {database} from '../../Common/database_realm';
-import {makeStyles} from 'react-native-elements';
+import { database } from '../../Common/database_realm';
+import { makeStyles } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import DateList from './DateList';
 import MealList from './MealList';
-import {spacing} from '../../theme/styles';
+import { spacing } from '../../theme/styles';
 import FirstOpenDialog from '../FirstOpenDialog';
 import RestaurantList from './RestaurantList';
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   const mealsByName = 0;
@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => ({
     borderWidth: 1,
     borderColor: theme.colors.primary,
   },
-  activeTabText: {color: theme.colors.white},
+  activeTabText: { color: theme.colors.white },
   inactiveTabText: {
     color: theme.colors.primary,
   },

@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  FlatList,
-  Text,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+import { SafeAreaView, FlatList, Text, View, TouchableHighlight } from 'react-native';
 
-function Item({title, onPress}) {
+function Item({ title, onPress }) {
   return (
     <TouchableHighlight onPress={() => onPress}>
       <View style={styles.item}>
@@ -22,10 +16,8 @@ function GetPlacesNearby(props) {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={props.places}
-        renderItem={({item}) => (
-          <Item onPress={props.onPress} title={item.name} />
-        )}
-        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Item onPress={props.onPress} title={item.name} />}
+        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );

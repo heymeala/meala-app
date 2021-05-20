@@ -1,13 +1,13 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {Icon, makeStyles} from 'react-native-elements';
-import {EDIT_MODE, useEnterMealType} from '../../../hooks/useEnterMealState';
-import {useNavigation} from '@react-navigation/core';
+import { TouchableOpacity, View } from 'react-native';
+import { Icon, makeStyles } from 'react-native-elements';
+import { EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';
+import { useNavigation } from '@react-navigation/core';
 
 const HiddenSwipeItem = props => {
   const styles = useStyles();
-  const {rowData, update} = props;
-  const {changeType} = useEnterMealType();
+  const { rowData, update } = props;
+  const { changeType } = useEnterMealType();
   const navigation = useNavigation();
 
   return (
@@ -15,7 +15,7 @@ const HiddenSwipeItem = props => {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => {
-          changeType({mode: EDIT_MODE, meal_id: rowData.item.id});
+          changeType({ mode: EDIT_MODE, meal_id: rowData.item.id });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {

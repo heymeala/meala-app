@@ -1,71 +1,55 @@
 import React from 'react';
-import {Platform} from 'react-native';
-import {CLARIFAI, GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
+import { CLARIFAI } from '@env';
+import { translate } from '../../Common/translate';
 const Clarifai = require('clarifai');
 
-export function imageDetectionClarifai(
-  clarifaiImagebase,
-  setPredictions,
-  locale,
-  setTags,
-) {
-  const apiKey =
-    Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
+export async function imageDetectionClarifai(clarifaiImagebase, setPredictions, locale, setTags) {
   const clarifai = new Clarifai.App({
     apiKey: CLARIFAI,
   });
+  const clarifaiPredictions = await clarifai.models.predict(
+    'bd367be194cf45149e75f01d59f77ba7',
+    clarifaiImagebase,
+  );
+  setPredictions(prevState => []);
+  await Promise.all(
+    clarifaiPredictions.outputs[0].data.concepts.slice(0, 3).map(async foodTags => {
+      if (locale === 'de') {
+        const translatedFoodSearchText = await translate(locale, foodTags.name, 'en', 'de');
 
-  clarifai.models
-    .predict('bd367be194cf45149e75f01d59f77ba7', clarifaiImagebase)
-    .then(data => {
-      setPredictions(prevState => []);
-      data.outputs[0].data.concepts.slice(0, 3).map(foodTags => {
-        let url = 'https://translation.googleapis.com/language/translate/v2';
-        url += '?q=' + foodTags.name;
-        url += '&target=de';
-        url += '&source=en';
-        url += '&key=' + apiKey;
+        setPredictions(prevArray => [
+          ...prevArray,
+          {
+            id: foodTags.id,
+            name: translatedFoodSearchText,
+          },
+        ]);
 
-        if (locale === 'de') {
-          return fetch(url).then(googleTranslateRes =>
-            googleTranslateRes.json().then(response => {
-              console.log(response.data.translations[0].translatedText);
-              setPredictions(prevArray => [
-                ...prevArray,
-                {
-                  id: foodTags.id,
-                  name: response.data.translations[0].translatedText,
-                },
-              ]);
-
-              setTags(prevArray => [
-                ...prevArray,
-                {
-                  id: foodTags.id,
-                  name: response.data.translations[0].translatedText,
-                  active: true,
-                },
-              ]);
-            }),
-          );
-        } else {
-          setPredictions(prevArray => [
-            ...prevArray,
-            {
-              id: foodTags.id,
-              name: foodTags.name,
-            },
-          ]);
-          setTags(prevArray => [
-            ...prevArray,
-            {
-              id: foodTags.id,
-              name: foodTags.name,
-              active: true,
-            },
-          ]);
-        }
-      });
-    })
-    .catch(e => console.log(e));
+        setTags(prevArray => [
+          ...prevArray,
+          {
+            id: foodTags.id,
+            name: translatedFoodSearchText,
+            active: true,
+          },
+        ]);
+      } else {
+        setPredictions(prevArray => [
+          ...prevArray,
+          {
+            id: foodTags.id,
+            name: foodTags.name,
+          },
+        ]);
+        setTags(prevArray => [
+          ...prevArray,
+          {
+            id: foodTags.id,
+            name: foodTags.name,
+            active: true,
+          },
+        ]);
+      }
+    }),
+  );
 }

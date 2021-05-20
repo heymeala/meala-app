@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 
 const NoResultsText = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -21,7 +21,6 @@ export default NoResultsText;
 
 const useStyles = makeStyles(theme => ({
   noResultsContainer: {
-    flex: 1,
     justifyContent: 'center',
     height: 150,
     alignItems: 'center',

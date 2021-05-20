@@ -4,7 +4,7 @@ export function analyseTimeInRangeHealthKit(cgmData) {
   let cgmOutOfRange = [];
   const add = (a, b) => a + b;
 
-  cgmData.map((cgmData) => {
+  cgmData.map(cgmData => {
     if (cgmData.y) {
       cgmArray.push(parseInt(cgmData.y));
 

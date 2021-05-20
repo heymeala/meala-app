@@ -1,5 +1,5 @@
 //todo: unused?
-import {getFood, searchFood} from '../../../Common/fatsecret/fatsecretApi';
+import { getFood, searchFood } from '../../../Common/fatsecret/fatsecretApi';
 
 function activateChip(id, name) {
   searchFood(name)
@@ -16,8 +16,7 @@ function activateChip(id, name) {
           prevState.map(data => {
             const foodDesc = foodIdData.food.food_name + ' ' + testArray;
             const active = data.id === id ? !data.active : data.active;
-            const nutritionText =
-              data.id === id ? foodDesc : data.nutritionData;
+            const nutritionText = data.id === id ? foodDesc : data.nutritionData;
             return {
               id: data.id,
               name: data.name,

@@ -1,32 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {database} from '../../Common/database_realm';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import { database } from '../../Common/database_realm';
 import moment from 'moment';
-import MealItemList from '../../Components/MealItemList';
 import LocalizationContext from '../../../LanguageContext';
-import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import * as Keychain from 'react-native-keychain';
-import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
+import { getFoodByDateFromUser } from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
-import {EmptyListDate} from './Common/EmtyListDate';
+import { EmptyListDate } from './Common/EmtyListDate';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
+import { MealItemsList } from '../../Components/MealItemList';
+import DateListHeader from './DateListHeader';
 
 const DateList = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
-  moment.locale(locale);
   const [restaurants, setRestaurants] = useState(undefined);
-  const [chosenDateStart, setChosenDateStart] = useState(moment());
-  const [loading, setLoading] = useState(true);
+  const today = moment();
+  const [fatSecretData, setFatSecretData] = useState();
+  const [chosenDateStart, setChosenDateStart] = useState(today);
 
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
     return () => {
       // cleanup code codes here
     };
-  }, []);
+  }, [chosenDateStart]);
 
   function showRestaurants(startDate, endDate) {
     database.fetchMealWithDateTime(startDate, endDate).then(allRestaurant => {
@@ -36,22 +37,8 @@ const DateList = props => {
   }
 
   const keyExtractor = (item, index) => item.id;
-  const renderItem = ({item}) => <MealItemList item={item} navigation={props.navigation} />;
+  const renderItem = ({ item }) => <MealItemsList item={item} navigation={props.navigation} />;
 
-  const [whiteListDataBaseDates, setWhiteListDataBaseDates] = useState([]);
-
-  async function dates() {
-    const white = await database.fetchMealDates();
-    const purDates = white.map(date => moment(date.date));
-    setWhiteListDataBaseDates(purDates);
-  }
-
-  const [fatSecretData, setFatSecretData] = useState();
-
-
-  useEffect(() => {
-    dates();
-  }, []);
   useEffect(
     function () {
       let isMounted = true;
@@ -65,11 +52,11 @@ const DateList = props => {
               if (data.food_entries) {
                 if (data.food_entries.food_entry.length >= 0) {
                   const checkedData = data.food_entries.food_entry.map(data => {
-                    return {...data};
+                    return { ...data };
                   });
                   setFatSecretData(checkedData);
                 } else if (data.food_entries.food_entry) {
-                  setFatSecretData([{...data.food_entries.food_entry}]);
+                  setFatSecretData([{ ...data.food_entries.food_entry }]);
                 }
               } else {
                 setFatSecretData();
@@ -80,10 +67,7 @@ const DateList = props => {
         }
       });
 
-      showRestaurants(
-        chosenDateStart.startOf('day').toDate(),
-        chosenDateStart.endOf('day').toDate(),
-      );
+      showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
       return () => {
         isMounted = false;
       };
@@ -92,55 +76,17 @@ const DateList = props => {
     [chosenDateStart],
   );
 
-  const markedDates = whiteListDataBaseDates.map(dates => {
-    return {date: dates, dots: [{color: 'blue'}]};
-  });
-
-  const HeaderComponent = function () {
-    return (
-      <>
-        <View style={styles.container}>
-          {props.controlBar}
-          <ReactNativeCalendarStrip
-            markedDates={markedDates}
-            maxDate={moment()}
-            // calendarAnimation={{Type:"parallel"}}
-            scrollable={true}
-            // scrollerPaging={true}
-            selectedDate={chosenDateStart}
-            onDateSelected={function (date) {
-              setChosenDateStart(date);
-            }}
-            style={{height: 150, paddingTop: 20, paddingBottom: 10}}
-            daySelectionAnimation={{
-              type: 'border',
-              duration: 200,
-              borderWidth: 2,
-              borderHighlightColor: 'blue',
-            }}
-            calendarHeaderStyle={{color: 'black'}}
-            calendarColor={'#f9de1c'}
-            dateNumberStyle={{color: 'black'}}
-            dateNameStyle={{color: 'black'}}
-            highlightDateNumberStyle={{color: 'black'}}
-            highlightDateNameStyle={{color: 'black'}}
-            disabledDateNameStyle={{color: 'grey'}}
-            disabledDateNumberStyle={{color: 'grey'}}
-          />
-        </View>
-      </>
-    );
-  };
-
   return loading ? (
     <LoadingSpinner />
   ) : (
     <FlatList
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1 }}
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
-      ListHeaderComponent={HeaderComponent()}
-      ListFooterComponentStyle={{height: '100%'}}
+      ListHeaderComponent={
+        <DateListHeader controlBar={props.controlBar} setChosenDateStart={setChosenDateStart} />
+      }
+      ListFooterComponentStyle={{ height: '100%' }}
       ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}
       data={restaurants}
       keyExtractor={keyExtractor}

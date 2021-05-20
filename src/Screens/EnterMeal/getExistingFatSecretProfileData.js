@@ -1,14 +1,8 @@
 import * as Keychain from 'react-native-keychain';
-import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
+import { getFoodByDateFromUser } from '../../Common/fatsecret/fatsecretApi';
 
-export function getExistingFatSecretProfileData(
-  date,
-  existingFatSecretIds,
-  setFatSecretData,
-) {
-  Keychain.hasInternetCredentials(
-    'https://www.fatsecret.com/oauth/authorize',
-  ).then(result => {
+export function getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData) {
+  Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
     if (result !== false) {
       // get Date from DatePicker and Calculate days since epoch
       var myEpoch = Math.trunc(date.getTime() / 1000.0 / 60 / 60 / 24);
@@ -17,20 +11,16 @@ export function getExistingFatSecretProfileData(
         if (data.food_entries) {
           if (data.food_entries.food_entry.length >= 0) {
             const checkedData = data.food_entries.food_entry.map(items => {
-              const checked =
-                existingFatSecretIds &&
-                existingFatSecretIds.includes(items.food_entry_id);
-              return {...items, checked};
+              const checked = existingFatSecretIds && existingFatSecretIds.includes(items.food_entry_id);
+              return { ...items, checked };
             });
             setFatSecretData(checkedData);
           } else if (data.food_entries.food_entry) {
             const checked =
               existingFatSecretIds &&
-              existingFatSecretIds.includes(
-                data.food_entries.food_entry.food_entry_id,
-              );
+              existingFatSecretIds.includes(data.food_entries.food_entry.food_entry_id);
 
-            setFatSecretData([{...data.food_entries.food_entry, checked}]);
+            setFatSecretData([{ ...data.food_entries.food_entry, checked }]);
           }
           // console.log(data);
         } else {

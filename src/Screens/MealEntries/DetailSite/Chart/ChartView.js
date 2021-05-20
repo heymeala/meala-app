@@ -1,30 +1,24 @@
-import Svg, {G, Rect} from 'react-native-svg';
-import {Dimensions, Text, View} from 'react-native';
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryGroup,
-  VictoryScatter,
-} from 'victory-native';
+import Svg, { G, Rect } from 'react-native-svg';
+import { Dimensions, Text, View } from 'react-native';
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryScatter } from 'victory-native';
 import React from 'react';
 import moment from 'moment';
 import LocalizationContext from '../../../../../LanguageContext';
-import {useProfile} from '../../../../hooks/useProfile';
-import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
-import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
+import { useProfile } from '../../../../hooks/useProfile';
+import { analyseTimeInRangeHealthKit } from '../../../../Common/realm/timeInRangeHealthKit';
+import { useScreenReader } from '../../../../hooks/useScreenReaderEnabled';
 import LoadingSpinner from '../../../../Common/LoadingSpinner';
-import {Icon, makeStyles, useTheme} from 'react-native-elements';
-import {spacing} from '../../../../theme/styles';
-import {MAX_CHART_VALUE, MIN_CHART_VALUE} from './chartConstant';
+import { Icon, makeStyles, useTheme } from 'react-native-elements';
+import { spacing } from '../../../../theme/styles';
+import { MAX_CHART_VALUE, MIN_CHART_VALUE } from './chartConstant';
 
 function GeneralChartView(props) {
-  const {t, locale} = React.useContext(LocalizationContext);
-  const {settings} = useProfile();
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { settings } = useProfile();
   const screenReaderEnabled = useScreenReader();
   const styles = useStyles();
   const window = Dimensions.get('window');
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
@@ -43,10 +37,7 @@ function GeneralChartView(props) {
   function mapUnitBack(value) {
     return settings.unit === 1
       ? value - MIN_CHART_VALUE
-      : Math.round(
-          (value - MIN_CHART_VALUE / settings.unit) *
-            (MAX_CHART_VALUE / settings.unit),
-        );
+      : Math.round((value - MIN_CHART_VALUE / settings.unit) * (MAX_CHART_VALUE / settings.unit));
   }
 
   const eatingChartStyle = {
@@ -91,37 +82,16 @@ function GeneralChartView(props) {
     } else {
       return (
         <Svg width={window.width} height={'300'}>
-          <Rect
-            x="50"
-            y="160"
-            width={window.width - 75}
-            height="70"
-            fillOpacity="1"
-            fill="#ECFFEC"
-          />
-          <Rect
-            x="50"
-            y="160"
-            width={window.width - 75}
-            height="1"
-            fillOpacity="0.2"
-            fill="#ffd420"
-          />
-          <Rect
-            x="50"
-            y="230"
-            width={window.width - 75}
-            height="1"
-            fillOpacity="0.2"
-            fill="#ac000a"
-          />
+          <Rect x="50" y="160" width={window.width - 75} height="70" fillOpacity="1" fill="#ECFFEC" />
+          <Rect x="50" y="160" width={window.width - 75} height="1" fillOpacity="0.2" fill="#ffd420" />
+          <Rect x="50" y="230" width={window.width - 75} height="1" fillOpacity="0.2" fill="#ac000a" />
 
           <VictoryChart
             standalone={false}
             width={window.width + 20}
-            minDomain={{y: 50 / settings.unit}}
-            scale={{x: 'time'}}
-            maxDomain={{y: 300 / settings.unit}}>
+            minDomain={{ y: 50 / settings.unit }}
+            scale={{ x: 'time' }}
+            maxDomain={{ y: 300 / settings.unit }}>
             <VictoryAxis
               tickFormat={
                 locale === 'de'
@@ -141,7 +111,7 @@ function GeneralChartView(props) {
                 <VictoryScatter
                   style={{
                     data: {
-                      fill: ({datum}) =>
+                      fill: ({ datum }) =>
                         datum.y > 160 / settings.unit
                           ? '#ffd420'
                           : datum.y < 70 / settings.unit
@@ -182,9 +152,9 @@ function GeneralChartView(props) {
                 <VictoryBar
                   barWidth={1}
                   style={{
-                    data: {fill: '#37619C', strokeWidth: 1.5},
+                    data: { fill: '#37619C', strokeWidth: 1.5 },
                   }}
-                  labels={({datum}) => `${mapUnitBack(datum.y)}`}
+                  labels={({ datum }) => `${mapUnitBack(datum.y)}`}
                   data={props.carbCoordinates}
                 />
               )}
@@ -201,5 +171,5 @@ function GeneralChartView(props) {
 export default GeneralChartView;
 
 const useStyles = makeStyles(theme => ({
-  text: {padding: spacing.S, fontSize: 18},
+  text: { padding: spacing.S, fontSize: 18 },
 }));

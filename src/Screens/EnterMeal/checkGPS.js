@@ -1,4 +1,4 @@
-import {getCurrentPosition} from '../../Common/geolocation';
+import { getCurrentPosition } from '../../Common/geolocation';
 
 export function checkGps(setLng, setLat, setGpsEnabled) {
   getCurrentPosition()

@@ -1,23 +1,20 @@
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import NutritionDetails from '../EnterMealComponents/nutritionDetails';
 import LocalizationContext from '../../../../LanguageContext';
 
 const FatSecretNutritionDetails = props => {
-  const {t} = React.useContext(LocalizationContext);
-  const {foodDetailData, serving} = props;
+  const { t } = React.useContext(LocalizationContext);
+  const { foodDetailData, serving } = props;
   const windowWidth = Dimensions.get('window').width;
 
   return (
-    <View style={{width: windowWidth - 150}}>
-      <Text style={{paddingBottom: 8}}>
-        {foodDetailData.food_name} -
-        {foodDetailData.servings[serving].serving.serving_description}
+    <View accessible={true} style={{ width: windowWidth - 150 }}>
+      <Text style={{ paddingBottom: 8 }}>
+        {foodDetailData.food_name} -{foodDetailData.servings[serving].serving.serving_description}
       </Text>
       <NutritionDetails
-        foodDetailData={
-          foodDetailData.servings[serving].serving.metric_serving_amount
-        }
+        foodDetailData={foodDetailData.servings[serving].serving.metric_serving_amount}
         unit={foodDetailData.servings[serving].serving.metric_serving_unit}
         title={t('AddMeal.nutritionData.serving')}
       />

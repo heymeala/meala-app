@@ -1,39 +1,31 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Platform} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
-import {searchFood} from '../../../Common/fatsecret/fatsecretApi';
-import {GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
+import { searchFood } from '../../../Common/fatsecret/fatsecretApi';
 import Modal from 'react-native-modal';
 
 import NutritionModalView from './NutritionModalView';
+import { translate } from '../../../Common/translate';
 
 const AddMealAttributes = props => {
-  const {locale} = React.useContext(LocalizationContext);
+  const { locale } = React.useContext(LocalizationContext);
   const [search, setSearch] = useState(props.text || '');
   const [chipsArray, setChipsArray] = useState([]);
   const [foodsData, setFoodsData] = useState([]);
   const [foodDetailData, setFoodDetailData] = useState({
     food_name: null,
     food_id: null,
-    servings: {serving: {calcium: 'nodatas'}},
+    servings: { serving: { calcium: 'nodata' } },
   });
   const [isServingListVisible, setServingListVisible] = useState(false);
   const [isNutritionData, setNutritionData] = useState(false);
   const [serving, setServing] = useState(null);
-  const apiKey =
-    Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 
   const [chipSearch, setChipSearch] = useState('');
-  let url = 'https://translation.googleapis.com/language/translate/v2';
-  url += '?q=' + search;
-  url += '&target=en';
-  url += '&source=de';
-  url += '&key=' + apiKey;
 
   useEffect(() => {
     setChipsArray(
       props.predictions.map(data => {
-        return {id: data.id, name: data.name, active: false, nutritionData: ''};
+        return { id: data.id, name: data.name, active: false, nutritionData: '' };
       }),
     );
   }, [props.predictions]);
@@ -70,18 +62,15 @@ const AddMealAttributes = props => {
     return setServingListVisible(prevState => !prevState);
   }
 
-  function startSearch() {
+  async function startSearch() {
     if (search.length > 2) {
       if (locale === 'de') {
-        return fetch(url).then(googleTranslateRes =>
-          googleTranslateRes.json().then(data => {
-            searchFood(data.data.translations[0].translatedText).then(data => {
-              setServingListVisible(false);
-              setNutritionData(false);
-              setFoodsData(prevState => data);
-            });
-          }),
-        );
+        const translatedFoodSearchText = await translate(locale, search, 'de', 'en');
+        searchFood(translatedFoodSearchText).then(data => {
+          setServingListVisible(false);
+          setNutritionData(false);
+          setFoodsData(prevState => data);
+        });
       } else {
         return searchFood(search).then(data => {
           setServingListVisible(false);

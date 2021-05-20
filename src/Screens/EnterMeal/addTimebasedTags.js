@@ -1,4 +1,4 @@
-import {mealTypeByTime} from '../../utils/timeOfDay';
+import { mealTypeByTime } from '../../utils/timeOfDay';
 
 export function addTimeBasedTags(tags, setTags, date, t) {
   // add Breakfast | Lunch | Dinner to Tags and replace if Date updates

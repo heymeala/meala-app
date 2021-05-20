@@ -1,11 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 
 const EditTagMissing = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -18,5 +18,5 @@ const EditTagMissing = props => {
 export default EditTagMissing;
 
 const useStyles = makeStyles(theme => ({
-  container: {marginBottom: 80, padding: spacing.M},
+  container: { marginBottom: 80, padding: spacing.M },
 }));

@@ -1,9 +1,9 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-elements';
 
-const NutritionItem = (props) => {
-  const {data, nutrition, text, unit} = props;
+const NutritionItem = props => {
+  const { data, nutrition, text, unit } = props;
 
   return data.nutriments ? (
     <View

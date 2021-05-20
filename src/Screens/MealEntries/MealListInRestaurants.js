@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import {FAB, useTheme} from 'react-native-elements';
-import {database} from '../../Common/database_realm';
+import React, { useState } from 'react';
+import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FAB, useTheme } from 'react-native-elements';
+import { database } from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
-import {useFocusEffect, useNavigation, useRoute} from '@react-navigation/core';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
@@ -11,12 +11,12 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
   const route = useRoute();
-  const {restaurant_id} = route.params;
+  const { restaurant_id } = route.params;
 
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   async function loadData(value) {
     const meals = await database.getRestaurantById(restaurant_id);
@@ -32,7 +32,7 @@ const MealListInRestaurants = props => {
   );
 
   function deleteMeal(id) {
-    PushNotification.cancelLocalNotifications({id: id});
+    PushNotification.cancelLocalNotifications({ id: id });
     database.deleteMealSoft(id);
     navigation.goBack();
   }
@@ -57,7 +57,7 @@ const MealListInRestaurants = props => {
                 navigation.navigate('EnterMealStack', {
                   screen: 'EnterMeal',
                   params: {
-                    id: route.params?.restaurant.id,
+                    id: restaurant_id,
                   },
                 })
               }
