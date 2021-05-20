@@ -1,6 +1,6 @@
 import React from 'react';
-import {CLARIFAI} from '@env';
-import {translate} from '../../Common/translate';
+import { CLARIFAI } from '@env';
+import { translate } from '../../Common/translate';
 const Clarifai = require('clarifai');
 
 export async function imageDetectionClarifai(clarifaiImagebase, setPredictions, locale, setTags) {

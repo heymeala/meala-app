@@ -1,16 +1,25 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Image, makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 
 const RecipeDetails = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {recipe} = props;
+  const { recipe } = props;
   return (
     <View style={styles.root}>
-      <Image style={styles.image} source={{uri: Array.isArray(recipe.recipe_images.recipe_image) ? recipe.recipe_images[0].recipe_image : recipe.recipe_images.recipe_image}} />
-      <Text accessibilityRole={'header'} h2>{recipe.recipe_name}</Text>
+      <Image
+        style={styles.image}
+        source={{
+          uri: Array.isArray(recipe.recipe_images.recipe_image)
+            ? recipe.recipe_images[0].recipe_image
+            : recipe.recipe_images.recipe_image,
+        }}
+      />
+      <Text accessibilityRole={'header'} h2>
+        {recipe.recipe_name}
+      </Text>
 
       {recipe.ingredients &&
         recipe.ingredients.ingredient.map((ingre, i) => (
@@ -45,8 +54,8 @@ const RecipeDetails = props => {
 export default RecipeDetails;
 
 const useStyles = makeStyles(theme => ({
-  root: {minHeight: 700, },
-  image: {width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L},
-  desc: {paddingVertical: theme.spacing.S},
-  descContainer: {display: 'flex', flexDirection: 'row', width: '90%'},
+  root: { minHeight: 700 },
+  image: { width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L },
+  desc: { paddingVertical: theme.spacing.S },
+  descContainer: { display: 'flex', flexDirection: 'row', width: '90%' },
 }));

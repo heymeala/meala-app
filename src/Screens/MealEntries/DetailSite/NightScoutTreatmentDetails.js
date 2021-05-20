@@ -1,21 +1,20 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 
 const NightScoutTreatmentDetails = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   let eventType, enteredinsulin, carbsCal, insuliCal;
-  const {carbSumme, insulinSumme} = props;
+  const { carbSumme, insulinSumme } = props;
   const InsulinCarbDetails = () =>
     props.treatments &&
     props.treatments.map((treatments, i) => {
       eventType = null;
       if (treatments.insulin) {
-        insuliCal =
-          t('Entries.directBolus') + ' ' + treatments.insulin.toFixed(2);
+        insuliCal = t('Entries.directBolus') + ' ' + treatments.insulin.toFixed(2);
       } else {
         insuliCal = null;
       }
@@ -54,8 +53,10 @@ const NightScoutTreatmentDetails = props => {
     });
 
   return (
-    <View style={{padding: 20}}>
-      <Text accessibilityRole={'header'} style={styles.text}>Details</Text>
+    <View style={{ padding: 20 }}>
+      <Text accessibilityRole={'header'} style={styles.text}>
+        Details
+      </Text>
       <InsulinCarbDetails />
       <Text style={styles.text}>Insulin: {insulinSumme}u</Text>
       <Text style={styles.text}>
@@ -68,6 +69,6 @@ const NightScoutTreatmentDetails = props => {
 export default NightScoutTreatmentDetails;
 
 const useStyles = makeStyles(theme => ({
-  text: {fontSize: 18, fontWeight: 'bold'},
-  detailsContainer: {marginVertical: spacing.XS},
+  text: { fontSize: 18, fontWeight: 'bold' },
+  detailsContainer: { marginVertical: spacing.XS },
 }));

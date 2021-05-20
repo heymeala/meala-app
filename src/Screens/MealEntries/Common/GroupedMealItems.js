@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import LocalizationContext from '../../../../LanguageContext';
-import {Icon, ListItem, makeStyles, Tooltip, useTheme, Text} from 'react-native-elements';
-import {spacing} from '../../../theme/styles';
+import { Icon, ListItem, makeStyles, Tooltip, useTheme, Text } from 'react-native-elements';
+import { spacing } from '../../../theme/styles';
 import NutritionDetailItem from '../NutritionDetailItem';
 import NutritionDetails from './NutritionDetails';
 
 const GroupedMealItems = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
-  const {data, sum} = props;
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { data, sum } = props;
   const [expanded, setExpanded] = useState(false);
   const styles = useStyles();
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
     <>
@@ -73,14 +73,14 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     paddingVertical: theme.spacing.XS,
   },
-  accordion: {backgroundColor: theme.colors.grey5},
-  icon: {paddingLeft: 0, paddingRight: theme.spacing.M},
+  accordion: { backgroundColor: theme.colors.grey5 },
+  icon: { paddingLeft: 0, paddingRight: theme.spacing.M },
   title: {
     fontWeight: 'bold',
   },
-  ccal: {fontSize: 10},
+  ccal: { fontSize: 10 },
   text: {
     fontWeight: 'bold',
   },
-  nutritionText: {paddingVertical: theme.spacing.XS},
+  nutritionText: { paddingVertical: theme.spacing.XS },
 }));

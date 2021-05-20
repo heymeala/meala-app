@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {Dimensions, Platform, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Platform, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import LocalizationContext from '../../../../LanguageContext';
-import {Button, FAB, makeStyles, Overlay, Text} from 'react-native-elements';
+import { Button, FAB, makeStyles, Overlay, Text } from 'react-native-elements';
 import SaveButton from '../../../Common/SaveButton';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 
-export const DatePickerOverlay = ({date, setDate}) => {
+export const DatePickerOverlay = ({ date, setDate }) => {
   const [datePicker, setDatePicker] = useState(date);
   const [isDateOverlayVisible, setDateOverlayVisible] = useState(false); // Overlay
 
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   useEffect(() => {
@@ -53,9 +53,7 @@ export const DatePickerOverlay = ({date, setDate}) => {
         accessible={true}
         accessibilityRole="button"
         onPress={() => setDateOverlayVisible(true)}>
-        <Text style={styles.date}>
-          {moment(date.toISOString()).format('lll')}
-        </Text>
+        <Text style={styles.date}>{moment(date.toISOString()).format('lll')}</Text>
       </TouchableOpacity>
       <Overlay
         isVisible={isDateOverlayVisible}
@@ -69,7 +67,7 @@ export const DatePickerOverlay = ({date, setDate}) => {
               <View>
                 <Button
                   onPress={showDatepicker}
-                  titleStyle={{color: 'black'}}
+                  titleStyle={{ color: 'black' }}
                   buttonStyle={{
                     borderRadius: 5,
                     marginBottom: 10,
@@ -77,13 +75,13 @@ export const DatePickerOverlay = ({date, setDate}) => {
                     borderWidth: 1,
                     backgroundColor: '#ffffff',
                   }}
-                  containerStyle={{paddingVertical: 20}}
+                  containerStyle={{ paddingVertical: 20 }}
                   title={moment(datePicker).format('LL')}
                 />
 
                 <Button
                   onPress={showTimepicker}
-                  titleStyle={{color: 'black'}}
+                  titleStyle={{ color: 'black' }}
                   buttonStyle={{
                     borderRadius: 5,
                     marginBottom: 10,
@@ -91,7 +89,7 @@ export const DatePickerOverlay = ({date, setDate}) => {
                     borderWidth: 1,
                     backgroundColor: '#ffffff',
                   }}
-                  containerStyle={{paddingVertical: 20}}
+                  containerStyle={{ paddingVertical: 20 }}
                   title={moment(datePicker).format('LT')}
                 />
               </View>
@@ -99,7 +97,7 @@ export const DatePickerOverlay = ({date, setDate}) => {
 
             {show && (
               <DateTimePicker
-                style={{width: windowWidth}}
+                style={{ width: windowWidth }}
                 testID="dateTimePicker"
                 value={datePicker}
                 mode={mode}
@@ -113,15 +111,11 @@ export const DatePickerOverlay = ({date, setDate}) => {
           </View>
           <Button
             type={'clear'}
-            buttonStyle={{backgroundColor: 'transparent'}}
+            buttonStyle={{ backgroundColor: 'transparent' }}
             onPress={() => setDateOverlayVisible(false)}
             title={t('AddMeal.close')}
           />
-          <FAB
-            placement={'right'}
-            onPress={() => save()}
-            title={t('General.Save')}
-          />
+          <FAB placement={'right'} onPress={() => save()} title={t('General.Save')} />
         </>
       </Overlay>
     </>

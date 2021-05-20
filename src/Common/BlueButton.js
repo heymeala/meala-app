@@ -1,13 +1,13 @@
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../LanguageContext';
 
-const BlueButton = (props) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+const BlueButton = props => {
+  const { t, locale } = React.useContext(LocalizationContext);
 
   return (
     <Button
-      titleStyle={{color: 'white'}}
+      titleStyle={{ color: 'white' }}
       containerStyle={
         props.containerStyle || {
           paddingLeft: 10,
@@ -15,7 +15,7 @@ const BlueButton = (props) => {
           marginBottom: 10,
         }
       }
-      buttonStyle={{borderRadius: 20, backgroundColor: '#154d80'}}
+      buttonStyle={{ borderRadius: 20, backgroundColor: '#154d80' }}
       title={t('General.Save')}
       onPress={() => props.onPress()}
       {...props}
@@ -24,4 +24,3 @@ const BlueButton = (props) => {
 };
 
 export default BlueButton;
-

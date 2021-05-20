@@ -1,4 +1,4 @@
-import {WAITING_TIME} from '../../Common/Constants/waitingTime';
+import { WAITING_TIME } from '../../Common/Constants/waitingTime';
 
 export function mealsWithoutCgmData(data) {
   const timeNow = new Date().getTime();

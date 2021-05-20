@@ -1,7 +1,7 @@
-import {useEffect} from 'react';
-import {database} from '../../../Common/database_realm';
+import { useEffect } from 'react';
+import { database } from '../../../Common/database_realm';
 import uuid from 'react-native-uuid';
-import {EDIT_MODE, useEnterMealType} from '../../../hooks/useEnterMealState';
+import { EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';
 
 export function useExistingDataFromDB(
   meal_id,
@@ -17,7 +17,7 @@ export function useExistingDataFromDB(
   setNote,
   setRestaurantName,
 ) {
-  const {type} = useEnterMealType();
+  const { type } = useEnterMealType();
   useEffect(() => {
     if (meal_id && type) {
       database.fetchMealbyId(meal_id).then(data => {
@@ -31,12 +31,10 @@ export function useExistingDataFromDB(
 
         setTags(prevArray =>
           convertedTags.map(cTags => {
-            return {...cTags};
+            return { ...cTags };
           }),
         );
-        const fatSecretFromDB = data.fatSecretUserFoodEntryIds.map(
-          fatSecret => fatSecret.foodEntryId,
-        );
+        const fatSecretFromDB = data.fatSecretUserFoodEntryIds.map(fatSecret => fatSecret.foodEntryId);
         setExistingFatSecretIds(fatSecretFromDB);
 
         setMealTitle(data.food);
@@ -47,12 +45,10 @@ export function useExistingDataFromDB(
           setDate(data.date);
         }
         setFoodPicture(data.picture);
-        setAvatarSourceCamera(data.picture ? {uri: data.picture} : undefined);
+        setAvatarSourceCamera(data.picture ? { uri: data.picture } : undefined);
         // setCarbs(data.carbs); depends on source
         setNote(data.note);
-        database
-          .getRestaurantName(data.restaurantId)
-          .then(name => setRestaurantName(name));
+        database.getRestaurantName(data.restaurantId).then(name => setRestaurantName(name));
       });
     }
   }, [meal_id, type]);

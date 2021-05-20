@@ -1,11 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-const NutritionDetails = (props) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+const NutritionDetails = props => {
+  const { t, locale } = React.useContext(LocalizationContext);
 
-  const {foodDetailData, unit, title} = props;
+  const { foodDetailData, unit, title } = props;
   return (
     <View style={styles.nContainer}>
       <Text style={styles.nutritionTitle}>{title}</Text>

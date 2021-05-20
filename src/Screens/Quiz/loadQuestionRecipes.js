@@ -1,6 +1,6 @@
-import {shuffle} from '../../utils/shuffel';
-import {getRecipeDetails} from '../../Common/fatsecret/fatsecretApi';
-import {calculateFPE} from '../../utils/reducer';
+import { shuffle } from '../../utils/shuffel';
+import { getRecipeDetails } from '../../Common/fatsecret/fatsecretApi';
+import { calculateFPE } from '../../utils/reducer';
 
 function randomizer(value) {
   const ArraySmall = [0.2, 0.3, 0.5, 1.2, 1.4, 1.6, 2, 2.6, 3];

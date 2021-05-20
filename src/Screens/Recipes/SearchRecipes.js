@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {Button, makeStyles, Text} from 'react-native-elements';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {getRecipeDetails, searchRecipes} from '../../Common/fatsecret/fatsecretApi';
-import {translate} from '../../Common/translate';
+import { getRecipeDetails, searchRecipes } from '../../Common/fatsecret/fatsecretApi';
+import { translate } from '../../Common/translate';
 import RecipesList from './RecipesList';
 import RecipeDetailModal from './RecipeDetailModal';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 
 const SearchRecipes = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [recipes, setRecipes] = useState(null);
   const [recipe, setRecipe] = useState(null);
@@ -56,7 +56,7 @@ recipe_description: "A great pasta substitute."
   return (
     <>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
-      <View style={{padding: 4}}>
+      <View style={{ padding: 4 }}>
         {recipes ? (
           <>
             {recipes
@@ -67,7 +67,6 @@ recipe_description: "A great pasta substitute."
                 </View>
               ))}
             <PoweredByFatSecret />
-
           </>
         ) : noRecipeResults ? (
           <View style={styles.container}>
@@ -93,7 +92,7 @@ recipe_description: "A great pasta substitute."
 export default SearchRecipes;
 
 const useStyles = makeStyles(theme => ({
-  container: {padding: theme.spacing.M},
-  text: {paddingVertical: theme.spacing.M},
-  bold: {fontWeight: 'bold'},
+  container: { padding: theme.spacing.M },
+  text: { paddingVertical: theme.spacing.M },
+  bold: { fontWeight: 'bold' },
 }));

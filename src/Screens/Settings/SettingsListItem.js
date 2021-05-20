@@ -1,13 +1,13 @@
 import React from 'react';
-import {Platform} from 'react-native';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {Badge, Divider, Icon, ListItem, makeStyles, Text} from 'react-native-elements';
+import { Platform } from 'react-native';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
+import { Badge, Divider, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import openLink from '../../Common/InAppBrowser';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 
 const SettingsListItem = props => {
   const navigation = useNavigation();
-  const {data} = props;
+  const { data } = props;
   const styles = useStyles();
 
   const successGlucoseData =

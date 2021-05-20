@@ -1,17 +1,17 @@
-import {PermissionsAndroid, Platform, View} from 'react-native';
+import { PermissionsAndroid, Platform, View } from 'react-native';
 import EnterMealButton from './EnterMealComponents/EnterMealButton';
 import React from 'react';
 import LocalizationContext from '../../../LanguageContext';
-import {makeStyles} from 'react-native-elements';
-import {imageDetectionClarifai} from './imageDetectionClarifai';
+import { makeStyles } from 'react-native-elements';
+import { imageDetectionClarifai } from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
-import {COPY_MODE, DEFAULT_MODE, EDIT_MODE, useEnterMealType} from '../../hooks/useEnterMealState';
+import { COPY_MODE, DEFAULT_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 
 const PictureSelector = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {type} = useEnterMealType();
+  const { type } = useEnterMealType();
   const {
     setFoodPicture,
     setDate,
@@ -46,7 +46,7 @@ const PictureSelector = props => {
           }
         } else {
           setAvatarSourceLibrary(prevState => {
-            return {uri: response.uri};
+            return { uri: response.uri };
           });
           setAvatarSourceCamera(prevState => undefined);
           handleImageLoadStates(response);
@@ -99,7 +99,7 @@ const PictureSelector = props => {
         } else {
           setAvatarSourceLibrary(prevState => undefined);
           setAvatarSourceCamera(prevState => {
-            return {uri: response.uri};
+            return { uri: response.uri };
           });
           handleImageLoadStates(response);
         }

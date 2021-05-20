@@ -1,7 +1,7 @@
 import React from 'react';
-import {Alert, Linking} from 'react-native';
+import { Alert, Linking } from 'react-native';
 
-const PermissionAlert = (t) => {
+const PermissionAlert = t => {
   return Alert.alert(
     t('AddMeal.Permission'),
     t('AddMeal.grantPermission'),
@@ -11,9 +11,9 @@ const PermissionAlert = (t) => {
         onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      {text: 'OK', onPress: () => Linking.openSettings()},
+      { text: 'OK', onPress: () => Linking.openSettings() },
     ],
-    {cancelable: false},
+    { cancelable: false },
   );
 };
 export default PermissionAlert;

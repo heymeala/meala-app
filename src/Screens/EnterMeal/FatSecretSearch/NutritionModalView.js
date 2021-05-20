@@ -1,6 +1,6 @@
 import React from 'react';
-import {Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Image, makeStyles, SearchBar} from 'react-native-elements';
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, makeStyles, SearchBar } from 'react-native-elements';
 import PredictionCips from './PredictionCips';
 import FatSecretNutritionDetails from './FatSecretNutritionDetails';
 import FoodSuggestions from './FoodSuggestions';
@@ -27,7 +27,7 @@ const NutritionModalView = props => {
     toggleList,
     setFoodDetailData,
   } = props;
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
   return (
@@ -37,7 +37,7 @@ const NutritionModalView = props => {
           <Text accessibilityRole={'header'} style={styles.title}>
             {t('AddMeal.foodDataBaseSearch.title')}
           </Text>
-          <Text style={{...styles.modalText}}>{t('AddMeal.foodDataBaseSearch.subtitle')}</Text>
+          <Text style={{ ...styles.modalText }}>{t('AddMeal.foodDataBaseSearch.subtitle')}</Text>
 
           <SearchBar
             platform={Platform.OS}
@@ -55,7 +55,7 @@ const NutritionModalView = props => {
               foodDetailData.servings && foodDetailData.servings.length > 0 ? (
                 foodDetailData.servings.map((data, i) => (
                   <TouchableOpacity
-                    style={{padding: 8}}
+                    style={{ padding: 8 }}
                     key={i}
                     accessibilityRole={'button'}
                     onPress={() => {
@@ -67,9 +67,7 @@ const NutritionModalView = props => {
                 ))
               ) : foodDetailData.servings.serving ? (
                 <TouchableOpacity accessibilityRole={'button'} onPress={() => setNutritionData(true)}>
-                  <Text  style={{padding: 8}}>
-                    {foodDetailData.servings.serving.serving_description}
-                  </Text>
+                  <Text style={{ padding: 8 }}>{foodDetailData.servings.serving.serving_description}</Text>
                 </TouchableOpacity>
               ) : (
                 <Text>"no data"</Text>
@@ -86,10 +84,10 @@ const NutritionModalView = props => {
 
             <TouchableOpacity
               accessibilityLabel={t('Accessibility.EnterMeal.fatsecret')}
-              style={{padding: 12}}
+              style={{ padding: 12 }}
               onPress={() => openLink('https://fatsecret.com')}>
               <Image
-                style={{width: 120, height: 17}}
+                style={{ width: 120, height: 17 }}
                 source={{
                   uri: 'https://platform.fatsecret.com/api/static/images/powered_by_fatsecret.png',
                 }}
@@ -104,7 +102,7 @@ const NutritionModalView = props => {
               backgroundColor: '#ffe109',
             }}
             onPress={() => props.modalVisible()}>
-            <Text style={{...styles.textStyle}}>{t('General.close')}</Text>
+            <Text style={{ ...styles.textStyle }}>{t('General.close')}</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -145,7 +143,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  chipsContainer: {flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 12},
+  chipsContainer: { flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 12 },
   modalText: {
     marginBottom: 15,
     textAlign: 'center',

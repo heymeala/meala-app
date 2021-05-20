@@ -1,20 +1,20 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
-import {searchFood} from '../../../Common/fatsecret/fatsecretApi';
+import { searchFood } from '../../../Common/fatsecret/fatsecretApi';
 import Modal from 'react-native-modal';
 
 import NutritionModalView from './NutritionModalView';
-import {translate} from '../../../Common/translate';
+import { translate } from '../../../Common/translate';
 
 const AddMealAttributes = props => {
-  const {locale} = React.useContext(LocalizationContext);
+  const { locale } = React.useContext(LocalizationContext);
   const [search, setSearch] = useState(props.text || '');
   const [chipsArray, setChipsArray] = useState([]);
   const [foodsData, setFoodsData] = useState([]);
   const [foodDetailData, setFoodDetailData] = useState({
     food_name: null,
     food_id: null,
-    servings: {serving: {calcium: 'nodata'}},
+    servings: { serving: { calcium: 'nodata' } },
   });
   const [isServingListVisible, setServingListVisible] = useState(false);
   const [isNutritionData, setNutritionData] = useState(false);
@@ -25,7 +25,7 @@ const AddMealAttributes = props => {
   useEffect(() => {
     setChipsArray(
       props.predictions.map(data => {
-        return {id: data.id, name: data.name, active: false, nutritionData: ''};
+        return { id: data.id, name: data.name, active: false, nutritionData: '' };
       }),
     );
   }, [props.predictions]);

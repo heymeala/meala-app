@@ -1,15 +1,15 @@
-import {Dimensions, Linking, View} from 'react-native';
-import {Button, FAB, makeStyles, Text} from 'react-native-elements';
+import { Dimensions, Linking, View } from 'react-native';
+import { Button, FAB, makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
-import {spacing} from '../../../theme/styles';
+import { spacing } from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
 import SearchRecipes from '../../Recipes/SearchRecipes';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 
 export const EmptyListHome = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
   const navigation = useNavigation();
@@ -38,21 +38,15 @@ export const EmptyListHome = props => {
           loop
         />
 
-        <FAB
-          title={'Quiz'}
-          placement={'left'}
-          onPress={() =>
-            navigation.navigate('Quiz' )
-          }
-        />
+        <FAB title={'Quiz'} placement={'left'} onPress={() => navigation.navigate('Quiz')} />
       </View>
     );
   }
 };
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  image: {width: dimensions.width, height: 950},
-  animation: {width: dimensions.width, alignSelf: 'center'},
+  image: { width: dimensions.width, height: 950 },
+  animation: { width: dimensions.width, alignSelf: 'center' },
 
   wrapper: {
     flex: 1,
@@ -83,6 +77,6 @@ const useStyles = makeStyles((theme, dimensions) => ({
     flex: 1,
     alignItems: 'center',
   },
-  imagePlaceholder: {backgroundColor: theme.colors.white},
-  text: {paddingBottom: spacing.M},
+  imagePlaceholder: { backgroundColor: theme.colors.white },
+  text: { paddingBottom: spacing.M },
 }));

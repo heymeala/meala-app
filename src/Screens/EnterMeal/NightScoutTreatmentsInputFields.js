@@ -1,25 +1,24 @@
 import React from 'react';
-import {Input, makeStyles, useTheme} from 'react-native-elements';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
+import { Input, makeStyles, useTheme } from 'react-native-elements';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
-import {useUserSettings} from '../../hooks/useUserSettings';
-import {NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 
 const NightScoutInputFields = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const screenReaderEnabled = useScreenReader();
-  const {userSettings} = useUserSettings();
+  const { userSettings } = useUserSettings();
 
-  const {setNsTreatmentsUpload, nsTreatmentsUpload} = props;
+  const { setNsTreatmentsUpload, nsTreatmentsUpload } = props;
 
-  const {theme} = useTheme();
-  return userSettings.nightscoutTreatmentsUpload &&
-    userSettings.glucoseSource === NIGHTSCOUT ? (
+  const { theme } = useTheme();
+  return userSettings.nightscoutTreatmentsUpload && userSettings.glucoseSource === NIGHTSCOUT ? (
     <>
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
-        inputStyle={{fontSize: 15}}
+        inputStyle={{ fontSize: 15 }}
         placeholder={t('AddMeal.Carbs')}
         renderErrorMessage={false}
         keyboardType={'numeric'}
@@ -29,17 +28,15 @@ const NightScoutInputFields = props => {
           !screenReaderEnabled && {
             type: 'font-awesome-5',
             name: 'cookie-bite',
-            containerStyle: {paddingRight: 10},
-            iconStyle: {color: theme.colors.primary},
+            containerStyle: { paddingRight: 10 },
+            iconStyle: { color: theme.colors.primary },
           }
         }
-        onChangeText={text =>
-          setNsTreatmentsUpload({...nsTreatmentsUpload, carbs: text})
-        }
+        onChangeText={text => setNsTreatmentsUpload({ ...nsTreatmentsUpload, carbs: text })}
       />
       <Input
         inputContainerStyle={styles.inputPaddingTextarea}
-        inputStyle={{fontSize: 15}}
+        inputStyle={{ fontSize: 15 }}
         placeholder={t('AddMeal.Insulin')}
         renderErrorMessage={false}
         keyboardType={'numeric'}
@@ -49,13 +46,11 @@ const NightScoutInputFields = props => {
           !screenReaderEnabled && {
             type: 'material-community',
             name: 'needle',
-            containerStyle: {paddingRight: 10},
-            iconStyle: {color: theme.colors.primary},
+            containerStyle: { paddingRight: 10 },
+            iconStyle: { color: theme.colors.primary },
           }
         }
-        onChangeText={text =>
-          setNsTreatmentsUpload({...nsTreatmentsUpload, insulin: text})
-        }
+        onChangeText={text => setNsTreatmentsUpload({ ...nsTreatmentsUpload, insulin: text })}
       />
     </>
   ) : null;

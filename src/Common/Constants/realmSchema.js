@@ -1,4 +1,3 @@
-
 export const MealSchema = {
   name: 'Meal',
   primaryKey: 'userMealId',
@@ -9,7 +8,7 @@ export const MealSchema = {
     picture: 'string',
     carbs: 'float?',
     date: 'date',
-    tags: {type: 'list', objectType: 'Tags'},
+    tags: { type: 'list', objectType: 'Tags' },
     note: 'string',
     cgmData: 'string?',
     treatmentsData: 'string?',
@@ -48,7 +47,7 @@ export const RestaurantSchema = {
   primaryKey: 'id',
   properties: {
     id: 'string',
-    food: {type: 'list', objectType: 'Meal'},
+    food: { type: 'list', objectType: 'Meal' },
     restaurant_name: 'string',
     address: 'string',
     lat: 'float?',

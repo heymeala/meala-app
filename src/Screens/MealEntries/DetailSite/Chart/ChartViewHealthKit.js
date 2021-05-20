@@ -1,31 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import Svg, {Rect} from 'react-native-svg';
-import {Dimensions, Text, View} from 'react-native';
-import {
-  VictoryAxis,
-  VictoryBar,
-  VictoryChart,
-  VictoryGroup,
-  VictoryScatter,
-} from 'victory-native';
+import React, { useEffect, useState } from 'react';
+import Svg, { Rect } from 'react-native-svg';
+import { Dimensions, Text, View } from 'react-native';
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryScatter } from 'victory-native';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
-import {Image} from 'react-native-elements';
+import { Image } from 'react-native-elements';
 import LocalizationContext from '../../../../../LanguageContext';
-import {useProfile} from '../../../../hooks/useProfile';
-import {useScreenReader} from '../../../../hooks/useScreenReaderEnabled';
-import {analyseTimeInRangeHealthKit} from '../../../../Common/realm/timeInRangeHealthKit';
+import { useProfile } from '../../../../hooks/useProfile';
+import { useScreenReader } from '../../../../hooks/useScreenReaderEnabled';
+import { analyseTimeInRangeHealthKit } from '../../../../Common/realm/timeInRangeHealthKit';
 
 const ChartViewHealthKit = props => {
-  const [HealthKitBloodGlucoseData, setHealthKitBloodGlucoseData] = useState(
-    [],
-  );
-  const {t, locale} = React.useContext(LocalizationContext);
-  const {settings} = useProfile();
+  const [HealthKitBloodGlucoseData, setHealthKitBloodGlucoseData] = useState([]);
+  const { t, locale } = React.useContext(LocalizationContext);
+  const { settings } = useProfile();
   const screenReaderEnabled = useScreenReader();
   moment.locale(locale);
   useEffect(() => {
-
     const permissions = {
       permissions: {
         read: [
@@ -38,9 +29,7 @@ const ChartViewHealthKit = props => {
     };
     let fromDate, tillDate;
     tillDate = moment(props.selectedFood.date).add(3, 'hours').toISOString();
-    fromDate = moment(props.selectedFood.date)
-      .subtract(35, 'minutes')
-      .toISOString();
+    fromDate = moment(props.selectedFood.date).subtract(35, 'minutes').toISOString();
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
@@ -60,18 +49,15 @@ const ChartViewHealthKit = props => {
       AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
         /* Samples are now collected from HealthKit */
       });
-      AppleHealthKit.getBloodGlucoseSamples(
-        options,
-        (callbackError, results) => {
-          /* Samples are now collected from HealthKit */
-          if (callbackError) {
-            console.log(callbackError);
-            return;
-          }
-          setHealthKitBloodGlucoseData(results);
-          console.log(results);
-        },
-      );
+      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
+        /* Samples are now collected from HealthKit */
+        if (callbackError) {
+          console.log(callbackError);
+          return;
+        }
+        setHealthKitBloodGlucoseData(results);
+        console.log(results);
+      });
     });
   }, []);
 
@@ -87,21 +73,20 @@ const ChartViewHealthKit = props => {
       <View>
         {healthkitGlucoseDate.length > 1 ? (
           <>
-            <Text style={{padding: 8, fontSize: 18}}>
+            <Text style={{ padding: 8, fontSize: 18 }}>
               {t('Accessibility.MealDetails.values', {
                 values: healthkitGlucoseDate.length,
               })}{' '}
               {settings.unit === 1 ? 'miligram pro deziliter' : 'mili mol'}
             </Text>
-            <Text style={{padding: 8, fontSize: 18}}>
-              {analyseTimeInRangeHealthKit(healthkitGlucoseDate)}{' '}
-              {t('Accessibility.MealDetails.percentage')}{' '}
+            <Text style={{ padding: 8, fontSize: 18 }}>
+              {analyseTimeInRangeHealthKit(healthkitGlucoseDate)} {t('Accessibility.MealDetails.percentage')}{' '}
             </Text>
 
             {healthkitGlucoseDate
               .filter((data, i) => i % 3 === 0)
               .map((data, i) => (
-                <Text key={i} style={{padding: 8, fontSize: 18}}>
+                <Text key={i} style={{ padding: 8, fontSize: 18 }}>
                   {moment(data.x).format('LT')} – {data.y}
                 </Text>
               ))
@@ -144,9 +129,9 @@ const ChartViewHealthKit = props => {
           <VictoryChart
             standalone={false}
             width={Dimensions.get('window').width + 20}
-            minDomain={{y: 50 / settings.unit}}
-            scale={{x: 'time', y: 'linear'}}
-            maxDomain={{y: 300 / settings.unit}}>
+            minDomain={{ y: 50 / settings.unit }}
+            scale={{ x: 'time', y: 'linear' }}
+            maxDomain={{ y: 300 / settings.unit }}>
             <VictoryAxis
               tickFormat={
                 locale === 'de'
@@ -165,7 +150,7 @@ const ChartViewHealthKit = props => {
               <VictoryScatter
                 style={{
                   data: {
-                    fill: ({datum}) =>
+                    fill: ({ datum }) =>
                       datum.y > 160 / settings.unit
                         ? '#ffd420'
                         : datum.y < 70 / settings.unit
@@ -175,7 +160,7 @@ const ChartViewHealthKit = props => {
                 }}
                 interpolation="natural"
                 data={healthkitGlucoseDate}
-                domainPadding={{y: 5}}
+                domainPadding={{ y: 5 }}
               />
               <VictoryBar
                 style={{
@@ -202,13 +187,11 @@ const ChartViewHealthKit = props => {
       return (
         <>
           <View>
-            <Text style={{padding: 40, color: '#ac000a'}}>
-              {t('Entries.notEnoughData')}
-            </Text>
+            <Text style={{ padding: 40, color: '#ac000a' }}>{t('Entries.notEnoughData')}</Text>
             <Image
               source={require('../../../../assets/meala_graph.png')}
-              placeholderStyle={{backgroundColor: '#fff'}}
-              style={{width: Dimensions.get('window').width, height: 350}}
+              placeholderStyle={{ backgroundColor: '#fff' }}
+              style={{ width: Dimensions.get('window').width, height: 350 }}
             />
           </View>
         </>

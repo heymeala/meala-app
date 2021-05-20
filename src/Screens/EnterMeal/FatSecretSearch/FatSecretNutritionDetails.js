@@ -1,16 +1,16 @@
 import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import NutritionDetails from '../EnterMealComponents/nutritionDetails';
 import LocalizationContext from '../../../../LanguageContext';
 
 const FatSecretNutritionDetails = props => {
-  const {t} = React.useContext(LocalizationContext);
-  const {foodDetailData, serving} = props;
+  const { t } = React.useContext(LocalizationContext);
+  const { foodDetailData, serving } = props;
   const windowWidth = Dimensions.get('window').width;
 
   return (
-    <View accessible={true} style={{width: windowWidth - 150}}>
-      <Text style={{paddingBottom: 8}}>
+    <View accessible={true} style={{ width: windowWidth - 150 }}>
+      <Text style={{ paddingBottom: 8 }}>
         {foodDetailData.food_name} -{foodDetailData.servings[serving].serving.serving_description}
       </Text>
       <NutritionDetails

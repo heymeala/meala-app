@@ -1,18 +1,18 @@
 import React from 'react';
-import {SafeAreaView, SectionList, Text, View} from 'react-native';
-import {makeStyles} from 'react-native-elements';
+import { SafeAreaView, SectionList, Text, View } from 'react-native';
+import { makeStyles } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
-import {spacing} from '../../theme/styles';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
+import { spacing } from '../../theme/styles';
 import SettingsListItem from './SettingsListItem';
 import SettingsFooter from './Footer';
-import {useUserSettings} from '../../hooks/useUserSettings';
-import {HEALTHKIT, NIGHTSCOUT} from './glucoseSourceConstants';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import { HEALTHKIT, NIGHTSCOUT } from './glucoseSourceConstants';
 
 const SettingsOverview = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
-  const {userSettings} = useUserSettings();
+  const { userSettings } = useUserSettings();
   const styles = useStyles();
 
   const SettingsMenuData = [
@@ -112,8 +112,12 @@ const SettingsOverview = props => {
         <SectionList
           sections={SettingsMenuData}
           keyExtractor={(item, index) => item + index}
-          renderItem={({item}) => <SettingsListItem data={item} />}
-          renderSectionHeader={({section: {title}}) => <Text accessibilityRole={'header'} style={styles.header}>{title}</Text>}
+          renderItem={({ item }) => <SettingsListItem data={item} />}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text accessibilityRole={'header'} style={styles.header}>
+              {title}
+            </Text>
+          )}
           ListFooterComponent={<SettingsFooter />}
         />
       </View>
@@ -128,7 +132,7 @@ const useStyles = makeStyles(theme => ({
     flex: 1,
     backgroundColor: theme.colors.background,
   },
-  wrapper: {backgroundColor: theme.colors.background},
+  wrapper: { backgroundColor: theme.colors.background },
   item: {
     backgroundColor: theme.colors.primary,
     padding: spacing.M,

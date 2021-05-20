@@ -1,11 +1,11 @@
-import {HEALTHKIT, NIGHTSCOUT} from '../Settings/glucoseSourceConstants';
-import {nightscoutCall, nightscoutTreatmens} from '../../Common/nightscoutApi';
-import {filterCoordinates, mapUnit} from './DetailSite/filterCoordinates';
+import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
+import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { filterCoordinates, mapUnit } from './DetailSite/filterCoordinates';
 import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
-import {SEA_MINUTES} from './DetailSite/Chart/chartConstant';
-import {permissions} from './DetailSite/HealthKitPermissions';
-import {Platform} from 'react-native';
+import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
+import { permissions } from './DetailSite/HealthKitPermissions';
+import { Platform } from 'react-native';
 
 export async function loadSugarData(
   mealData,

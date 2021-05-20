@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import SaveButton from '../../Common/SaveButton';
 import LocalizationContext from '../../../LanguageContext';
-import {Input} from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import Keychain from 'react-native-keychain';
 import RNFetchBlob from 'rn-fetch-blob';
 import moment from 'moment';
@@ -10,7 +10,7 @@ import qs from 'qs';
 import axios from 'axios';
 
 const Tidepool = () => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
@@ -19,29 +19,21 @@ const Tidepool = () => {
   const api = 'int-api';
 
   async function deleteKey() {
-    await Keychain.resetInternetCredentials(
-      'https://api.tidepool.org/auth/login',
-    );
+    await Keychain.resetInternetCredentials('https://api.tidepool.org/auth/login');
     await Keychain.resetInternetCredentials('https://api.tidepool.org/user_pw');
   }
 
   useEffect(() => {
-    getTokens().then((e) => console.log(e));
+    getTokens().then(e => console.log(e));
   }, []);
 
   async function getTokens() {
     try {
       // Retrieve the credentials
-      const credentials = await Keychain.getInternetCredentials(
-        'https://api.tidepool.org/auth/login',
-      );
-      const login = await Keychain.getInternetCredentials(
-        'https://api.tidepool.org/user_pw',
-      );
+      const credentials = await Keychain.getInternetCredentials('https://api.tidepool.org/auth/login');
+      const login = await Keychain.getInternetCredentials('https://api.tidepool.org/user_pw');
       if (credentials && login) {
-        console.log(
-          'Credentials successfully loaded for user ' + credentials.server,
-        );
+        console.log('Credentials successfully loaded for user ' + credentials.server);
         console.log('Credentials successfully loaded for user ' + login.server);
         setUserId(credentials.username);
         setToken(credentials.password);
@@ -84,12 +76,12 @@ const Tidepool = () => {
         },
         method: 'POST',
       })
-        .then((response) => {
+        .then(response => {
           setToken(response.headers.get('x-tidepool-session-token'));
 
           return response.json();
         })
-        .then((data) => {
+        .then(data => {
           setUserId(data.userid);
           if (data.userid) {
             store(username, password, 'https://api.tidepool.org/user_pw');
@@ -132,7 +124,7 @@ const Tidepool = () => {
         if (error.response.status === 401) {
           //  originalRequest._retry = true;
           axios(reFreshOptions)
-            .then((response) => {
+            .then(response => {
               if (response.status === 200) {
                 // 1) put token to Storage
                 // setToken(response.headers.get('x-tidepool-session-token'));
@@ -202,7 +194,7 @@ const Tidepool = () => {
         if (error.response.status === 401) {
           //  originalRequest._retry = true;
           axios(reFreshOptions)
-            .then((response) => {
+            .then(response => {
               if (response.status === 200) {
                 // 1) put token to Storage
                 // setToken(response.headers.get('x-tidepool-session-token'));
@@ -270,7 +262,7 @@ const Tidepool = () => {
         if (error.response.status === 401) {
           //  originalRequest._retry = true;
           axios(reFreshOptions)
-            .then((response) => {
+            .then(response => {
               if (response.status === 200) {
                 // 1) put token to Storage
                 // setToken(response.headers.get('x-tidepool-session-token'));
@@ -312,14 +304,11 @@ const Tidepool = () => {
       <Text style={styles.padding}>Tidepool </Text>
       {!userId ? (
         <>
-          <Input
-            placeholder={'Tidepool E-Mail'}
-            onChangeText={(text) => setUsername(text)}
-          />
+          <Input placeholder={'Tidepool E-Mail'} onChangeText={text => setUsername(text)} />
           <Input
             textContentType={'password'}
             placeholder={'Password'}
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={text => setPassword(text)}
           />
 
           <SaveButton title={'Login'} onPress={() => login()} />
@@ -327,15 +316,12 @@ const Tidepool = () => {
       ) : (
         <>
           <Button title={'Delete Integration'} onPress={() => deleteKey()} />
-          <SaveButton
-            title={'Get Info Data'}
-            onPress={() => axiosFetchUserData()}
-          />
+          <SaveButton title={'Get Info Data'} onPress={() => axiosFetchUserData()} />
           <SaveButton title={'Get Users'} onPress={() => axiosGetAllUsers()} />
 
           {allUsers &&
             allUsers.map((data, i) => (
-              <View style={{padding: 8}} key={i}>
+              <View style={{ padding: 8 }} key={i}>
                 <Text>{data.userid}</Text>
                 <Text>{data.profile.fullName}</Text>
               </View>

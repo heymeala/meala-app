@@ -1,36 +1,30 @@
-import React, {useRef, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {CheckBox} from 'react-native-elements';
+import React, { useRef, useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../../../LanguageContext';
 
-const FatSecretUserDataModal = (props) => {
-  const {t, locale} = React.useContext(LocalizationContext);
+const FatSecretUserDataModal = props => {
+  const { t, locale } = React.useContext(LocalizationContext);
   const [scrollOffset, setScrollOffset] = useState(null);
   const scrollViewRef = useRef();
-  const {setFatSecretData, fatSecretData} = props;
-  const handleOnScroll = (event) => {
+  const { setFatSecretData, fatSecretData } = props;
+  const handleOnScroll = event => {
     setScrollOffset(event.nativeEvent.contentOffset.y);
   };
-  const handleScrollTo = (p) => {
+  const handleScrollTo = p => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo(p);
     }
   };
 
   function toggleCheckFatSecret(id) {
-    setFatSecretData((prevState) =>
-      prevState.map((data) => {
+    setFatSecretData(prevState =>
+      prevState.map(data => {
         if (data.food_entry_id === id) {
-          return {...data, checked: !data.checked};
+          return { ...data, checked: !data.checked };
         } else {
-          return {...data};
+          return { ...data };
         }
       }),
     );
@@ -52,10 +46,7 @@ const FatSecretUserDataModal = (props) => {
       onAccessibilityEscape={() => props.setVisible(false)}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <ScrollView
-            ref={scrollViewRef}
-            onScroll={handleOnScroll}
-            scrollEventThrottle={16}>
+          <ScrollView ref={scrollViewRef} onScroll={handleOnScroll} scrollEventThrottle={16}>
             <Text
               style={{
                 ...styles.modalText,
@@ -65,9 +56,7 @@ const FatSecretUserDataModal = (props) => {
               }}>
               {t('AddMeal.fatSecretUserEntries.title')}
             </Text>
-            <Text style={{...styles.modalText}}>
-              {t('AddMeal.fatSecretUserEntries.description')}
-            </Text>
+            <Text style={{ ...styles.modalText }}>{t('AddMeal.fatSecretUserEntries.description')}</Text>
             {fatSecretData &&
               fatSecretData.map((data, i) => {
                 return (
@@ -80,7 +69,7 @@ const FatSecretUserDataModal = (props) => {
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                     }}>
-                    <View style={{padding: 5, maxWidth: 200}}>
+                    <View style={{ padding: 5, maxWidth: 200 }}>
                       <Text>{data.food_entry_name}</Text>
 
                       <Text>
@@ -88,8 +77,7 @@ const FatSecretUserDataModal = (props) => {
                       </Text>
                       <Text>{data.meal}</Text>
                       <Text>
-                        {t('AddMeal.nutritionData.carbohydrate')}:{' '}
-                        {data.carbohydrate}
+                        {t('AddMeal.nutritionData.carbohydrate')}: {data.carbohydrate}
                       </Text>
                     </View>
                     <View>
@@ -113,7 +101,7 @@ const FatSecretUserDataModal = (props) => {
                 backgroundColor: '#ffe109',
               }}
               onPress={() => props.setVisible(false)}>
-              <Text style={{...styles.textStyle}}>{t('General.close')}</Text>
+              <Text style={{ ...styles.textStyle }}>{t('General.close')}</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>

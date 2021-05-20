@@ -6,7 +6,7 @@ export function Cameraoptions(t) {
     takePhotoButtonTitle: t('AddMeal.Camera'),
     chooseFromLibraryButtonTitle: t('AddMeal.Roll'),
     cancelButtonTitle: t('General.Cancel'),
-    customButtons: [{name: 'barCode', title: 'BarCode Scanner'}],
+    customButtons: [{ name: 'barCode', title: 'BarCode Scanner' }],
     title: t('AddMeal.PicPopUp'),
     storageOptions: {
       skipBackup: true,

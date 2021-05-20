@@ -1,20 +1,20 @@
 import React from 'react';
 import EnterMeal from '../Screens/EnterMeal/EnterMeal';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import LocalizationContext from '../../LanguageContext';
 import OpenFoodFactsInfos from '../Screens/EnterMeal/BarCodeScanner/Scanner/OpenFoodFactsInfos';
 
 function EnterMealStack() {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
 
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="EnterMeal"
-        initialParams={{mealid: null, type: null}}
+        initialParams={{ mealid: null, type: null }}
         component={EnterMeal}
-        options={({navigation, route}) => ({
+        options={({ navigation, route }) => ({
           title: t('AddMeal.AddMealTitle'),
           headerTitleStyle: {
             textAlign: 'left',
@@ -27,13 +27,13 @@ function EnterMealStack() {
           },
           headerLargeTitle: true,
           headerTranslucent: false,
-          headerStyle: {backgroundColor: 'white'},
+          headerStyle: { backgroundColor: 'white' },
         })}
       />
       <Stack.Screen
         name={'FoodFacts'}
         component={OpenFoodFactsInfos}
-        options={({navigation, route}) => ({
+        options={({ navigation, route }) => ({
           title: 'Open Food Facts',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
@@ -46,7 +46,7 @@ function EnterMealStack() {
             left: 0,
           },
           headerLargeTitle: true,
-          headerStyle: {backgroundColor: 'white'},
+          headerStyle: { backgroundColor: 'white' },
         })}
       />
     </Stack.Navigator>

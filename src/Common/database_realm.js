@@ -79,10 +79,26 @@ export const database = {
     const tags = predictions
       .filter(data => data.active === true)
       .map(prediction => {
-        return {tagEn: prediction.name};
+        return { tagEn: prediction.name };
       });
 
-    console.log('Save' + restaurantName);
+    console.log('Save ' + restaurantName);
+    console.log(
+      'restaurantName ' + restaurantName,
+      'restaurantId ' + restaurantId,
+      mealTitle,
+      picId,
+      note,
+      lat,
+      lng,
+      mealId,
+      userMealId,
+      scope,
+      'carbs  ' + carbs,
+      predictions,
+      date,
+      fatSecretUserFoodEntryIds,
+    );
     return database._open
       .then(realm => {
         realm.write(() => {
@@ -113,7 +129,7 @@ export const database = {
             isDeleted: false,
             id: mealId,
             userMealId: userMealId,
-            carbs: parseFloat(carbs),
+            carbs: carbs ? parseFloat(carbs) : null,
             tags: tags,
             fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
           };
@@ -140,7 +156,7 @@ export const database = {
         const tags = predictions
           .filter(data => data.active === true)
           .map(prediction => {
-            return {tagEn: prediction.name};
+            return { tagEn: prediction.name };
           });
         realm.write(() => {
           realm.create(

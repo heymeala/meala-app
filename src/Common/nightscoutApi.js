@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import {database} from './database_realm';
-import {calculateCarbs} from './calculateCarbs';
-import {updateUserCarbsOnline} from './updateUserCarbsOnline';
+import { database } from './database_realm';
+import { calculateCarbs } from './calculateCarbs';
+import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 
 let newDate = moment();
 let waitDate = newDate.subtract(3, 'hours');
@@ -20,20 +20,14 @@ export async function nightscoutCall(date, id) {
         .then(settings => {
           // newer Nightscout Version use moment and have a different datestring
           if (settings.nightscoutVersion >= 0.12) {
-            const tillDate = moment(tillDateInput)
-              .add(3, 'hours')
-              .toISOString();
-            const fromDate = moment(fromDateInput)
-              .subtract(35, 'minutes')
-              .toISOString();
+            const tillDate = moment(tillDateInput).add(3, 'hours').toISOString();
+            const fromDate = moment(fromDateInput).subtract(35, 'minutes').toISOString();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
           } else {
             const tillDate = moment(tillDateInput).add(3, 'hours').format();
-            const fromDate = moment(fromDateInput)
-              .subtract(35, 'minutes')
-              .format();
+            const fromDate = moment(fromDateInput).subtract(35, 'minutes').format();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
@@ -63,9 +57,7 @@ export function nightscoutTreatmens(date, userMealId) {
 
   return database.getTreatmentsData(date, userMealId).then(treatments => {
     const tillDate = moment(tillDateInput).add(2, 'hours').toISOString();
-    const fromDate = moment(fromDateInput)
-      .subtract(35, 'minutes')
-      .toISOString();
+    const fromDate = moment(fromDateInput).subtract(35, 'minutes').toISOString();
 
     if (treatments === null) {
       return database
@@ -82,12 +74,7 @@ export function nightscoutTreatmens(date, userMealId) {
           if (waitDate.valueOf() >= saveDate.getTime()) {
             const carbSum = calculateCarbs(treatmentsData);
             updateUserCarbsOnline(carbSum, userMealId);
-            database.editMealTreatments(
-              date,
-              treatmentsData,
-              carbSum,
-              userMealId,
-            );
+            database.editMealTreatments(date, treatmentsData, carbSum, userMealId);
           }
           return treatmentsData.reverse();
         });

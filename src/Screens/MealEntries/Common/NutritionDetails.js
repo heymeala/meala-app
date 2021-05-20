@@ -1,13 +1,13 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import NutritionDetailItem from '../NutritionDetailItem';
 import LocalizationContext from '../../../../LanguageContext';
 
 const NutritionDetails = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {data, index} = props;
+  const { data, index } = props;
   return (
     <View style={styles.container}>
       {data.food_entry_name ? (
@@ -37,13 +37,13 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'row',
     paddingVertical: theme.spacing.XS,
   },
-  icon: {paddingLeft: 0, paddingRight: theme.spacing.M},
+  icon: { paddingLeft: 0, paddingRight: theme.spacing.M },
   title: {
     fontWeight: 'bold',
   },
-  ccal: {fontSize: 10},
+  ccal: { fontSize: 10 },
   text: {
     fontWeight: 'bold',
   },
-  nutritionText: {paddingVertical: theme.spacing.XS},
+  nutritionText: { paddingVertical: theme.spacing.XS },
 }));

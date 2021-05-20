@@ -1,12 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 
 const QuizDetailInfos = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {recipeDetails} = props;
+  const { recipeDetails } = props;
   return (
     <>
       <View style={styles.verticalSpacing}>
@@ -15,8 +15,10 @@ const QuizDetailInfos = props => {
       </View>
 
       <View style={styles.verticalSpacing}>
-        <Text accessibilityRole={'header'} h2>{t('Recipes.ingredients')}</Text>
-        <Text>{t('Quiz.total_servings', {total: recipeDetails.number_of_servings})}</Text>
+        <Text accessibilityRole={'header'} h2>
+          {t('Recipes.ingredients')}
+        </Text>
+        <Text>{t('Quiz.total_servings', { total: recipeDetails.number_of_servings })}</Text>
       </View>
       {recipeDetails.ingredients &&
         recipeDetails.ingredients.ingredient.map((ingre, i) => (
@@ -31,7 +33,7 @@ const QuizDetailInfos = props => {
 export default QuizDetailInfos;
 
 const useStyles = makeStyles(theme => ({
-  verticalSpacing: {paddingVertical: theme.spacing.M},
-  desc: {paddingVertical: theme.spacing.S},
-  descContainer: {display: 'flex', flexDirection: 'row', paddingRight: 30},
+  verticalSpacing: { paddingVertical: theme.spacing.M },
+  desc: { paddingVertical: theme.spacing.S },
+  descContainer: { display: 'flex', flexDirection: 'row', paddingRight: 30 },
 }));

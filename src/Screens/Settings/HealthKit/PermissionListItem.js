@@ -1,19 +1,17 @@
 import React from 'react';
-import {ListItem} from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LocalizationContext from '../../../../LanguageContext';
 
 const PermissionListItem = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
 
   return (
     <ListItem bottomDivider>
       <ListItem.Content>
         <ListItem.Title>{props.title}</ListItem.Title>
         <ListItem.Subtitle>
-          {props.permission
-            ? t('Settings.healthKit.hasAccess')
-            : t('Settings.healthKit.hasNoAccess')}
+          {props.permission ? t('Settings.healthKit.hasAccess') : t('Settings.healthKit.hasNoAccess')}
         </ListItem.Subtitle>
       </ListItem.Content>
       {props.permission ? (

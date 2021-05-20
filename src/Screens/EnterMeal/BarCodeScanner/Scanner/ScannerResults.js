@@ -1,21 +1,15 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Image, Text} from 'react-native-elements';
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../../LanguageContext';
-import {useNavigation} from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/core';
 import NutritionItem from './NutritionItem';
 
 const ScannerResults = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
-  const {data} = props;
+  const { data } = props;
   const uri = data.image_front_url;
   const keywords = data._keywords;
 
@@ -40,11 +34,7 @@ const ScannerResults = props => {
     }
 
     const nutriScoreUri = getScoreImage();
-    return (
-      nutriScoreUri && (
-        <Image style={{width: 120, height: 65}} source={nutriScoreUri} />
-      )
-    );
+    return nutriScoreUri && <Image style={{ width: 120, height: 65 }} source={nutriScoreUri} />;
   };
   return (
     <>
@@ -69,10 +59,7 @@ const ScannerResults = props => {
                 marginTop: -20,
                 opacity: 0.7,
               }}>
-              <Text
-                style={{textAlign: 'right', paddingRight: 4, color: '#fff'}}>
-                cc by {data.creator}
-              </Text>
+              <Text style={{ textAlign: 'right', paddingRight: 4, color: '#fff' }}>cc by {data.creator}</Text>
             </View>
           )}
         </View>
@@ -82,24 +69,20 @@ const ScannerResults = props => {
           {data.product_name} {data.brands && '- ' + data.brands}
         </Text>
         {data.serving_size ? (
-          <Text style={{fontWeight: 'bold', ...styles.text}}>
+          <Text style={{ fontWeight: 'bold', ...styles.text }}>
             {data.serving_size} = {t('BarCode.onePortion')}
           </Text>
         ) : null}
         {data.serving_size ? (
           data.nutriments ? (
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <View>
-                <Text style={{fontWeight: 'bold', ...styles.text}}>
-                  {data.nutriments.carbohydrates_serving
-                    ? data.nutriments.carbohydrates_serving
-                    : null}
+                <Text style={{ fontWeight: 'bold', ...styles.text }}>
+                  {data.nutriments.carbohydrates_serving ? data.nutriments.carbohydrates_serving : null}
                 </Text>
               </View>
               <View>
-                <Text style={{fontWeight: 'bold', ...styles.text}}>
-                  {t('BarCode.gPortion')}
-                </Text>
+                <Text style={{ fontWeight: 'bold', ...styles.text }}>{t('BarCode.gPortion')}</Text>
               </View>
             </View>
           ) : null
@@ -116,7 +99,7 @@ const ScannerResults = props => {
           data={data}
           nutrition={data.nutriments.fat_100g}
           unit={data.nutriments.fat_unit}
-          text={t('BarCode.g100', {nutrition: t('AddMeal.nutritionData.fat')})}
+          text={t('BarCode.g100', { nutrition: t('AddMeal.nutritionData.fat') })}
         />
         <NutritionItem
           data={data}
@@ -155,9 +138,7 @@ const ScannerResults = props => {
               onPress={() => {
                 navigation.navigate('FoodFacts');
               }}>
-              <Text style={{textAlign: 'right', paddingTop: 10}}>
-                {t('BarCode.licence')}
-              </Text>
+              <Text style={{ textAlign: 'right', paddingTop: 10 }}>{t('BarCode.licence')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -179,7 +160,7 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 16,
   },
-  content: {padding: 10},
+  content: { padding: 10 },
   openButton: {
     backgroundColor: '#154d80',
     color: '#fff',
@@ -189,5 +170,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 4,
   },
-  licence: {padding: 4},
+  licence: { padding: 4 },
 });

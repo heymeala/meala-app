@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import MealDetailsComponent from './DetailSite/MealDetailPage';
-import {database} from '../../Common/database_realm';
-import {useProfile} from '../../hooks/useProfile';
+import { database } from '../../Common/database_realm';
+import { useProfile } from '../../hooks/useProfile';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import {useUserSettings} from '../../hooks/useUserSettings';
-import {loadSugarData} from './loadHealthData';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import { loadSugarData } from './loadHealthData';
 
 const MealDataCollector = props => {
   const [sugar, setSugar] = useState([]);
@@ -21,9 +21,9 @@ const MealDataCollector = props => {
   const [stepsPerDay, setStepsPerDay] = useState(null);
 
   const [restaurantName, setRestaurantName] = useState(null);
-  const {settings} = useProfile();
-  const {route} = props;
-  const {userSettings} = useUserSettings();
+  const { settings } = useProfile();
+  const { route } = props;
+  const { userSettings } = useUserSettings();
   useEffect(() => {
     let isMounted = true;
     if (route.params?.mealId) {
@@ -39,9 +39,7 @@ const MealDataCollector = props => {
   function loadData() {
     const mealId = route.params?.mealId ?? undefined;
     database.fetchMealbyId(mealId).then(mealData => {
-      database
-        .getRestaurantName(mealData.restaurantId)
-        .then(name => setRestaurantName(name));
+      database.getRestaurantName(mealData.restaurantId).then(name => setRestaurantName(name));
       setSelectedFood(prevState => mealData);
       loadSugarData(
         mealData,

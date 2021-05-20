@@ -1,29 +1,27 @@
 import React from 'react';
-import {View} from 'react-native';
-import {Image, makeStyles, Text} from 'react-native-elements';
+import { View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
 import RoundInsulinInfoItem from './RoundInsulinInfoItem';
 import AccessibleFoodInfoText from '../Accessability/AccessibleFoodInfoText';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LocalizationContext from '../../../../LanguageContext';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import RoundCarbInfo from './RoundCarbInfo';
 
 const CircleGroup = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
 
   const styles = useStyles();
-  const {carbSumme, insulinSumme} = props;
+  const { carbSumme, insulinSumme } = props;
   return (
     <View style={styles.circleContainer}>
       {props.selectedFood.picture ? (
         <View style={styles.imageContainer}>
           <Image
-            style={{width: 85, height: 85, borderRadius: 42.5}}
-            placeholderStyle={{backgroundColor: '#3E3E3E'}}
-            PlaceholderContent={
-              <Text style={{color: '#fff'}}>{t('Entries.noImage')}</Text>
-            }
+            style={{ width: 85, height: 85, borderRadius: 42.5 }}
+            placeholderStyle={{ backgroundColor: '#3E3E3E' }}
+            PlaceholderContent={<Text style={{ color: '#fff' }}>{t('Entries.noImage')}</Text>}
             source={
               props.selectedFood.picture && {
                 uri: props.selectedFood.picture,
@@ -113,5 +111,4 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     paddingLeft: 3,
   },
-
 }));

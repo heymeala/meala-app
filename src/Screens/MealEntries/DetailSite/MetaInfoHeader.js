@@ -1,14 +1,14 @@
 import React from 'react';
-import {View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
-import {spacing} from '../../../theme/styles';
+import { View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
+import { spacing } from '../../../theme/styles';
 
 const MetaInfoHeader = props => {
   const styles = useStyles();
 
   return (
     <View style={styles.container}>
-{/*
+      {/*
       <Text style={styles.date}>{props.date}</Text>
 */}
       <Text h2 style={styles.mealTitle}>

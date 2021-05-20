@@ -1,13 +1,13 @@
 import React from 'react';
-import {Dimensions, Image, SafeAreaView, View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import { Dimensions, Image, SafeAreaView, View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import LottieView from 'lottie-react-native';
 const RenderItem = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
-  const {item, info, index} = props;
+  const { item, info, index } = props;
   return (
     <SafeAreaView
       accessible={true}
@@ -20,14 +20,7 @@ const RenderItem = props => {
           {item.title}
         </Text>
         {item.image && <Image source={item.image} style={styles.image} />}
-        {item.animation && (
-          <LottieView
-            style={styles.animation}
-            source={item.animation}
-            autoPlay
-            loop
-          />
-        )}
+        {item.animation && <LottieView style={styles.animation} source={item.animation} autoPlay loop />}
         <Text h3 style={styles.text}>
           {item.text}
         </Text>
@@ -55,7 +48,7 @@ const useStyles = makeStyles((theme, dimensions) => ({
     marginVertical: 0,
   },
   flex: {},
-  animation: {height: null},
+  animation: { height: null },
   text: {
     //flexGrow: 1,
     color: theme.colors.black,

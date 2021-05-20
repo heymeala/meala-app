@@ -1,5 +1,5 @@
-import {GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS} from '@env';
-import {Platform} from 'react-native';
+import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
+import { Platform } from 'react-native';
 
 export function translate(locale, text, source, target) {
   const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;

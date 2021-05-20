@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {Dimensions, Platform, ScrollView, View} from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions, Platform, ScrollView, View } from 'react-native';
 import GItwo from '../../Common/gi';
-import {ListItem, makeStyles, SearchBar, Text} from 'react-native-elements';
+import { ListItem, makeStyles, SearchBar, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {spacing} from '../../theme/styles';
+import { spacing } from '../../theme/styles';
 import LottieView from 'lottie-react-native';
-import {mapNumber} from '../../utils/map';
+import { mapNumber } from '../../utils/map';
 const GlyxSearchScreen = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
   const [search, setSearch] = useState('');
@@ -30,7 +30,6 @@ const GlyxSearchScreen = props => {
       setData([]);
     }
   };
-
 
   function colorCode(value) {
     const low = [0, 40];
@@ -61,10 +60,8 @@ const GlyxSearchScreen = props => {
       />
 
       {data.map((list, i) => (
-        <View
-          key={i}
-          style={{...styles.giList, backgroundColor: colorCode(list.GI)}}>
-          <Text h3 style={{fontFamily: 'SecularOne-Regular'}}>
+        <View key={i} style={{ ...styles.giList, backgroundColor: colorCode(list.GI) }}>
+          <Text h3 style={{ fontFamily: 'SecularOne-Regular' }}>
             {list[locale]}
           </Text>
           <Text h3>GI = {list.GI}</Text>
@@ -109,18 +106,18 @@ const GlyxSearchScreen = props => {
 export default GlyxSearchScreen;
 
 const useStyles = makeStyles((theme, dimensions) => ({
-  container: {padding: spacing.S},
+  container: { padding: spacing.S },
   center: {},
   animationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginVertical: spacing.M,
   },
-  animation: {width: 150},
-  knowledgeContainer: {marginVertical: spacing.L},
-  listItem: {flex: 1, flexGrow: 1},
+  animation: { width: 150 },
+  knowledgeContainer: { marginVertical: spacing.L },
+  listItem: { flex: 1, flexGrow: 1 },
   infoContainer: {},
-  giList: {padding: spacing.S, marginVertical: 4, borderRadius: 5},
-  text: {padding: spacing.S},
-  infoText: {padding: spacing.S},
+  giList: { padding: spacing.S, marginVertical: 4, borderRadius: 5 },
+  text: { padding: spacing.S },
+  infoText: { padding: spacing.S },
 }));

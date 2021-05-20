@@ -1,19 +1,20 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {View} from 'react-native';
-import {Image, makeStyles, Text} from 'react-native-elements';
+import React, { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {serving} from '../../utils/specialTranslations';
+import { serving } from '../../utils/specialTranslations';
 import QuizDetailInfos from './QuizDetailInfos';
 import AnswerButtons from './AnswerButtons';
-import {loadQuestionRecipes, quizServings} from './loadQuestionRecipes';
+import { loadQuestionRecipes } from './loadQuestionRecipes';
 import LottieView from 'lottie-react-native';
 import right from '../../assets/animations/quiz/confetti.json';
 import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
-import {useScreenReader} from '../../hooks/useScreenReaderEnabled';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
 import Sound from 'react-native-sound';
+import { quizServings } from "./quizServingTypes";
 
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
@@ -32,9 +33,9 @@ var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
 });
 
 const FatSecretQuiz = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {fsRecipe, quizType} = props;
+  const { fsRecipe, quizType } = props;
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -154,7 +155,7 @@ const FatSecretQuiz = props => {
               pressed: true,
             };
           } else {
-            return {...data};
+            return { ...data };
           }
         });
       });
@@ -239,7 +240,7 @@ const FatSecretQuiz = props => {
             }}>
             <LottieView
               ref={animation}
-              style={{width: '100%', position: 'absolute', top: 0}}
+              style={{ width: '100%', position: 'absolute', top: 0 }}
               source={answer ? right : wrong}
               loop={false}
             />
@@ -254,8 +255,8 @@ const FatSecretQuiz = props => {
 export default FatSecretQuiz;
 
 const useStyles = makeStyles(theme => ({
-  root: {minHeight: 700},
-  container: {padding: theme.spacing.M},
-  image: {width: '100%', height: 250, borderRadius: 5, marginBottom: theme.spacing.L},
-  text: {padding: theme.spacing.S},
+  root: { minHeight: 700 },
+  container: { padding: theme.spacing.M },
+  image: { width: '100%', height: 250, borderRadius: 5, marginBottom: theme.spacing.L },
+  text: { padding: theme.spacing.S },
 }));

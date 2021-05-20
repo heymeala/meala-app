@@ -1,12 +1,12 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
 import GroupedMealItems from './Common/GroupedMealItems';
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
-import {calculateFPE, reduceNutritionValues} from '../../utils/reducer';
+import { calculateFPE, reduceNutritionValues } from '../../utils/reducer';
 
 const FatSecretDateData = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const fatSecretData = props.fatSecretData;
   const breakfast = fatSecretData.filter(data => data.meal === 'Breakfast');
   const lunch = fatSecretData.filter(data => data.meal === 'Lunch');
@@ -96,4 +96,3 @@ const FatSecretDateData = props => {
 };
 
 export default FatSecretDateData;
-

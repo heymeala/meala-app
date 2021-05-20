@@ -1,13 +1,13 @@
 import React from 'react';
-import {SwipeListView} from 'react-native-swipe-list-view';
-import {EmptyListHome} from './EmtyListHome';
-import {useNavigation} from '@react-navigation/core';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { EmptyListHome } from './EmtyListHome';
+import { useNavigation } from '@react-navigation/core';
+import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import LotteHomeAnimation from './LotteHomeAnimation';
 import HiddenSwipeItem from './HiddenSwipeItem';
-import {MealItemsList} from '../../../Components/MealItemList';
+import { MealItemsList } from '../../../Components/MealItemList';
 
-const MealsListSwipeDelete = ({searchComponent, mealDataSoftDelete, value, update}) => {
+const MealsListSwipeDelete = ({ searchComponent, mealDataSoftDelete, value, update }) => {
   const navigation = useNavigation();
   const screenReaderEnabled = useScreenReader();
   const listLength = mealDataSoftDelete.length;
@@ -15,12 +15,12 @@ const MealsListSwipeDelete = ({searchComponent, mealDataSoftDelete, value, updat
   return (
     <SwipeListView
       contentInsetAdjustmentBehavior={'automatic'}
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1 }}
       disableRightSwipe={true}
       ListEmptyComponent={<EmptyListHome value={value} navigation={navigation} />}
       ListHeaderComponent={searchComponent}
       data={mealDataSoftDelete}
-      renderItem={({item}) => <MealItemsList item={item} />}
+      renderItem={({ item }) => <MealItemsList item={item} />}
       keyExtractor={(item, index) => item.id}
       closeOnRowPress={true}
       closeOnScroll={true}

@@ -1,30 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import {Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
 import PermissionListItem from './PermissionListItem';
-import {Button, Text} from 'react-native-elements';
+import { Button, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {spacing} from '../../../theme/styles';
-import {useUserSettings} from '../../../hooks/useUserSettings';
-import {HEALTHKIT} from '../glucoseSourceConstants';
+import { spacing } from '../../../theme/styles';
+import { useUserSettings } from '../../../hooks/useUserSettings';
+import { HEALTHKIT } from '../glucoseSourceConstants';
 import moment from 'moment';
-import {permissions} from '../../MealEntries/DetailSite/HealthKitPermissions';
-import {hkSteps} from './steps';
+import { permissions } from '../../MealEntries/DetailSite/HealthKitPermissions';
+import { hkSteps } from './steps';
 
 export default function HealthKitScreen() {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [authStatus, setAuthStatus] = useState(true);
-  const {userSettings, saveUserSettings} = useUserSettings();
+  const { userSettings, saveUserSettings } = useUserSettings();
   const [glucoseSamples, setGlucoseSamples] = useState([]);
   const [carbSamples, setCarbSamples] = useState([]);
   const [heartRateSamples, setHeartRateSamples] = useState([]);
   const [stepSamples, setStepSamples] = useState();
 
   const saveState = () => {
-    saveUserSettings({...userSettings, glucoseSource: HEALTHKIT});
+    saveUserSettings({ ...userSettings, glucoseSource: HEALTHKIT });
   };
   const getPermission = () => {
     const fromDate = moment().subtract(20, 'days').toISOString();
@@ -164,9 +164,9 @@ export default function HealthKitScreen() {
 }
 
 const styles = StyleSheet.create({
-  button: {marginVertical: spacing.M},
+  button: { marginVertical: spacing.M },
   scrollView: {},
-  spacing: {marginVertical: spacing.M},
+  spacing: { marginVertical: spacing.M },
   sectionContainer: {
     marginVertical: 12,
     paddingHorizontal: 24,
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.black,
   },
-  center: {paddingVertical: 20, alignSelf: 'center'},
+  center: { paddingVertical: 20, alignSelf: 'center' },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,

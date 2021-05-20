@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {makeStyles, SearchBar} from 'react-native-elements';
+import React, { useState } from 'react';
+import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { makeStyles, SearchBar } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
-import {useScreenReader} from '../../../hooks/useScreenReaderEnabled';
+import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 
 export const Tags = props => {
   const [visible, setVisible] = useState(false);
   const [tag, setTag] = useState('');
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
   const styles = useStyles();
 
@@ -22,61 +22,61 @@ export const Tags = props => {
 
   const exampleTags = !screenReaderEnabled
     ? [
-        {id: 1, tag: '😡', type: 'emoji'},
-        {id: 2, tag: '😍', type: 'emoji'},
+        { id: 1, tag: '😡', type: 'emoji' },
+        { id: 2, tag: '😍', type: 'emoji' },
         {
           id: 3,
           tag: '🤣',
           type: 'emoji',
         },
-        {id: 4, tag: '😀', type: 'emoji'},
-        {id: 5, tag: '🤢', type: 'emoji'},
-        {id: 6, tag: '😴', type: 'emoji'},
+        { id: 4, tag: '😀', type: 'emoji' },
+        { id: 5, tag: '🤢', type: 'emoji' },
+        { id: 6, tag: '😴', type: 'emoji' },
         {
           id: 7,
           tag: '🛀',
           type: 'emoji',
         },
-        {id: 8, tag: '🎮', type: 'emoji'},
-        {id: 9, tag: '💩', type: 'emoji'},
-        {id: 10, tag: '🥖', type: 'emoji'},
+        { id: 8, tag: '🎮', type: 'emoji' },
+        { id: 9, tag: '💩', type: 'emoji' },
+        { id: 10, tag: '🥖', type: 'emoji' },
         {
           id: 11,
           tag: '🍦',
           type: 'emoji',
         },
-        {id: 12, tag: '🎰', type: 'emoji'},
-        {id: 13, tag: '🎉', type: 'emoji'},
-        {id: 14, tag: '🍕', type: 'emoji'},
+        { id: 12, tag: '🎰', type: 'emoji' },
+        { id: 13, tag: '🎉', type: 'emoji' },
+        { id: 14, tag: '🍕', type: 'emoji' },
         {
           id: 15,
           tag: '🍺',
           type: 'emoji',
         },
-        {id: 16, tag: '🍸', type: 'emoji'},
-        {id: 17, tag: '🏀', type: 'emoji'},
-        {id: 18, tag: '🍷', type: 'emoji'},
+        { id: 16, tag: '🍸', type: 'emoji' },
+        { id: 17, tag: '🏀', type: 'emoji' },
+        { id: 18, tag: '🍷', type: 'emoji' },
         {
           id: 19,
           tag: '🚙',
           type: 'emoji',
         },
-        {id: 20, tag: '🚅', type: 'emoji'},
-        {id: 21, tag: t('AddMeal.tag.basalrate'), type: 'text'},
+        { id: 20, tag: '🚅', type: 'emoji' },
+        { id: 21, tag: t('AddMeal.tag.basalrate'), type: 'text' },
       ]
     : [];
 
   return (
     <>
-      <View style={{display: 'flex', flexDirection: 'row', padding: 8, paddingBottom: 80}}>
+      <View style={{ display: 'flex', flexDirection: 'row', padding: 8, paddingBottom: 80 }}>
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"
           accessibilityHint={t('Accessibility.EnterMeal.add_lable')}
           accessibilityLabel={t('Accessibility.EnterMeal.addTag')}
-          style={{...styles.openButton}}
+          style={{ ...styles.openButton }}
           onPress={() => setVisible(true)}>
-          <Text style={{padding: 6, color: '#fff'}}>{t('AddMeal.tag.addTag')}</Text>
+          <Text style={{ padding: 6, color: '#fff' }}>{t('AddMeal.tag.addTag')}</Text>
         </TouchableOpacity>
         <ScrollView horizontal={true}>
           {props.tags &&
@@ -88,9 +88,9 @@ export const Tags = props => {
                     accessibilityRole="button"
                     accessibilityHint={t('Accessibility.EnterMeal.lable')}
                     key={i}
-                    style={{...styles.openButton, backgroundColor: '#d7d4a3'}}
+                    style={{ ...styles.openButton, backgroundColor: '#d7d4a3' }}
                     onPress={() => props.removeTag(tags.id)}>
-                    <Text style={{fontSize: 14}}>{tags.name}</Text>
+                    <Text style={{ fontSize: 14 }}>{tags.name}</Text>
                   </TouchableOpacity>
                 );
               })}
@@ -109,7 +109,7 @@ export const Tags = props => {
           onAccessibilityEscape={() => setVisible(false)}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text accessibilityRole={'header'} style={{...styles.modalText, fontWeight: 'bold'}}>
+              <Text accessibilityRole={'header'} style={{ ...styles.modalText, fontWeight: 'bold' }}>
                 {t('AddMeal.tag.addATag')}
               </Text>
               <Text style={styles.modalText}>{t('AddMeal.tag.findTag')}</Text>
@@ -136,14 +136,14 @@ export const Tags = props => {
                               fontSize: 16,
                               padding: 6,
                             }
-                          : {fontSize: 25, padding: 6}
+                          : { fontSize: 25, padding: 6 }
                       }>
                       {data.tag}
                     </Text>
                   </TouchableOpacity>
                 ))}
               </View>
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity
                   accessibilityRole="button"
                   style={{

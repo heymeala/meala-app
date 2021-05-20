@@ -1,14 +1,14 @@
-import React, {useRef} from 'react';
-import {SafeAreaView, TouchableOpacity, View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import React, { useRef } from 'react';
+import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {DEVICE_HEIGHT} from '../../utils/deviceHeight';
-import {quizServings} from './loadQuestionRecipes';
+import { DEVICE_HEIGHT } from '../../utils/deviceHeight';
+import { quizServings } from './loadQuestionRecipes';
 
 const AccessibleAnswer = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {counter, answer, recipeDetails, timeOut, serving, answers} = props;
+  const { counter, answer, recipeDetails, timeOut, serving, answers } = props;
   const rightAnswer = useRef(answers.filter(item => item.right).map(data => data));
   const servingAnswer = rightAnswer.current[0];
   const type = useRef(handleQuizTypeTranslation());

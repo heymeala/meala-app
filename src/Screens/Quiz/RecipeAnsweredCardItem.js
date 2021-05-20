@@ -1,12 +1,12 @@
 import React from 'react';
-import {Button, Card, Icon, makeStyles, Text} from 'react-native-elements';
+import { Button, Card, Icon, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
 const RecipeAnsweredCardItem = props => {
-  const {t} = React.useContext(LocalizationContext);
+  const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {item, setOpen, setRecipe, userAnswer, tries} = props;
+  const { item, setOpen, setRecipe, userAnswer, tries } = props;
   const background = tries === 1 ? 'rgba(140,205,56,0.79)' : 'rgb(172,57,57)';
 
   function openModal(id) {
@@ -15,15 +15,17 @@ const RecipeAnsweredCardItem = props => {
   }
 
   return (
-    <View style={{backgroundColor: background, paddingVertical: 12, marginVertical: 4}}>
-      <Card containerStyle={{...styles.container}} wrapperStyle={styles.wrapper}>
+    <View style={{ backgroundColor: background, paddingVertical: 12, marginVertical: 4 }}>
+      <Card containerStyle={{ ...styles.container }} wrapperStyle={styles.wrapper}>
         <View style={styles.iconLabel}>
           {/*
           <Icon name={userAnswer ? 'check' : 'cancel'} color={background} />
 */}
-          <Text>{t('Quiz.tries_result', {tries: tries})}</Text>
+          <Text>{t('Quiz.tries_result', { tries: tries })}</Text>
         </View>
-        <Card.Title h2 accessibilityRole={'header'}>{item.recipe_name}</Card.Title>
+        <Card.Title h2 accessibilityRole={'header'}>
+          {item.recipe_name}
+        </Card.Title>
         <Card.Divider />
         {item.recipe_images ? (
           <Card.Image
@@ -54,7 +56,7 @@ const RecipeAnsweredCardItem = props => {
           text={t('AddMeal.nutritionData.calories')}
         />*/}
         </>
-        <View style={{paddingHorizontal: 30}}>
+        <View style={{ paddingHorizontal: 30 }}>
           <Button title={t('Recipes.show_recipe')} onPress={() => openModal(item)} />
         </View>
       </Card>
@@ -65,8 +67,8 @@ const RecipeAnsweredCardItem = props => {
 export default RecipeAnsweredCardItem;
 
 const useStyles = makeStyles(theme => ({
-  container: {borderRadius: 5, borderWidth: 1, padding: 0, margin: 8},
-  wrapper: {backgroundColor: 'white', padding: 0, marginVertical: 8},
+  container: { borderRadius: 5, borderWidth: 1, padding: 0, margin: 8 },
+  wrapper: { backgroundColor: 'white', padding: 0, marginVertical: 8 },
   iconLabel: {
     display: 'flex',
     flexDirection: 'row',

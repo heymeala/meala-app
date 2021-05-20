@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {database} from '../../Common/database_realm';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { database } from '../../Common/database_realm';
 import moment from 'moment';
 import LocalizationContext from '../../../LanguageContext';
 import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import * as Keychain from 'react-native-keychain';
-import {getFoodByDateFromUser} from '../../Common/fatsecret/fatsecretApi';
+import { getFoodByDateFromUser } from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
-import {EmptyListDate} from './Common/EmtyListDate';
+import { EmptyListDate } from './Common/EmtyListDate';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import {useNavigation} from '@react-navigation/core';
-import {MealItemsList} from '../../Components/MealItemList';
+import { useNavigation } from '@react-navigation/core';
+import { MealItemsList } from '../../Components/MealItemList';
 
 const DateList = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
   moment.locale(locale);
@@ -36,7 +36,7 @@ const DateList = props => {
   }
 
   const keyExtractor = (item, index) => item.id;
-  const renderItem = ({item}) => <MealItemsList item={item} navigation={props.navigation} />;
+  const renderItem = ({ item }) => <MealItemsList item={item} navigation={props.navigation} />;
 
   const [whiteListDataBaseDates, setWhiteListDataBaseDates] = useState([]);
 
@@ -64,11 +64,11 @@ const DateList = props => {
               if (data.food_entries) {
                 if (data.food_entries.food_entry.length >= 0) {
                   const checkedData = data.food_entries.food_entry.map(data => {
-                    return {...data};
+                    return { ...data };
                   });
                   setFatSecretData(checkedData);
                 } else if (data.food_entries.food_entry) {
-                  setFatSecretData([{...data.food_entries.food_entry}]);
+                  setFatSecretData([{ ...data.food_entries.food_entry }]);
                 }
               } else {
                 setFatSecretData();
@@ -89,7 +89,7 @@ const DateList = props => {
   );
 
   const markedDates = whiteListDataBaseDates.map(dates => {
-    return {date: dates, dots: [{color: 'blue'}]};
+    return { date: dates, dots: [{ color: 'blue' }] };
   });
 
   const HeaderComponent = function () {
@@ -107,21 +107,21 @@ const DateList = props => {
             onDateSelected={function (date) {
               setChosenDateStart(date);
             }}
-            style={{height: 150, paddingTop: 20, paddingBottom: 10}}
+            style={{ height: 150, paddingTop: 20, paddingBottom: 10 }}
             daySelectionAnimation={{
               type: 'border',
               duration: 200,
               borderWidth: 2,
               borderHighlightColor: 'blue',
             }}
-            calendarHeaderStyle={{color: 'black'}}
+            calendarHeaderStyle={{ color: 'black' }}
             calendarColor={'#f9de1c'}
-            dateNumberStyle={{color: 'black'}}
-            dateNameStyle={{color: 'black'}}
-            highlightDateNumberStyle={{color: 'black'}}
-            highlightDateNameStyle={{color: 'black'}}
-            disabledDateNameStyle={{color: 'grey'}}
-            disabledDateNumberStyle={{color: 'grey'}}
+            dateNumberStyle={{ color: 'black' }}
+            dateNameStyle={{ color: 'black' }}
+            highlightDateNumberStyle={{ color: 'black' }}
+            highlightDateNameStyle={{ color: 'black' }}
+            disabledDateNameStyle={{ color: 'grey' }}
+            disabledDateNumberStyle={{ color: 'grey' }}
           />
         </View>
       </>
@@ -132,11 +132,11 @@ const DateList = props => {
     <LoadingSpinner />
   ) : (
     <FlatList
-      contentContainerStyle={{flexGrow: 1}}
+      contentContainerStyle={{ flexGrow: 1 }}
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={HeaderComponent()}
-      ListFooterComponentStyle={{height: '100%'}}
+      ListFooterComponentStyle={{ height: '100%' }}
       ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}
       data={restaurants}
       keyExtractor={keyExtractor}
