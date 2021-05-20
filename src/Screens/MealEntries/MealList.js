@@ -11,7 +11,6 @@ import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
-import SearchRecipes from '../Recipes/SearchRecipes';
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -47,8 +46,8 @@ const MealList = props => {
     if (userSettings.glucoseSource === NIGHTSCOUT) {
       const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
       const slicedMeals = notLoadedEntries.slice(0, 2);
-      console.log('notLoadedEntries', notLoadedEntries);
-      console.log('slicedMeals', slicedMeals);
+      // console.log('notLoadedEntries', notLoadedEntries);
+      //  console.log('slicedMeals', slicedMeals);
       if (slicedMeals && slicedMeals.length > 0) {
         console.log('2', slicedMeals);
 
@@ -66,6 +65,7 @@ const MealList = props => {
       }
     }
   }
+
   const handleBlur = () => {
     if (search.length > 3) {
       setBlur(true);

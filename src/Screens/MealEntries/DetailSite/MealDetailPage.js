@@ -67,7 +67,7 @@ const MealDetailsComponent = props => {
           <NoGraphData />
         )}
         <View style={{ alignItems: 'center' }}>
-          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme.length > 0 && (
+          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <View>
               <Text style={styles.space}>{spritzEssAbstandText}</Text>
             </View>

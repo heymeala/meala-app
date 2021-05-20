@@ -55,13 +55,19 @@ const NightScoutTreatmentDetails = props => {
   return (
     <View style={{ padding: 20 }}>
       <Text accessibilityRole={'header'} style={styles.text}>
-        Details
+        {t('Entries.details')}
       </Text>
       <InsulinCarbDetails />
-      <Text style={styles.text}>Insulin: {insulinSumme}u</Text>
-      <Text style={styles.text}>
-        {t('General.Carbs')}: {carbSumme}g
-      </Text>
+      {insulinSumme ? (
+        <Text style={styles.text}>
+          {t('General.insulin')}: {insulinSumme}u
+        </Text>
+      ) : null}
+      {carbSumme ? (
+        <Text style={styles.text}>
+          {t('General.Carbs')}: {carbSumme}g
+        </Text>
+      ) : null}
     </View>
   );
 };

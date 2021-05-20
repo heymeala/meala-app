@@ -153,7 +153,8 @@
     "fpu_long": "Fat Protein Unit",
     "fpu": " FPU: ",
     "fpu_formula": "(CCAL - (Carbohydrates*4)) /100",
-    "informationFrom": "Information from"
+    "informationFrom": "Information from",
+    "details": "Details"
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -303,6 +304,7 @@
     "enableGps": "Please enable GPS to search Restaurants nearby",
     "Cancel": "Cancel",
     "Carbs": "Carbohydrates",
+    "insulin": "Insulin",
     "eg": "e.g.",
     "delete": "Delete",
     "welcome": "Welcome to meala - your meal assistant",

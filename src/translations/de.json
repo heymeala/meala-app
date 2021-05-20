@@ -151,7 +151,8 @@
     "fpu_long": "Fett Protein Einheit",
     "fpu": " FPE: ",
     "fpu_formula": "(KCal - (Kohlenhydrate*4)) / 100",
-    "informationFrom": "Information von"
+    "informationFrom": "Information von",
+    "details": "Details"
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -300,6 +301,7 @@
     "enableGps": "Bitte aktiviere GPS, um Restaurants in der Nähe zu suchen.",
     "Cancel": "Abbrechen",
     "Carbs": "Kohlenhydrate",
+    "insulin": "Insulin",
     "eg": "z.B.",
     "delete": "Löschen",
     "welcome": "Willkommen bei meala - Deiner Mahlzeiten-Assistentin",
