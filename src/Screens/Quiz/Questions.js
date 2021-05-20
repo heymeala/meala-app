@@ -12,8 +12,8 @@ const Questions = props => {
   const {quizType, setQuizType, totalQuestions} = props;
   const scrollRef = useRef();
 
-  const fsRecipeIds = shuffle(locale === 'de' ? fatSecretRecipesDE : fatSecretRecipesEN);
-  const slicedIds = useRef(fsRecipeIds.slice(0, totalQuestions));
+  const fsRecipe = shuffle(locale === 'de' ? fatSecretRecipesDE : fatSecretRecipesEN);
+  const sliced = useRef(fsRecipe.slice(0, totalQuestions));
 
   function scrollToTop() {
     const node = scrollRef.current;
@@ -29,7 +29,7 @@ const Questions = props => {
       <ScrollView style={styles.root} ref={scrollRef}>
         <FatSecretQuiz
           scrollToTop={scrollToTop}
-          fsRecipeIds={slicedIds.current}
+          fsRecipe={sliced.current}
           quizType={quizType}
           setQuizType={setQuizType}
         />

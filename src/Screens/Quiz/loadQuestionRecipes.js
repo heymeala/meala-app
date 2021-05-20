@@ -36,15 +36,14 @@ export const quizServings = {
 };
 
 
-export function loadQuestionRecipes(fsRecipeIds, current, setRecipeDetails, setAnswers, setValidated) {
-  if (fsRecipeIds.current !== null) {
-    getRecipeDetails(fsRecipeIds[current]).then(recipe => {
+export function loadQuestionRecipes(fsRecipe, current, setRecipeDetails, setAnswers, setValidated) {
+  if (fsRecipe.current !== null) {
+    getRecipeDetails(fsRecipe[current].fsId).then(recipe => {
       setRecipeDetails(recipe.recipe);
       console.log(recipe.recipe);
       const serving = recipe.recipe.serving_sizes.serving;
 
       const fpe = calculateFPE(serving.calories, serving.carbohydrate);
-
       const randomValueArrayCarbs = randomizer(serving.carbohydrate);
       const randomValueArrayCalories = randomizer(serving.calories);
       const randomValueArrayFat = randomizer(serving.fat);

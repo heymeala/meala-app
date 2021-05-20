@@ -45,7 +45,7 @@ const RecipeDetails = props => {
 export default RecipeDetails;
 
 const useStyles = makeStyles(theme => ({
-  root: {minHeight: 700},
+  root: {minHeight: 700, },
   image: {width: '100%', height: 250, borderRadius: 10, marginBottom: theme.spacing.L},
   desc: {paddingVertical: theme.spacing.S},
   descContainer: {display: 'flex', flexDirection: 'row', width: '90%'},

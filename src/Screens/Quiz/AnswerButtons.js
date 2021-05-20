@@ -60,5 +60,5 @@ export default AnswerButtons;
 
 const useStyles = makeStyles(theme => ({
   answerButton: {margin: theme.spacing.S},
-  desc: {paddingVertical: theme.spacing.S},
+  desc: {paddingVertical: theme.spacing.M},
 }));

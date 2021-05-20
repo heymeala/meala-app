@@ -205,6 +205,7 @@
     "tries_result": "Beim {{tries}}. Versuch richtig",
     "again": "Versuche es noch einmal",
     "score": "Punkte",
+    "hint": "Hinweis",
     "results": {
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",

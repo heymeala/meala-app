@@ -207,6 +207,7 @@
     "tries_result": "Right after {{tries}}. try",
     "again": "Try again",
     "score": "Points",
+    "hint": "Hint",
     "results": {
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",

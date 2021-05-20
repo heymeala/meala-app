@@ -21,12 +21,6 @@ var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
     return;
   }
   // loaded successfully
-  console.log(
-    'duration in seconds: ' +
-      rightSound.getDuration() +
-      'number of channels: ' +
-      rightSound.getNumberOfChannels(),
-  );
 });
 
 var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
@@ -35,20 +29,12 @@ var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
     return;
   }
   // loaded successfully
-  console.log(
-    'duration in seconds: ' +
-      wrongSound.getDuration() +
-      'number of channels: ' +
-      wrongSound.getNumberOfChannels(),
-  );
 });
-
-
 
 const FatSecretQuiz = props => {
   const {t, locale} = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const {fsRecipeIds, quizType} = props;
+  const {fsRecipe, quizType} = props;
   const [recipeDetails, setRecipeDetails] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [validated, setValidated] = useState(false);
@@ -66,7 +52,7 @@ const FatSecretQuiz = props => {
   const question = useRef(getTranslatedQuestion(quizType));
 
   useEffect(() => {
-    loadQuestionRecipes(fsRecipeIds, current, setRecipeDetails, setAnswers, setValidated);
+    loadQuestionRecipes(fsRecipe, current, setRecipeDetails, setAnswers, setValidated);
   }, [current]);
 
   function playSound() {
@@ -106,7 +92,7 @@ const FatSecretQuiz = props => {
   }, [validated, playWrongAnimation]);
 
   function counter() {
-    if (current < fsRecipeIds.length - 1) {
+    if (current < fsRecipe.length - 1) {
       setCurrent(prevState => {
         return prevState + 1;
       });
@@ -167,7 +153,9 @@ const FatSecretQuiz = props => {
               ...data,
               pressed: true,
             };
-          } else return {...data};
+          } else {
+            return {...data};
+          }
         });
       });
 
@@ -226,6 +214,14 @@ const FatSecretQuiz = props => {
           validated={validated}
           serving={quizType}
         />
+        {fsRecipe[current].hint ? (
+          <View>
+            <Text h2 accessibilityRole={'header'}>
+              {t('Quiz.hint')}
+            </Text>
+            <Text h3>{fsRecipe[current].hint}</Text>
+          </View>
+        ) : null}
 
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>

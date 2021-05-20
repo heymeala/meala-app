@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme, dimensions) => ({
   animation: {height: 150, alignSelf: 'center'},
   centeredView: {
     //  flex: 1,
-    justifyContent: 'flex-end',
+    //justifyContent: 'flex-end',
   },
   wrapper: {
     //flex: 1,
     //flexGrow: 1,
-    justifyContent: 'space-between',
+    //  justifyContent: 'space-between',
     // height: DEVICE_HEIGHT - DEVICE_HEIGHT / 6,
   },
   container: {},
@@ -69,8 +69,7 @@ const useStyles = makeStyles((theme, dimensions) => ({
     borderBottomRightRadius: 0,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 10,
-    alignItems: 'center',
+    padding: 20,
     shadowColor: theme.colors.black,
     shadowOffset: {
       width: 0,

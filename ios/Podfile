@@ -5,6 +5,7 @@ platform :ios, '10.0'
 
 target 'meala' do
   config = use_native_modules!
+  $RNFirebaseAnalyticsWithoutAdIdSupport = true
 
   use_react_native!(
 	    :path => config[:reactNativePath],
@@ -14,7 +15,7 @@ target 'meala' do
     permissions_path = '../node_modules/react-native-permissions/ios'
     pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
     pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-     pod 'AppAuth'
+    pod 'AppAuth'
 
   target 'mealaTests' do
     inherit! :complete
