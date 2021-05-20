@@ -27,15 +27,6 @@ function chooseData(value, serving) {
   }
 }
 
-export const quizServings = {
-  carbohydrate: 'carbohydrate',
-  calories: 'calories',
-  fat: 'fat',
-  protein: 'protein',
-  fpe: 'fpe',
-};
-
-
 export function loadQuestionRecipes(fsRecipe, current, setRecipeDetails, setAnswers, setValidated) {
   if (fsRecipe.current !== null) {
     getRecipeDetails(fsRecipe[current].fsId).then(recipe => {

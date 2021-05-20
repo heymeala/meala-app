@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, View} from 'react-native';
-import {makeStyles, Text} from 'react-native-elements';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
-import {quizServings} from './loadQuestionRecipes';
 import CategoryListItem from './CategoryListItem';
 import Questions from './Questions';
+import { quizServings } from './quizServingTypes';
 
 const Quiz = props => {
-  const {t, locale} = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const [quizType, setQuizType] = useState(null);
   const styles = useStyles();
 
@@ -65,5 +65,5 @@ const Quiz = props => {
 export default Quiz;
 
 const useStyles = makeStyles(theme => ({
-  container: {padding: theme.spacing.M},
+  container: { padding: theme.spacing.M },
 }));

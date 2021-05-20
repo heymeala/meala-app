@@ -198,6 +198,7 @@
     "gram": " Gramm",
     "g": "g",
     "fpe": "FPE",
+    "calories": "kcal",
     "total_servings": "Für insgesamt {{total}} Portionen",
     "done": "Teste Dein Wissen auch in anderen Bereichen",
     "right": "Richtig",
@@ -326,7 +327,6 @@
       "restaurant": "Wo isst Du Deine Mahlzeit? ",
       "lable": "Drücken um dieses Markierung zu entfernen",
       "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann"
-
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",
@@ -342,7 +342,6 @@
       "values": "Wir haben {{values}} Werte für diesen Eintrag gefunden. Die Angaben sind in",
       "percentage": "prozent Deiner Werte liegen im Zielbereich",
       "speedDail": "Menü öffnet drei weitere Buttons zum Löschen, Bearbeiten und Kopieren. Wische nach Links"
-
     },
     "Quiz": {
       "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",
