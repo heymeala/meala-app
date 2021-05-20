@@ -19,7 +19,7 @@ export function analyseTimeInRange(cgmData) {
     });
     timeInRange = (cgmInRange.length / cgmArray.length) * 100;
     timeInRange = Math.round(timeInRange);
-    console.log(timeInRange);
+    //console.log(timeInRange);
   } else {
     timeInRange = null;
   }
