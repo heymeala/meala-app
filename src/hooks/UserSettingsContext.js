@@ -1,5 +1,6 @@
 // Settings Context - src/context/Settings
 import React from 'react';
+
 export const defaultUserSettings = {
   glucoseSource: null,
   nightscoutStatus: null,
@@ -9,4 +10,7 @@ export const defaultUserSettings = {
   nightscoutVersion: null,
 };
 
-export const UserSettingsContext = React.createContext(defaultUserSettings);
+export const UserSettingsContext = React.createContext({
+  userSettings: defaultUserSettings,
+  saveUserSettings: () => {},
+});

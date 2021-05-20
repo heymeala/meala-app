@@ -20,9 +20,9 @@ export const UserSettingsProvider = ({ children, userSettings }) => {
 
   useEffect(() => {
     const profileSettings = async () => {
-      const settingsData = await database.getSettings();
+      const settingsData = (await database.getSettings()).toJSON();
       const glucoseSource = await database.getGlucoseSource();
-      if ((settingsData && glucoseSource === '2') || glucoseSource === NIGHTSCOUT) {
+      if ((settingsData && glucoseSource === '2') || (settingsData && glucoseSource === NIGHTSCOUT)) {
         setSettings({ ...settingsData, glucoseSource: NIGHTSCOUT });
       } else if ((settingsData && glucoseSource === '1') || glucoseSource === HEALTHKIT) {
         setSettings({ ...settingsData, glucoseSource: HEALTHKIT });
@@ -32,6 +32,7 @@ export const UserSettingsProvider = ({ children, userSettings }) => {
     };
     profileSettings();
   }, []);
+
 
   return (
     <UserSettingsContext.Provider value={{ userSettings: settings, saveUserSettings: saveUserSettings }}>

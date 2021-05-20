@@ -82,7 +82,8 @@ export const database = {
         return { tagEn: prediction.name };
       });
 
-    console.log('Save ' + restaurantName);
+    const latitude = lat ? parseFloat(lat) : null;
+    const longitude = lng ? parseFloat(lng) : null;
     console.log(
       'restaurantName ' + restaurantName,
       'restaurantId ' + restaurantId,
@@ -90,9 +91,9 @@ export const database = {
       picId,
       note,
       lat,
-      lng,
+      ' lng' + lng,
       mealId,
-      userMealId,
+      'userMealId  ' + userMealId,
       scope,
       'carbs  ' + carbs,
       predictions,
@@ -108,8 +109,8 @@ export const database = {
               id: restaurantId,
               restaurant_name: restaurantName,
               address: '',
-              lat: lat === '0' ? null : parseFloat(lat),
-              long: lng === '0' ? null : parseFloat(lng),
+              lat: latitude,
+              long: longitude,
               restaurantNote: 'notiz',
               isDeleted: false,
               scope: scope,

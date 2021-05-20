@@ -87,7 +87,7 @@ export const ProfileSchema = {
   },
 };
 
-export const QuizSchema = {
+/*export const QuizSchema = {
   name: 'Quiz',
   primaryKey: 'id',
   properties: {
@@ -111,4 +111,4 @@ export const userAnswers = {
     question: 'string?',
     answer: 'bool',
   },
-};
+};*/

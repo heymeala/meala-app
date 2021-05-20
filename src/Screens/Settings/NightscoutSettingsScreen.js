@@ -11,7 +11,6 @@ import {
   Text,
   useTheme,
 } from 'react-native-elements';
-import { database } from '../../Common/database_realm';
 import Clipboard from '@react-native-community/clipboard';
 import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
@@ -22,6 +21,8 @@ const NightscoutSettingsScreen = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const { theme } = useTheme();
+  const { userSettings, saveUserSettings } = useUserSettings();
+
   const [nightscoutUrl, setNightscoutUrl] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [nightscoutVersion, setNightscoutVersion] = useState('');
@@ -29,7 +30,6 @@ const NightscoutSettingsScreen = props => {
   const [nightscoutToken, setNightscoutToken] = useState('');
   const [nightscoutTreatmentsUpload, setNightscoutTreatmentsUpload] = useState();
   const [expanded, setExpanded] = useState(false);
-  const { userSettings, saveUserSettings } = useUserSettings();
 
   useEffect(() => {
     setNightscoutUrl(userSettings.nightscoutUrl);
@@ -37,7 +37,7 @@ const NightscoutSettingsScreen = props => {
     setNightscoutStatus(userSettings.nightscoutStatus);
     setNightscoutToken(userSettings.nightscoutToken);
     setNightscoutTreatmentsUpload(userSettings.nightscoutTreatmentsUpload);
-  }, []);
+  }, [userSettings]);
 
   const readFromClipboard = async () => {
     //To get the text from clipboard
