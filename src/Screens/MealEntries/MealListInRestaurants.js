@@ -57,7 +57,7 @@ const MealListInRestaurants = props => {
                 navigation.navigate('EnterMealStack', {
                   screen: 'EnterMeal',
                   params: {
-                    id: route.params?.restaurant.id,
+                    id: restaurant_id,
                   },
                 })
               }

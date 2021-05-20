@@ -343,7 +343,9 @@
       "carbs": " gramm Kohlenhydrate",
       "values": "Wir haben {{values}} Werte für diesen Eintrag gefunden. Die Angaben sind in",
       "percentage": "prozent Deiner Werte liegen im Zielbereich",
-      "speedDail": "Menü öffnet drei weitere Buttons zum Löschen, Bearbeiten und Kopieren. Wische nach Links"
+      "speedDail": "Menü öffnet drei weitere Buttons zum Löschen, Bearbeiten und Kopieren. Wische nach Links",
+      "open_menu": "Öffne Menü",
+      "edit": "Bearbeiten"
     },
     "Quiz": {
       "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",

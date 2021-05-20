@@ -347,7 +347,9 @@
       "carbs": " gram Carbohydrates",
       "values": "We found {{values}} values for this meal. The glucose values are in",
       "percentage": "percent are in range",
-      "speedDail": "Opens a speed dail menu. Swipe left to access the menu items"
+      "speedDail": "Opens a speed dail menu. Swipe left to access the menu items",
+      "open_menu": "Open the menu",
+      "edit": "Edit"
     },
     "Quiz": {
       "answer_right": "Thats right. {{name}} has {{serving}} {{type}}",

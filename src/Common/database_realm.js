@@ -1,11 +1,11 @@
 import React from 'react';
 import {
+  FatSecretFoodEntryIdsSchema,
   MealSchema,
+  ProfileSchema,
   RestaurantSchema,
   SettingsSchemaV3,
   tagsSchema,
-  ProfileSchema,
-  FatSecretFoodEntryIdsSchema,
 } from './Constants/realmSchema';
 
 const Realm = require('realm');

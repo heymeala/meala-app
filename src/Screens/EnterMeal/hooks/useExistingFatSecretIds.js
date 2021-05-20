@@ -36,11 +36,11 @@ export function useExistingDataFromDB(
         );
         const fatSecretFromDB = data.fatSecretUserFoodEntryIds.map(fatSecret => fatSecret.foodEntryId);
         setExistingFatSecretIds(fatSecretFromDB);
+        setRestaurantId(data.restaurantId);
 
         setMealTitle(data.food);
         if (type.mode === EDIT_MODE) {
           setUserMealId(data.userMealId);
-          setRestaurantId(data.restaurantId);
           setMealId(data.id);
           setDate(data.date);
         }

@@ -22,14 +22,14 @@ const EditSpeedDialGroup = props => {
     <SpeedDial
       isOpen={open}
       accessibilityHint={t('Accessibility.MealDetails.speedDail')}
-      accessibilityLabel={'Öffne Menü'}
+      accessibilityLabel={t('Accessibility.MealDetails.open_menu')}
       overlayColor={'transparent'}
       icon={{ name: 'edit', color: '#fff' }}
       openIcon={{ name: 'close', color: '#fff' }}
       onOpen={() => setOpen(!open)}
       onClose={() => setOpen(!open)}>
       <SpeedDial.Action
-        accessibilityLabel={'Bearbeiten'}
+        accessibilityLabel={t('Accessibility.MealDetails.edit')}
         icon={{ name: 'edit', color: '#fff' }}
         //title={t('Entries.copyMeal')}
         onPress={() => {
