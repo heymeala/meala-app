@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity } from 'react-native';
 import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import { DEVICE_HEIGHT } from '../../utils/deviceHeight';
-import { quizServings } from './loadQuestionRecipes';
+import { quizServings } from './quizServingTypes';
 
 const AccessibleAnswer = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -13,7 +13,7 @@ const AccessibleAnswer = props => {
   const servingAnswer = rightAnswer.current[0];
   const type = useRef(handleQuizTypeTranslation());
   const answerText = useRef(getAnswer());
-  console.log(DEVICE_HEIGHT);
+
   function handleQuizTypeTranslation() {
     if (serving === quizServings.carbohydrate) {
       return t('Accessibility.Quiz.answer_carbs');
