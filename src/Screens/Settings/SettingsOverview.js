@@ -20,7 +20,7 @@ const SettingsOverview = props => {
       title: 'Profil',
       data: [
         {
-          name: 'Einstellungen',
+          name: t('Settings.SettingsTitle'),
           link: 'ProfilSettings',
           icon: 'settings',
         },
@@ -30,7 +30,7 @@ const SettingsOverview = props => {
       title: t('Settings.source'),
       data: [
         {
-          name: 'HealthKit',
+          name: t('Settings.healthKit.name'),
           link: 'HealthKitScreen',
           icon: 'heart',
           active: userSettings.glucoseSource === HEALTHKIT,
@@ -53,13 +53,13 @@ const SettingsOverview = props => {
                     link: "Tidepool",
                 },*/
         {
-          name: 'Dexcom USA',
+          name: t('Settings.Dexcom.name'),
           icon: 'dexcom',
           iconType: 'meala',
           link: 'Dexcom',
         },
         {
-          name: 'Libre',
+          name: t('Settings.Libre.name'),
           icon: 'libre',
           iconType: 'meala',
           link: 'Libre',
@@ -70,10 +70,16 @@ const SettingsOverview = props => {
       title: 'E-Learning',
       data: [
         {
-          name: !screenReaderEnabled ? 'Carb Quiz' : 'Kohlenhydrate Quiz',
+          name: t('Quiz.name'),
           icon: 'einstein',
           iconType: 'meala',
           link: 'Quiz',
+        },
+        {
+          name: t('Knowledge.name'),
+          icon: 'archive',
+          iconType: 'EvilIcons',
+          link: 'Knowledge',
         },
         {
           name: t('GI.NavigationBarTitle'),
@@ -143,7 +149,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 20,
     paddingHorizontal: spacing.S,
     fontSize: 16,
-    fontFamily: 'SecularOne-Regular',
+    fontFamily: "SecularOne-Regular",
     backgroundColor: theme.colors.background,
   },
   title: {

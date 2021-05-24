@@ -1,20 +1,21 @@
-import React from 'react';
-import SettingsOverview from '../Screens/Settings/SettingsOverview';
-import NightscoutSettingsScreen from '../Screens/Settings/NightscoutSettingsScreen';
-import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
-import AboutScreen from '../Screens/Settings/AboutScreen';
-import GlyxSearchScreen from '../Screens/Settings/GlyxSearchScreen';
-import StatisticScreen from '../Screens/Settings/StatisticScreen';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
-import LocalizationContext from '../../LanguageContext';
-import ProfilSettings from '../Screens/Settings/ProfilSettings';
-import { Platform } from 'react-native';
-import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
-import Dexcom from '../Screens/Settings/Dexcom';
-import Libre from '../Screens/Settings/Libre';
-import TidePool from '../Screens/Settings/TidePool';
-import Quiz from '../Screens/Quiz/Quiz';
-import { Icon } from 'react-native-elements';
+import React from "react";
+import SettingsOverview from "../Screens/Settings/SettingsOverview";
+import NightscoutSettingsScreen from "../Screens/Settings/NightscoutSettingsScreen";
+import HealthKitScreen from "../Screens/Settings/HealthKit/HealthKitScreen";
+import AboutScreen from "../Screens/Settings/AboutScreen";
+import GlyxSearchScreen from "../Screens/Settings/GlyxSearchScreen";
+import StatisticScreen from "../Screens/Settings/StatisticScreen";
+import { createNativeStackNavigator } from "react-native-screens/native-stack";
+import LocalizationContext from "../../LanguageContext";
+import ProfilSettings from "../Screens/Settings/ProfilSettings";
+import { Platform } from "react-native";
+import FatSecretSettings from "../Screens/Settings/FatSecretSettings";
+import Dexcom from "../Screens/Settings/Dexcom";
+import Libre from "../Screens/Settings/Libre";
+import TidePool from "../Screens/Settings/TidePool";
+import Quiz from "../Screens/Quiz/Quiz";
+import Knowledge from "../Screens/Settings/Knowledge/Knowledge";
+import KnowledgeDetails from "../Screens/Settings/Knowledge/KnowledgeDetails";
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -62,7 +63,7 @@ function SettingsStack() {
         component={HealthKitScreen}
         initialParams={{}}
         options={{
-          title: 'HealthKitScreen',
+          title: t('Settings.healthKit.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -94,7 +95,7 @@ function SettingsStack() {
         component={Dexcom}
         initialParams={{}}
         options={{
-          title: 'Dexcom',
+          title: t('Settings.Dexcom.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -104,7 +105,7 @@ function SettingsStack() {
         name="Libre"
         component={Libre}
         options={{
-          title: 'Libre',
+          title: t('Settings.Libre.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -114,7 +115,28 @@ function SettingsStack() {
         name="Quiz"
         component={Quiz}
         options={{
-          title: 'Quiz',
+          title: t('Quiz.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Knowledge"
+        component={Knowledge}
+        options={{
+          title: t('Knowledge.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="KnowledgeDetails"
+        initialParams={{ itemId: null }}
+        component={KnowledgeDetails}
+        options={{
+          title: t('Knowledge.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

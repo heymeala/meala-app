@@ -184,7 +184,11 @@
     "ingredients": "Ingredients",
     "show_recipe": "Show recipe"
   },
+  "Knowledge": {
+    "name": "Knowledge"
+  },
   "Quiz": {
+    "name": "Quiz",
     "guess_question": "Test your knowledge?",
     "guess_subtitle": "You'll get three possible answers for every question. Choose one and retry till you get the right one",
     "recipe_description": "Description",
@@ -247,6 +251,7 @@
     "wrongUrl": "Url is wrong or your Nightscout-Site is offline",
     "urlMissing": "URL is missing",
     "healthKit": {
+      "name": "Health Kit",
       "title": "Connect Apple Health Kit with meala",
       "titleAccess": "meala has access to the following health data ",
       "canRead": "Through Apple Health Kit you have the ability to compare your health data from other apps here in meala with your meals",
@@ -279,10 +284,12 @@
       "valid": "Enter the Code you got from the FatSecret page. If you forgot please login again and save the code"
     },
     "Dexcom": {
+      "name": "Dexcom US",
       "text": "Do you have an US Dexcom Account or know someone? We're looking for Test-Users. Let us know and send us an email: mail@heymeala.com",
       "button": "Yes I know someone"
     },
     "Libre": {
+      "name": "Libre",
       "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
