@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from "react-native";
 import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useKnowledge } from '../../../hooks/useKnowledge';
@@ -18,7 +18,7 @@ const KnowledgeDetails = props => {
 
   if (typeof itemId !== 'undefined') {
     return (
-      <View style={styles.root}>
+      <ScrollView style={styles.root}>
         {knowledgeData.current ? (
           knowledgeData.current
             .filter(data => data.id === itemId)
@@ -31,7 +31,7 @@ const KnowledgeDetails = props => {
         ) : (
           <LoadingSpinner />
         )}
-      </View>
+      </ScrollView>
     );
   } else {
     return null;
