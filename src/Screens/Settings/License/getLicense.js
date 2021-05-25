@@ -3,7 +3,13 @@ function extractNameFromGithub(url: string): string | null {
   const components = reg.exec(url);
 
   if (components && components.length > 5) {
-    return components[5];
+    const name = components[5];
+    if (name !== 'undefined' && name !== 'unknown' && typeof name !== 'undefined') {
+      console.log(components);
+      return name;
+    } else {
+      return null;
+    }
   }
   return null;
 }
@@ -11,22 +17,24 @@ function extractNameFromGithub(url: string): string | null {
 export const formatLicenses = jsonData =>
   Object.entries(jsonData).map(([_key, value]) => {
     const { licenses, ...license } = value;
-
+    const formatLicenses = typeof licenses != 'undefined' ? licenses : '';
     const key = _key.charAt(0) === '@' ? _key.substring(1) : _key; // remove @
     const [name, version] = key.split('@');
-
-    let username =
-      (license.repository == null
-        ? extractNameFromGithub(license.licenseUrl)
-        : extractNameFromGithub(license.repository)) ?? '';
+    let username = license.repository
+      ? extractNameFromGithub(license.licenseUrl)
+      : extractNameFromGithub(license.repository) ?? '';
 
     let userUrl;
     let image;
 
-    if (username) {
+    if (username && typeof username !== 'undefined') {
       username = username.charAt(0).toUpperCase() + username.slice(1);
       image = `http://github.com/${username}.png`;
       userUrl = `http://github.com/${username}`;
+    } else {
+      image = null;
+      userUrl = null;
+      username = '';
     }
 
     return {
@@ -35,7 +43,7 @@ export const formatLicenses = jsonData =>
       image,
       userUrl,
       username,
-      licenses,
+      licenses: formatLicenses,
       version,
       ...license,
     };

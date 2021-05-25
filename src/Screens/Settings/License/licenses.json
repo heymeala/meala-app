@@ -172,10 +172,6 @@
         "licenseUrl": "https://github.com/react-native-community/react-native-camera/raw/master/LICENSE",
         "parents": "meala"
     },
-    "react-native-chart-kit@3.13.0": {
-        "licenses": "UNKNOWN",
-        "parents": "meala"
-    },
     "react-native-chip-view@0.0.12": {
         "licenses": "Apache License",
         "repository": "https://github.com/prscX/react-native-chip-view",
@@ -192,12 +188,6 @@
         "licenses": "MIT",
         "repository": "https://github.com/react-native-elements/react-native-elements",
         "licenseUrl": "https://github.com/react-native-elements/react-native-elements/raw/master/LICENSE",
-        "parents": "meala"
-    },
-    "react-native-flash-message@0.1.23": {
-        "licenses": "MIT",
-        "repository": "https://github.com/lucasferreira/react-native-flash-message",
-        "licenseUrl": "https://github.com/lucasferreira/react-native-flash-message/raw/master/LICENSE",
         "parents": "meala"
     },
     "react-native-gesture-handler@1.10.3": {
