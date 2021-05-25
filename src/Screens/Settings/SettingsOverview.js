@@ -77,8 +77,7 @@ const SettingsOverview = props => {
         },
         {
           name: t('Knowledge.name'),
-          icon: 'archive',
-          iconType: 'EvilIcons',
+          icon: 'md-school',
           link: 'Knowledge',
         },
         {
@@ -111,7 +110,7 @@ const SettingsOverview = props => {
         },
         {
           name: t('Settings.Licenses.name'),
-          icon: 'md-lock-closed-sharp',
+          icon: 'md-logo-github',
           link: 'Licenses',
         },
       ],
