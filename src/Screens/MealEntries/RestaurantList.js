@@ -6,6 +6,7 @@ import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import { useFocusEffect, useNavigation } from '@react-navigation/core';
 import { database } from '../../Common/database_realm';
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const RestaurantList = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -13,6 +14,7 @@ const RestaurantList = props => {
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -30,10 +32,10 @@ const RestaurantList = props => {
     try {
       const allRestaurant = await database.fetchRestaurantsWithFilter(text);
       const allRestaurantsIsDeleted = allRestaurant.filter(restaurants => restaurants.isDeleted === false);
-      console.log(allRestaurantsIsDeleted);
-
       setRestaurants(allRestaurantsIsDeleted);
-    } catch (e) {}
+      setLoading(false);
+    } catch (e) {
+    }
   };
   const keyExtractor = (item, index) => index.toString();
 
@@ -64,7 +66,9 @@ const RestaurantList = props => {
     setSearch(search);
     showRestaurants(search);
   };
-  return (
+  return loading ? (
+    <LoadingSpinner />
+  ) : (
     <FlatList
       contentContainerStyle={{ flexGrow: 1 }}
       contentInsetAdjustmentBehavior="automatic"
