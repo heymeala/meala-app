@@ -290,6 +290,9 @@
       "text": "Aktuell können Libre Daten nur über Nightscout importiert werden. Wir arbeiten zusätzlich an einer Integration von Tidepool. Damit können ebenfalls Libre Daten importiert werden.",
       "button": "Mehr über Nightscout",
       "link": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html"
+    },
+    "Licenses": {
+      "name": "Lizenzen"
     }
   },
   "About": {

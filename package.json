@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "update_licenses": "npm-license-crawler -onlyDirectDependencies -json src/Screens/Settings/License/licenses.json",
     "android": "npx react-native  run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",

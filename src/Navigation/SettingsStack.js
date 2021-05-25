@@ -16,6 +16,7 @@ import TidePool from '../Screens/Settings/TidePool';
 import Quiz from '../Screens/Quiz/Quiz';
 import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
+import Licenses from "../Screens/Settings/License/Licenses";
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -182,6 +183,16 @@ function SettingsStack() {
         initialParams={{}}
         options={{
           title: 'Profil',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Licenses"
+        component={Licenses}
+        options={{
+          title: 'Licenses',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

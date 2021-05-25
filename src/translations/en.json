@@ -85,7 +85,6 @@
     "NavigationBarTitle": "meala",
     "Search": "Search for saved places",
     "SearchMeals": "Search for saved meals",
-
     "Meals": "Meals",
     "MealDetails": "Details",
     "Date": "Date",
@@ -220,7 +219,6 @@
       "other": "{{count}} right answers",
       "zero": "{{count}} right answers"
     }
-
   },
   "Settings": {
     "SettingsTitle": "Settings",
@@ -294,6 +292,9 @@
       "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
+    },
+    "Licenses": {
+      "name": "Licenses"
     }
   },
   "About": {
@@ -321,7 +322,6 @@
     "reset": "Reset",
     "close": "Close",
     "back": "back"
-
   },
   "Onboarding": {
     "next": "next"

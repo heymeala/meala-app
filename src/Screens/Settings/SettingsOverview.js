@@ -109,6 +109,11 @@ const SettingsOverview = props => {
           icon: 'md-lock-closed-sharp',
           weblink: 'https://www.meal-advisor.com/policies/meala_datenschutz.pdf',
         },
+        {
+          name: t('Settings.Licenses.name'),
+          icon: 'md-lock-closed-sharp',
+          link: 'Licenses',
+        },
       ],
     },
   ];

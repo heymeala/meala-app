@@ -1,0 +1,359 @@
+{
+    "@react-native-community/clipboard@1.5.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/clipboard",
+        "licenseUrl": "https://github.com/react-native-community/clipboard/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-native-community/datetimepicker@3.0.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/datetimepicker",
+        "licenseUrl": "https://github.com/react-native-community/datetimepicker/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "@react-native-community/geolocation@2.0.2": {
+        "licenses": "MIT",
+        "licenseUrl": "https://github.com/react-native-community/react-native-geolocation#README.md",
+        "parents": "meala"
+    },
+    "@react-native-community/masked-view@0.1.10": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-masked-view",
+        "licenseUrl": "https://github.com/react-native-community/react-native-masked-view",
+        "parents": "meala"
+    },
+    "@react-native-community/push-notification-ios@1.8.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/push-notification-ios",
+        "licenseUrl": "https://github.com/react-native-community/push-notification-ios/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-native-firebase/analytics@11.5.0": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/invertase/react-native-firebase/tree/master/packages/analytics",
+        "licenseUrl": "https://github.com/invertase/react-native-firebase/tree/master/packages/analytics/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-native-firebase/app@11.5.0": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/invertase/react-native-firebase/tree/master/packages/app",
+        "licenseUrl": "https://github.com/invertase/react-native-firebase/tree/master/packages/app/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-native-firebase/auth@11.5.0": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/invertase/react-native-firebase/tree/master/packages/auth",
+        "licenseUrl": "https://github.com/invertase/react-native-firebase/tree/master/packages/auth/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-navigation/bottom-tabs@5.11.8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-navigation/drawer@5.12.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "@react-navigation/stack@5.14.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "axios@0.21.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/axios/axios",
+        "licenseUrl": "https://github.com/axios/axios/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "babel-core@6.26.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/babel/babel/tree/master/packages/babel-core",
+        "licenseUrl": "https://github.com/babel/babel/tree/master/packages/babel-core",
+        "parents": "meala"
+    },
+    "buffer@5.7.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/feross/buffer",
+        "licenseUrl": "https://github.com/feross/buffer/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "clarifai@2.9.1": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/Clarifai/clarifai-javascript",
+        "licenseUrl": "https://github.com/Clarifai/clarifai-javascript/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "core-util-is@1.0.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/isaacs/core-util-is",
+        "licenseUrl": "https://github.com/isaacs/core-util-is/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "hmacsha1@1.0.0": {
+        "licenses": "BSD",
+        "repository": "https://github.com/pH-minamo/hmacsha1-js",
+        "licenseUrl": "https://github.com/pH-minamo/hmacsha1-js/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "i18n-js@3.8.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/fnando/i18n-js",
+        "licenseUrl": "https://github.com/fnando/i18n-js",
+        "parents": "meala"
+    },
+    "lodash.memoize@4.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/lodash/lodash",
+        "licenseUrl": "https://github.com/lodash/lodash/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "lodash@4.17.21": {
+        "licenses": "MIT",
+        "repository": "https://github.com/lodash/lodash",
+        "licenseUrl": "https://github.com/lodash/lodash/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "lottie-ios@3.1.8": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/airbnb/lottie-ios",
+        "licenseUrl": "https://github.com/airbnb/lottie-ios/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "lottie-react-native@4.0.0": {
+        "licenses": "Apache-2.0",
+        "repository": "https://github.com/react-native-community/lottie-react-native",
+        "licenseUrl": "https://github.com/react-native-community/lottie-react-native/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "moment@2.29.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/moment/moment",
+        "licenseUrl": "https://github.com/moment/moment/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "qs@6.9.6": {
+        "licenses": "BSD-3-Clause",
+        "repository": "https://github.com/ljharb/qs",
+        "licenseUrl": "https://github.com/ljharb/qs/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "query-string@6.14.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/sindresorhus/query-string",
+        "licenseUrl": "https://github.com/sindresorhus/query-string/raw/master/license",
+        "parents": "meala"
+    },
+    "react-native-app-auth@6.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/FormidableLabs/react-native-app-auth",
+        "licenseUrl": "https://github.com/FormidableLabs/react-native-app-auth/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-app-intro-slider@4.0.4": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jacse/react-native-app-intro-slider",
+        "licenseUrl": "https://github.com/jacse/react-native-app-intro-slider/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-calendar-strip@2.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/BugiDev/react-native-calendar-strip",
+        "licenseUrl": "https://github.com/BugiDev/react-native-calendar-strip/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "react-native-camera@3.43.0": {
+        "licenses": "MIT AND Apache-2.0 AND BSD-3-Clause",
+        "repository": "https://github.com/react-native-community/react-native-camera",
+        "licenseUrl": "https://github.com/react-native-community/react-native-camera/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-chart-kit@3.13.0": {
+        "licenses": "UNKNOWN",
+        "parents": "meala"
+    },
+    "react-native-chip-view@0.0.12": {
+        "licenses": "Apache License",
+        "repository": "https://github.com/prscX/react-native-chip-view",
+        "licenseUrl": "https://github.com/prscX/react-native-chip-view/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-device-info@5.6.5": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-device-info",
+        "licenseUrl": "https://github.com/react-native-community/react-native-device-info/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-elements@3.4.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-elements/react-native-elements",
+        "licenseUrl": "https://github.com/react-native-elements/react-native-elements/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-flash-message@0.1.23": {
+        "licenses": "MIT",
+        "repository": "https://github.com/lucasferreira/react-native-flash-message",
+        "licenseUrl": "https://github.com/lucasferreira/react-native-flash-message/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-gesture-handler@1.10.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/software-mansion/react-native-gesture-handler",
+        "licenseUrl": "https://github.com/software-mansion/react-native-gesture-handler/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-health@1.7.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/agencyenterprise/react-native-healthkit",
+        "licenseUrl": "https://github.com/agencyenterprise/react-native-healthkit/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-image-picker@3.2.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-image-picker/react-native-image-picker",
+        "licenseUrl": "https://github.com/react-native-image-picker/react-native-image-picker/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "react-native-inappbrowser-reborn@3.5.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/proyecto26/react-native-inappbrowser",
+        "licenseUrl": "https://github.com/proyecto26/react-native-inappbrowser/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-keychain@6.2.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/oblador/react-native-keychain",
+        "licenseUrl": "https://github.com/oblador/react-native-keychain/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-localize@1.4.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-localize",
+        "licenseUrl": "https://github.com/react-native-community/react-native-localize/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-modal@11.10.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-modal",
+        "licenseUrl": "https://github.com/react-native-community/react-native-modal/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "react-native-permissions@3.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-permissions",
+        "licenseUrl": "https://github.com/react-native-community/react-native-permissions/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-progress@4.1.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/oblador/react-native-progress",
+        "licenseUrl": "https://github.com/oblador/react-native-progress/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-push-notification@7.3.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zo0r/react-native-push-notification",
+        "licenseUrl": "https://github.com/zo0r/react-native-push-notification/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-qrcode-scanner@1.5.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/moaazsidat/react-native-qrcode-scanner",
+        "licenseUrl": "https://github.com/moaazsidat/react-native-qrcode-scanner/raw/master/LICENSE.md",
+        "parents": "meala"
+    },
+    "react-native-reanimated@1.13.2": {
+        "licenses": "MIT",
+        "repository": "https://github.com/software-mansion/react-native-reanimated",
+        "licenseUrl": "https://github.com/software-mansion/react-native-reanimated/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-render-html@5.1.0": {
+        "licenses": "BSD-2-Clause",
+        "repository": "https://github.com/meliorence/react-native-render-html",
+        "licenseUrl": "https://github.com/meliorence/react-native-render-html/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-safe-area-context@3.1.9": {
+        "licenses": "MIT",
+        "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
+        "licenseUrl": "https://github.com/th3rdwave/react-native-safe-area-context/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-screens@2.18.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kmagiera/react-native-screens",
+        "licenseUrl": "https://github.com/kmagiera/react-native-screens/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-segmented-control-tab@3.4.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kirankalyan5/react-native-segmented-control-tab",
+        "licenseUrl": "https://github.com/kirankalyan5/react-native-segmented-control-tab/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-sound@0.11.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/zmxv/react-native-sound",
+        "licenseUrl": "https://github.com/zmxv/react-native-sound/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-svg@9.13.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-svg",
+        "licenseUrl": "https://github.com/react-native-community/react-native-svg/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-swipe-list-view@3.2.6": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jemise111/react-native-swipe-list-view",
+        "licenseUrl": "https://github.com/jemise111/react-native-swipe-list-view/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-uuid@2.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/eugenehp/react-native-uuid",
+        "licenseUrl": "https://github.com/eugenehp/react-native-uuid/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native-vector-icons@7.1.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/oblador/react-native-vector-icons",
+        "licenseUrl": "https://github.com/oblador/react-native-vector-icons/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react-native@0.64.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react-native",
+        "licenseUrl": "https://github.com/facebook/react-native/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "react@17.0.1": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "realm@6.1.0": {
+        "licenses": "See the actual license in the file LICENSE",
+        "repository": "https://github.com/realm/realm-js",
+        "licenseUrl": "https://github.com/realm/realm-js/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "rn-fetch-blob@0.12.0": {
+        "licenses": "MIT",
+        "repository": "https://github.com/joltup/rn-fetch-blob",
+        "licenseUrl": "https://github.com/joltup/rn-fetch-blob/raw/master/LICENSE",
+        "parents": "meala"
+    },
+    "victory-native@35.3.3": {
+        "licenses": "MIT",
+        "repository": "https://github.com/FormidableLabs/victory-native",
+        "licenseUrl": "https://github.com/FormidableLabs/victory-native/raw/master/LICENSE.txt",
+        "parents": "meala"
+    }
+}
