@@ -17,7 +17,7 @@ function extractNameFromGithub(url: string): string | null {
 export const formatLicenses = jsonData =>
   Object.entries(jsonData).map(([_key, value]) => {
     const { licenses, ...license } = value;
-    const formatLicenses = typeof licenses != 'undefined' ? licenses : '';
+    const formatLicenseString = typeof licenses !== 'undefined' ? licenses : '';
     const key = _key.charAt(0) === '@' ? _key.substring(1) : _key; // remove @
     const [name, version] = key.split('@');
     let username = license.repository
@@ -43,7 +43,7 @@ export const formatLicenses = jsonData =>
       image,
       userUrl,
       username,
-      licenses: formatLicenses,
+      licenses: formatLicenseString,
       version,
       ...license,
     };
