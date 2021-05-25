@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from 'react-native-elements';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import RecipeDetailModal from '../Recipes/RecipeDetailModal';
 import LocalizationContext from '../../../LanguageContext';
 import RecipeAnsweredCardItem from './RecipeAnsweredCardItem';
 import LottieView from 'lottie-react-native';
-import right from '../../assets/animations/quiz/confetti.json';
-import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import winner from '../../assets/animations/quiz/winner.json';
 import Sound from 'react-native-sound';
+import analytics from '@react-native-firebase/analytics';
 
 var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
@@ -27,7 +26,7 @@ var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
 const Finish = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { answeredQuestions, setFinish } = props;
+  const { answeredQuestions, setFinish, quizType } = props;
   const [open, setOpen] = useState(false);
   const [recipe, setRecipe] = useState(null);
   const rightAnswers = answeredQuestions.filter(item => item.userAnswer);
@@ -51,6 +50,10 @@ const Finish = props => {
       } else {
         console.log('playback failed due to audio decoding errors');
       }
+    });
+    analytics().logEvent('quiz_result', {
+      score: score,
+      type: quizType,
     });
   }, []);
 

@@ -49,7 +49,7 @@ const ScannerResults = props => {
               borderBottomRightRadius: 0,
             }}
             PlaceholderContent={<ActivityIndicator />}
-            source={uri && uri}
+            source={uri ? { uri: uri } : undefined}
           />
           {data.creator && (
             <View

@@ -16,6 +16,7 @@ import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { NIGHTSCOUT } from './glucoseSourceConstants';
+import analytics from "@react-native-firebase/analytics";
 
 const NightscoutSettingsScreen = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -72,6 +73,9 @@ const NightscoutSettingsScreen = props => {
             glucoseSource: NIGHTSCOUT,
           });
           setErrorMessage(null);
+          analytics().logEvent('glucose_source', {
+            name: NIGHTSCOUT,
+          });
           props.navigation.goBack();
         })
         .catch(err => {

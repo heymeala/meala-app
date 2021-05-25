@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import { makeStyles, SpeedDial } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useNavigation } from '@react-navigation/core';
 import { database } from '../../../Common/database_realm';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';
+import analytics from '@react-native-firebase/analytics';
 
 const EditSpeedDialGroup = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -13,6 +13,7 @@ const EditSpeedDialGroup = props => {
   const navigation = useNavigation();
   const { selectedFood } = props;
   const { changeType } = useEnterMealType();
+
   function softDeleteMeal(id) {
     database.deleteMealSoft(id);
     navigation.goBack();
@@ -33,6 +34,9 @@ const EditSpeedDialGroup = props => {
         icon={{ name: 'edit', color: '#fff' }}
         //title={t('Entries.copyMeal')}
         onPress={() => {
+          analytics().logEvent('edit_meal', {
+            type: EDIT_MODE,
+          });
           changeType({ mode: EDIT_MODE, meal_id: selectedFood.id });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
@@ -47,6 +51,9 @@ const EditSpeedDialGroup = props => {
         icon={{ name: 'content-copy', color: '#fff' }}
         //title={t('Entries.copyMeal')}
         onPress={() => {
+          analytics().logEvent('edit_meal', {
+            type: COPY_MODE,
+          });
           changeType({ mode: COPY_MODE, meal_id: selectedFood.id });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
@@ -62,7 +69,12 @@ const EditSpeedDialGroup = props => {
         color={'#ff0000'}
         icon={{ name: 'delete', color: '#fff' }}
         // title={t('Entries.delete')}
-        onPress={() => softDeleteMeal(selectedFood.userMealId)}
+        onPress={() => {
+          analytics().logEvent('edit_meal', {
+            type: 'delete',
+          });
+          softDeleteMeal(selectedFood.userMealId);
+        }}
       />
     </SpeedDial>
   );

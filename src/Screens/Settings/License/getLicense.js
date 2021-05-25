@@ -5,7 +5,6 @@ function extractNameFromGithub(url: string): string | null {
   if (components && components.length > 5) {
     const name = components[5];
     if (name !== 'undefined' && name !== 'unknown' && typeof name !== 'undefined') {
-      console.log(components);
       return name;
     } else {
       return null;
