@@ -1,21 +1,21 @@
-import React from "react";
-import SettingsOverview from "../Screens/Settings/SettingsOverview";
-import NightscoutSettingsScreen from "../Screens/Settings/NightscoutSettingsScreen";
-import HealthKitScreen from "../Screens/Settings/HealthKit/HealthKitScreen";
-import AboutScreen from "../Screens/Settings/AboutScreen";
-import GlyxSearchScreen from "../Screens/Settings/GlyxSearchScreen";
-import StatisticScreen from "../Screens/Settings/StatisticScreen";
-import { createNativeStackNavigator } from "react-native-screens/native-stack";
-import LocalizationContext from "../../LanguageContext";
-import ProfilSettings from "../Screens/Settings/ProfilSettings";
-import { Platform } from "react-native";
-import FatSecretSettings from "../Screens/Settings/FatSecretSettings";
-import Dexcom from "../Screens/Settings/Dexcom";
-import Libre from "../Screens/Settings/Libre";
-import TidePool from "../Screens/Settings/TidePool";
-import Quiz from "../Screens/Quiz/Quiz";
-import Knowledge from "../Screens/Settings/Knowledge/Knowledge";
-import KnowledgeDetails from "../Screens/Settings/Knowledge/KnowledgeDetails";
+import React from 'react';
+import SettingsOverview from '../Screens/Settings/SettingsOverview';
+import NightscoutSettingsScreen from '../Screens/Settings/NightscoutSettingsScreen';
+import HealthKitScreen from '../Screens/Settings/HealthKit/HealthKitScreen';
+import AboutScreen from '../Screens/Settings/AboutScreen';
+import GlyxSearchScreen from '../Screens/Settings/GlyxSearchScreen';
+import StatisticScreen from '../Screens/Settings/StatisticScreen';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import LocalizationContext from '../../LanguageContext';
+import ProfilSettings from '../Screens/Settings/ProfilSettings';
+import { Platform } from 'react-native';
+import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
+import Dexcom from '../Screens/Settings/Dexcom';
+import Libre from '../Screens/Settings/Libre';
+import TidePool from '../Screens/Settings/TidePool';
+import Quiz from '../Screens/Quiz/Quiz';
+import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
+import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -32,9 +32,9 @@ function SettingsStack() {
           headerStyle:
             Platform.OS !== 'android' && Platform.Version >= 13
               ? {
-                  backgroundColor: 'transparent',
-                  blurEffect: 'light',
-                }
+                backgroundColor: 'transparent',
+                blurEffect: 'light',
+              }
               : { backgroundColor: 'white' },
 
           title: t('Settings.SettingsTitle'),
@@ -142,6 +142,7 @@ function SettingsStack() {
           },
         }}
       />
+
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}

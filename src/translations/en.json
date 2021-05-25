@@ -185,7 +185,8 @@
     "show_recipe": "Show recipe"
   },
   "Knowledge": {
-    "name": "Knowledge"
+    "name": "Knowledge",
+    "description": ""
   },
   "Quiz": {
     "name": "Quiz",

@@ -1,14 +1,22 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { KnowledgeContext } from './KnowledgeContext';
 import { knowledgeApi } from '../Screens/Settings/Knowledge/knowledgeApi';
 
 export const KnowledgeProvider = ({ children }) => {
-  const [knowledgeData, setKnowledgeData] = useState(null);
-  useEffect(() => {
-    knowledgeApi().then(data => setKnowledgeData(data));
-  }, []);
+  const [loading, setLoading] = useState(true);
+  const knowledgeData = useRef(null);
 
-  return <KnowledgeContext.Provider value={knowledgeData}>{children}</KnowledgeContext.Provider>;
+  function getData() {
+    knowledgeApi().then(data => {
+      knowledgeData.current = data;
+      setLoading(false);
+    });
+  }
+  return (
+    <KnowledgeContext.Provider value={{ knowledgeData, getData, loading }}>
+      {children}
+    </KnowledgeContext.Provider>
+  );
 };
 
 export const useKnowledge = () => useContext(KnowledgeContext);

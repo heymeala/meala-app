@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { ListItem, makeStyles, Text } from 'react-native-elements';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
@@ -9,14 +9,19 @@ import { useNavigation } from '@react-navigation/core';
 const KnowledgeList = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const knowledgeData = useKnowledge();
+  const { knowledgeData, getData, loading } = useKnowledge();
   const navigation = useNavigation();
+  useEffect(() => {
+    getData();
+  }, []);
   return (
     <View>
-      <Text h1>Wissenswertes</Text>
+      <Text h1 style={styles.root}>
+        Wissenswertes
+      </Text>
 
-      {knowledgeData ? (
-        knowledgeData.map((item, i) => (
+      {knowledgeData.current && !loading ? (
+        knowledgeData.current.map((item, i) => (
           <ListItem key={i} onPress={() => navigation.navigate('KnowledgeDetails', { itemId: item.id })}>
             <ListItem.Title>{item.title.rendered}</ListItem.Title>
           </ListItem>
@@ -30,4 +35,4 @@ const KnowledgeList = props => {
 
 export default KnowledgeList;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({ root: { padding: theme.spacing.M } }));

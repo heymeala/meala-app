@@ -10,10 +10,7 @@ const Knowledge = props => {
   const styles = useStyles();
 
   return (
-    <KnowledgeProvider>
       <KnowledgeList />
-      <KnowledgeDetails />
-    </KnowledgeProvider>
   );
 };
 
