@@ -153,7 +153,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 20,
     paddingHorizontal: spacing.S,
     fontSize: 16,
-    fontFamily: "SecularOne-Regular",
+    fontFamily: 'SecularOne-Regular',
     backgroundColor: theme.colors.background,
   },
   title: {
