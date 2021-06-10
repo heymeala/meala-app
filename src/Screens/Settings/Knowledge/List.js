@@ -11,6 +11,7 @@ const KnowledgeList = props => {
   const styles = useStyles();
   const { knowledgeData, getData, loading } = useKnowledge();
   const navigation = useNavigation();
+  console.log(knowledgeData.current);
   useEffect(() => {
     getData();
   }, []);
@@ -19,7 +20,6 @@ const KnowledgeList = props => {
       <Text h1 style={styles.root}>
         Wissenswertes
       </Text>
-
       {knowledgeData.current && !loading ? (
         knowledgeData.current.map((item, i) => (
           <ListItem key={i} onPress={() => navigation.navigate('KnowledgeDetails', { itemId: item.id })}>
