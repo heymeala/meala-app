@@ -2,12 +2,18 @@
  * @format
  */
 
-import { AppRegistry, Platform } from 'react-native';
+import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
+import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import * as RootNavigation from './src/Navigation/RootNavigation';
+
+// Register background handler
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background!', remoteMessage);
+});
 
 AppRegistry.registerComponent(appName, () => {
   // Must be outside of any component LifeCycle (such as `componentDidMount`).
@@ -21,10 +27,15 @@ AppRegistry.registerComponent(appName, () => {
     onNotification: function (notification) {
       console.log('NOTIFICATION:', notification);
       console.log(notification.data.screen);
-      RootNavigation.navigate('Home', {
-        screen: 'MealDataCollector',
-        params: { mealId: notification.data.mealId },
-      });
+      if (notification.channelId === 'food-reminder-channel') {
+        RootNavigation.navigate('Home', {
+          screen: 'MealDataCollector',
+          params: { mealId: notification.data.mealId },
+        });
+      }
+      if (notification.channelId === 'knowledge') {
+        RootNavigation.navigate('SettingsStack');
+      }
 
       // process the notification
 
@@ -53,7 +64,7 @@ AppRegistry.registerComponent(appName, () => {
     },
 
     // Should the initial notification be popped automatically
-    // default: true
+    // default: true,
     popInitialNotification: true,
 
     /**
@@ -63,7 +74,7 @@ AppRegistry.registerComponent(appName, () => {
      * - if you are not using remote notification or do not have Firebase installed, use this:
      *     requestPermissions: Platform.OS === 'ios'
      */
-    requestPermissions: Platform.OS !== 'ios',
+    requestPermissions: true,
   });
 
   PushNotification.createChannel(

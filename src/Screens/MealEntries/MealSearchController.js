@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
 import { database } from '../../Common/database_realm';
-import { makeStyles } from 'react-native-elements';
+import { Button, makeStyles } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import DateList from './DateList';
 import MealList from './MealList';
 import { spacing } from '../../theme/styles';
 import FirstOpenDialog from '../FirstOpenDialog';
 import RestaurantList from './RestaurantList';
+import messaging from '@react-native-firebase/messaging';
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);

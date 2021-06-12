@@ -14,9 +14,9 @@ export const EmptyListDate = ({ navigation }) => {
     <View style={styles.wrapper}>
       <View style={styles.infoBox}>
         <Text h1 h1Style={styles.infoTextHeadline}>
-          {t('Entries.date.title')}
+          {t('Entries.empty.date.title')}
         </Text>
-        <Text style={styles.infoText}>{t('Entries.date.description')}</Text>
+        <Text style={styles.infoText}>{t('Entries.empty.date.description')}</Text>
       </View>
       <LottieView
         style={styles.animation}

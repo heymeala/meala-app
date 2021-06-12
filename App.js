@@ -54,6 +54,7 @@ const App = props => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
     };
   }, []);
+
   const showOnboardingFirst = screenReaderEnabled ? 1 : 2;
   const showOnboardingLast = screenReaderEnabled ? 1 : 8;
 
