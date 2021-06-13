@@ -44,7 +44,7 @@
     "react-native": "0.64.0",
     "react-native-app-auth": "^6.1.0",
     "react-native-app-intro-slider": "^4.0.4",
-    "react-native-calendar-strip": "^2.2.1",
+    "react-native-calendar-strip": "^2.2.3",
     "react-native-camera": "^3.40.0",
     "react-native-chip-view": "0.0.12",
     "react-native-device-info": "^5.4.1",
