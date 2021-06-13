@@ -5,6 +5,7 @@ import LocalizationContext from '../../../LanguageContext';
 import CategoryListItem from './CategoryListItem';
 import Questions from './Questions';
 import { quizServings } from './quizServingTypes';
+import GeneralQuiz from './GeneralQuiz';
 
 const Quiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -57,6 +58,8 @@ const Quiz = props => {
           subtitle={''}
           badge={totalQuestions}
         />
+
+        <GeneralQuiz />
       </ScrollView>
     </SafeAreaView>
   );
