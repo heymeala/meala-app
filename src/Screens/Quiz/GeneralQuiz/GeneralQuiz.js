@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { makeStyles, Text } from 'react-native-elements';
-import LocalizationContext from '../../../LanguageContext';
-import { generalQuizApi } from './generalQuizApi';
-import LoadingSpinner from '../../Common/LoadingSpinner';
+import LocalizationContext from '../../../../LanguageContext';
+import { generalQuizApi } from '../generalQuizApi';
+import LoadingSpinner from '../../../Common/LoadingSpinner';
 
 const GeneralQuiz = props => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const quizData = useRef(null);
   const [loading, setLoading] = useState(true);
+  console.log(quizData);
+
   useEffect(() => {
-    generalQuizApi().then(data => {
+    generalQuizApi(locale).then(data => {
       quizData.current = data;
       setLoading(false);
     });
@@ -20,9 +22,9 @@ const GeneralQuiz = props => {
     <View>
       <Text>Allgemein Wissen</Text>
       {quizData.current && !loading ? (
-        quizData.current.map(item => {
+        quizData.current.map((item, i) => {
           return (
-            <View>
+            <View key={i}>
               <Text>{item.acf.question}</Text>
             </View>
           );

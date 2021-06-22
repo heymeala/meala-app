@@ -67,19 +67,8 @@ const SettingsOverview = props => {
       ],
     },
     {
-      title: 'E-Learning',
+      title: 'Datenbanken',
       data: [
-        {
-          name: t('Quiz.name'),
-          icon: 'einstein',
-          iconType: 'meala',
-          link: 'Quiz',
-        },
-        {
-          name: t('Knowledge.name'),
-          icon: 'md-school',
-          link: 'Knowledge',
-        },
         {
           name: t('GI.NavigationBarTitle'),
           icon: 'rise_arrow',

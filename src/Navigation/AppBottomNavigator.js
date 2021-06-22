@@ -7,7 +7,8 @@ import SettingsStack from './SettingsStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealState';
-import Quiz from '../Screens/Quiz/Quiz';
+import MealQuiz from '../Screens/Quiz/MealQuiz';
+import QuizStack from "./QuizStack";
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
@@ -69,6 +70,17 @@ const AppBottomNavigationStack = () => {
           };
         }}
         component={EnterMealStack}
+      />
+
+      <Tab.Screen
+        name="QuizStack"
+        component={QuizStack}
+        options={({ route }) => ({
+          tabBarLabel: t('Accessibility.tab.settings'),
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="einstein" type="meala" size={28} color={color} />
+          ),
+        })}
       />
 
       <Tab.Screen

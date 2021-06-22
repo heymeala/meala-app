@@ -88,7 +88,7 @@ export const ProfileSchema = {
 };
 
 /*export const QuizSchema = {
-  name: 'Quiz',
+  name: 'MealQuiz',
   primaryKey: 'id',
   properties: {
     id: 'int',

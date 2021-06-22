@@ -13,7 +13,7 @@ import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
 import TidePool from '../Screens/Settings/TidePool';
-import Quiz from '../Screens/Quiz/Quiz';
+import MealQuiz from '../Screens/Quiz/MealQuiz';
 import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import Licenses from "../Screens/Settings/License/Licenses";
@@ -114,9 +114,9 @@ function SettingsStack() {
       />
       <Stack.Screen
         name="Quiz"
-        component={Quiz}
+        component={MealQuiz}
         options={{
-          title: t('Quiz.name'),
+          title: t('MealQuiz.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

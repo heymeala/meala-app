@@ -61,7 +61,7 @@ const Finish = props => {
     <View style={styles.container}>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
       <Text accessibilityRole={'header'} h1 style={styles.text}>
-        {score} {t('Quiz.score')}
+        {score} {t('MealQuiz.score')}
       </Text>
       <LottieView style={{ width: '100%' }} source={winner} loop={false} autoPlay />
       {answeredQuestions.map((item, i) => (
@@ -77,7 +77,7 @@ const Finish = props => {
       ))}
       <View style={styles.text}>
         <Text h3 style={styles.text}>
-          {t('Quiz.done')}
+          {t('MealQuiz.done')}
         </Text>
         <Button
           buttonStyle={styles.button}

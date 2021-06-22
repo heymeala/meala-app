@@ -21,8 +21,6 @@ const Questions = props => {
     const node = scrollRef.current;
     if (node) {
       node.scrollTo({ x: 0, y: 0, animated: true });
-    } else {
-      console.log('scrool');
     }
   }
 
