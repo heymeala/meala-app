@@ -43,7 +43,7 @@ const AnswerButtons = props => {
               title={
                 <>
                   {answer.pressed ? (
-                    <Text h2>{t('MealQuiz.again')}</Text>
+                    <Text h2>{t('Quiz.again')}</Text>
                   ) : (
                     <>
                       <Text h2>{answer[serving]}</Text>
