@@ -22,7 +22,7 @@ const AnswerButtonsGeneral = props => {
             disabledStyle={{ backgroundColor: 'red' }}
             containerStyle={styles.answerButton}
             onPress={() => {
-              props.nextQuestion();
+              props.validate(answer.right, answer.id);
             }}
             //  onPress={() => (!validated ? validate(answer.right, answer.id) : null)}
             title={

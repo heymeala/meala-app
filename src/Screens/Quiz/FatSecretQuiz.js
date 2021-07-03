@@ -6,15 +6,14 @@ import { serving } from '../../utils/specialTranslations';
 import QuizDetailInfos from './QuizDetailInfos';
 import AnswerButtons from './AnswerButtons';
 import { loadQuestionRecipes } from './loadQuestionRecipes';
-import LottieView from 'lottie-react-native';
-import right from '../../assets/animations/quiz/confetti.json';
-import wrong from '../../assets/animations/quiz/wrong-answer.json';
+
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
 import Sound from 'react-native-sound';
-import { quizServings } from "./quizServingTypes";
+import { quizServings } from './quizServingTypes';
+import AnswerAnimation from './AnswerAnimation';
 
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
@@ -227,25 +226,7 @@ const FatSecretQuiz = props => {
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>
       {(validated && !screenReaderEnabled) || (playWrongAnimation && !screenReaderEnabled) ? (
-        <>
-          <View
-            style={{
-              backgroundColor: answer ? 'rgba(89,255,0,0.3)' : 'rgba(255,0,0,0.3)',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '100%',
-              width: '100%',
-            }}>
-            <LottieView
-              ref={animation}
-              style={{ width: '100%', position: 'absolute', top: 0 }}
-              source={answer ? right : wrong}
-              loop={false}
-            />
-          </View>
-        </>
+        <AnswerAnimation answer={answer} animation={animation} />
       ) : null}
       <PoweredByFatSecret />
     </>
