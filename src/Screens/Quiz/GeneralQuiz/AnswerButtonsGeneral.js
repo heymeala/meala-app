@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { Button, makeStyles, Text, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
+import { createButtonColor } from "../createButtonColor";
 
 const AnswerButtonsGeneral = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -10,19 +11,19 @@ const AnswerButtonsGeneral = props => {
   const { answers, validate, validated } = props;
   const { theme } = useTheme();
   const screenReaderEnabled = useScreenReader();
-
+//todo: button color
   return (
     <View style={styles.desc}>
       {answers &&
         answers.map((answer, i) => (
           <Button
-            //   buttonStyle={createButtonColor(answer.right, validated, theme)}
+             buttonStyle={createButtonColor(answer.right, answer.pressed , theme)}
             key={i}
             disabled={answer.pressed}
             disabledStyle={{ backgroundColor: 'red' }}
             containerStyle={styles.answerButton}
             onPress={() => {
-              props.validate(answer.right, answer.id);
+              validate(answer.right, answer.id);
             }}
             //  onPress={() => (!validated ? validate(answer.right, answer.id) : null)}
             title={

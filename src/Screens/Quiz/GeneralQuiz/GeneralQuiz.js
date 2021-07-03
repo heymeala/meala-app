@@ -9,6 +9,7 @@ import openLink from '../../../Common/InAppBrowser';
 import AnswerAnimation from '../AnswerAnimation';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
 import RightAnswerInfo from './RightAnswerInfo';
+import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from '../GameSounds';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -29,8 +30,6 @@ const GeneralQuiz = props => {
   const timeOut = useRef(null);
   const timer = 1500;
 
-  console.log(quizData);
-
   useEffect(() => {
     generalQuizApi(locale).then(data => {
       quizData.current = data;
@@ -49,14 +48,32 @@ const GeneralQuiz = props => {
   function validate(userAnswer, id) {
     setAnswer(userAnswer);
     setValidated(true);
-    console.log('animation', animation.current);
 
     if (userAnswer) {
+      playRightAnswerSound();
+
       timeOut.current = setTimeout(() => {
         setShowAnswerInformation(true);
       }, timer);
       setTries(1);
     } else {
+      setAnswers(prevState => {
+        console.log(id);
+        return prevState.map(data => {
+          if (data.id === id) {
+            return {
+              ...data,
+              pressed: true,
+            };
+          } else {
+            return { ...data };
+          }
+        });
+      });
+      console.log(answers);
+
+      playWrongAnswerSound();
+
       setTries(prevState => prevState + 1);
       timeOut.current = setTimeout(() => {
         setValidated(false);
@@ -71,15 +88,16 @@ const GeneralQuiz = props => {
       setStep(prevState => prevState + 1);
       const acf = quizData.current[step].acf;
       const answersArray = [
-        { id: 1, answer: acf.right_answer, right: true },
-        { id: 2, answer: acf.answer_2, right: false },
-        { id: 3, answer: acf.answer_3, right: false },
+        { id: 1, answer: acf.right_answer, right: true, pressed: false },
+        { id: 2, answer: acf.answer_2, right: false, pressed: false },
+        { id: 3, answer: acf.answer_3, right: false, pressed: false },
       ];
       const randomAnswers = shuffle(answersArray);
       setAnswers(randomAnswers);
       setLoading(false);
       setValidated(false);
     } else {
+      playFinishQuizSound();
       setFinish(true);
       setLoading(false);
     }
@@ -91,15 +109,12 @@ const GeneralQuiz = props => {
 
     counter();
     getAuthor(quizData.current[step].author);
-    console.log('step', step);
-    console.log(quizData.current.length);
   }
 
   async function getAuthor(id) {
     const response = await fetch('https://www.heymeala.com/wp-json/wp/v2/users/' + id);
     const author = await response.json();
     setCurrentAuthor(author);
-    console.log(author);
   }
 
   if (finish) {
@@ -131,7 +146,13 @@ const GeneralQuiz = props => {
             <Text h1 h1Style={styles.h1}>
               {quizData.current[step - 1].acf.question}
             </Text>
-            <AnswerButtonsGeneral answers={answers} setStep={setStep} step={step} validate={validate} />
+            <AnswerButtonsGeneral
+              answers={answers}
+              setStep={setStep}
+              step={step}
+              validate={validate}
+              validated={validated}
+            />
             <TouchableOpacity onPress={() => openLink(currentAuthor.url)}>
               <View style={styles.profileContainer}>
                 <Image
