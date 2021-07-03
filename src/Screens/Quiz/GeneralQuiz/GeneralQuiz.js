@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { Image, makeStyles, Text } from "react-native-elements";
+import { Image, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { generalQuizApi } from '../generalQuizApi';
 import AnswerButtonsGeneral from './AnswerButtonsGeneral';
@@ -8,6 +8,7 @@ import { shuffle } from '../../../utils/shuffel';
 import openLink from '../../../Common/InAppBrowser';
 import AnswerAnimation from '../AnswerAnimation';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
+import RightAnswerInfo from './RightAnswerInfo';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -19,7 +20,7 @@ const GeneralQuiz = props => {
   const [answer, setAnswer] = useState(false);
 
   const [validated, setValidated] = useState(true);
-
+  const [showAnswerInformation, setShowAnswerInformation] = useState(false);
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(0);
   const [currentAuthor, setCurrentAuthor] = useState('');
@@ -51,7 +52,9 @@ const GeneralQuiz = props => {
     console.log('animation', animation.current);
 
     if (userAnswer) {
-      nextQuestion();
+      timeOut.current = setTimeout(() => {
+        setShowAnswerInformation(true);
+      }, timer);
       setTries(1);
     } else {
       setTries(prevState => prevState + 1);
@@ -83,11 +86,10 @@ const GeneralQuiz = props => {
   }
 
   function nextQuestion() {
+    setShowAnswerInformation(false);
     setCurrentAuthor('');
 
-    timeOut.current = setTimeout(() => {
-      counter();
-    }, timer);
+    counter();
     getAuthor(quizData.current[step].author);
     console.log('step', step);
     console.log(quizData.current.length);
@@ -106,6 +108,13 @@ const GeneralQuiz = props => {
         <Text>Fertig</Text>
       </View>
     );
+  }
+  if (showAnswerInformation) {
+    if (quizData.current) {
+      return <RightAnswerInfo infoText={quizData.current[step - 1].acf.info} nextQuestion={nextQuestion} />;
+    } else {
+      return <LoadingSpinner />;
+    }
   }
 
   return (
