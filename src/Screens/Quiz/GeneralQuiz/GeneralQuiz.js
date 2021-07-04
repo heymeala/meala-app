@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { Image, makeStyles, Text } from 'react-native-elements';
+import { Image, makeStyles, Text } from "react-native-elements";
 import LocalizationContext from '../../../../LanguageContext';
 import { generalQuizApi } from '../generalQuizApi';
 import AnswerButtonsGeneral from './AnswerButtonsGeneral';
@@ -10,17 +10,20 @@ import AnswerAnimation from '../AnswerAnimation';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
 import RightAnswerInfo from './RightAnswerInfo';
 import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from '../GameSounds';
+import GeneralQuizFinish from './GeneralQuizFinish';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const quizData = useRef(null);
   const [answers, setAnswers] = useState();
-  const [userAnsweredQuestion, setUserAnswerQuestion] = useState(false);
   const [tries, setTries] = useState(1);
   const [answer, setAnswer] = useState(false);
 
-  const [validated, setValidated] = useState(true);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
+
+  const [validatedRight, setValidatedRight] = useState(false);
+  const [validatedWrong, setValidatedWrong] = useState(false);
   const [showAnswerInformation, setShowAnswerInformation] = useState(false);
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState(0);
@@ -32,31 +35,47 @@ const GeneralQuiz = props => {
 
   useEffect(() => {
     generalQuizApi(locale).then(data => {
-      quizData.current = data;
+      quizData.current = shuffle(data.slice(0, 5));
+      console.log(quizData.current);
       nextQuestion();
     });
   }, []);
 
   useEffect(() => {
-    if (validated) {
+    if (validatedRight || validatedWrong) {
       if (animation.current !== null) {
         animation.current.play();
       }
     }
-  }, [validated]);
+  }, [validatedRight, validatedWrong]);
 
   function validate(userAnswer, id) {
     setAnswer(userAnswer);
-    setValidated(true);
 
     if (userAnswer) {
+      setValidatedRight(true);
+
       playRightAnswerSound();
 
       timeOut.current = setTimeout(() => {
         setShowAnswerInformation(true);
       }, timer);
+
+      setAnsweredQuestions(prevAnswers => {
+        return [
+          ...prevAnswers,
+          {
+            id: quizData.current[step].id,
+            quizData: quizData.current[step],
+            tries,
+          },
+        ];
+      });
+
       setTries(1);
     } else {
+      setValidatedWrong(true);
+
       setAnswers(prevState => {
         console.log(id);
         return prevState.map(data => {
@@ -76,7 +95,7 @@ const GeneralQuiz = props => {
 
       setTries(prevState => prevState + 1);
       timeOut.current = setTimeout(() => {
-        setValidated(false);
+        setValidatedWrong(false);
       }, timer);
     }
   }
@@ -95,7 +114,8 @@ const GeneralQuiz = props => {
       const randomAnswers = shuffle(answersArray);
       setAnswers(randomAnswers);
       setLoading(false);
-      setValidated(false);
+      setValidatedRight(false);
+      setValidatedWrong(false);
     } else {
       playFinishQuizSound();
       setFinish(true);
@@ -118,11 +138,7 @@ const GeneralQuiz = props => {
   }
 
   if (finish) {
-    return (
-      <View>
-        <Text>Fertig</Text>
-      </View>
-    );
+    return <GeneralQuizFinish answeredQuestions={answeredQuestions} />;
   }
   if (showAnswerInformation) {
     if (quizData.current) {
@@ -151,7 +167,7 @@ const GeneralQuiz = props => {
               setStep={setStep}
               step={step}
               validate={validate}
-              validated={validated}
+              validated={validatedRight}
             />
             <TouchableOpacity onPress={() => openLink(currentAuthor.url)}>
               <View style={styles.profileContainer}>
@@ -165,7 +181,9 @@ const GeneralQuiz = props => {
               </View>
             </TouchableOpacity>
           </View>
-          {validated && <AnswerAnimation answer={answer} animation={animation} />}
+          {validatedRight || validatedWrong ? (
+            <AnswerAnimation answer={answer} animation={animation} />
+          ) : null}
         </>
       ) : (
         <LoadingSpinner />

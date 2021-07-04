@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
 import { Button, makeStyles, Text } from 'react-native-elements';
 import RecipeDetailModal from '../Recipes/RecipeDetailModal';
@@ -8,6 +8,7 @@ import LottieView from 'lottie-react-native';
 import winner from '../../assets/animations/quiz/winner.json';
 import Sound from 'react-native-sound';
 import analytics from '@react-native-firebase/analytics';
+import { calculateScore } from './calculateScore';
 
 var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
@@ -31,17 +32,8 @@ const Finish = props => {
   const [recipe, setRecipe] = useState(null);
   const rightAnswers = answeredQuestions.filter(item => item.userAnswer);
   const numberOfRightAnswers = rightAnswers.length;
-  const score = answeredQuestions
-    .map(data => {
-      if (data.tries === 1) {
-        return 10;
-      } else if (data.tries === 2) {
-        return 5;
-      } else if (data.tries === 3) {
-        return 1;
-      }
-    })
-    .reduce((a, b) => a + b, 0);
+  const tries = answeredQuestions.map(data => data.tries);
+  const score = useMemo(() => calculateScore(tries), []);
 
   useEffect(() => {
     scoreSound.play(success => {
@@ -61,7 +53,7 @@ const Finish = props => {
     <View style={styles.container}>
       <RecipeDetailModal recipe={recipe} open={open} setOpen={setOpen} />
       <Text accessibilityRole={'header'} h1 style={styles.text}>
-        {score} {t('MealQuiz.score')}
+        {score} {t('Quiz.score')}
       </Text>
       <LottieView style={{ width: '100%' }} source={winner} loop={false} autoPlay />
       {answeredQuestions.map((item, i) => (
@@ -77,7 +69,7 @@ const Finish = props => {
       ))}
       <View style={styles.text}>
         <Text h3 style={styles.text}>
-          {t('MealQuiz.done')}
+          {t('Quiz.done')}
         </Text>
         <Button
           buttonStyle={styles.button}

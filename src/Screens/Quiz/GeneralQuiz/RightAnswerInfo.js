@@ -23,7 +23,7 @@ const RightAnswerInfo = props => {
           )}
         </FadeInView>
       </View>
-      <Button title={'weiter'} onPress={() => nextQuestion()} />
+      <Button style={styles.button} title={'weiter'} onPress={() => nextQuestion()} />
     </View>
   );
 };
@@ -34,4 +34,5 @@ const useStyles = makeStyles(theme => ({
   container: { height: '100%', padding: theme.spacing.M },
   html: { fontSize: 18 },
   htmlContainer: { flexGrow: 1 },
+  button:{paddingBottom: theme.spacing.M}
 }));
