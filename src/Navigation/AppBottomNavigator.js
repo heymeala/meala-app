@@ -8,6 +8,7 @@ import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealSta
 import SettingsStack from './SettingsStack';
 import QuizStack from './QuizStack';
 import EnterMealStack from './EnterMealStack';
+import Maps from "../Screens/Maps/Maps";
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
@@ -47,7 +48,7 @@ const AppBottomNavigationStack = () => {
 
       <Tab.Screen
         name="Maps"
-        component={SugarStack}
+        component={Maps}
         options={({ navigation }) => {
           return {
             tabBarLabel: navigation.isFocused() ? t('BottomNavBar.map') : '',

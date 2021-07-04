@@ -378,6 +378,8 @@ PODS:
     - React
   - react-native-image-picker (3.2.1):
     - React-Core
+  - react-native-maps (0.28.0):
+    - React-Core
   - react-native-safe-area-context (3.1.9):
     - React-Core
   - React-perflogger (0.64.0)
@@ -548,6 +550,7 @@ DEPENDENCIES:
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -661,6 +664,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -784,6 +789,7 @@ SPEC CHECKSUMS:
   react-native-camera: c2cb270b2546bb6d99352455676cd01a1cbeb1d5
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-image-picker: 0c28bf3cb089cfe840bc5cc9fac3dcc10f2188d9
+  react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
   react-native-safe-area-context: 86612d2c9a9e94e288319262d10b5f93f0b395f5
   React-perflogger: 9c547d8f06b9bf00cb447f2b75e8d7f19b7e02af
   React-RCTActionSheet: 3080b6e12e0e1a5b313c8c0050699b5c794a1b11
