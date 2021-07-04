@@ -4,7 +4,10 @@ import SugarStack from './SugarStack';
 import { Icon, useTheme } from 'react-native-elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
-import { useEnterMealType } from '../hooks/useEnterMealState';
+import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealState';
+import SettingsStack from './SettingsStack';
+import QuizStack from './QuizStack';
+import EnterMealStack from './EnterMealStack';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
