@@ -1,13 +1,10 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import SugarStack from './SugarStack';
 import { Icon, useTheme } from 'react-native-elements';
-import EnterMealStack from './EnterMealStack';
-import SettingsStack from './SettingsStack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LocalizationContext from '../../LanguageContext';
-import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealState';
-import QuizStack from './QuizStack';
+import { useEnterMealType } from '../hooks/useEnterMealState';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
@@ -29,9 +26,17 @@ const AppBottomNavigationStack = () => {
         component={SugarStack}
         options={({ navigation }) => {
           return {
-            tabBarLabel: navigation.isFocused() ? t('Accessibility.tab.home') : '',
+            tabBarLabel: navigation.isFocused() ? t('BottomNavBar.entries') : '',
+            tabBarAccessibilityLabel: t('BottomNavBar.entries'),
+
             tabBarIcon: ({ focused, color, size }) => (
-              <Icon name="bars" size={28} type={'antdesign'} color={color} />
+              <View
+                style={{
+                  position: 'absolute',
+                  bottom: 0, // space from bottombar
+                }}>
+                <Icon name="bars" size={navigation.isFocused() ? 28 : 22} type={'antdesign'} color={color} />
+              </View>
             ),
           };
         }}
@@ -42,7 +47,9 @@ const AppBottomNavigationStack = () => {
         component={SugarStack}
         options={({ navigation }) => {
           return {
-            tabBarLabel: navigation.isFocused() ? 'Karte' : '',
+            tabBarLabel: navigation.isFocused() ? t('BottomNavBar.map') : '',
+            tabBarAccessibilityLabel: t('BottomNavBar.map'),
+
             tabBarIcon: ({ focused, color, size }) => (
               <View
                 style={{
@@ -59,15 +66,16 @@ const AppBottomNavigationStack = () => {
       <Tab.Screen
         name="EnterMealStack"
         initialParams={{ params: { type: 'default' } }}
-        options={({ route }) => {
+        options={({ route, navigation }) => {
           return {
             tabBarVisible: type.mode !== EDIT_MODE && type.mode !== COPY_MODE,
             tabBarLabel: '',
+            tabBarAccessibilityLabel: t('BottomNavBar.addMeal'),
             tabBarIcon: ({ color, focused }) => (
               <View
                 style={{
                   position: 'absolute',
-                  bottom: Platform.OS === 'ios' ? 0 : 10, // space from bottombar
+                  bottom: 0, // space from bottombar
                   height: 55,
                   width: 55,
                   backgroundColor: theme.colors.white,
@@ -95,9 +103,16 @@ const AppBottomNavigationStack = () => {
         name="QuizStack"
         component={QuizStack}
         options={({ route, navigation }) => ({
-          tabBarLabel: navigation.isFocused() ? 'Wissen' : '',
+          tabBarLabel: navigation.isFocused() ? t('BottomNavBar.knowledge') : '',
+          tabBarAccessibilityLabel: t('BottomNavBar.knowledge'),
           tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="einstein" type="meala" size={28} color={color} />
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0, // space from bottombar
+              }}>
+              <Icon name="einstein" type="meala" size={navigation.isFocused() ? 28 : 22} color={color} />
+            </View>
           ),
         })}
       />
@@ -106,9 +121,16 @@ const AppBottomNavigationStack = () => {
         name="SettingsStack"
         component={SettingsStack}
         options={({ route, navigation }) => ({
-          tabBarLabel: navigation.isFocused() ? t('Accessibility.tab.settings') : '',
+          tabBarLabel: navigation.isFocused() ? t('BottomNavBar.more') : '',
+          tabBarAccessibilityLabel: t('Accessibility.tab.settings'),
           tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="settings" type="octicon" size={28} color={color} />
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 0, // space from bottombar
+              }}>
+              <Icon name="settings" type="octicon" size={navigation.isFocused() ? 28 : 22} color={color} />
+            </View>
           ),
         })}
       />

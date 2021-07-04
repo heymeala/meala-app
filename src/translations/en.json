@@ -1,4 +1,11 @@
 {
+  "BottomNavBar": {
+    "entries": "Entries",
+    "map": "Map",
+    "addMeal": "Add",
+    "knowledge": "Quiz",
+    "more": "More"
+  },
   "AddMeal": {
     "DrawNavigatorTitle": "Add meal",
     "BottomBarTitle": "new entry",

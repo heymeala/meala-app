@@ -1,4 +1,11 @@
 {
+  "BottomNavBar": {
+    "entries": "Einträge",
+    "map": "Karte",
+    "addMeal": "Hinzufügen",
+    "knowledge": "Wissen",
+    "more": "Mehr"
+  },
   "AddMeal": {
     "DrawNavigatorTitle": "Gericht anlegen",
     "BottomBarTitle": "Gericht anlegen",
