@@ -1,5 +1,5 @@
 import React from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { Button, makeStyles, Text } from 'react-native-elements';
 import HTML from 'react-native-render-html';
 import LocalizationContext from '../../../../LanguageContext';
@@ -12,8 +12,7 @@ const RightAnswerInfo = props => {
 
   const { infoText, nextQuestion } = props;
   return (
-    <View style={styles.container}>
-      <Text h1>Richtig</Text>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.htmlContainer}>
         <FadeInView>
           {infoText ? (
@@ -24,15 +23,15 @@ const RightAnswerInfo = props => {
         </FadeInView>
       </View>
       <Button style={styles.button} title={'weiter'} onPress={() => nextQuestion()} />
-    </View>
+    </ScrollView>
   );
 };
 
 export default RightAnswerInfo;
 
 const useStyles = makeStyles(theme => ({
-  container: { height: '100%', padding: theme.spacing.M },
+  container: { minHeight: '100%', padding: theme.spacing.M },
   html: { fontSize: 18 },
   htmlContainer: { flexGrow: 1 },
-  button:{paddingBottom: theme.spacing.M}
+  button: { paddingBottom: theme.spacing.M },
 }));

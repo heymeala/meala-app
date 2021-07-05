@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Platform, View } from "react-native";
 import SugarStack from './SugarStack';
 import { Icon, useTheme } from 'react-native-elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';

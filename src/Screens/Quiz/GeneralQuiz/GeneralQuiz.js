@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Image, makeStyles, Text } from "react-native-elements";
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { generalQuizApi } from '../generalQuizApi';
 import AnswerButtonsGeneral from './AnswerButtonsGeneral';
@@ -35,7 +35,7 @@ const GeneralQuiz = props => {
 
   useEffect(() => {
     generalQuizApi(locale).then(data => {
-      quizData.current = shuffle(data.slice(0, 5));
+      quizData.current = shuffle(data).slice(0, 5);
       console.log(quizData.current);
       nextQuestion();
     });
@@ -152,7 +152,7 @@ const GeneralQuiz = props => {
     <>
       {quizData.current && !loading && step <= quizData.current.length ? (
         <>
-          <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.container}>
             {quizData.current[step - 1].acf.image.url && (
               <Image
                 style={styles.questionImage}
@@ -180,7 +180,7 @@ const GeneralQuiz = props => {
                 <Text>question by {currentAuthor.name}</Text>
               </View>
             </TouchableOpacity>
-          </View>
+          </ScrollView>
           {validatedRight || validatedWrong ? (
             <AnswerAnimation answer={answer} animation={animation} />
           ) : null}
@@ -195,7 +195,7 @@ const GeneralQuiz = props => {
 export default GeneralQuiz;
 
 const useStyles = makeStyles(theme => ({
-  container: { padding: theme.spacing.M, height: '100%' },
+  container: { padding: theme.spacing.M, minHeight: '100%' },
   profile: { width: 24, height: 24, marginHorizontal: theme.spacing.S },
   profileContainer: { flexDirection: 'row' },
   h1: { flexGrow: 2 },
