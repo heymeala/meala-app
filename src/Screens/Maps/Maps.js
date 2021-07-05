@@ -48,7 +48,6 @@ const Maps = props => {
                   key={index}
                   coordinate={{ latitude: restaurant.lat, longitude: restaurant.long }}
                   title={restaurant.restaurant_name}
-                  description={restaurant.id}
                 />
               );
             })}
