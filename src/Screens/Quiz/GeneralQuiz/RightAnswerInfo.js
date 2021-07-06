@@ -22,7 +22,7 @@ const RightAnswerInfo = props => {
           )}
         </FadeInView>
       </View>
-      <Button style={styles.button} title={'weiter'} onPress={() => nextQuestion()} />
+      <Button style={styles.button} title={t('Quiz.community.next')} onPress={() => nextQuestion()} />
     </ScrollView>
   );
 };
@@ -33,5 +33,5 @@ const useStyles = makeStyles(theme => ({
   container: { minHeight: '100%', padding: theme.spacing.M },
   html: { fontSize: 18 },
   htmlContainer: { flexGrow: 1 },
-  button: { paddingBottom: theme.spacing.M },
+  button: { paddingBottom: theme.spacing.L },
 }));

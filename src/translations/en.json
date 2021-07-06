@@ -225,6 +225,17 @@
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",
       "zero": "{{count}} right answers"
+    },
+    "quote": "Those who know nothing must believe everything.",
+
+    "guide": "Guide",
+    "guide_desc": "knowledge is power",
+    "community_quiz_desc": "Question from and for the community",
+    "meal_quiz": "Meal-Quiz",
+    "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
+    "community": {
+      "next": "next",
+      "well_done": "Well done, lets move on."
     }
   },
   "Settings": {

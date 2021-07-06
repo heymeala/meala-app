@@ -223,8 +223,19 @@
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",
       "zero": "{{count}} richtige Antworten"
-    }
-  },
+    },
+    "quote": "Those who know nothing must believe everything.",
+
+    "guide": "Ratgeber",
+    "guide_desc": "Wissen ist Macht",
+    "community_quiz_desc": "Fragen von und für die Community",
+    "meal_quiz": " Mahlzeiten-Quiz",
+    "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
+    "community": {
+      "next": "weiter",
+      "well_done": "Well done, lets move on."
+  }
+},
   "Settings": {
     "SettingsDrawNavigator": "Einstellungen",
     "SettingsTitle": "Einstellungen",

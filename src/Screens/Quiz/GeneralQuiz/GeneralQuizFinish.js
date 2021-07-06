@@ -13,10 +13,10 @@ const GeneralQuizFinish = props => {
   const contentWidth = useWindowDimensions().width;
   const tries = answeredQuestions.map(data => data.tries);
   const score = useMemo(() => calculateScore(tries), []);
-
+  console.log(answeredQuestions);
   return (
     <ScrollView>
-      <View >
+      <View>
         <Text accessibilityRole={'header'} h1 style={styles.text}>
           {score} {t('Quiz.score')}
         </Text>

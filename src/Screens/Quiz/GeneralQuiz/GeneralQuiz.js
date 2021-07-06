@@ -37,7 +37,11 @@ const GeneralQuiz = props => {
     generalQuizApi(locale).then(data => {
       quizData.current = shuffle(data).slice(0, 5);
       console.log(quizData.current);
-      nextQuestion();
+      randomAnswers(step);
+      getAuthor(quizData.current[step].author);
+
+      setLoading(false);
+      //  nextQuestion();
     });
   }, []);
 
@@ -104,15 +108,13 @@ const GeneralQuiz = props => {
     setLoading(true);
 
     if (step < quizData.current.length - 1) {
-      setStep(prevState => prevState + 1);
-      const acf = quizData.current[step].acf;
-      const answersArray = [
-        { id: 1, answer: acf.right_answer, right: true, pressed: false },
-        { id: 2, answer: acf.answer_2, right: false, pressed: false },
-        { id: 3, answer: acf.answer_3, right: false, pressed: false },
-      ];
-      const randomAnswers = shuffle(answersArray);
-      setAnswers(randomAnswers);
+      setStep(prevState => {
+        randomAnswers(prevState + 1);
+        getAuthor(quizData.current[prevState + 1].author);
+
+        return prevState + 1;
+      });
+
       setLoading(false);
       setValidatedRight(false);
       setValidatedWrong(false);
@@ -123,12 +125,21 @@ const GeneralQuiz = props => {
     }
   }
 
+  function randomAnswers(number) {
+    const acf = quizData.current[number].acf;
+    const answersArray = [
+      { id: 1, answer: acf.right_answer, right: true, pressed: false },
+      { id: 2, answer: acf.answer_2, right: false, pressed: false },
+      { id: 3, answer: acf.answer_3, right: false, pressed: false },
+    ];
+    const randomAnswers = shuffle(answersArray);
+    setAnswers(randomAnswers);
+  }
+
   function nextQuestion() {
     setShowAnswerInformation(false);
     setCurrentAuthor('');
-
     counter();
-    getAuthor(quizData.current[step].author);
   }
 
   async function getAuthor(id) {
@@ -142,7 +153,7 @@ const GeneralQuiz = props => {
   }
   if (showAnswerInformation) {
     if (quizData.current) {
-      return <RightAnswerInfo infoText={quizData.current[step - 1].acf.info} nextQuestion={nextQuestion} />;
+      return <RightAnswerInfo infoText={quizData.current[step].acf.info} nextQuestion={nextQuestion} />;
     } else {
       return <LoadingSpinner />;
     }
@@ -153,14 +164,11 @@ const GeneralQuiz = props => {
       {quizData.current && !loading && step <= quizData.current.length ? (
         <>
           <ScrollView contentContainerStyle={styles.container}>
-            {quizData.current[step - 1].acf.image.url && (
-              <Image
-                style={styles.questionImage}
-                source={{ uri: quizData.current[step - 1].acf.image.url }}
-              />
+            {quizData.current[step].acf.image.url && (
+              <Image style={styles.questionImage} source={{ uri: quizData.current[step].acf.image.url }} />
             )}
             <Text h1 h1Style={styles.h1}>
-              {quizData.current[step - 1].acf.question}
+              {quizData.current[step].acf.question}
             </Text>
             <AnswerButtonsGeneral
               answers={answers}
