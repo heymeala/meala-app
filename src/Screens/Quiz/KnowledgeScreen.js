@@ -21,15 +21,7 @@ const KnowledgeScreen = props => {
         </Text>
       </FadeInView>
 
-      <TouchableOpacity onPress={() => navigation.navigate('Knowledge')}>
-        <View style={styles.button}>
-          <Icon style={styles.icon} name="simple_recipe" type="meala" size={28} />
-          <Text h2 style={styles.text}>
-            {t('Quiz.guide')}
-          </Text>
-          <Text style={styles.subtitle}> {t('Quiz.guide_desc')}</Text>
-        </View>
-      </TouchableOpacity>
+
       <TouchableOpacity onPress={() => navigation.navigate('GeneralQuiz')}>
         <View style={styles.button}>
           <Icon style={styles.icon} name="community" type="meala" size={35} />
@@ -46,6 +38,15 @@ const KnowledgeScreen = props => {
             {t('Quiz.meal_quiz')}
           </Text>
           <Text style={styles.subtitle}>{t('Quiz.meal_quiz_desc')}</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Knowledge')}>
+        <View style={styles.button}>
+          <Icon style={styles.icon} name="simple_recipe" type="meala" size={28} />
+          <Text h2 style={styles.text}>
+            {t('Quiz.guide')}
+          </Text>
+          <Text style={styles.subtitle}> {t('Quiz.guide_desc')}</Text>
         </View>
       </TouchableOpacity>
     </SafeAreaView>

@@ -172,6 +172,12 @@
   "Statistics": {
     "noData": "No data available yet."
   },
+  "Map": {
+    "title": "Never ever have to guess carbs?",
+    "description": "Our vision is to provide all the nutritional values for every menu. It's a lot of work, but with your help we can do it! Stay tuned.",
+    "contact": "Contact",
+    "help": "You want to support us or have questions?"
+  },
   "BarCode": {
     "BottomBarTitle": "Barcode",
     "Intro": "Food search\nScan a barcode to get Carbohydrate Information",

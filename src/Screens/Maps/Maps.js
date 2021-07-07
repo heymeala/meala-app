@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from 'react-native-elements';
 import MapView, { Marker } from 'react-native-maps';
 import LocalizationContext from '../../../LanguageContext';
 import { View } from 'react-native';
 import { getCurrentPosition } from '../../Common/geolocation';
+import { COMMUNITY_RESTAURANTS } from '@env';
 import { database } from '../../Common/database_realm';
+import InfoModal from './InfoModal';
+import LoadingSpinner from '../../Common/LoadingSpinner';
+import { makeStyles } from 'react-native-elements';
 
 const Maps = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [restaurants, setRestaurants] = useState();
-  const [region, setRegion] = useState({
-    latitude: 48.129449937300365,
-    latitudeDelta: 45.430191040185434,
-    longitude: 1.9822446629405022,
-    longitudeDelta: 74.28584933280945,
-  });
+  const [ownRestaurants, setOwnRestaurants] = useState();
+  const [open, setOpen] = useState(false);
+  const [region, setRegion] = useState(null);
 
   useEffect(() => {
+    setRegion({
+      latitude: 48.129449937300365,
+      latitudeDelta: 45.430191040185434,
+      longitude: 1.9822446629405022,
+      longitudeDelta: 74.28584933280945,
+    });
+
     getCurrentPosition().then(position => {
       console.log(position.coords.latitude);
       setRegion({
@@ -30,28 +37,69 @@ const Maps = props => {
 
     database.fetchRestaurantsWithFilter('').then(data => {
       console.log(data);
-      setRestaurants(data);
+      setOwnRestaurants(data);
     });
+
+    fetch(COMMUNITY_RESTAURANTS)
+      .then(response => response.json())
+      .then(data => {
+        setRestaurants(data);
+      });
   }, []);
 
   const data = [{ latlng: { latitude: 52, longitude: 13 }, title: 'Test', description: 'Woo' }];
 
   return (
     <View style={styles.container}>
-      <MapView onRegionChange={event => console.log(event)} style={styles.map} region={region}>
-        {restaurants &&
-          restaurants
-            .filter(data => data.lat && data.long)
-            .map((restaurant, index) => {
-              return (
-                <Marker
-                  key={index}
-                  coordinate={{ latitude: restaurant.lat, longitude: restaurant.long }}
-                  title={restaurant.restaurant_name}
-                />
-              );
-            })}
-      </MapView>
+      {region ? (
+        <>
+          <MapView style={styles.map} region={region}>
+            {ownRestaurants &&
+              ownRestaurants
+                .filter(data => {
+                  return data.lat != null && data.long != null;
+                })
+                .map((restaurant, index) => {
+                  return (
+                    <Marker
+                      onPress={() => setOpen(true)}
+                      key={index}
+                      coordinate={{
+                        latitude: restaurant.lat,
+                        longitude: restaurant.long,
+                      }}
+                      title={restaurant.restaurant_name}>
+                      <View style={styles.ownMarker} />
+                    </Marker>
+                  );
+                })}
+            {restaurants &&
+              restaurants
+                .filter(data => {
+                  return data.lat != null && data.lng != null;
+                })
+                .map((restaurant, index) => {
+                  const latitude = parseFloat(restaurant.lat);
+                  const longitude = parseFloat(restaurant.lng);
+                  return (
+                    <Marker
+                      onPress={() => setOpen(true)}
+                      key={index}
+                      coordinate={{
+                        latitude: latitude,
+                        longitude: longitude,
+                      }}
+                      title={restaurant.restaurant_name}>
+                      <View style={styles.marker} />
+                    </Marker>
+                  );
+                })}
+          </MapView>
+          <InfoModal open={open} setOpen={setOpen} />
+        </>
+      ) : (
+        <LoadingSpinner />
+      )}
     </View>
   );
 };
@@ -74,5 +122,13 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  marker: { width: 20, height: 20, borderRadius: 10, opacity: 0.7, backgroundColor: theme.colors.primary },
+  ownMarker: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    opacity: 0.7,
+    backgroundColor: theme.colors.secondary,
   },
 }));

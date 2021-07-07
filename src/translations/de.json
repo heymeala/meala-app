@@ -171,6 +171,12 @@
   "Statistics": {
     "noData": "Noch nicht genug Daten vorhanden. Erstelle mehr Einträge und achte darauf, dass Du auch das Essen fotografierst."
   },
+  "Map": {
+    "title": "Nie wieder Kohlenhydrate schätzen?",
+    "description": "Unsere Vision ist es hier für jede Speisekarte alle Nährwerte bereitzustellen. Das ist viel Arbeit, aber mit deiner Hilfe können wir es schaffen! Bleibt dran",
+    "contact": "Kontakt",
+    "help": "Du möchstest uns Unterstüzen oder hast Fragen?"
+  },
   "BarCode": {
     "BottomBarTitle": "Barcode",
     "Intro": "Lebensmittelsuche\nScanne einen Barcode, um Nährwertangaben zu erhalten",
