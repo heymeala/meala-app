@@ -20,8 +20,6 @@ const KnowledgeScreen = props => {
           – Marie von Ebner-Eschenbach
         </Text>
       </FadeInView>
-
-
       <TouchableOpacity onPress={() => navigation.navigate('GeneralQuiz')}>
         <View style={styles.button}>
           <Icon style={styles.icon} name="community" type="meala" size={35} />

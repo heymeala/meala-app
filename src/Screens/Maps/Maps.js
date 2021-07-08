@@ -18,22 +18,25 @@ const Maps = props => {
   const [region, setRegion] = useState(null);
 
   useEffect(() => {
-    setRegion({
-      latitude: 48.129449937300365,
-      latitudeDelta: 45.430191040185434,
-      longitude: 1.9822446629405022,
-      longitudeDelta: 74.28584933280945,
-    });
-
-    getCurrentPosition().then(position => {
-      console.log(position.coords.latitude);
-      setRegion({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        latitudeDelta: 0.048483043464437,
-        longitudeDelta: 0.006705448031425,
+    getCurrentPosition()
+      .then(position => {
+        //  console.log(position.coords.latitude);
+        setRegion({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: 0.048483043464437,
+          longitudeDelta: 0.006705448031425,
+        });
+      })
+      .catch(() => {
+        console.log('GPS no access');
+        setRegion({
+          latitude: 48.129449937300365,
+          latitudeDelta: 45.430191040185434,
+          longitude: 1.9822446629405022,
+          longitudeDelta: 74.28584933280945,
+        });
       });
-    });
 
     database.fetchRestaurantsWithFilter('').then(data => {
       console.log(data);
@@ -53,7 +56,7 @@ const Maps = props => {
     <View style={styles.container}>
       {region ? (
         <>
-          <MapView style={styles.map} region={region}>
+          <MapView style={styles.map} initialRegion={region}>
             {ownRestaurants &&
               ownRestaurants
                 .filter(data => {

@@ -136,7 +136,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     auth()
       .signInAnonymously()
       .then(data => {
-        console.log(data.user.uid)
+      //  console.log(data.user.uid)
         setUser_id(data.user.uid);
       });
   }, []);

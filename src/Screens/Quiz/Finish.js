@@ -6,11 +6,11 @@ import LocalizationContext from '../../../LanguageContext';
 import RecipeAnsweredCardItem from './RecipeAnsweredCardItem';
 import LottieView from 'lottie-react-native';
 import winner from '../../assets/animations/quiz/winner.json';
-import Sound from 'react-native-sound';
 import analytics from '@react-native-firebase/analytics';
 import { calculateScore } from './calculateScore';
+import { playFinishQuizSound } from './GameSounds';
 
-var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
+/*var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
     return;
@@ -22,7 +22,7 @@ var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
       'number of channels: ' +
       scoreSound.getNumberOfChannels(),
   );
-});
+});*/
 
 const Finish = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -36,13 +36,7 @@ const Finish = props => {
   const score = useMemo(() => calculateScore(tries), []);
 
   useEffect(() => {
-    scoreSound.play(success => {
-      if (success) {
-        console.log('successfully finished playing');
-      } else {
-        console.log('playback failed due to audio decoding errors');
-      }
-    });
+    playFinishQuizSound();
     analytics().logEvent('quiz_result', {
       score: score,
       type: quizType,

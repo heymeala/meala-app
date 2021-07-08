@@ -1,20 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
-import { Image, makeStyles, Text } from 'react-native-elements';
-import LocalizationContext from '../../../LanguageContext';
-import { serving } from '../../utils/specialTranslations';
-import QuizDetailInfos from './QuizDetailInfos';
-import AnswerButtons from './AnswerButtons';
-import { loadQuestionRecipes } from './loadQuestionRecipes';
+import React, { useEffect, useRef, useState } from "react";
+import { View } from "react-native";
+import { Image, makeStyles, Text } from "react-native-elements";
+import LocalizationContext from "../../../LanguageContext";
+import { serving } from "../../utils/specialTranslations";
+import QuizDetailInfos from "./QuizDetailInfos";
+import AnswerButtons from "./AnswerButtons";
+import { loadQuestionRecipes } from "./loadQuestionRecipes";
 
-import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
-import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
-import Finish from './Finish';
-import AccessibleAnswer from './AccessibleAnswer';
-import Sound from 'react-native-sound';
-import { quizServings } from './quizServingTypes';
-import AnswerAnimation from './AnswerAnimation';
+import PoweredByFatSecret from "../../Common/fatsecret/PoweredByFatSecret";
+import { useScreenReader } from "../../hooks/useScreenReaderEnabled";
+import Finish from "./Finish";
+import AccessibleAnswer from "./AccessibleAnswer";
+import { quizServings } from "./quizServingTypes";
+import AnswerAnimation from "./AnswerAnimation";
+import { playRightAnswerSound, playWrongAnswerSound } from "./GameSounds";
 
+/*
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
@@ -30,6 +31,7 @@ var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
   }
   // loaded successfully
 });
+*/
 
 const FatSecretQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -58,23 +60,10 @@ const FatSecretQuiz = props => {
   function playSound() {
     // Play the sound with an onEnd callback
     if (playWrongAnimation) {
-      wrongSound.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+      playWrongAnswerSound();
     } else {
-      rightSound.play(success => {
-        props.scrollToTop();
-
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+      playRightAnswerSound();
+      props.scrollToTop();
     }
   }
 

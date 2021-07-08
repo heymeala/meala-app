@@ -36,10 +36,9 @@ const GeneralQuiz = props => {
   useEffect(() => {
     generalQuizApi(locale).then(data => {
       quizData.current = shuffle(data).slice(0, 5);
-      console.log(quizData.current);
+      //  console.log(quizData.current);
       randomAnswers(step);
       getAuthor(quizData.current[step].author);
-
       setLoading(false);
       //  nextQuestion();
     });
@@ -58,9 +57,7 @@ const GeneralQuiz = props => {
 
     if (userAnswer) {
       setValidatedRight(true);
-
       playRightAnswerSound();
-
       timeOut.current = setTimeout(() => {
         setShowAnswerInformation(true);
       }, timer);
@@ -81,7 +78,7 @@ const GeneralQuiz = props => {
       setValidatedWrong(true);
 
       setAnswers(prevState => {
-        console.log(id);
+        //  console.log(id);
         return prevState.map(data => {
           if (data.id === id) {
             return {
@@ -93,7 +90,7 @@ const GeneralQuiz = props => {
           }
         });
       });
-      console.log(answers);
+      //  console.log(answers);
 
       playWrongAnswerSound();
 
