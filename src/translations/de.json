@@ -244,9 +244,11 @@
     "meal_quiz": " Mahlzeiten-Quiz",
     "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
     "community": {
+      "title": "Wähle eine Quiz-Kategorie",
       "next": "weiter",
       "well_done": "Sehr gut weiter so.",
-      "by": "von"
+      "by": "von",
+      "random": "Zufällige Fragen"
     }
   },
   "Settings": {

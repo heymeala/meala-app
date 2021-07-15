@@ -25,9 +25,9 @@ const AppBottomNavigationStack = () => {
         inactiveTintColor: theme.colors.grey2, // inactive icon color
         tabBarVisible: true,
         style: {
-          backgroundColor: 'rgba(242,245,251,0.52)', // TabBar background
-
+          backgroundColor: '#f2f5fb', // TabBar background
         },
+
       }}>
       <Tab.Screen
         name="Home"

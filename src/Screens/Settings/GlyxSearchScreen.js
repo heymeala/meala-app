@@ -6,19 +6,23 @@ import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import LottieView from 'lottie-react-native';
 import { mapNumber } from '../../utils/map';
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const GlyxSearchScreen = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
   const [search, setSearch] = useState('');
-  const [data, setData] = useState(GItwo);
+  const [data, setData] = useState([]);
   const [expanded, setExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const updateSearch = search => {
     setSearch(search);
     searchFilterFunction(search);
   };
   useEffect(() => {
+    setData(GItwo);
+    setLoading(false);
   }, []);
 
   const searchFilterFunction = text => {
@@ -110,14 +114,18 @@ const GlyxSearchScreen = props => {
         </View>
       </View>
 
-      {data.map((list, i) => (
-        <View key={i} style={{ ...styles.giList, backgroundColor: colorCode(list.GI) }}>
-          <Text h3 style={{ fontFamily: 'SecularOne-Regular' }}>
-            {list[locale]}
-          </Text>
-          <Text h3>GI = {list.GI}</Text>
-        </View>
-      ))}
+      {!loading ? (
+        data.map((list, i) => (
+          <View key={i} style={{ ...styles.giList, backgroundColor: colorCode(list.GI) }}>
+            <Text h3 style={{ fontFamily: 'SecularOne-Regular' }}>
+              {list[locale]}
+            </Text>
+            <Text h3>GI = {list.GI}</Text>
+          </View>
+        ))
+      ) : (
+        <LoadingSpinner />
+      )}
     </ScrollView>
   );
 };
@@ -134,7 +142,7 @@ const useStyles = makeStyles((theme, dimensions) => ({
     margin: theme.spacing.M,
   },
   chip: { padding: theme.spacing.S },
-  animation: { width: 90, height: 90, justifyContent: "center", marginRight:theme.spacing.S },
+  animation: { width: 90, height: 90, justifyContent: 'center', marginRight: theme.spacing.S },
   knowledgeContainer: { marginVertical: spacing.L },
   listItem: { flex: 1, flexGrow: 1 },
   infoContainer: {},

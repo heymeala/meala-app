@@ -247,9 +247,13 @@
     "meal_quiz": "Meal-Quiz",
     "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
     "community": {
+      "title": "Choose a Quiz Category",
+
       "next": "next",
       "well_done": "Well done, lets move on.",
-      "by": "by"
+      "by": "by",
+      "random": "Random Questions"
+
 
     }
   },

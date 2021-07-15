@@ -6,6 +6,7 @@ import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import GeneralQuiz from '../Screens/Quiz/GeneralQuiz/GeneralQuiz';
 import KnowledgeScreen from '../Screens/Quiz/KnowledgeScreen';
 import LocalizationContext from '../../LanguageContext';
+import QuizCategories from "../Screens/Quiz/GeneralQuiz/QuizCategories";
 
 function QuizStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -54,6 +55,20 @@ function QuizStack() {
       <Stack.Screen
         name="Quiz"
         component={MealQuiz}
+        options={{
+          title: t('Quiz.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+
+            textAlign: 'left',
+            flexGrow: 1,
+            fontSize: 30,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="GeneralQuizCategories"
+        component={QuizCategories}
         options={{
           title: t('Quiz.name'),
           headerTitleStyle: {

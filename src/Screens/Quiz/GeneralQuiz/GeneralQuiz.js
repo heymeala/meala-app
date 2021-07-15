@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { Image, makeStyles, Text } from 'react-native-elements';
+
 import LocalizationContext from '../../../../LanguageContext';
 import { generalQuizApi } from '../generalQuizApi';
 import AnswerButtonsGeneral from './AnswerButtonsGeneral';
@@ -11,9 +12,13 @@ import LoadingSpinner from '../../../Common/LoadingSpinner';
 import RightAnswerInfo from './RightAnswerInfo';
 import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from '../GameSounds';
 import GeneralQuizFinish from './GeneralQuizFinish';
+import { useRoute } from '@react-navigation/core';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
+  const route = useRoute();
+  const { categoryId } = route.params;
+
   const styles = useStyles();
   const quizData = useRef(null);
   const [answers, setAnswers] = useState();
@@ -35,8 +40,8 @@ const GeneralQuiz = props => {
 
   const small = '48';
   useEffect(() => {
-    generalQuizApi(locale).then(data => {
-      quizData.current = shuffle(data).slice(0, 5);
+    generalQuizApi(locale, categoryId).then(data => {
+      quizData.current = categoryId === 'random' ? shuffle(data).slice(0, 5) : data;
       // console.log(quizData.current);
       randomAnswers(step);
       getAuthor(quizData.current[step].author);
@@ -202,13 +207,12 @@ const GeneralQuiz = props => {
     </>
   );
 };
-
 export default GeneralQuiz;
 
 const useStyles = makeStyles(theme => ({
   container: { padding: theme.spacing.M, minHeight: '100%' },
   profile: { width: 30, height: 30, marginHorizontal: theme.spacing.S, borderRadius: 15 },
-  profileContainer: { flexDirection: 'row' , alignItems:'center'},
+  profileContainer: { flexDirection: 'row', alignItems: 'center' },
   h1: { flexGrow: 2 },
   questionImage: { width: '100%', height: 200, marginVertical: theme.spacing.M, borderRadius: 5 },
 }));
