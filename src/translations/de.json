@@ -171,7 +171,7 @@
     "rice": "Reis",
     "apple": "Apfel",
     "noodles": "Nudeln",
-    "IntroText": "Der Glykämische Index (GI) von 0 bis 100. ",
+    "IntroText": "Der Glykämische Index (GI) von 0 bis 100.",
     "example": "Beispiel: Traubenzucker hat einen GI von 100",
     "glyx_description": "Wenn der Blutzucker schnell steigt, kann es viele Ursachen haben. Beispielweise ein ungeeigneter Spritz Ess Abstand (SEA), Stress oder sogar Sport, wenn dabei nämlich Adrenalin ausgeschüttet wird. Beim Verzehr von Mahlzeiten gibt es glücklicherweise bereits eine Messeinheit, die beschreibt, wie schnell die Kohlenhydrate in einem bestimmten Zeitraum wirken. Diese bezeichnet man Glykämischer Index oder kurz Glyx. Je höher dieser Wert ist, desto mehr Zucker gelangt nach dem Verzehr ins Blut. Der Wert kann also auch helfen die richtigen Hypo-Helfer auszuwählen. Denn bei einer Unterzuckerung ist ein hoher Glykämischer Index hilfreich, um schnell wieder in den Zielbereich zu gelangen."
   },
@@ -180,7 +180,7 @@
   },
   "Map": {
     "title": "Nie wieder Kohlenhydrate schätzen?",
-    "description": "Unsere Vision ist es hier für jede Speisekarte alle Nährwerte bereitzustellen. Das ist viel Arbeit, aber mit deiner Hilfe können wir es schaffen! Bleibt dran",
+    "description": "Unsere Vision ist es hier für jede Speisekarte alle Nährwerte bereitzustellen. Das ist viel Arbeit, aber mit deiner Hilfe können wir es schaffen! Bleibe dran",
     "contact": "Kontakt",
     "help": "Du möchstest uns Unterstüzen oder hast Fragen?"
   },
@@ -245,7 +245,8 @@
     "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
     "community": {
       "next": "weiter",
-      "well_done": "Well done, lets move on."
+      "well_done": "Sehr gut weiter so.",
+      "by": "von"
     }
   },
   "Settings": {

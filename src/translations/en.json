@@ -248,7 +248,9 @@
     "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
     "community": {
       "next": "next",
-      "well_done": "Well done, lets move on."
+      "well_done": "Well done, lets move on.",
+      "by": "by"
+
     }
   },
   "Settings": {

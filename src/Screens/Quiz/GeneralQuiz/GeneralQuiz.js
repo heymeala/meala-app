@@ -33,10 +33,11 @@ const GeneralQuiz = props => {
   const timeOut = useRef(null);
   const timer = 1500;
 
+  const small = '48';
   useEffect(() => {
     generalQuizApi(locale).then(data => {
       quizData.current = shuffle(data).slice(0, 5);
-      //  console.log(quizData.current);
+      // console.log(quizData.current);
       randomAnswers(step);
       getAuthor(quizData.current[step].author);
       setLoading(false);
@@ -142,6 +143,7 @@ const GeneralQuiz = props => {
   async function getAuthor(id) {
     const response = await fetch('https://www.heymeala.com/wp-json/wp/v2/users/' + id);
     const author = await response.json();
+    console.log(author);
     setCurrentAuthor(author);
   }
 
@@ -176,13 +178,17 @@ const GeneralQuiz = props => {
             />
             <TouchableOpacity onPress={() => openLink(currentAuthor.url)}>
               <View style={styles.profileContainer}>
-                <Image
-                  style={styles.profile}
-                  source={{
-                    uri: 'https://secure.gravatar.com/avatar/2ac18813bb4baa0f1889c135d8ff6ab7?s=24&d=mm&r=g',
-                  }}
-                />
-                <Text>question by {currentAuthor.name}</Text>
+                {currentAuthor.avatar_urls && currentAuthor.avatar_urls[small] ? (
+                  <Image
+                    style={styles.profile}
+                    source={{
+                      uri: currentAuthor.avatar_urls[small],
+                    }}
+                  />
+                ) : null}
+                <Text>
+                  {t('Quiz.community.by')} {currentAuthor.name}
+                </Text>
               </View>
             </TouchableOpacity>
           </ScrollView>
@@ -201,8 +207,8 @@ export default GeneralQuiz;
 
 const useStyles = makeStyles(theme => ({
   container: { padding: theme.spacing.M, minHeight: '100%' },
-  profile: { width: 24, height: 24, marginHorizontal: theme.spacing.S },
-  profileContainer: { flexDirection: 'row' },
+  profile: { width: 30, height: 30, marginHorizontal: theme.spacing.S, borderRadius: 15 },
+  profileContainer: { flexDirection: 'row' , alignItems:'center'},
   h1: { flexGrow: 2 },
   questionImage: { width: '100%', height: 200, marginVertical: theme.spacing.M, borderRadius: 5 },
 }));
