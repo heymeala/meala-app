@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dimensions, SafeAreaView, ScrollView, View } from 'react-native';
-import { Image, makeStyles, Text } from 'react-native-elements';
+import { Dimensions, ScrollView, View } from 'react-native';
+import { Icon, Image, ListItem, makeStyles, Text } from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../../LanguageContext';
@@ -35,10 +35,10 @@ const MealDetailsComponent = props => {
     });
   }, [navigation]);
 
-  const duration = React.useMemo(() => getDuration(props.treatments, foodDatumMoment), [
-    props.treatments,
-    foodDatumMoment,
-  ]);
+  const duration = React.useMemo(
+    () => getDuration(props.treatments, foodDatumMoment),
+    [props.treatments, foodDatumMoment],
+  );
   const insulinSumme = getInsulinInfo(props.treatments);
   const carbSumme = React.useMemo(() => carbSum(props.carbs), [props.carbs]);
   const spritzEssAbstandText = React.useMemo(
@@ -48,7 +48,7 @@ const MealDetailsComponent = props => {
 
   return (
     <>
-      <ScrollView style={styles.wrapper}>
+      <ScrollView style={styles.wrapper} onContentSizeChange={(width, height) => console.log(width, height)}>
         <MetaInfoHeader
           date={foodDatum}
           food={props.selectedFood.food}
@@ -68,9 +68,10 @@ const MealDetailsComponent = props => {
         )}
         <View style={{ alignItems: 'center' }}>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
-            <View>
-              <Text style={styles.space}>{spritzEssAbstandText}</Text>
-            </View>
+            <ListItem containerStyle={styles.list}>
+              <Icon name={'timelapse'} />
+              <ListItem.Title style={{ fontFamily: 'Secular One' }}>{spritzEssAbstandText}</ListItem.Title>
+            </ListItem>
           )}
           {props.stepsPerDay !== null && (
             <Text style={styles.space}>
@@ -114,4 +115,7 @@ const useStyles = makeStyles((theme, dimension) => ({
     paddingTop: 5,
   },
   space: { paddingBottom: spacing.S },
+  list: {
+    backgroundColor: theme.colors.secondary,
+  },
 }));

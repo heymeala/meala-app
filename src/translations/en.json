@@ -25,6 +25,8 @@
     "save": "Save",
     "edit": "Edit",
     "copy": "Copy",
+    "startedEating": "Started eating",
+    "rightTime": "Remember to pick the right time",
     "ErrorMessage": "Please fill out",
     "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated.",
     "notificationAfterMeal": "Have a look at your last meal: {{mealTitle}}",
@@ -74,10 +76,11 @@
     "tag": {
       "addTag": "Add Tag",
       "addATag": "Add a new Tag",
-      "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
+      "findTag": "You can search and filter your meals later by these words",
       "exampleTag": "z.B. Sport, Basalratentest, Krank",
       "basalrate": "basal rate testing",
       "breakfast": "Breakfast",
+      "period": "period",
       "edit_mode": "We aren't able to edit tags at the moment. We're working on it"
     },
     "foodDataBaseSearch": {
@@ -134,7 +137,7 @@
     "anotherEntry": "add another meal",
     "copyMeal": "Copy this meal",
     "delete": "Delete",
-    "directBolus": " Direct Bolus: ",
+    "directBolus": "Direct Bolus: ",
     "carbs": "Carbs: ",
     "event": "Event: ",
     "delay": " Delayed Bolus ",
@@ -166,7 +169,11 @@
     "BottomBarTitle": "GI",
     "NavigationBarTitle": "Glycemic Index",
     "Search": "Search for food",
-    "IntroText": "The glycemic index (GI) from 0 to 100 Example: Dextrose has a GI of 100",
+    "rice": "Rice",
+    "apple": "Apple",
+    "noodles": "Noodle",
+    "IntroText": "The glycemic index (GI) from 0 to 100",
+    "example": "Example: Dextrose has a GI of 100",
     "glyx_description": "When blood sugar rises quickly, it can have many causes. For example, an unsuitable time between injection and eating, stress or even sport, when adrenaline is released. With the consumption of meals there is already a unit of measurement that describes how quickly the carbohydrates act in a certain period of time.It's called Glycemic Index or in short Glyx. The higher the value is, the more sugar enters the blood after carbohydrate consumption. The value can also help to choose the right hypo snack. Because in the event of hypoglycemia, a glycemic index is helpful return to target range quickly."
   },
   "Statistics": {

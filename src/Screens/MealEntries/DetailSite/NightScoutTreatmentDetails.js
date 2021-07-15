@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { makeStyles, Text } from 'react-native-elements';
+import { Divider, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { spacing } from '../../../theme/styles';
 
@@ -8,10 +8,14 @@ const NightScoutTreatmentDetails = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   let eventType, enteredinsulin, carbsCal, insuliCal;
-  const { carbSumme, insulinSumme } = props;
+  const { carbSumme, insulinSumme, treatments } = props;
+
+  const sortedList = treatments && treatments.sort((a, b) => (a.eventType > b.eventType ? 1 : -1));
+  let helper = '';
+  console.log(sortedList);
   const InsulinCarbDetails = () =>
-    props.treatments &&
-    props.treatments.map((treatments, i) => {
+    sortedList &&
+    sortedList.map((treatments, i) => {
       eventType = null;
       if (treatments.insulin) {
         insuliCal = t('Entries.directBolus') + ' ' + treatments.insulin.toFixed(2);
@@ -24,40 +28,44 @@ const NightScoutTreatmentDetails = props => {
         carbsCal = null;
       }
       if (treatments.eventType) {
-        if (!i) {
-          return true;
-        }
-        if (treatments.eventType !== props.treatments[i - 1].eventType) {
+        console.log('treatments.eventType', treatments.eventType);
+        console.log('helper', helper);
+
+        if (treatments.eventType !== helper) {
           eventType = t('Entries.event') + treatments.eventType;
         }
+        helper = treatments.eventType;
       } else {
         eventType = null;
+        console.log('null');
       }
       if (treatments.enteredinsulin) {
         enteredinsulin = t('Entries.delay') + treatments.enteredinsulin;
       } else {
         enteredinsulin = null;
       }
-      return (
+      return carbsCal || insuliCal || enteredinsulin || eventType ? (
         <View key={treatments._id}>
-          {carbsCal || insuliCal || enteredinsulin ? (
-            <View style={styles.detailsContainer}>
-              {eventType && <Text>{eventType}</Text>}
-              {carbsCal && <Text>{carbsCal}</Text>}
-              {insuliCal && <Text>{insuliCal}</Text>}
-              {enteredinsulin && <Text>{enteredinsulin}</Text>}
-            </View>
-          ) : null}
-        </View>
-      );
-    });
+          <View style={styles.detailsContainer}>
+            {eventType && <Text style={styles.event}>{eventType}</Text>}
+            {treatments.reason && <Text style={styles.event}>{treatments.reason}</Text>}
+            {carbsCal && <Text style={styles.event}>{carbsCal}</Text>}
+            {insuliCal && <Text style={styles.event}>{insuliCal}</Text>}
+            {enteredinsulin && <Text style={styles.event}>{enteredinsulin}</Text>}
+          </View>
 
+          <Divider />
+        </View>
+      ) : null;
+    });
   return (
     <View style={{ padding: 20 }}>
       <Text accessibilityRole={'header'} style={styles.text}>
         {t('Entries.details')}
       </Text>
+
       <InsulinCarbDetails />
+
       {insulinSumme ? (
         <Text style={styles.text}>
           {t('General.insulin')}: {insulinSumme}u
@@ -71,10 +79,10 @@ const NightScoutTreatmentDetails = props => {
     </View>
   );
 };
-
 export default NightScoutTreatmentDetails;
 
 const useStyles = makeStyles(theme => ({
-  text: { fontSize: 18, fontWeight: 'bold' },
+  text: { fontSize: 18, fontWeight: 'bold' ,marginTop:theme.spacing.XS},
   detailsContainer: { marginVertical: spacing.XS },
+  event: { padding: 4 },
 }));

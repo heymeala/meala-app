@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { makeStyles, SearchBar } from 'react-native-elements';
+import { Icon, makeStyles, SearchBar, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import Modal from 'react-native-modal';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
+import Modal from 'react-native-modal';
 
 export const Tags = props => {
   const [visible, setVisible] = useState(false);
@@ -11,6 +11,7 @@ export const Tags = props => {
   const { t } = React.useContext(LocalizationContext);
   const screenReaderEnabled = useScreenReader();
   const styles = useStyles();
+  const { theme } = useTheme();
 
   function add() {
     if (tag.length > 0 && tag !== ' ') {
@@ -63,6 +64,7 @@ export const Tags = props => {
         },
         { id: 20, tag: '🚅', type: 'emoji' },
         { id: 21, tag: t('AddMeal.tag.basalrate'), type: 'text' },
+        { id: 22, tag: t('AddMeal.tag.period'), type: 'text' },
       ]
     : [];
 
@@ -88,9 +90,17 @@ export const Tags = props => {
                     accessibilityRole="button"
                     accessibilityHint={t('Accessibility.EnterMeal.lable')}
                     key={i}
-                    style={{ ...styles.openButton, backgroundColor: '#d7d4a3' }}
-                    onPress={() => props.removeTag(tags.id)}>
-                    <Text style={{ fontSize: 14 }}>{tags.name}</Text>
+                    onPress={() => props.removeTag(tags.id)}
+                    style={{ flexDirection: 'row' }}>
+                    <View
+                      style={{
+                        ...styles.tagButton,
+                      }}>
+                      <Text style={{ fontSize: 14 }}>{tags.name}</Text>
+                    </View>
+                    <View style={{ left: -10, top: -3, margin: 0, padding: 0 }}>
+                      <Icon color={theme.colors.primary} name={'close-circle'} type={'ionicon'} size={20} />
+                    </View>
                   </TouchableOpacity>
                 );
               })}
@@ -203,6 +213,17 @@ const useStyles = makeStyles(theme => ({
     paddingHorizontal: 12,
     justifyContent: 'center',
     marginHorizontal: 4,
+  },
+  tagButton: {
+    color: theme.colors.white,
+    borderRadius: 25,
+    padding: 6,
+    paddingHorizontal: 12,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0)',
+    borderColor: theme.colors.primary,
+    borderWidth: 1,
+    alignItems: 'center',
   },
   textStyle: {
     color: 'black',

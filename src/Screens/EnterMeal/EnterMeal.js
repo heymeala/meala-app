@@ -88,7 +88,8 @@ const EnterMeal = ({ route, navigation }, props) => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
       }
-      return () => {};
+      return () => {
+      };
     }, []),
   );
 
@@ -121,7 +122,8 @@ const EnterMeal = ({ route, navigation }, props) => {
         }
       },
     });
-    return () => {};
+    return () => {
+    };
   }, [navigation, type]);
 
   useEffect(() => {
@@ -136,7 +138,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     auth()
       .signInAnonymously()
       .then(data => {
-      //  console.log(data.user.uid)
+        //  console.log(data.user.uid)
         setUser_id(data.user.uid);
       });
   }, []);
@@ -191,10 +193,10 @@ const EnterMeal = ({ route, navigation }, props) => {
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-          .filter(data => data.checked)
-          .map(data => {
-            return { foodEntryId: data.food_entry_id };
-          })
+        .filter(data => data.checked)
+        .map(data => {
+          return { foodEntryId: data.food_entry_id };
+        })
       : [];
 
     const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
@@ -442,13 +444,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
       </ScrollView>
       <FAB
-        title={
-          type.mode === EDIT_MODE
-            ? t('AddMeal.edit')
-            : type.mode === COPY_MODE
-            ? t('AddMeal.copy')
-            : t('AddMeal.save')
-        }
+        title={t('AddMeal.save')}
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}

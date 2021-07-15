@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, View } from "react-native";
+import { View } from 'react-native';
 import SugarStack from './SugarStack';
 import { Icon, useTheme } from 'react-native-elements';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,21 +8,25 @@ import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../hooks/useEnterMealSta
 import SettingsStack from './SettingsStack';
 import QuizStack from './QuizStack';
 import EnterMealStack from './EnterMealStack';
-import Maps from "../Screens/Maps/Maps";
+import Maps from '../Screens/Maps/Maps';
+import { useScreenReader } from '../hooks/useScreenReaderEnabled';
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
   const { t } = React.useContext(LocalizationContext);
   const { theme } = useTheme();
   const { type } = useEnterMealType();
+  const screenReaderEnabled = useScreenReader();
+
   return (
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: theme.colors.primary,
-        inactiveTintColor: theme.colors.grey4, // inactive icon color
+        inactiveTintColor: theme.colors.grey2, // inactive icon color
         tabBarVisible: true,
         style: {
-          backgroundColor: theme.colors.white, // TabBar background
+          backgroundColor: 'rgba(242,245,251,0.52)', // TabBar background
+
         },
       }}>
       <Tab.Screen
@@ -45,27 +49,28 @@ const AppBottomNavigationStack = () => {
           };
         }}
       />
+      {!screenReaderEnabled ? (
+        <Tab.Screen
+          name="Maps"
+          component={Maps}
+          options={({ navigation }) => {
+            return {
+              tabBarLabel: navigation.isFocused() ? t('BottomNavBar.map') : '',
+              tabBarAccessibilityLabel: t('BottomNavBar.map'),
 
-      <Tab.Screen
-        name="Maps"
-        component={Maps}
-        options={({ navigation }) => {
-          return {
-            tabBarLabel: navigation.isFocused() ? t('BottomNavBar.map') : '',
-            tabBarAccessibilityLabel: t('BottomNavBar.map'),
-
-            tabBarIcon: ({ focused, color, size }) => (
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: 0, // space from bottombar
-                }}>
-                <Icon name="map" size={navigation.isFocused() ? 28 : 22} color={color} type={'ionicon'} />
-              </View>
-            ),
-          };
-        }}
-      />
+              tabBarIcon: ({ focused, color, size }) => (
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 0, // space from bottombar
+                  }}>
+                  <Icon name="map" size={navigation.isFocused() ? 28 : 22} color={color} type={'ionicon'} />
+                </View>
+              ),
+            };
+          }}
+        />
+      ) : null}
 
       <Tab.Screen
         name="EnterMealStack"
@@ -133,7 +138,7 @@ const AppBottomNavigationStack = () => {
                 position: 'absolute',
                 bottom: 0, // space from bottombar
               }}>
-              <Icon name="settings" type="octicon" size={navigation.isFocused() ? 28 : 22} color={color} />
+              <Icon name="setting" type="antdesign" size={navigation.isFocused() ? 28 : 22} color={color} />
             </View>
           ),
         })}
