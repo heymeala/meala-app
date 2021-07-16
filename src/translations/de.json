@@ -146,7 +146,7 @@
     "noImage": "Kein Bild",
     "noData": "Keine Daten vorhanden",
     "deleteRestaurant": "Restaurant löschen",
-    "tags": "Dies Mahlzeit wird über folgende Tags gefunden",
+    "tags": "Diese Mahlzeit wird über folgende Tags gefunden",
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Suche nach einem Datum"
     },
@@ -183,7 +183,7 @@
     "title": "Nie wieder Kohlenhydrate schätzen?",
     "description": "Unsere Vision ist es hier für jede Speisekarte alle Nährwerte bereitzustellen. Das ist viel Arbeit, aber mit deiner Hilfe können wir es schaffen! Bleibe dran",
     "contact": "Kontakt",
-    "help": "Du möchstest uns Unterstüzen oder hast Fragen?"
+    "help": "Du möchtest uns Unterstützen oder hast Fragen?"
   },
   "BarCode": {
     "BottomBarTitle": "Barcode",

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Linking, Text, TouchableOpacity, View } from 'react-native';
+import { Linking,  TouchableOpacity, View } from 'react-native';
 
-import { makeStyles, SocialIcon } from 'react-native-elements';
+import { Icon, makeStyles, SocialIcon, Text } from "react-native-elements";
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 
@@ -12,6 +12,8 @@ const SettingsFooter = () => {
 
   return (
     <View style={{ padding: 20 }}>
+      <Text h2 >Wie findest du die App?</Text>
+      <Icon name={}></Icon>
       <TouchableOpacity onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
         <Text>{t('Settings.feedback')}</Text>
       </TouchableOpacity>

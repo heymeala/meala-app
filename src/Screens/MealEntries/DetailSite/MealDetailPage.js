@@ -67,7 +67,7 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <View style={{}}>
+        <View>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <ListItem containerStyle={styles.list}>
               <Icon name={'timelapse'} />
@@ -83,10 +83,12 @@ const MealDetailsComponent = props => {
           )}
 
           {props.selectedFood.picture ? (
-            <Image
-              source={props.selectedFood.picture ? { uri: props.selectedFood.picture } : null}
-              style={styles.image}
-            />
+            <View style={styles.imageContainer}>
+              <Image
+                source={props.selectedFood.picture ? { uri: props.selectedFood.picture } : null}
+                style={styles.image}
+              />
+            </View>
           ) : null}
         </View>
         <Tags selectedFood={selectedFood} />
@@ -110,6 +112,7 @@ export default MealDetailsComponent;
 
 const useStyles = makeStyles((theme, dimension) => ({
   wrapper: { backgroundColor: '#fbfbfb' },
+  imageContainer: { alignItems: 'center' },
   image: {
     width: dimension.width - 20,
     height: dimension.height / 1.5,
@@ -122,5 +125,5 @@ const useStyles = makeStyles((theme, dimension) => ({
   list: {
     backgroundColor: theme.colors.secondary,
   },
-  text: { fontFamily: 'SecularOne-Regular', maxWidth: '90%' },
+  text: { fontFamily: 'SecularOne-Regular', fontSize: 14},
 }));

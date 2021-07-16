@@ -1,13 +1,22 @@
-import React from 'react';
-import { Linking, View } from 'react-native';
-import { Button, makeStyles, Text } from 'react-native-elements';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../../LanguageContext';
+import { FEEDBACK_MAIL } from '@env';
 
 const InfoModal = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const { open, setOpen } = props;
+  const [message, setMessage] = useState(null);
+
+  function sendFeedback() {
+    if (message) {
+      fetch(FEEDBACK_MAIL + message);
+    }
+  }
+
   return (
     <Modal
       animationIn="slideInUp"
@@ -24,10 +33,19 @@ const InfoModal = props => {
           <Text h2 h2Style={{ ...styles.modalText }}>
             {t('Map.title')}
           </Text>
-          <Text h3>{t('Map.description')}</Text>
+          <Text>{t('Map.description')}</Text>
           <Text style={{ marginTop: 12 }}>{t('Map.help')}</Text>
+          <Input
+            placeholder={'Deine Nachricht an uns'}
+            numberOfLines={5}
+            multiline
+            value={message}
+            onChangeText={text => setMessage(text)}
+            style={{ height: 70, marginTop: 4 }}
+          />
+
           <View style={styles.buttons}>
-            <Button title={t('Map.contact')} onPress={() => Linking.openURL('mailto:mail@heymeala.com')} />
+            <Button disabled={!message} title={'Nachricht senden'} onPress={() => sendFeedback()} />
             <Button title={t('General.close')} onPress={() => setOpen(false)} />
           </View>
         </View>
@@ -72,5 +90,5 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 20,
     padding: 8,
   },
-  buttons: { width: '100%', marginTop: 24, flexDirection: 'row', justifyContent: 'space-around' },
+  buttons: { width: '100%', marginTop: 24, flexDirection: 'row', justifyContent: 'space-between' },
 }));
