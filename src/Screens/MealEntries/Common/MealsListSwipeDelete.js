@@ -21,7 +21,7 @@ const MealsListSwipeDelete = ({ searchComponent, mealDataSoftDelete, value, upda
       ListHeaderComponent={searchComponent}
       data={mealDataSoftDelete}
       renderItem={({ item }) => <MealItemsList item={item} />}
-      keyExtractor={(item, index) => item.id}
+      keyExtractor={(item, index) => item.userMealId}
       closeOnRowPress={true}
       closeOnScroll={true}
       ListFooterComponent={<LotteHomeAnimation value={value} listLength={listLength} />}
