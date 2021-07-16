@@ -12,7 +12,6 @@ const NightScoutTreatmentDetails = props => {
 
   const sortedList = treatments && treatments.sort((a, b) => (a.eventType > b.eventType ? 1 : -1));
   let helper = '';
-  console.log(sortedList);
   const InsulinCarbDetails = () =>
     sortedList &&
     sortedList.map((treatments, i) => {
@@ -28,16 +27,12 @@ const NightScoutTreatmentDetails = props => {
         carbsCal = null;
       }
       if (treatments.eventType) {
-        console.log('treatments.eventType', treatments.eventType);
-        console.log('helper', helper);
-
         if (treatments.eventType !== helper) {
-          eventType = t('Entries.event')+ ' ' + treatments.eventType;
+          eventType = t('Entries.event') + ' ' + treatments.eventType;
         }
         helper = treatments.eventType;
       } else {
         eventType = null;
-        console.log('null');
       }
       if (treatments.enteredinsulin) {
         enteredinsulin = t('Entries.delay') + treatments.enteredinsulin;
@@ -82,7 +77,7 @@ const NightScoutTreatmentDetails = props => {
 export default NightScoutTreatmentDetails;
 
 const useStyles = makeStyles(theme => ({
-  text: { fontSize: 18, fontWeight: 'bold' ,marginTop:theme.spacing.XS},
+  text: { fontSize: 18, fontWeight: 'bold', marginTop: theme.spacing.XS },
   detailsContainer: { marginVertical: spacing.XS },
   event: { padding: 4 },
 }));

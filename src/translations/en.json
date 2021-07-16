@@ -147,6 +147,7 @@
     "calculating": "Time between eating and injection is calculated",
     "noData": "No Data available",
     "deleteRestaurant": "Delete Restaurant",
+    "tags": "You can find this meal by the following tags",
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Search for a specific date"
     },

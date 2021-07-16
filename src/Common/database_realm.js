@@ -259,7 +259,7 @@ export const database = {
   fetchMealbyId: id => {
     return database._open
       .then(realm => {
-        const meals = realm.objects('Meal').filtered('id = $0', id);
+        const meals = realm.objects('Meal').filtered('userMealId = $0', id);
         return meals[0];
       })
       .catch(error => {

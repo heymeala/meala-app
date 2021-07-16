@@ -21,13 +21,13 @@ const MealDataCollector = props => {
   const [loading, setLoading] = useState(true);
   const [stepsPerDay, setStepsPerDay] = useState(null);
   const route = useRoute();
-  const { mealId } = route.params;
+  const { userMealId } = route.params;
   const [restaurantName, setRestaurantName] = useState(null);
   const { settings } = useProfile();
   const { userSettings } = useUserSettings();
   useEffect(() => {
     let isMounted = true;
-    if (mealId) {
+    if (userMealId) {
       if (isMounted) {
         loadData();
       }
@@ -35,10 +35,10 @@ const MealDataCollector = props => {
     return () => {
       isMounted = false;
     };
-  }, [mealId, settings, userSettings]);
+  }, [userMealId, settings, userSettings]);
 
   function loadData() {
-    database.fetchMealbyId(mealId).then(mealData => {
+    database.fetchMealbyId(userMealId).then(mealData => {
       database.getRestaurantName(mealData.restaurantId).then(name => setRestaurantName(name));
       setSelectedFood(prevState => mealData);
       loadSugarData(

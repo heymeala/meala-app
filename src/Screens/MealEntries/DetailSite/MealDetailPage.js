@@ -17,6 +17,7 @@ import { useUserSettings } from '../../../hooks/useUserSettings';
 import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
 import { spacing } from '../../../theme/styles';
+import Tags from './Tags';
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -48,7 +49,7 @@ const MealDetailsComponent = props => {
 
   return (
     <>
-      <ScrollView style={styles.wrapper} onContentSizeChange={(width, height) => console.log(width, height)}>
+      <ScrollView style={styles.wrapper}>
         <MetaInfoHeader
           date={foodDatum}
           food={props.selectedFood.food}
@@ -66,7 +67,7 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <View style={{ }}>
+        <View style={{}}>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <ListItem containerStyle={styles.list}>
               <Icon name={'timelapse'} />
@@ -88,6 +89,7 @@ const MealDetailsComponent = props => {
             />
           ) : null}
         </View>
+        <Tags selectedFood={selectedFood} />
         {userSettings.glucoseSource === NIGHTSCOUT && (
           <NightScoutTreatmentDetails
             treatments={props.treatments}
@@ -96,6 +98,7 @@ const MealDetailsComponent = props => {
           />
         )}
         <MealNote selectedFood={props.selectedFood} />
+
         <FatSecretNutritionInfo selectedFood={selectedFood} />
       </ScrollView>
       <EditSpeedDialGroup selectedFood={selectedFood} />

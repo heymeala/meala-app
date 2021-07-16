@@ -199,7 +199,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         })
       : [];
 
-    const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
+    const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
@@ -210,7 +210,16 @@ const EnterMeal = ({ route, navigation }, props) => {
 
     if (type.mode === EDIT_MODE) {
       database
-        .editRestaurantAndMeal(mealTitle, foodPicture, note, mealId, userMealId, date, fatSecretUserIds, tags)
+        .editRestaurantAndMeal(
+          defaultMealTitle,
+          foodPicture,
+          note,
+          mealId,
+          userMealId,
+          date,
+          fatSecretUserIds,
+          tags,
+        )
         .then(() => {
           reset();
           navigation.setParams({
@@ -297,7 +306,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   const handleMealInputBlur = () => setMealIsFocused(false);
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
-    setMealId(id);
+    setMealId(id); // comes from database
     setMealIsFocused(false);
     Keyboard.dismiss();
   };

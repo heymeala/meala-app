@@ -20,6 +20,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   const [tir, setTir] = useState(null);
 
   useEffect(() => {
+    console.log("MEALID ",props.item.userMealId)
     if (props.item.cgmData) {
     //  console.log('props.item.cgmData,', props.item.cgmData);
       const parsedData = JSON.parse(props.item.cgmData);
@@ -83,8 +84,8 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   };
 
   return (
-    <View style={{ height: 110 }} key={props.item.id} ref={ref}>
-      <ListItem onPress={() => navigation.navigate('MealDataCollector', { mealId: props.item.id })}>
+    <View style={{ height: 110 }} key={props.item.userMealId} ref={ref}>
+      <ListItem onPress={() => navigation.navigate('MealDataCollector', { userMealId: props.item.userMealId })}>
         <Avatar
           rounded
           title={props.item.food[0]}

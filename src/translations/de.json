@@ -146,6 +146,7 @@
     "noImage": "Kein Bild",
     "noData": "Keine Daten vorhanden",
     "deleteRestaurant": "Restaurant löschen",
+    "tags": "Dies Mahlzeit wird über folgende Tags gefunden",
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Suche nach einem Datum"
     },
