@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Icon, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import FadeInView from '../../Common/FadeInView';
@@ -12,41 +12,43 @@ const KnowledgeScreen = props => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FadeInView style={styles.quoteContainer}>
-        <Text h1 h1Style={styles.quote}>
-          {t('Quiz.quote')}
-        </Text>
-        <Text h4 h4Style={styles.author}>
-          – Marie von Ebner-Eschenbach
-        </Text>
-      </FadeInView>
-      <TouchableOpacity onPress={() => navigation.navigate('GeneralQuizCategories')}>
-        <View style={styles.button}>
-          <Icon style={styles.icon} name="community" type="meala" size={35} />
-          <Text h2 style={styles.text}>
-            Community Quiz
+      <ScrollView>
+        <FadeInView style={styles.quoteContainer}>
+          <Text h1 h1Style={styles.quote}>
+            {t('Quiz.quote')}
           </Text>
-          <Text style={styles.subtitle}>{t('Quiz.community_quiz_desc')}</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Quiz')}>
-        <View style={styles.button}>
-          <Icon style={styles.icon} name="einstein" type="meala" size={28} />
-          <Text h2 style={styles.text}>
-            {t('Quiz.meal_quiz')}
+          <Text h4 h4Style={styles.author}>
+            – Marie von Ebner-Eschenbach
           </Text>
-          <Text style={styles.subtitle}>{t('Quiz.meal_quiz_desc')}</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Knowledge')}>
-        <View style={styles.button}>
-          <Icon style={styles.icon} name="simple_recipe" type="meala" size={28} />
-          <Text h2 style={styles.text}>
-            {t('Quiz.guide')}
-          </Text>
-          <Text style={styles.subtitle}> {t('Quiz.guide_desc')}</Text>
-        </View>
-      </TouchableOpacity>
+        </FadeInView>
+        <TouchableOpacity onPress={() => navigation.navigate('GeneralQuizCategories')}>
+          <View style={styles.button}>
+            <Icon style={styles.icon} name="community" type="meala" size={35} />
+            <Text h2 style={styles.text}>
+              Community Quiz
+            </Text>
+            <Text style={styles.subtitle}>{t('Quiz.community_quiz_desc')}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Quiz')}>
+          <View style={styles.button}>
+            <Icon style={styles.icon} name="einstein" type="meala" size={28} />
+            <Text h2 style={styles.text}>
+              {t('Quiz.meal_quiz')}
+            </Text>
+            <Text style={styles.subtitle}>{t('Quiz.meal_quiz_desc')}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Knowledge')}>
+          <View style={styles.button}>
+            <Icon style={styles.icon} name="simple_recipe" type="meala" size={28} />
+            <Text h2 style={styles.text}>
+              {t('Quiz.guide')}
+            </Text>
+            <Text style={styles.subtitle}> {t('Quiz.guide_desc')}</Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };

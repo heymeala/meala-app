@@ -78,7 +78,7 @@ export const Tags = props => {
           accessibilityLabel={t('Accessibility.EnterMeal.addTag')}
           style={{ ...styles.openButton }}
           onPress={() => setVisible(true)}>
-          <Text style={{ padding: 6, color: '#fff' }}>{t('AddMeal.tag.addTag')}</Text>
+          <Icon name={'add'} color={'#fff'} />
         </TouchableOpacity>
         <ScrollView horizontal={true}>
           {props.tags &&

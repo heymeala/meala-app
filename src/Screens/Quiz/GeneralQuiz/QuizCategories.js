@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from "react-native";
 import { Badge, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { quizCategoriesApi } from '../generalQuizApi';
@@ -20,7 +20,7 @@ const QuizCategories = props => {
     });
   }, []);
   return !loading ? (
-    <View>
+    <ScrollView>
       <Text h2 style={styles.title}>
         {t('Quiz.community.title')}
       </Text>
@@ -57,7 +57,7 @@ const QuizCategories = props => {
             </ListItem>
           );
         })}
-    </View>
+    </ScrollView>
   ) : (
     <LoadingSpinner />
   );

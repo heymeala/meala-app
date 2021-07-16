@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from "react-native";
 import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { FEEDBACK_MAIL } from '@env';
@@ -42,6 +42,10 @@ const FeedbackModal = props => {
             numberOfLines={5}
             multiline
             value={message}
+            returnKeyType="done"
+            onSubmitEditing={() => {
+              Keyboard.dismiss();
+            }}
             onChangeText={text => setMessage(text)}
             style={{ height: 70, marginTop: 4 }}
           />

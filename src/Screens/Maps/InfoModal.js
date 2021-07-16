@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from "react-native";
 import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../../LanguageContext';
@@ -42,6 +42,10 @@ const InfoModal = props => {
             placeholder={t('Settings.yourMessage')}
             numberOfLines={5}
             multiline
+            returnKeyType="done"
+            onSubmitEditing={() => {
+              Keyboard.dismiss();
+            }}
             value={message}
             onChangeText={text => setMessage(text)}
             style={{ height: 70, marginTop: 4 }}

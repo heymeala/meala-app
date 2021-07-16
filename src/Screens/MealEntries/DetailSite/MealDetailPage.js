@@ -125,5 +125,5 @@ const useStyles = makeStyles((theme, dimension) => ({
   list: {
     backgroundColor: theme.colors.secondary,
   },
-  text: { fontFamily: 'SecularOne-Regular', fontSize: 14},
+  text: { fontFamily: 'SecularOne-Regular', fontSize: 13, maxWidth:"90%"},
 }));

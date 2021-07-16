@@ -64,7 +64,7 @@ export const DatePickerOverlay = ({ date, setDate }) => {
           <Text style={styles.time}>
             {t('AddMeal.startedEating')} {moment(date.toISOString()).format('LT')}{' '}
           </Text>
-          <Text>{t('AddMeal.rightTime')}</Text>
+          <Text style={styles.subtitle}>{t('AddMeal.rightTime')}</Text>
         </View>
       </TouchableOpacity>
       <Overlay
@@ -143,7 +143,6 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   time: {
     fontFamily: 'SecularOne-Regular',
-
     fontSize: 18,
     color: theme.colors.primary,
   },
@@ -152,6 +151,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
 
     color: theme.colors.primary,
   },
+  subtitle:{fontSize:12},
   overlay: {
     flex: 1,
     justifyContent: 'center',
