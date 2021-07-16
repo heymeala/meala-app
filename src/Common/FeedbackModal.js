@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
-import LocalizationContext from '../../../LanguageContext';
 import { FEEDBACK_MAIL } from '@env';
+import LocalizationContext from '../../LanguageContext';
 
-const InfoModal = props => {
+const FeedbackModal = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { open, setOpen } = props;
+  const { open, setOpen, feedbackTitle, feedbackDescription } = props;
   const [message, setMessage] = useState(null);
 
   function sendFeedback() {
@@ -34,10 +34,9 @@ const InfoModal = props => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text h2 h2Style={{ ...styles.modalText }}>
-            {t('Map.title')}
+            {feedbackTitle}
           </Text>
-          <Text>{t('Map.description')}</Text>
-          <Text style={{ marginTop: 12 }}>{t('Map.help')}</Text>
+          <Text>{feedbackDescription}</Text>
           <Input
             placeholder={t('Settings.yourMessage')}
             numberOfLines={5}
@@ -57,7 +56,7 @@ const InfoModal = props => {
   );
 };
 
-export default InfoModal;
+export default FeedbackModal;
 
 const useStyles = makeStyles(theme => ({
   centeredView: {
