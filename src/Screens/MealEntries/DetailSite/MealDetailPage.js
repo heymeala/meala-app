@@ -66,11 +66,11 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <View style={{ alignItems: 'center' }}>
+        <View style={{ }}>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <ListItem containerStyle={styles.list}>
               <Icon name={'timelapse'} />
-              <ListItem.Title style={{ fontFamily: 'Secular One' }}>{spritzEssAbstandText}</ListItem.Title>
+              <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
             </ListItem>
           )}
           {props.stepsPerDay !== null && (
@@ -113,9 +113,11 @@ const useStyles = makeStyles((theme, dimension) => ({
     borderRadius: 5,
     paddingBottom: 5,
     paddingTop: 5,
+    marginTop: theme.spacing.S,
   },
   space: { paddingBottom: spacing.S },
   list: {
     backgroundColor: theme.colors.secondary,
   },
+  text: { fontFamily: 'SecularOne-Regular', maxWidth: '90%' },
 }));

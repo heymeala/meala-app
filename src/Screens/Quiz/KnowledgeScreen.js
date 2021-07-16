@@ -55,9 +55,9 @@ export default KnowledgeScreen;
 
 const useStyles = makeStyles(theme => ({
   container: { backgroundColor: theme.colors.primary, flex: 1 },
-  quote: { color: theme.colors.white, fontFamily: 'Secular One' },
+  quote: { color: theme.colors.white, fontFamily: 'SecularOne-Regular' },
   quoteContainer: { padding: theme.spacing.L },
-  author: { color: theme.colors.white, fontFamily: 'Secular One', textAlign: 'right' },
+  author: { color: theme.colors.white, fontFamily: 'SecularOne-Regular', textAlign: 'right' },
   text: { textAlign: 'center' },
   subtitle: { color: theme.colors.grey2, textAlign: 'center', paddingTop: theme.spacing.XS },
   icon: { paddingBottom: theme.spacing.M },

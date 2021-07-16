@@ -136,18 +136,20 @@ export const DatePickerOverlay = ({ date, setDate }) => {
 
 const useStyles = makeStyles((theme, props: Props) => ({
   date: {
-    fontFamily: 'Secular One',
+    fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
     fontSize: 22,
     color: theme.colors.primary,
   },
   time: {
-    fontFamily: 'Secular One',
+    fontFamily: 'SecularOne-Regular',
+
     fontSize: 18,
     color: theme.colors.primary,
   },
   month: {
-    fontFamily: 'Secular One',
+    fontFamily: 'SecularOne-Regular',
+
     color: theme.colors.primary,
   },
   overlay: {

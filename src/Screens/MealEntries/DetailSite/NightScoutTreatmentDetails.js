@@ -32,7 +32,7 @@ const NightScoutTreatmentDetails = props => {
         console.log('helper', helper);
 
         if (treatments.eventType !== helper) {
-          eventType = t('Entries.event') + treatments.eventType;
+          eventType = t('Entries.event')+ ' ' + treatments.eventType;
         }
         helper = treatments.eventType;
       } else {

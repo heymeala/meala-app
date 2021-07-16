@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
-import { Badge, ListItem, makeStyles, Text } from "react-native-elements";
+import { Badge, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { quizCategoriesApi } from '../generalQuizApi';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
@@ -21,7 +21,9 @@ const QuizCategories = props => {
   }, []);
   return !loading ? (
     <View>
-      <Text h2 style={styles.title}>{t('Quiz.community.title')}</Text>
+      <Text h2 style={styles.title}>
+        {t('Quiz.community.title')}
+      </Text>
       <ListItem
         bottomDivider
         onPress={() =>
@@ -34,7 +36,6 @@ const QuizCategories = props => {
         </ListItem.Content>
         <Badge value={'5'} />
         <ListItem.Chevron />
-
       </ListItem>
       {quizData.current
         .filter(data => data.count > 0)
@@ -64,6 +65,8 @@ const QuizCategories = props => {
 export default QuizCategories;
 
 const useStyles = makeStyles(theme => ({
-  title:{padding: theme.spacing.L},
-  text:{fontFamily:'Secular One'}
+  title: { padding: theme.spacing.L },
+  text: {
+    fontFamily: 'SecularOne-Regular',
+  },
 }));
