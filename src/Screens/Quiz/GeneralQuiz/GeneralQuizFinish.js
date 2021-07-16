@@ -1,19 +1,28 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import LottieView from 'lottie-react-native';
 import winner from '../../../assets/animations/quiz/winner.json';
 import { calculateScore } from '../calculateScore';
+import analytics from '@react-native-firebase/analytics';
 
 const GeneralQuizFinish = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { answeredQuestions } = props;
+  const { answeredQuestions, categoryId } = props;
   const contentWidth = useWindowDimensions().width;
   const tries = answeredQuestions.map(data => data.tries);
   const score = useMemo(() => calculateScore(tries), []);
   console.log(answeredQuestions);
+
+  useEffect(() => {
+    analytics().logEvent('quiz_result', {
+      score: score,
+      type: categoryId,
+    });
+  }, []);
+
   return (
     <ScrollView>
       <View>

@@ -153,7 +153,7 @@ const GeneralQuiz = props => {
   }
 
   if (finish) {
-    return <GeneralQuizFinish answeredQuestions={answeredQuestions} />;
+    return <GeneralQuizFinish answeredQuestions={answeredQuestions} categoryId={categoryId} />;
   }
   if (showAnswerInformation) {
     if (quizData.current) {
