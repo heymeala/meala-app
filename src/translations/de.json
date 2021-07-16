@@ -237,7 +237,7 @@
       "other": "{{count}} richtige Antworten",
       "zero": "{{count}} richtige Antworten"
     },
-    "quote": "Those who know nothing must believe everything.",
+    "quote": "Wer nichts weiß, muss alles glauben.",
     "guide": "Ratgeber",
     "guide_desc": "Wissen ist Macht",
     "community_quiz_desc": "Fragen von und für die Community",
@@ -280,6 +280,7 @@
     "exampleLink3": "https://deineSeite.azurewebsites.net",
     "wrongUrl": "URL fehlerhaft oder Nightscout ist offline",
     "urlMissing": "URL fehlt",
+    "database": "Datenbanken",
     "healthKit": {
       "name": "Health Kit",
       "title": "Verbinde Apple Health Kit mit meala",

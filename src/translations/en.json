@@ -286,6 +286,7 @@
     "exampleLink3": "https://yourSite.azurewebsites.net",
     "wrongUrl": "Url is wrong or your Nightscout-Site is offline",
     "urlMissing": "URL is missing",
+    "database": "Database",
     "healthKit": {
       "name": "Health Kit",
       "title": "Connect Apple Health Kit with meala",

@@ -67,7 +67,7 @@ const SettingsOverview = props => {
       ],
     },
     {
-      title: 'Datenbanken',
+      title: t('Settings.database'),
       data: [
         {
           name: t('GI.NavigationBarTitle'),

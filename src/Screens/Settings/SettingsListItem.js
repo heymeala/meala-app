@@ -22,7 +22,7 @@ const SettingsListItem = props => {
   const screenReaderEnabled = useScreenReader();
 
   return Platform.OS !== 'ios' ? (
-    data.name !== 'HealthKit' ? (
+    data.name !== 'Health Kit' ? (
       <ListItem
         style={styles.item}
         accessible={true}
