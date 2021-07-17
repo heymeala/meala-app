@@ -30,7 +30,7 @@ AppRegistry.registerComponent(appName, () => {
       if (notification.channelId === 'food-reminder-channel') {
         RootNavigation.navigate('Home', {
           screen: 'MealDataCollector',
-          params: { mealId: notification.data.mealId },
+          params: { userMealId: notification.data.userMealId },
         });
       }
       if (notification.channelId === 'knowledge') {
