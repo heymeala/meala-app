@@ -234,6 +234,7 @@
     "score": "Punkte",
     "hint": "Hinweis",
     "infoScreenTitle": "Weitere Infos zur Frage",
+    "noInfo": "Keine weiteren Informationen verfügbar.",
     "results": {
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",

@@ -236,6 +236,7 @@
     "score": "Points",
     "hint": "Hint",
     "infoScreenTitle": "Question related information",
+    "noInfo": "No further information at the moment.",
     "results": {
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",

@@ -19,7 +19,7 @@ const RightAnswerInfo = props => {
           {infoText ? (
             <HTML baseFontStyle={styles.html} source={{ html: infoText }} contentWidth={contentWidth} />
           ) : (
-            <Text>Gut gemacht</Text>
+            <Text>{t('Quiz.noInfo')}</Text>
           )}
         </FadeInView>
       </View>
