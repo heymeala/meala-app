@@ -30,7 +30,7 @@ const MealList = props => {
   };
 
   function deleteMeal(id) {
-    PushNotification.cancelLocalNotifications({ id: id });
+    PushNotification.cancelLocalNotifications({ userMealId: id });
     database.deleteMealSoft(id);
     mealData(search);
   }
@@ -76,7 +76,7 @@ const MealList = props => {
   ) : (
     <MealsListSwipeDelete
       mealDataSoftDelete={restaurants}
-      update={deleteMeal}
+      deleteMeal={deleteMeal}
       mealData={mealData}
       value={search}
       searchComponent={

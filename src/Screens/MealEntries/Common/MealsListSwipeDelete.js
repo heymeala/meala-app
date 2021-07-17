@@ -7,7 +7,7 @@ import LotteHomeAnimation from './LotteHomeAnimation';
 import HiddenSwipeItem from './HiddenSwipeItem';
 import { MealItemsList } from '../../../Components/MealItemList';
 
-const MealsListSwipeDelete = ({ searchComponent, mealDataSoftDelete, value, update }) => {
+const MealsListSwipeDelete = ({ searchComponent, mealDataSoftDelete, value, deleteMeal }) => {
   const navigation = useNavigation();
   const screenReaderEnabled = useScreenReader();
   const listLength = mealDataSoftDelete.length;
@@ -26,7 +26,7 @@ const MealsListSwipeDelete = ({ searchComponent, mealDataSoftDelete, value, upda
       closeOnScroll={true}
       ListFooterComponent={<LotteHomeAnimation value={value} listLength={listLength} />}
       renderHiddenItem={
-        !screenReaderEnabled ? rowData => <HiddenSwipeItem rowData={rowData} update={update} /> : null
+        !screenReaderEnabled ? rowData => <HiddenSwipeItem rowData={rowData} deleteMeal={deleteMeal} /> : null
       }
       rightOpenValue={-150}
       leftOpenValue={75}

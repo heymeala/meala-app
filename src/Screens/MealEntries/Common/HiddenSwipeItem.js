@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 
 const HiddenSwipeItem = props => {
   const styles = useStyles();
-  const { rowData, update } = props;
+  const { rowData, deleteMeal } = props;
   const { changeType } = useEnterMealType();
   const navigation = useNavigation();
 
@@ -30,7 +30,7 @@ const HiddenSwipeItem = props => {
       <TouchableOpacity
         style={styles.backRightBtn}
         onPress={() => {
-          update(rowData.item.userMealId);
+          deleteMeal(rowData.item.userMealId);
         }}>
         <View key={rowData.item.userMealId}>
           <Icon name={'trash-outline'} type={'ionicon'} color={'#fff'} />
