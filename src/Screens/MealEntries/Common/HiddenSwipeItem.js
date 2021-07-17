@@ -15,15 +15,15 @@ const HiddenSwipeItem = props => {
       <TouchableOpacity
         style={[styles.backRightBtn, styles.backRightBtnLeft]}
         onPress={() => {
-          changeType({ mode: EDIT_MODE, meal_id: rowData.item.id });
+          changeType({ mode: EDIT_MODE, meal_id: rowData.item.userMealId });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              meal_id: rowData.item.id,
+              meal_id: rowData.item.userMealId,
             },
           });
         }}>
-        <View key={rowData.item.id}>
+        <View key={rowData.item.userMealId}>
           <Icon name={'edit'} color={'#fff'} />
         </View>
       </TouchableOpacity>
@@ -32,7 +32,7 @@ const HiddenSwipeItem = props => {
         onPress={() => {
           update(rowData.item.userMealId);
         }}>
-        <View key={rowData.item.id}>
+        <View key={rowData.item.userMealId}>
           <Icon name={'trash-outline'} type={'ionicon'} color={'#fff'} />
         </View>
       </TouchableOpacity>

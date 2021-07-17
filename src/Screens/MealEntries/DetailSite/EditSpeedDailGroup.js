@@ -37,11 +37,11 @@ const EditSpeedDialGroup = props => {
           analytics().logEvent('edit_meal', {
             type: EDIT_MODE,
           });
-          changeType({ mode: EDIT_MODE, meal_id: selectedFood.id });
+          changeType({ mode: EDIT_MODE, meal_id: selectedFood.userMealId });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              meal_id: selectedFood.id,
+              meal_id: selectedFood.userMealId, // userMealId == primarykey
             },
           });
         }}
@@ -54,11 +54,11 @@ const EditSpeedDialGroup = props => {
           analytics().logEvent('edit_meal', {
             type: COPY_MODE,
           });
-          changeType({ mode: COPY_MODE, meal_id: selectedFood.id });
+          changeType({ mode: COPY_MODE, meal_id: selectedFood.userMealId });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              meal_id: selectedFood.id,
+              meal_id: selectedFood.userMealId,
               type: COPY_MODE,
             },
           });
