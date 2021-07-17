@@ -20,9 +20,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   const [tir, setTir] = useState(null);
 
   useEffect(() => {
-    console.log("MEALID ",props.item.userMealId)
     if (props.item.cgmData) {
-    //  console.log('props.item.cgmData,', props.item.cgmData);
       const parsedData = JSON.parse(props.item.cgmData);
       const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
       setTir(timeInRange); // string with tir description and calculation

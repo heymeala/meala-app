@@ -399,8 +399,11 @@ export const database = {
       .then(realm => {
         const glucoseSource = realm.objects('Settings').filtered('id = "glucoseSource"');
         if (typeof glucoseSource[0] !== 'undefined') {
+          console.log("glucoseSource", glucoseSource)
+
           return glucoseSource[0].glucoseSource;
         } else {
+          console.log(" null glucoseSource", glucoseSource)
           return null;
         }
       })
