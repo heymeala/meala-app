@@ -14,7 +14,7 @@ const RightAnswerInfo = props => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.htmlContainer}>
-        <Text></Text>
+        <Text h2>{t('Quiz.infoScreenTitle')}</Text>
         <FadeInView>
           {infoText ? (
             <HTML baseFontStyle={styles.html} source={{ html: infoText }} contentWidth={contentWidth} />

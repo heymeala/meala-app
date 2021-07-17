@@ -233,6 +233,7 @@
     "again": "Versuche es noch einmal",
     "score": "Punkte",
     "hint": "Hinweis",
+    "infoScreenTitle": "Weitere Infos zur Frage",
     "results": {
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",

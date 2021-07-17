@@ -235,6 +235,7 @@
     "again": "Try again",
     "score": "Points",
     "hint": "Hint",
+    "infoScreenTitle": "Question related information",
     "results": {
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",
