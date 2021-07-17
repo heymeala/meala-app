@@ -2,7 +2,7 @@ import PushNotification from 'react-native-push-notification';
 
 export function reminderNotification(userMealId, mealId, t, defaultMealTitle) {
   PushNotification.localNotificationSchedule({
-    date: new Date(Date.now() + 4 * 1000), // in 3 hours
+    date: new Date(Date.now() + 10950 * 1000), // in 3 hours
     /* Android Only Properties */
     channelId: 'food-reminder-channel',
     //id: userMealId,
