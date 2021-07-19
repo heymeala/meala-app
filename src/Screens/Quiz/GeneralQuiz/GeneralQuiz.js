@@ -149,6 +149,7 @@ const GeneralQuiz = props => {
     const response = await fetch('https://www.heymeala.com/wp-json/wp/v2/users/' + id);
     const author = await response.json();
     console.log(author);
+
     setCurrentAuthor(author);
   }
 
@@ -187,7 +188,11 @@ const GeneralQuiz = props => {
                   <Image
                     style={styles.profile}
                     source={{
-                      uri: currentAuthor.avatar_urls[small],
+                      uri:
+                        currentAuthor.mpp_avatar.error_data &&
+                        currentAuthor.mpp_avatar.error_data.mpp_no_profile_picture.status === 404
+                          ? currentAuthor.avatar_urls[small]
+                          : currentAuthor.mpp_avatar['48'],
                     }}
                   />
                 ) : null}
