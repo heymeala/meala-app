@@ -33,6 +33,7 @@
     "notificationLunch": "What do you have for lunch?",
     "notificationDinner": "What do you eat for dinner?",
     "tags": "Here you can see the top 8 tags - You can also search for these tags to filter meals",
+    "reminder": "Reminder in {{hours}} hours",
     "exp": "Caution experimental – Similar meals:",
     "resetTitle": "Reset?",
     "resetMessage": "Reset all fields",
@@ -388,7 +389,7 @@
       "meal": "What do you eat? ",
       "restaurant": "Where do you eat? ",
       "lable": "Press to remove the lable",
-      "add_lable": "Opens a dialog that lets you enter custom lables"
+      "add_lable": "Opens a dialog that lets you enter custom lables",
     },
     "Home": {
       "newEntry": "Add a new meal entry",

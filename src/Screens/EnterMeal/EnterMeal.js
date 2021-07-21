@@ -31,6 +31,7 @@ import uuid from 'react-native-uuid';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
+import ReminderSlider from './EnterMealComponents/ReminderSlider';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -76,6 +77,9 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [tags, setTags] = useState([]);
   const [fatSecretData, setFatSecretData] = useState(null);
   const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
+
+
+  const [value, setValue] = useState(3);
 
   React.useEffect(() => {
     if (scan === true) {
@@ -204,7 +208,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
     if (type.mode !== EDIT_MODE) {
-      reminderNotification(userMealId, mealId, t, defaultMealTitle);
+      reminderNotification(userMealId, mealId, t, defaultMealTitle, value);
       uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
     }
 
@@ -451,6 +455,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         <NoteInputField notiz={note} setNotiz={setNote} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        <ReminderSlider value={value} setValue={setValue} />
       </ScrollView>
       <FAB
         title={t('AddMeal.save')}

@@ -70,13 +70,13 @@ export const Tags = props => {
 
   return (
     <>
-      <View style={{ display: 'flex', flexDirection: 'row', padding: 8, paddingBottom: 80 }}>
+      <View style={{ display: 'flex', flexDirection: 'row', padding: 8, marginTop: 8  }}>
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"
           accessibilityHint={t('Accessibility.EnterMeal.add_lable')}
           accessibilityLabel={t('Accessibility.EnterMeal.addTag')}
-          style={{ ...styles.openButton }}
+          style={{ ...styles.openButton, marginRight:12 }}
           onPress={() => setVisible(true)}>
           <Icon name={'add'} color={'#fff'} />
         </TouchableOpacity>

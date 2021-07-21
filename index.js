@@ -34,15 +34,11 @@ AppRegistry.registerComponent(appName, () => {
         }
       }
 
-      if (notification.channelId === 'food-reminder-channel') {
+      if (notification.data.screen === 'EnterMealStack' && notification.userInteraction) {
         RootNavigation.navigate('Home', {
           screen: 'MealDataCollector',
           params: { userMealId: notification.data.userMealId },
         });
-      }
-      //todo: stack navigation
-      if (notification.channelId === 'knowledge') {
-        RootNavigation.navigate('QuizStack', { screen: 'Knowledge' });
       }
 
       // process the notification

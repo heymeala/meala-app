@@ -9,7 +9,7 @@ import MealList from './MealList';
 import { spacing } from '../../theme/styles';
 import FirstOpenDialog from '../FirstOpenDialog';
 import RestaurantList from './RestaurantList';
-import messaging from "@react-native-firebase/messaging";
+import messaging from '@react-native-firebase/messaging';
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -36,7 +36,7 @@ const MealSearchController = () => {
   };
 
   useEffect(() => {
-/*
+    /*
     getFcmToken();
 */
 

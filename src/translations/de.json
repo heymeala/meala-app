@@ -33,6 +33,7 @@
     "notificationLunch": "Was isst Du zum Mittagessen?",
     "notificationDinner": "Was gab es zum Abendessen?",
     "tags": "Folgende Markierungen haben wir am häufigsten in Deinen Mahlzeiten gefunden. Nach diesen Begriffen kannst Du übrigens auch suchen.",
+    "reminder": "Erinnerung in {{hours}} Stunden",
     "exp": "Experimentell – Ähnliche Gerichte:",
     "resetTitle": "Zurücksetzen?",
     "resetMessage": "Alle Felder werden zurückgesetzt",
@@ -382,7 +383,7 @@
       "meal": "Was hast Du gegessen? ",
       "restaurant": "Wo isst Du Deine Mahlzeit? ",
       "lable": "Drücken um dieses Markierung zu entfernen",
-      "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann"
+      "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann",
     },
     "Home": {
       "newEntry": "Neuen Mahlzeit Eintrag erstellen",
