@@ -2,7 +2,7 @@
  * @format
  */
 
-import { AppRegistry } from 'react-native';
+import { Alert, AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 import messaging from '@react-native-firebase/messaging';
@@ -25,16 +25,24 @@ AppRegistry.registerComponent(appName, () => {
 
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
-      console.log('NOTIFICATION:', notification);
-      console.log(notification.data.screen);
+      console.log('ON NOTIFICATION:', notification);
+
+      if (notification.data.screen && !notification.foreground && notification.userInteraction) {
+        RootNavigation.navigate(notification.data.screen);
+        if (notification.data.message) {
+          Alert.alert('', notification.data.message);
+        }
+      }
+
       if (notification.channelId === 'food-reminder-channel') {
         RootNavigation.navigate('Home', {
           screen: 'MealDataCollector',
           params: { userMealId: notification.data.userMealId },
         });
       }
+      //todo: stack navigation
       if (notification.channelId === 'knowledge') {
-        RootNavigation.navigate('SettingsStack');
+        RootNavigation.navigate('QuizStack', { screen: 'Knowledge' });
       }
 
       // process the notification
