@@ -13,6 +13,7 @@ import RightAnswerInfo from './RightAnswerInfo';
 import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from '../GameSounds';
 import GeneralQuizFinish from './GeneralQuizFinish';
 import { useRoute } from '@react-navigation/core';
+import { database } from '../../../Common/database_realm';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -62,8 +63,9 @@ const GeneralQuiz = props => {
     setAnswer(userAnswer);
 
     if (userAnswer) {
-      setValidatedRight(true);
       playRightAnswerSound();
+      database.addCommunityQuizAnswer(quizData.current[step].id, tries).then(x => console.log(x));
+      setValidatedRight(true);
       timeOut.current = setTimeout(() => {
         setShowAnswerInformation(true);
       }, timer);

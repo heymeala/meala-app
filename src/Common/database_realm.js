@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  CommunityQuiz,
   FatSecretFoodEntryIdsSchema,
   MealSchema,
   ProfileSchema,
@@ -7,6 +8,7 @@ import {
   SettingsSchemaV3,
   tagsSchema,
 } from './Constants/realmSchema';
+import uuid from 'react-native-uuid';
 
 const Realm = require('realm');
 // Define your models and their properties
@@ -20,9 +22,10 @@ export const database = {
       tagsSchema,
       ProfileSchema,
       FatSecretFoodEntryIdsSchema,
+      CommunityQuiz,
     ],
 
-    schemaVersion: 38,
+    schemaVersion: 39,
     migration: (oldRealm, newRealm) => {
       if (oldRealm.schemaVersion < 32) {
         const oldObjects = oldRealm.objects('Settings');
@@ -516,6 +519,22 @@ export const database = {
             treatmentsData: JSON.stringify(treatmentsData),
           },
           true,
+        );
+      });
+    });
+  },
+  addCommunityQuizAnswer: (questionId, tries) => {
+    return database._open.then(realm => {
+      realm.write(() => {
+        realm.create(
+          'CommunityQuiz',
+          {
+            id: uuid.v4().toString(),
+            date: new Date(),
+            questionId: questionId.toString(),
+            tries: tries,
+          },
+          false,
         );
       });
     });

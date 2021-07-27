@@ -40,6 +40,17 @@ export const FatSecretFoodEntryIdsSchema = {
   },
 };
 
+export const CommunityQuiz = {
+  name: 'CommunityQuiz',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    date: 'date',
+    questionId: 'string',
+    tries: 'int',
+  },
+};
+
 // https://realm.io/docs/javascript/latest/api/tutorial-query-language.html  linking objects
 
 export const RestaurantSchema = {
