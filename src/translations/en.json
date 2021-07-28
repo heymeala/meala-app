@@ -244,7 +244,6 @@
       "zero": "{{count}} right answers"
     },
     "quote": "Those who know nothing must believe everything.",
-
     "guide": "Guide",
     "guide_desc": "knowledge is power",
     "community_quiz_desc": "Question from and for the community",
@@ -252,13 +251,13 @@
     "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
     "community": {
       "title": "Choose a Quiz Category",
-
       "next": "next",
       "well_done": "Well done, lets move on.",
       "by": "by",
-      "random": "Random Questions"
-
-
+      "random": "Random Questions",
+      "reset": "reset all answers",
+      "back": "back to overview",
+      "answered": "You have answered all available questions on this topic. However, we are constantly expanding the quiz so there will be more questions soon. If you'd like to add some questions of your own to the community quiz, feel free to Insta or email us."
     }
   },
   "Settings": {
@@ -389,7 +388,7 @@
       "meal": "What do you eat? ",
       "restaurant": "Where do you eat? ",
       "lable": "Press to remove the lable",
-      "add_lable": "Opens a dialog that lets you enter custom lables",
+      "add_lable": "Opens a dialog that lets you enter custom lables"
     },
     "Home": {
       "newEntry": "Add a new meal entry",

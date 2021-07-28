@@ -25,7 +25,7 @@ export const database = {
       CommunityQuiz,
     ],
 
-    schemaVersion: 39,
+    schemaVersion: 40,
     migration: (oldRealm, newRealm) => {
       if (oldRealm.schemaVersion < 32) {
         const oldObjects = oldRealm.objects('Settings');
@@ -455,7 +455,6 @@ export const database = {
   deleteRestaurant: () => {
     return database._open.then(realm => {
       realm.write(() => {
-        // Create a book object
         realm.delete(realm.objects('Restaurant').filtered('isDeleted == true'));
       });
     });
@@ -523,7 +522,7 @@ export const database = {
       });
     });
   },
-  addCommunityQuizAnswer: (questionId, tries) => {
+  addCommunityQuizAnswer: (questionId, tries, categoryId) => {
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(
@@ -531,11 +530,25 @@ export const database = {
           {
             id: uuid.v4().toString(),
             date: new Date(),
+            categoryId: categoryId,
             questionId: questionId.toString(),
             tries: tries,
           },
           false,
         );
+      });
+    });
+  },
+  getCommunityQuizAnswers: () => {
+    return database._open.then(realm => {
+      const CommunityQuiz = realm.objects('CommunityQuiz');
+      return CommunityQuiz;
+    });
+  },
+  deleteCommunityQuizAnswers: () => {
+    return database._open.then(realm => {
+      realm.write(() => {
+        realm.delete(realm.objects('CommunityQuiz'));
       });
     });
   },

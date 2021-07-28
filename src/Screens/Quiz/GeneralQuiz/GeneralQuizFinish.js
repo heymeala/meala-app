@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
-import { makeStyles, Text } from 'react-native-elements';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import LottieView from 'lottie-react-native';
 import winner from '../../../assets/animations/quiz/winner.json';
 import { calculateScore } from '../calculateScore';
 import analytics from '@react-native-firebase/analytics';
+import { useNavigation } from '@react-navigation/core';
 
 const GeneralQuizFinish = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -14,7 +15,8 @@ const GeneralQuizFinish = props => {
   const contentWidth = useWindowDimensions().width;
   const tries = answeredQuestions.map(data => data.tries);
   const score = useMemo(() => calculateScore(tries), []);
-  console.log(answeredQuestions);
+ // console.log(answeredQuestions);
+  const navigation = useNavigation();
 
   useEffect(() => {
     analytics().logEvent('quiz_result', {
@@ -48,6 +50,9 @@ const GeneralQuizFinish = props => {
           </View>
         );
       })}
+      <View style={styles.back}>
+        <Button onPress={() => navigation.goBack()} title={t('Quiz.community.back')} />
+      </View>
     </ScrollView>
   );
 };
@@ -57,4 +62,5 @@ export default GeneralQuizFinish;
 const useStyles = makeStyles(theme => ({
   container: { padding: theme.spacing.M },
   text: { textAlign: 'center', margin: 12 },
+  back: { margin: theme.spacing.M },
 }));

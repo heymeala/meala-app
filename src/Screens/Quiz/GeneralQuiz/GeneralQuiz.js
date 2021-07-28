@@ -14,6 +14,8 @@ import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from 
 import GeneralQuizFinish from './GeneralQuizFinish';
 import { useRoute } from '@react-navigation/core';
 import { database } from '../../../Common/database_realm';
+import { calculateScore } from '../calculateScore';
+import SettingsFooter from '../../Settings/Footer';
 
 const GeneralQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -39,16 +41,37 @@ const GeneralQuiz = props => {
   const timeOut = useRef(null);
   const timer = 1500;
 
+  const [totalScore, setTotalScore] = useState(null);
+
   const small = '48';
   useEffect(() => {
-    generalQuizApi(locale, categoryId).then(data => {
-      quizData.current = categoryId === 'random' ? shuffle(data).slice(0, 5) : data;
-      // console.log(quizData.current);
-      randomAnswers(step);
-      getAuthor(quizData.current[step].author);
+    const generateQuiz = async () => {
+      const localQuizData = await database.getCommunityQuizAnswers();
+      const tries = localQuizData.map(data => data.tries);
+      const score = calculateScore(tries);
+      setTotalScore(score);
+      const localQuizIds = localQuizData.map(data => data.questionId.toString());
+      const remoteQuizData = await generalQuizApi(locale, categoryId);
+
+      const filteredRemoteQuizData = remoteQuizData
+        .map(data => {
+          if (localQuizIds.includes(data.id.toString())) {
+            return { ...data, exists: true };
+          } else {
+            return { ...data, exists: false };
+          }
+        })
+        .filter(data => !data.exists);
+      quizData.current =
+        categoryId === 'random' ? shuffle(remoteQuizData).slice(0, 5) : filteredRemoteQuizData;
+
+      if (quizData.current.length > 0) {
+        randomAnswers(step);
+        getAuthor(quizData.current[step].author);
+      }
       setLoading(false);
-      //  nextQuestion();
-    });
+    };
+    generateQuiz();
   }, []);
 
   useEffect(() => {
@@ -64,7 +87,15 @@ const GeneralQuiz = props => {
 
     if (userAnswer) {
       playRightAnswerSound();
-      database.addCommunityQuizAnswer(quizData.current[step].id, tries).then(x => console.log(x));
+      if (categoryId !== 'random') {
+        database
+          .addCommunityQuizAnswer(
+            quizData.current[step].id,
+            tries,
+            quizData.current[step].quiz_category[0].toString(),
+          )
+          .then(x => console.log(x));
+      }
       setValidatedRight(true);
       timeOut.current = setTimeout(() => {
         setShowAnswerInformation(true);
@@ -166,9 +197,18 @@ const GeneralQuiz = props => {
     }
   }
 
+  if (quizData.current && !loading && quizData.current.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text h3>{t('Quiz.community.answered')}</Text>
+        <SettingsFooter />
+      </View>
+    );
+  }
+
   return (
     <>
-      {quizData.current && !loading && step <= quizData.current.length ? (
+      {quizData.current && !loading && step <= quizData.current.length && quizData.current.length > 0 ? (
         <>
           <ScrollView contentContainerStyle={styles.container}>
             {quizData.current[step].acf.image.url && (

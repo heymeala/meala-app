@@ -48,6 +48,7 @@ export const CommunityQuiz = {
     date: 'date',
     questionId: 'string',
     tries: 'int',
+    categoryId: 'string',
   },
 };
 
