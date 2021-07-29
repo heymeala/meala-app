@@ -171,8 +171,9 @@
       "openLibre": "Öffne die Libre App",
       "differentImage": "Anderes Libre Bild auswählen",
       "addImage": "Füge Libre Daten hinzu",
-      "stepOne": "1. Öffne deine Libre App. Gehe auf das Tages-Diagram und speichere es als Bild",
-      "stepTwo": "2. Wenn du das Tages-Diagram gespeichert hast, wähle das Bild hier aus",
+      "stepOne": "1. Öffne deine Libre App. Gehe auf das Tages-Diagramm und speichere es als Bild",
+      "stepTwo": "2. Wenn du das Tages-Diagramm gespeichert hast, wähle das Bild hier aus",
+      "errorMessage": "Da ist etwas nicht richtig. Hast du ein Libre-Tages-Diagramm hochgeladen? Versuche es noch einmal",
       "loading": "Komplexe Datenanalyse \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB bitte warte kurz"
     }
   },
@@ -265,6 +266,9 @@
       "random": "Zufällige Fragen",
       "reset": "alle Antworten zurücksetzen",
       "back": "zur Übersicht",
+      "share": "Teile deine Punktzahl",
+      "outOf": "von",
+      "shareMessage": "Hey, ich habe das meala Quiz entdeckt und bereits  {{score}} Punkte. Wie viel schaffst du? Die App findest du hier: https://heymeala.com/de",
       "answered": "Du hast alle verfügbaren Fragen zu diesem Thema beantwortet. Wir erweitern das Quiz jedoch ständig, sodass es bald weitere Fragen gibt. Wenn Du selber ein paar Fragen zum Community Quiz hinzufügen möchtest, schreibe uns gerne per Insta oder E-Mail."
     }
   },

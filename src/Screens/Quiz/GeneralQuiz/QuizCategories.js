@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, ScrollView, View } from 'react-native';
-import { Badge, ListItem, makeStyles, Text, useTheme } from 'react-native-elements';
+import { ScrollView, Share, View } from 'react-native';
+import { Badge, Button, ListItem, makeStyles, Text, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { quizCategoriesApi } from '../generalQuizApi';
 import { useNavigation } from '@react-navigation/core';
 import { database } from '../../../Common/database_realm';
 import { calculateScore } from '../calculateScore';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
+import analytics from '@react-native-firebase/analytics';
 
 const QuizCategories = props => {
   const styles = useStyles();
@@ -27,13 +28,44 @@ const QuizCategories = props => {
     });*/
   }, []);
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: t('Quiz.community.shareMessage', { score: totalScore.score }),
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+          analytics().logEvent('community_quiz_score_shared', {
+            totalScore: totalScore.score,
+            sharedAction: 'sharedAction',
+          });
+        } else {
+          // shared
+          analytics().logEvent('community_quiz_score_shared', {
+            totalScore: totalScore.score,
+            sharedAction: 'shared',
+          });
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        analytics().logEvent('community_quiz_score_shared', {
+          totalScore: totalScore.score,
+          sharedAction: 'dismissed',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const CommunityQuiz = async () => {
     const localQuizData = await database.getCommunityQuizAnswers();
     const remoteQuizData = await quizCategoriesApi(locale);
 
     const tries = localQuizData.map(data => data.tries);
     const score = calculateScore(tries);
-    setTotalScore(score);
+    setTotalScore({ score: score, tries: tries.length * 10 });
 
     const localCategoryIds = localQuizData.map(item => item.categoryId);
     const filteredRemoteQuizData = remoteQuizData.map(item => {
@@ -97,14 +129,20 @@ const QuizCategories = props => {
             </ListItem>
           );
         })}
-      {totalScore > 0 && (
+      {totalScore.score > 0 && (
         <View style={styles.button}>
           <Text h4>Community Quiz </Text>
           <Text h4>Gesamtpunktzahl</Text>
           <Text h1 h1Style={styles.score}>
-            {totalScore}
+            {totalScore.score} {t('Quiz.community.outOf')} {totalScore.tries}
           </Text>
+          <Button onPress={onShare} title={t('Quiz.community.share')} />
+
           <Button
+            type="clear"
+            containerStyle={{ marginVertical: 60 }}
+            titleStyle={{ color: theme.colors.error }}
+            buttonStyle={{ backgroundColor: 'transparent' }}
             title={t('Quiz.community.reset')}
             onPress={() => {
               database.deleteCommunityQuizAnswers();
