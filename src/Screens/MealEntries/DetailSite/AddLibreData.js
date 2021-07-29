@@ -115,7 +115,7 @@ const AddLibreData = props => {
   return (
     <>
       {userSettings.glucoseSource === LIBRETWOAPP && (
-        <View style={{ padding: 8 }}>
+        <View style={styles.button}>
           <Button
             title={
               props.coordinates && props.coordinates.length > 0
@@ -134,8 +134,9 @@ const AddLibreData = props => {
         overlayStyle={styles.overlay}>
         <SafeAreaView>
           <View style={styles.container}>
-            <Text h3></Text>
-            <Button title={t('Entries.libre.stepOne')} onPress={() => open()} />
+            <Text h2>{t('Entries.libre.title')}</Text>
+            <Text h3>{t('Entries.libre.stepOne')}</Text>
+            <Button title={t('Entries.libre.openLibre')} onPress={() => open()} />
             <Text h3>{t('Entries.libre.stepTwo')}</Text>
             {loading && <Text>{t('Entries.libre.loading')}</Text>}
             <Button
@@ -160,5 +161,6 @@ export default AddLibreData;
 
 const useStyles = makeStyles(theme => ({
   overlay: {},
+  button: { padding: 8, alignItems: 'center' },
   container: { height: '100%', justifyContent: 'space-evenly', alignItems: 'center' },
 }));

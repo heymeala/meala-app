@@ -166,13 +166,14 @@
     "informationFrom": "Information von",
     "details": "Details",
     "libre": {
+      "title": "Libre Daten Import",
       "chooseImage": "Wähle das Bild vom ",
       "openLibre": "Öffne die Libre App",
       "differentImage": "Anderes Libre Bild auswählen",
       "addImage": "Füge Libre Daten hinzu",
-      "stepOne": "Open your Libre App and save the daily graph image.",
-      "stepTwo": "Afterwards you need to load it into this app",
-      "loading": "Complex image analysis \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB"
+      "stepOne": "1. Öffne deine Libre App. Gehe auf das Tages-Diagram und speichere es als Bild",
+      "stepTwo": "2. Wenn du das Tages-Diagram gespeichert hast, wähle das Bild hier aus",
+      "loading": "Komplexe Datenanalyse \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB bitte warte kurz"
     }
   },
   "GI": {
