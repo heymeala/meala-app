@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Share, View } from 'react-native';
 import { Badge, Button, ListItem, makeStyles, Text, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
@@ -12,7 +12,7 @@ import analytics from '@react-native-firebase/analytics';
 const QuizCategories = props => {
   const styles = useStyles();
   const { t, locale } = React.useContext(LocalizationContext);
-  const quizData = useRef(null);
+  const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [totalScore, setTotalScore] = useState(null);
   const { theme } = useTheme();
@@ -79,7 +79,7 @@ const QuizCategories = props => {
     });
     //  console.log(filteredRemoteQuizData);
 
-    quizData.current = filteredRemoteQuizData;
+    setQuizData(filteredRemoteQuizData);
     setLoading(false);
   };
 
@@ -101,7 +101,7 @@ const QuizCategories = props => {
         <Badge value={'5'} />
         <ListItem.Chevron />
       </ListItem>
-      {quizData.current
+      {quizData
         .filter(data => data.count > 0)
         .map((item, i) => {
           return (
