@@ -18,6 +18,7 @@ import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
 import { spacing } from '../../../theme/styles';
 import Tags from './Tags';
+import AddLibreData from './AddLibreData';
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -67,6 +68,7 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
+        <AddLibreData />
         <View>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <ListItem containerStyle={styles.list}>
@@ -125,5 +127,5 @@ const useStyles = makeStyles((theme, dimension) => ({
   list: {
     backgroundColor: theme.colors.secondary,
   },
-  text: { fontFamily: 'SecularOne-Regular', fontSize: 13, maxWidth:"90%"},
+  text: { fontFamily: 'SecularOne-Regular', fontSize: 13, maxWidth: '90%' },
 }));

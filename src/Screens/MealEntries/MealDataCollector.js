@@ -46,9 +46,9 @@ const MealDataCollector = props => {
         userSettings,
         settings,
         setCoordinates,
-        setDateStrings,
-        setDates,
-        setSugar,
+       // setDateStrings,
+        //setDates,
+       // setSugar,
         setCarbs,
         setInsulin,
         setTreatments,
@@ -68,11 +68,11 @@ const MealDataCollector = props => {
           carbCoordinates={carbCoordinates}
           selectedFood={selectedFood}
           insulinCoordinates={insulinCoordinates}
-          sugar={sugar}
-          dates={dates}
+          //   sugar={sugar}
+          //   dates={dates}
           carbs={carbs}
           insulin={insulin}
-          dateStrings={dateStrings}
+         // dateStrings={dateStrings}
           coordinates={coordinates}
           restaurantName={restaurantName}
           loading={loading}

@@ -412,11 +412,10 @@ export const database = {
       });
   },
 
-  getCgmData: (date, id) => {
+  getCgmData: (id) => {
     return database._open
       .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
-
         return Meal[0].cgmData;
       })
       .catch(error => {

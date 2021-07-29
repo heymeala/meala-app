@@ -1,4 +1,4 @@
-import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
+import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
 import { filterCoordinates, mapUnit } from './DetailSite/filterCoordinates';
 import AppleHealthKit from 'react-native-health';
@@ -6,15 +6,16 @@ import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
 import { permissions } from './DetailSite/HealthKitPermissions';
 import { Platform } from 'react-native';
+import { database } from '../../Common/database_realm';
 
 export async function loadSugarData(
   mealData,
   userSettings,
   settings,
   setCoordinates,
-  setDateStrings,
-  setDates,
-  setSugar,
+  //setDateStrings,
+  //setDates,
+  //setSugar,
   setCarbs,
   setInsulin,
   setTreatments,
@@ -25,11 +26,12 @@ export async function loadSugarData(
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
+
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
-    const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
-    const nsSugarDates = nsSugarData.map(data => data.date);
-    const foodDataString = nsSugarData.map(data => data.dateString);
+    // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
+    //  const nsSugarDates = nsSugarData.map(data => data.date);
+    // const foodDataString = nsSugarData.map(data => data.dateString);
     const glucoseCoordinates = nsSugarData.map(data => {
       const glucoseValueDate = new Date(data.date);
       return {
@@ -38,9 +40,9 @@ export async function loadSugarData(
       };
     });
     setCoordinates(glucoseCoordinates);
-    setDateStrings(foodDataString);
-    setDates(nsSugarDates);
-    setSugar(nsSugarSGV);
+    //setDateStrings(foodDataString);
+    // setDates(nsSugarDates);
+    // setSugar(nsSugarSGV);
 
     const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
 
@@ -127,6 +129,20 @@ export async function loadSugarData(
         });
       }
     });
+    setLoading(false);
+  } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
+    const localCGMData = await database.getCgmData(id);
+    if (localCGMData.length > 0) {
+      const jsonLocalCGMData = JSON.parse(localCGMData);
+      const glucoseCoordinates = jsonLocalCGMData.map(data => {
+        const glucoseValueDate = new Date(data.date);
+        return {
+          x: glucoseValueDate,
+          y: data.sgv / settings.unit,
+        };
+      });
+      setCoordinates(glucoseCoordinates);
+    }
     setLoading(false);
   } else {
     setLoading(false);

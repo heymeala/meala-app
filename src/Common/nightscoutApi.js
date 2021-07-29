@@ -10,10 +10,9 @@ let waitDate = newDate.subtract(3, 'hours');
 export async function nightscoutCall(date, id) {
   const fromDateInput = date;
   const tillDateInput = date;
-  const getCGMDate = date;
 
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
-  return database.getCgmData(moment(getCGMDate).toISOString(), id).then(cgm => {
+  return database.getCgmData(id).then(cgm => {
     if (cgm === 'null' || cgm === null) {
       return database
         .getSettings()
