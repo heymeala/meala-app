@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
-import { Button, Text } from 'react-native-elements';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import { spacing } from '../../theme/styles';
 import RNFetchBlob from 'rn-fetch-blob';
 import { IMAGECONVERTER_API } from '@env';
@@ -17,6 +17,7 @@ const Libre = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { userSettings, saveUserSettings } = useUserSettings();
+  const styles = useStyles();
 
   const saveState = () => {
     analytics().logEvent('glucose_source', {
@@ -95,28 +96,37 @@ const Libre = () => {
 
   return (
     <View style={styles.container}>
+      <View>
       <Text h2>{t('Settings.Libre.text')}</Text>
       <Text h3>{t('Settings.Libre.description')}</Text>
-      <Button
-        title={userSettings.glucoseSource === LIBRETWOAPP ? t('General.activate') : t('General.deactivate')}
-        onPress={() => (userSettings.glucoseSource === LIBRETWOAPP ? removeGlucoseSource() : saveState())}
-      />
+      <Text h4 h4Style={styles.h4}>{t('Settings.Libre.instructions')}</Text>
+      </View>
+      <View style={styles.button}>
+        <Button
+          title={userSettings.glucoseSource === LIBRETWOAPP ? t('General.deactivate') : t('General.activate')}
+          onPress={() => (userSettings.glucoseSource === LIBRETWOAPP ? removeGlucoseSource() : saveState())}
+        />
+      </View>
     </View>
   );
 };
 
 export default Libre;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     flexGrow: 1,
-    padding: spacing.M,
+    padding: spacing.L,
     flexDirection: 'column',
-    justifyContent: 'center',
+      justifyContent: 'space-between',
   },
   padding: {
     padding: 12,
     fontSize: 18,
     alignItems: 'center',
   },
-});
+  button: { marginVertical: theme.spacing.L },
+  h4:{marginTop:theme.spacing.L, color: theme.colors.error}
+}));
+
+

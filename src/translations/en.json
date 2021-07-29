@@ -349,6 +349,7 @@
       "name": "Libre",
       "text": "Import Libre Data",
       "description": "Activate the Libre Importer if you use the Libre App.",
+      "instructions": "Caution: data may differ when imported, this information may not be used for medical purposes.",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
     },

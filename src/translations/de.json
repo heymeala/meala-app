@@ -347,6 +347,7 @@
       "name": "Libre",
       "text": "Libre Daten importieren",
       "description": "Aktiviere den Libre Importer, wenn du die Libre App nutzt.",
+      "instructions": "Achtung: Die Daten können nach dem Import abweichen, diese Informationen dürfen nicht für medizinische Zwecke genutzt werden. ",
       "button": "Mehr über Nightscout",
       "link": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html"
     },
