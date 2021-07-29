@@ -27,6 +27,9 @@ export async function loadSugarData(
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
 
+  const tillDate = moment(foodDate).add(3, 'hours').toISOString();
+  const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
     // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
@@ -64,8 +67,6 @@ export async function loadSugarData(
   } else if (userSettings && userSettings.glucoseSource === HEALTHKIT) {
     setTreatments(null);
     setInsulinCoordinates(null);
-    const tillDate = moment(foodDate).add(3, 'hours').toISOString();
-    const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
@@ -134,13 +135,19 @@ export async function loadSugarData(
     const localCGMData = await database.getCgmData(id);
     if (localCGMData.length > 0) {
       const jsonLocalCGMData = JSON.parse(localCGMData);
-      const glucoseCoordinates = jsonLocalCGMData.map(data => {
-        const glucoseValueDate = new Date(data.date);
-        return {
-          x: glucoseValueDate,
-          y: data.sgv / settings.unit,
-        };
-      });
+      const glucoseCoordinates = jsonLocalCGMData
+        .filter(data => {
+          const start = new Date(fromDate).getTime();
+          const end = new Date(tillDate).getTime();
+          return data.date > start && data.date < end;
+        })
+        .map(data => {
+          const glucoseValueDate = new Date(data.date);
+          return {
+            x: glucoseValueDate,
+            y: data.sgv / settings.unit,
+          };
+        });
       setCoordinates(glucoseCoordinates);
     }
     setLoading(false);

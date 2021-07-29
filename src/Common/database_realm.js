@@ -487,7 +487,7 @@ export const database = {
       });
     });
   },
-  editMealCgmData: (date, cgmData, id) => {
+  editMealCgmData: (cgmData, id) => {
     return database._open.then(realm => {
       //  let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {
@@ -499,8 +499,7 @@ export const database = {
           },
           true,
         );
-
-        console.log('REALM DATABASE - editMealCGM' + date);
+        console.log('REALM DATABASE - editMealCGM');
       });
     });
   },

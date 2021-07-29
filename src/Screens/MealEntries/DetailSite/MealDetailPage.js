@@ -68,7 +68,7 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <AddLibreData />
+        <AddLibreData date={foodDatum} userMealId={props.selectedFood.userMealId} />
         <View>
           {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
             <ListItem containerStyle={styles.list}>

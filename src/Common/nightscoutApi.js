@@ -37,7 +37,7 @@ export async function nightscoutCall(date, id) {
         .then(data => {
           // add data from nightscout  to offline realm database after 3hours
           if (waitDate.valueOf() >= date.getTime()) {
-            database.editMealCgmData(date, data, id);
+            database.editMealCgmData(data, id);
           }
           return data.reverse();
         });
