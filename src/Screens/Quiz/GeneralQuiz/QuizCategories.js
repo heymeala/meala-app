@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView, Share, View } from 'react-native';
 import { Badge, Button, ListItem, makeStyles, Text, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
@@ -18,14 +18,13 @@ const QuizCategories = props => {
   const { theme } = useTheme();
   const navigation = useNavigation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     CommunityQuiz();
+    const willFocusSubscription = navigation.addListener('focus', () => {
+      CommunityQuiz();
+    });
 
-    /*    quizCategoriesApi(locale).then(data => {
-      quizData.current = data;
-      console.log(quizData.current);
-      setLoading(false);
-    });*/
+    return willFocusSubscription;
   }, []);
 
   const onShare = async () => {
