@@ -7,7 +7,7 @@ import { spacing } from '../../theme/styles';
 import SettingsListItem from './SettingsListItem';
 import SettingsFooter from './Footer';
 import { useUserSettings } from '../../hooks/useUserSettings';
-import { HEALTHKIT, NIGHTSCOUT } from './glucoseSourceConstants';
+import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from './glucoseSourceConstants';
 
 const SettingsOverview = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -30,17 +30,27 @@ const SettingsOverview = props => {
       title: t('Settings.source'),
       data: [
         {
+          id: HEALTHKIT,
           name: t('Settings.healthKit.name'),
           link: 'HealthKitScreen',
           icon: 'heart',
           active: userSettings.glucoseSource === HEALTHKIT,
         },
         {
+          id: NIGHTSCOUT,
           name: 'Nightscout',
           icon: 'nightscout',
           iconType: 'meala',
           link: 'DataSourceScreen',
           active: userSettings.glucoseSource === NIGHTSCOUT,
+        },
+        {
+          id: LIBRETWOAPP,
+          name: t('Settings.Libre.name'),
+          icon: 'libre',
+          iconType: 'meala',
+          link: 'Libre',
+          active: userSettings.glucoseSource === LIBRETWOAPP,
         },
         {
           name: 'FatSecret',
@@ -57,12 +67,6 @@ const SettingsOverview = props => {
           icon: 'dexcom',
           iconType: 'meala',
           link: 'Dexcom',
-        },
-        {
-          name: t('Settings.Libre.name'),
-          icon: 'libre',
-          iconType: 'meala',
-          link: 'Libre',
         },
       ],
     },

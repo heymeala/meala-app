@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View } from 'react-native';
-import { Button, makeStyles, Overlay } from 'react-native-elements';
+import { Linking, Platform, SafeAreaView, View } from 'react-native';
+import { Button, makeStyles, Overlay, Text } from 'react-native-elements';
 import { LIBRETWOAPP } from '../../Settings/glucoseSourceConstants';
 import LocalizationContext from '../../../../LanguageContext';
 import { useUserSettings } from '../../../hooks/useUserSettings';
@@ -10,6 +10,7 @@ import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../../Common/PermissionAlert';
 import uuid from 'react-native-uuid';
 import { database } from '../../../Common/database_realm';
+import moment from 'moment';
 
 const AddLibreData = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -20,10 +21,10 @@ const AddLibreData = props => {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState(false);
   useEffect(() => {
-      if (chartImage && chartImage.length > 0) {
-    uploadImage();
+    if (chartImage && chartImage.length > 0) {
+      uploadImage();
     }
   }, [chartImage]);
 
@@ -86,37 +87,69 @@ const AddLibreData = props => {
     )
       .then(response => response.json())
       .then(result => {
+        setErrorMessage(false);
+
         console.log(result);
         const chartData = result.map(getTimeLine);
         setData(chartData);
         database.editMealCgmData(chartData, props.userMealId);
         setLoading(false);
+        setIsVisible(false);
+        props.reloadData();
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {
+        setLoading(false);
+        setErrorMessage(true);
+        console.log('error', error);
+      });
+  }
+
+  function open() {
+    Linking.openURL(
+      Platform.OS === 'ios'
+        ? 'https://apps.apple.com/app/freestyle-librelink-de/id1292420160'
+        : 'https://play.google.com/store/apps/details?id=com.freestylelibre.app.de',
+    );
   }
 
   return (
     <>
       {userSettings.glucoseSource === LIBRETWOAPP && (
         <View style={{ padding: 8 }}>
-          <Button title={'Füge deine Libre Daten hinzu'} onPress={() => setIsVisible(true)} />
+          <Button
+            title={
+              props.coordinates && props.coordinates.length > 0
+                ? t('Entries.libre.differentImage')
+                : t('Entries.libre.addImage')
+            }
+            onPress={() => setIsVisible(true)}
+          />
         </View>
       )}
       <Overlay
         isVisible={isVisible}
         windowBackgroundColor="rgba(255, 255, 255, .5)"
         fullScreen={true}
-        title={'Change Time'}
+        title={'Libre'}
         overlayStyle={styles.overlay}>
         <SafeAreaView>
-          <Button loading={loading} title={'Select Libre Chart'} onPress={() => selectLibraryTapped()} />
-          {chartImage && <Button loading={loading} title={'🧚🏼'} onPress={() => uploadImage()} />}
-          <Button
-            type={'clear'}
-            buttonStyle={{ backgroundColor: 'transparent' }}
-            onPress={() => setIsVisible(false)}
-            title={t('General.close')}
-          />
+          <View style={styles.container}>
+            <Text h3></Text>
+            <Button title={t('Entries.libre.stepOne')} onPress={() => open()} />
+            <Text h3>{t('Entries.libre.stepTwo')}</Text>
+            {loading && <Text>{t('Entries.libre.loading')}</Text>}
+            <Button
+              loading={loading}
+              title={t('Entries.libre.chooseImage') + moment(props.date).format('ll')}
+              onPress={() => selectLibraryTapped()}
+            />
+            <Button
+              //type={'clear'}
+              // buttonStyle={{ backgroundColor: 'transparent' }}
+              onPress={() => setIsVisible(false)}
+              title={t('General.close')}
+            />
+          </View>
         </SafeAreaView>
       </Overlay>
     </>
@@ -125,4 +158,7 @@ const AddLibreData = props => {
 
 export default AddLibreData;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+  overlay: {},
+  container: { height: '100%', justifyContent: 'space-evenly', alignItems: 'center' },
+}));

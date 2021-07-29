@@ -133,7 +133,7 @@ export async function loadSugarData(
     setLoading(false);
   } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
     const localCGMData = await database.getCgmData(id);
-    if (localCGMData.length > 0) {
+    if (localCGMData && localCGMData.length > 0) {
       const jsonLocalCGMData = JSON.parse(localCGMData);
       const glucoseCoordinates = jsonLocalCGMData
         .filter(data => {

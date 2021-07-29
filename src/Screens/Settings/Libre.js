@@ -7,7 +7,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { IMAGECONVERTER_API } from '@env';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
-import { VictoryChart, VictoryScatter } from 'victory-native';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import analytics from '@react-native-firebase/analytics';
 import { DEFAULT, LIBRETWOAPP } from './glucoseSourceConstants';
@@ -96,25 +95,12 @@ const Libre = () => {
 
   return (
     <View style={styles.container}>
-      <Text h2>Libre Daten importieren</Text>
-      <Text h3>Aktiviere den Libre Importer, wenn du die Libre App nutzt.</Text>
+      <Text h2>{t('Settings.Libre.text')}</Text>
+      <Text h3>{t('Settings.Libre.description')}</Text>
       <Button
-        title={userSettings.glucoseSource === LIBRETWOAPP ? 'Deaktivieren' : 'Aktivieren'}
+        title={userSettings.glucoseSource === LIBRETWOAPP ? t('General.activate') : t('General.deactivate')}
         onPress={() => (userSettings.glucoseSource === LIBRETWOAPP ? removeGlucoseSource() : saveState())}
       />
-
-      <Button loading={loading} title={'Select Libre Chart'} onPress={() => selectLibraryTapped()} />
-      {chartImage && <Button loading={loading} title={'🧚🏼'} onPress={() => uploadImage()} />}
-      {data && (
-        <VictoryChart>
-          <VictoryScatter style={{ data: { fill: '#373737' } }} size={3} data={data} />
-        </VictoryChart>
-      )}
-      {/*
-      <Text style={styles.padding}>{t('Settings.Libre.text')}</Text>
-
-      <Button title={t('Settings.Libre.button')} onPress={() => Linking.openURL(t('Settings.Libre.link'))} />
-      */}
     </View>
   );
 };

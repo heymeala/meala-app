@@ -4,6 +4,7 @@ import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import { Badge, Divider, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import openLink from '../../Common/InAppBrowser';
 import { useNavigation } from '@react-navigation/core';
+import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from './glucoseSourceConstants';
 
 const SettingsListItem = props => {
   const navigation = useNavigation();
@@ -11,9 +12,11 @@ const SettingsListItem = props => {
   const styles = useStyles();
 
   const successGlucoseData =
-    data.active === true && data.name === 'Nightscout'
+    data.active === true && data.id === NIGHTSCOUT
       ? 'success'
-      : data.active === true && data.name === 'HealthKit'
+      : data.active === true && data.id === HEALTHKIT
+      ? 'success'
+      : data.active === true && data.id === LIBRETWOAPP
       ? 'success'
       : data.active === false
       ? 'error'

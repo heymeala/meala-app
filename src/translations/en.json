@@ -165,7 +165,14 @@
     "fpu": " FPU: ",
     "fpu_formula": "(CCAL - (Carbohydrates*4)) /100",
     "informationFrom": "Information from",
-    "details": "Details"
+    "details": "Details",
+    "libre": {
+      "chooseImage": "Choose picture from ",
+      "openLibre": "Open the Libre App",
+      "differentImage": "Anderes Libre Bild auswählen",
+      "addImage": "Füge Libre Daten hinzu"
+
+    }
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -337,7 +344,8 @@
     },
     "Libre": {
       "name": "Libre",
-      "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
+      "text": "Import Libre Data",
+      "description": "Activate the Libre Importer if you use the Libre App.",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
     },
@@ -369,7 +377,9 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "close": "Close",
-    "back": "back"
+    "back": "back",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
   },
   "Onboarding": {
     "next": "next"

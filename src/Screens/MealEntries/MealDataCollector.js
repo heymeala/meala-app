@@ -77,6 +77,7 @@ const MealDataCollector = props => {
           restaurantName={restaurantName}
           loading={loading}
           stepsPerDay={stepsPerDay}
+          reloadData={loadData}
         />
       ) : (
         <LoadingSpinner />
