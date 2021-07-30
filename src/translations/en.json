@@ -172,8 +172,10 @@
       "openLibre": "Open the Libre App",
       "differentImage": "Choose different image ",
       "addImage": "Add Libre Data",
-      "stepOne": "1. Open your Libre App and save the daily graph image.",
-      "stepTwo": "2. Afterwards you need to load the image into this app",
+      "stepOne": "Open your Libre App and go to 'Daily Graph'",
+      "saveLibreImageOne": "Within the Libre App press the share Icon  ",
+      "saveLibreImageTwo": " and save your Daily Graph as Image",
+      "stepTwo": "Afterwards you need to load the image into this app",
       "errorMessage": "Something is wrong. Did you upload a Libre daily chart? Try again",
       "loading": "Complex image analysis \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB"
     }

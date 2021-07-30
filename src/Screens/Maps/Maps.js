@@ -67,6 +67,7 @@ const Maps = props => {
                     <Marker
                       onPress={() => setOpen(true)}
                       key={index}
+                      tracksViewChanges={false}
                       coordinate={{
                         latitude: restaurant.lat,
                         longitude: restaurant.long,
@@ -88,6 +89,7 @@ const Maps = props => {
                     <Marker
                       onPress={() => setOpen(true)}
                       key={index}
+                      tracksViewChanges={false}
                       coordinate={{
                         latitude: latitude,
                         longitude: longitude,

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, Platform, SafeAreaView, View } from 'react-native';
-import { Button, makeStyles, Overlay, Text } from 'react-native-elements';
+import { Image as RNImage, Linking, Platform, SafeAreaView, ScrollView, View } from 'react-native';
+import { Button, Icon, Image, makeStyles, Overlay, Text } from 'react-native-elements';
 import { LIBRETWOAPP } from '../../Settings/glucoseSourceConstants';
 import LocalizationContext from '../../../../LanguageContext';
 import { useUserSettings } from '../../../hooks/useUserSettings';
@@ -11,9 +11,11 @@ import PermissionAlert from '../../../Common/PermissionAlert';
 import uuid from 'react-native-uuid';
 import { database } from '../../../Common/database_realm';
 import moment from 'moment';
+import libre_de from '../../../assets/libre/libre_tagesdiagram.png';
+import libre_en from '../../../assets/libre/libre_daily_graph.png';
 
 const AddLibreData = props => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const { userSettings } = useUserSettings();
   const [isVisible, setIsVisible] = useState(false);
@@ -21,6 +23,8 @@ const AddLibreData = props => {
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const libreImage =
+    locale === 'de' ? RNImage.resolveAssetSource(libre_de).uri : RNImage.resolveAssetSource(libre_en).uri;
   useEffect(() => {
     if (chartImage && chartImage.length > 0) {
       uploadImage();
@@ -30,8 +34,7 @@ const AddLibreData = props => {
   const getTimeLine = ({ x, y }) => {
     const d = new Date(props.date);
     d.setHours(0, 0, x * 3600, 0);
-    console.log(d.toISOString());
-    console.log(d.getTime());
+
     return {
       _id: uuid.v4(),
       device: 'meala-Libre-Import',
@@ -126,25 +129,67 @@ const AddLibreData = props => {
         fullScreen={true}
         title={'Libre'}>
         <SafeAreaView>
-          <View style={styles.container}>
+          <Button
+            type={'clear'}
+            titleStyle={{ fontSize: 13 }}
+            buttonStyle={{ alignSelf: 'flex-end', backgroundColor: 'transparent' }}
+            onPress={() => setIsVisible(false)}
+            title={t('General.close')}
+          />
+          <ScrollView contentContainerStyle={styles.container}>
+            {/*
             <Text h2>{t('Entries.libre.title')}</Text>
-            <Text h3>{t('Entries.libre.stepOne')}</Text>
-            <Button title={t('Entries.libre.openLibre')} onPress={() => open()} />
-            <Text h3>{t('Entries.libre.stepTwo')}</Text>
+*/}
+            <View style={styles.instructionContainer}>
+              <Text h3 h3Style={styles.steps}>
+                1.
+              </Text>
+              <Text h4 h4Style={styles.text}>
+                {t('Entries.libre.stepOne')}
+              </Text>
+            </View>
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: libreImage }} style={styles.libreMenuImage} />
+            </View>
+
+            <View style={styles.instructionContainer}>
+              <Text h3 h3Style={styles.steps}>
+                2.
+              </Text>
+              <Text h4 h4Style={styles.text}>
+                {t('Entries.libre.saveLibreImageOne')}
+                <Icon
+                  containerStyle={Platform.OS === 'ios' ? { marginRight: -10 } : {}}
+                  size={16}
+                  style={Platform.OS === 'ios' ? { marginLeft: 20, width: 20 } : {}}
+                  name={Platform.OS === 'ios' ? 'ios-share' : 'share'}
+                />
+                {t('Entries.libre.saveLibreImageTwo')}
+              </Text>
+            </View>
+            <Button
+              type={'clear'}
+              buttonStyle={{ backgroundColor: 'transparent' }}
+              title={t('Entries.libre.openLibre')}
+              onPress={() => open()}
+            />
+            <View style={styles.instructionContainer}>
+              <Text h3 h3Style={styles.steps}>
+                3.
+              </Text>
+              <Text h4 h4Style={styles.text}>
+                {t('Entries.libre.stepTwo')}
+              </Text>
+            </View>
             {loading && <Text>{t('Entries.libre.loading')}</Text>}
             {errorMessage && <Text>{t('Entries.libre.errorMessage')}</Text>}
             <Button
+              buttonStyle={styles.imageSelectButton}
               loading={loading}
               title={t('Entries.libre.chooseImage') + moment(props.date).format('ll')}
               onPress={() => selectLibraryTapped()}
             />
-            <Button
-              type={'clear'}
-              buttonStyle={{ backgroundColor: 'transparent' }}
-              onPress={() => setIsVisible(false)}
-              title={t('General.close')}
-            />
-          </View>
+          </ScrollView>
         </SafeAreaView>
       </Overlay>
     </>
@@ -154,6 +199,25 @@ const AddLibreData = props => {
 export default AddLibreData;
 
 const useStyles = makeStyles(theme => ({
-  button: { padding: 8, alignItems: 'center' },
-  container: { height: '100%', justifyContent: 'space-evenly', alignItems: 'center' },
+  button: { padding: theme.spacing.M, alignItems: 'center' },
+  container: { alignItems: 'center' },
+  libreMenuImage: { width: '100%', minHeight: 300 },
+  imageContainer: { width: '80%' },
+  steps: {
+    marginTop: theme.spacing.M,
+    fontFamily: 'SecularOne-Regular',
+  },
+  text: {
+    paddingLeft: theme.spacing.M,
+    lineHeight: 25,
+    width: '95%',
+  },
+  instructionContainer: {
+    flexDirection: 'row',
+    marginVertical: theme.spacing.M,
+    marginHorizontal: theme.spacing.S,
+    alignSelf: 'flex-start',
+  },
+  saveImageDescription: { flexDirection: 'row', alignItems: 'center', padding: theme.spacing.M },
+  imageSelectButton: { marginVertical: theme.spacing.L, marginBottom: 100 },
 }));

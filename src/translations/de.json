@@ -171,9 +171,11 @@
       "openLibre": "Öffne die Libre App",
       "differentImage": "Anderes Libre Bild auswählen",
       "addImage": "Füge Libre Daten hinzu",
-      "stepOne": "1. Öffne deine Libre App. Gehe auf das Tages-Diagramm und speichere es als Bild",
-      "stepTwo": "2. Wenn du das Tages-Diagramm gespeichert hast, wähle das Bild hier aus",
-      "errorMessage": "Da ist etwas nicht richtig. Hast du ein Libre-Tages-Diagramm hochgeladen? Versuche es noch einmal",
+      "stepOne": "Öffne deine Libre App und gehe auf das Tagesdiagramm",
+      "saveLibreImageOne": "Im Tagesdiagramm der Libre App, drücke das Teilen Icon ",
+      "saveLibreImageTwo": " und speichere das Diagramm auf deinem Smartphone",
+      "stepTwo": "Wenn du das Tagesdiagramm gespeichert hast, wähle das Bild hier aus",
+      "errorMessage": "Da ist etwas nicht richtig. Hast du ein Libre-Tagesdiagramm hochgeladen? Versuche es noch einmal",
       "loading": "Komplexe Datenanalyse \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB bitte warte kurz"
     }
   },
