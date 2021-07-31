@@ -9,7 +9,7 @@ const ReminderSlider = props => {
   const styles = useStyles();
   const { value, setValue } = props;
   const { theme } = useTheme();
-  const { type, changeType } = useEnterMealType();
+  const { type } = useEnterMealType();
 
   return type.mode !== EDIT_MODE ? (
     <View style={styles.container}>
