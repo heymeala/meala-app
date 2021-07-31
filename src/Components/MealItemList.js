@@ -1,7 +1,7 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, View } from 'react-native';
 import { Avatar, Badge, Divider, ListItem, Text } from 'react-native-elements';
-import { generateColor, gradientPercentageColor, textColor } from '../Common/generateColor';
+import { gradientPercentageColor, textColor } from '../Common/generateColor';
 import moment from 'moment';
 import ProgressBar from 'react-native-progress/Bar';
 import { analyseTimeInRange } from '../Common/analyseTimeInRange';
@@ -22,7 +22,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   useEffect(() => {
     if (props.item.cgmData) {
       const parsedData = JSON.parse(props.item.cgmData);
-      const timeInRange = analyseTimeInRange(parsedData); // string with tir description and calculation
+      const timeInRange = analyseTimeInRange(parsedData, props.item.date); // string with tir description and calculation
       setTir(timeInRange); // string with tir description and calculation
     }
   }, [props.item.cgmData]);
@@ -83,7 +83,8 @@ export const MealItemsList = React.forwardRef((props, ref) => {
 
   return (
     <View style={{ height: 110 }} key={props.item.userMealId} ref={ref}>
-      <ListItem onPress={() => navigation.navigate('MealDataCollector', { userMealId: props.item.userMealId })}>
+      <ListItem
+        onPress={() => navigation.navigate('MealDataCollector', { userMealId: props.item.userMealId })}>
         <Avatar
           rounded
           title={props.item.food[0]}

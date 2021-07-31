@@ -35,13 +35,19 @@ export async function loadSugarData(
     // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
     //  const nsSugarDates = nsSugarData.map(data => data.date);
     // const foodDataString = nsSugarData.map(data => data.dateString);
-    const glucoseCoordinates = nsSugarData.map(data => {
-      const glucoseValueDate = new Date(data.date);
-      return {
-        x: glucoseValueDate,
-        y: data.sgv / settings.unit,
-      };
-    });
+    const glucoseCoordinates = nsSugarData
+      .filter(data => {
+        const start = new Date(fromDate).getTime();
+        const end = new Date(tillDate).getTime();
+        return data.date > start && data.date < end;
+      })
+      .map(data => {
+        const glucoseValueDate = new Date(data.date);
+        return {
+          x: glucoseValueDate,
+          y: data.sgv / settings.unit,
+        };
+      });
     setCoordinates(glucoseCoordinates);
     //setDateStrings(foodDataString);
     // setDates(nsSugarDates);
