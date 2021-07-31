@@ -356,6 +356,7 @@
       "text": "Import Libre Data",
       "description": "Activate the Libre Importer if you use the Libre App.",
       "instructions": "Caution: data may differ when imported, this information may not be used for medical purposes.",
+      "instructionsActive": "You can now add Libre data to your existing meals. Go to your created meal and press the 'Add Libre Data' button. If you don't have an entry yet, go to the + and create a new meal.",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
     },

@@ -30,12 +30,8 @@ export async function loadSugarData(
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
 
-  if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
-    const nsSugarData = await nightscoutCall(foodDate, id);
-    // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
-    //  const nsSugarDates = nsSugarData.map(data => data.date);
-    // const foodDataString = nsSugarData.map(data => data.dateString);
-    const glucoseCoordinates = nsSugarData
+  function filterSVGDataByTime(glucoseData) {
+    return glucoseData
       .filter(data => {
         const start = new Date(fromDate).getTime();
         const end = new Date(tillDate).getTime();
@@ -48,6 +44,14 @@ export async function loadSugarData(
           y: data.sgv / settings.unit,
         };
       });
+  }
+
+  if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
+    const nsSugarData = await nightscoutCall(foodDate, id);
+    // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
+    //  const nsSugarDates = nsSugarData.map(data => data.date);
+    // const foodDataString = nsSugarData.map(data => data.dateString);
+    const glucoseCoordinates = filterSVGDataByTime(nsSugarData);
     setCoordinates(glucoseCoordinates);
     //setDateStrings(foodDataString);
     // setDates(nsSugarDates);
@@ -141,19 +145,7 @@ export async function loadSugarData(
     const localCGMData = await database.getCgmData(id);
     if (localCGMData && localCGMData.length > 0) {
       const jsonLocalCGMData = JSON.parse(localCGMData);
-      const glucoseCoordinates = jsonLocalCGMData
-        .filter(data => {
-          const start = new Date(fromDate).getTime();
-          const end = new Date(tillDate).getTime();
-          return data.date > start && data.date < end;
-        })
-        .map(data => {
-          const glucoseValueDate = new Date(data.date);
-          return {
-            x: glucoseValueDate,
-            y: data.sgv / settings.unit,
-          };
-        });
+      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData);
       setCoordinates(glucoseCoordinates);
     }
     setLoading(false);

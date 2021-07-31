@@ -354,6 +354,7 @@
       "text": "Libre Daten importieren",
       "description": "Aktiviere den Libre Importer, wenn du die Libre App nutzt.",
       "instructions": "Achtung: Die Daten können nach dem Import abweichen, diese Informationen dürfen nicht für medizinische Zwecke genutzt werden. ",
+      "instructionsActive": "Du kannst jetzt zu deinen eingetragenen Mahlzeiten deine Libre Daten hinzufügen. Gehe auf deine angelegte Mahlzeit und drücke den Button 'Libre Daten hinzufügen'. Wenn du noch keinen Eintrag hast, gehe auf das + und lege eine neue Mahlzeit an.",
       "button": "Mehr über Nightscout",
       "link": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html"
     },

@@ -456,6 +456,7 @@ const EnterMeal = ({ route, navigation }, props) => {
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
         <ReminderSlider value={value} setValue={setValue} />
+
       </ScrollView>
       <FAB
         title={t('AddMeal.save')}
