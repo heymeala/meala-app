@@ -25,6 +25,6 @@ export default Tags;
 const useStyles = makeStyles(theme => ({
   wrapper: { marginTop: theme.spacing.M },
   container: { flexDirection: 'row', margin: theme.spacing.XS },
-  text: { marginLeft: theme.spacing.S, marginTop: theme.spacing.S, fontSize: 12, color:theme.colors.grey2 },
+  text: { marginLeft: theme.spacing.S, marginTop: theme.spacing.S, fontSize: 12, color: theme.colors.grey2 },
   tag: { padding: theme.spacing.S },
 }));
