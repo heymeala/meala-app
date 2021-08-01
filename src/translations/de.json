@@ -415,6 +415,7 @@
       "nodata": "Du hast noch keine Mahlzeiten angelegt. Hier werden sie erscheinen. Füge jetzt Deine erste Mahlzeit hinzu",
       "wait": "Erste Werte können erst nach 3 bis 6 Stunden angezeigt werden",
       "dexcom": "Nicht genug Daten vorhanden. Überprüfe, ob Daten im HealthKit vorhanden sind. Daten von Dexcom sind erst nach 6 Stunden verfügbar.",
+      "libre": "Nicht genug Daten im Libre Tagesdiagramm gefunden oder noch kein Tagesdiagramm hinzugefügt.",
       "button": "Taste"
     },
     "MealDetails": {

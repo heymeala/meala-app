@@ -417,6 +417,7 @@
       "nodata": "You have no meals. Start with your first one",
       "wait": "First values can only be displayed after 3 to 6 hours",
       "dexcom": "Not enough data available, check if data is available in Healthkit. Data from Dexcom is only available after 6 hours.",
+      "libre": "Not enough data found in Libre daily chart or no daily chart added yet",
       "button": "Button"
     },
     "MealDetails": {

@@ -7,7 +7,7 @@ const Tags = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const { selectedFood } = props;
-  return selectedFood.tags.length > 0 ? (
+  return selectedFood.tags && selectedFood.tags.length > 0 ? (
     <View style={styles.wrapper}>
       <Divider />
       <Text style={styles.text}>{t('Entries.tags')}</Text>
