@@ -78,7 +78,6 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [fatSecretData, setFatSecretData] = useState(null);
   const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
 
-
   const [value, setValue] = useState(3);
 
   React.useEffect(() => {
@@ -456,7 +455,6 @@ const EnterMeal = ({ route, navigation }, props) => {
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
         <ReminderSlider value={value} setValue={setValue} />
-
       </ScrollView>
       <FAB
         title={t('AddMeal.save')}

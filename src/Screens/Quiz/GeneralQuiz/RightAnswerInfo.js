@@ -1,5 +1,5 @@
-import React from 'react';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { AccessibilityInfo, findNodeHandle, ScrollView, useWindowDimensions, View } from 'react-native';
 import { Button, makeStyles, Text } from 'react-native-elements';
 import HTML from 'react-native-render-html';
 import LocalizationContext from '../../../../LanguageContext';
@@ -9,12 +9,29 @@ const RightAnswerInfo = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const contentWidth = useWindowDimensions().width;
+  const refAnswer = useRef(null);
 
   const { infoText, nextQuestion } = props;
+
+  useEffect(() => {
+    console.log('false ref refAnswer', refAnswer);
+
+    if (refAnswer && refAnswer.current) {
+      const reactTag = findNodeHandle(refAnswer.current);
+      console.log('refAnswer', reactTag);
+      if (reactTag) {
+        AccessibilityInfo.setAccessibilityFocus(reactTag);
+      }
+    }
+  }, [infoText]);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.htmlContainer}>
-        <Text h2>{t('Quiz.infoScreenTitle')}</Text>
+        <View ref={refAnswer} accessible={true} focusable={true} accessibilityRole={'header'}>
+          <Text h2 >
+            {t('Quiz.infoScreenTitle')}
+          </Text>
+        </View>
         <FadeInView>
           {infoText ? (
             <HTML baseFontStyle={styles.html} source={{ html: infoText }} contentWidth={contentWidth} />
@@ -23,7 +40,14 @@ const RightAnswerInfo = props => {
           )}
         </FadeInView>
       </View>
-      <Button style={styles.button} title={t('Quiz.community.next')} onPress={() => nextQuestion()} />
+      <Button
+        style={styles.button}
+        title={t('Quiz.community.next')}
+        onPress={() => {
+          refAnswer.current = null;
+          nextQuestion();
+        }}
+      />
     </ScrollView>
   );
 };

@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View } from "react-native";
-import { Image, makeStyles, Text } from "react-native-elements";
-import LocalizationContext from "../../../LanguageContext";
-import { serving } from "../../utils/specialTranslations";
-import QuizDetailInfos from "./QuizDetailInfos";
-import AnswerButtons from "./AnswerButtons";
-import { loadQuestionRecipes } from "./loadQuestionRecipes";
+import React, { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
+import { Image, makeStyles, Text } from 'react-native-elements';
+import LocalizationContext from '../../../LanguageContext';
+import { serving } from '../../utils/specialTranslations';
+import QuizDetailInfos from './QuizDetailInfos';
+import AnswerButtons from './AnswerButtons';
+import { loadQuestionRecipes } from './loadQuestionRecipes';
 
-import PoweredByFatSecret from "../../Common/fatsecret/PoweredByFatSecret";
-import { useScreenReader } from "../../hooks/useScreenReaderEnabled";
-import Finish from "./Finish";
-import AccessibleAnswer from "./AccessibleAnswer";
-import { quizServings } from "./quizServingTypes";
-import AnswerAnimation from "./AnswerAnimation";
-import { playRightAnswerSound, playWrongAnswerSound } from "./GameSounds";
+import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
+import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
+import Finish from './Finish';
+import AccessibleAnswer from './AccessibleAnswer';
+import { quizServings } from './quizServingTypes';
+import AnswerAnimation from './AnswerAnimation';
+import { playRightAnswerSound, playWrongAnswerSound } from './GameSounds';
 
 /*
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
@@ -176,10 +176,9 @@ const FatSecretQuiz = props => {
   return recipeDetails !== null ? (
     <>
       <View style={styles.container}>
-        <Text accessibilityRole={'header'} h2 style={styles.text}>
-          {question.current}
-        </Text>
-
+          <Text accessibilityRole={'header'} h2 h2Style={styles.text}>
+            {question.current}
+          </Text>
         <Image
           style={styles.image}
           source={{

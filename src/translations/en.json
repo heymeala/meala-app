@@ -428,7 +428,7 @@
       "open_menu": "Open the menu",
       "edit": "Edit"
     },
-    "Quiz": {
+    "MealQuiz": {
       "answer_right": "Thats right. {{name}} has {{serving}} {{type}}",
       "answer_wrong": "Thats wrong - {{name}} has {{serving}} {{type}}",
       "next": "- tap twice to go to the next question or wait ten seconds",
@@ -442,6 +442,10 @@
       "home": "Saved Meals",
       "add": "Add new Meal",
       "settings": "Settings and more"
+    },
+    "Feedback": {
+      "good": "gut",
+      "bad": "nicht so gut"
     }
   }
 }

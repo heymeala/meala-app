@@ -32,10 +32,18 @@ const Feedback = props => {
         </Text>
 
         <View style={styles.container}>
-          <TouchableOpacity onPress={() => handleFeedback(true)}>
+          <TouchableOpacity
+            accessibilityLabel={t('Accessibility.Feedback.good')}
+            accessible={true}
+            accessibilityRole="button"
+            onPress={() => handleFeedback(true)}>
             <Icon name={'ios-thumbs-up-outline'} type={'ionicon'} size={40} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleFeedback(false)}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={t('Accessibility.Feedback.bad')}
+            onPress={() => handleFeedback(false)}>
             <Icon name={'ios-thumbs-down-outline'} type={'ionicon'} size={40} />
           </TouchableOpacity>
         </View>

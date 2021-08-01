@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo } from 'react';
-import { ScrollView, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { AccessibilityInfo, findNodeHandle, ScrollView, useWindowDimensions, View } from 'react-native';
 import { Button, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import LottieView from 'lottie-react-native';
@@ -15,7 +15,9 @@ const GeneralQuizFinish = props => {
   const contentWidth = useWindowDimensions().width;
   const tries = answeredQuestions.map(data => data.tries);
   const score = useMemo(() => calculateScore(tries), []);
- // console.log(answeredQuestions);
+  // console.log(answeredQuestions);
+  const refScore = useRef(null);
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -23,14 +25,23 @@ const GeneralQuizFinish = props => {
       score: score,
       type: categoryId,
     });
+    if (refScore && refScore.current) {
+      const reactTag = findNodeHandle(refScore.current);
+      console.log('refScor', reactTag);
+      if (reactTag) {
+        AccessibilityInfo.setAccessibilityFocus(reactTag);
+      }
+    }
   }, []);
 
   return (
     <ScrollView>
       <View>
-        <Text accessibilityRole={'header'} h1 style={styles.text}>
-          {score} {t('Quiz.score')}
-        </Text>
+        <View ref={refScore} accessible={true} focusable={true} accessibilityRole={'header'}>
+          <Text h1 style={styles.text}>
+            {score} {t('Quiz.score')}
+          </Text>
+        </View>
         <LottieView style={{ width: '100%' }} source={winner} loop={false} autoPlay />
       </View>
       {answeredQuestions.map((item, index) => {

@@ -426,7 +426,7 @@
       "open_menu": "Öffne Menü",
       "edit": "Bearbeiten"
     },
-    "Quiz": {
+    "MealQuiz": {
       "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",
       "answer_wrong": "Leider falsch - {{name}} hat {{serving}} {{type}}",
       "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden",
@@ -440,6 +440,10 @@
       "home": "Gespeicherte Mahlzeiten",
       "add": "Neues Gericht eintragen",
       "settings": "Einstellungen und mehr"
+    },
+    "Feedback": {
+      "good": "gut",
+      "bad": "nicht so gut"
     }
   }
 }

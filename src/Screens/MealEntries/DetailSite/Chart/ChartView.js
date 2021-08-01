@@ -70,7 +70,7 @@ function GeneralChartView(props) {
                 .filter((data, i) => i % 3 === 0)
                 .map((data, i) => (
                   <Text key={i} style={styles.text}>
-                    {moment(data.x).format('LT')} – {data.y}
+                    {moment(data.x).format('LT')} – {data.y.toFixed(settings.unit === 1 ? 0: 1)}
                   </Text>
                 ))}
             </>

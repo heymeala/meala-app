@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { AccessibilityInfo, findNodeHandle, ScrollView, TouchableOpacity, View } from 'react-native';
 import { Image, makeStyles, Text } from 'react-native-elements';
 
 import LocalizationContext from '../../../../LanguageContext';
@@ -40,6 +40,8 @@ const GeneralQuiz = props => {
   const animation = useRef(null);
   const timeOut = useRef(null);
   const timer = 1500;
+  const scrollRef = useRef();
+  const refHeader = useRef(null);
 
   const [totalScore, setTotalScore] = useState(null);
 
@@ -82,9 +84,22 @@ const GeneralQuiz = props => {
     }
   }, [validatedRight, validatedWrong]);
 
+  useEffect(() => {
+    if (!showAnswerInformation) {
+      console.log('false ref Header', refHeader);
+      if (refHeader && refHeader.current) {
+        const reactTag = findNodeHandle(refHeader.current);
+        console.log('refHeader', reactTag);
+        if (reactTag) {
+          AccessibilityInfo.setAccessibilityFocus(reactTag);
+        }
+      }
+    }
+  }, [showAnswerInformation]);
+
   function validate(userAnswer, id) {
     setAnswer(userAnswer);
-
+    refHeader.current = null;
     if (userAnswer) {
       playRightAnswerSound();
       if (categoryId !== 'random') {
@@ -140,6 +155,13 @@ const GeneralQuiz = props => {
     }
   }
 
+  function scrollToTop() {
+    const node = scrollRef.current;
+    if (node) {
+      node.scrollTo({ x: 0, y: 0, animated: true });
+    }
+  }
+
   function counter() {
     setLoading(true);
 
@@ -175,6 +197,7 @@ const GeneralQuiz = props => {
   function nextQuestion() {
     setShowAnswerInformation(false);
     setCurrentAuthor('');
+    scrollToTop();
     counter();
   }
 
@@ -191,7 +214,12 @@ const GeneralQuiz = props => {
   }
   if (showAnswerInformation) {
     if (quizData.current) {
-      return <RightAnswerInfo infoText={quizData.current[step].acf.info} nextQuestion={nextQuestion} />;
+      return (
+        <RightAnswerInfo
+          infoText={quizData.current[step].acf.info}
+          nextQuestion={nextQuestion}
+        />
+      );
     } else {
       return <LoadingSpinner />;
     }
@@ -205,7 +233,6 @@ const GeneralQuiz = props => {
       </View>
     );
   }
-
   return (
     <>
       {quizData.current && !loading && step <= quizData.current.length && quizData.current.length > 0 ? (
@@ -214,9 +241,11 @@ const GeneralQuiz = props => {
             {quizData.current[step].acf.image.url && (
               <Image style={styles.questionImage} source={{ uri: quizData.current[step].acf.image.url }} />
             )}
-            <Text h1 h1Style={styles.h1}>
-              {quizData.current[step].acf.question}
-            </Text>
+            <View ref={refHeader} accessible={true} focusable={true} accessibilityRole={'header'}>
+              <Text h1 h1Style={styles.h1}>
+                {quizData.current[step].acf.question}
+              </Text>
+            </View>
             <AnswerButtonsGeneral
               answers={answers}
               setStep={setStep}
