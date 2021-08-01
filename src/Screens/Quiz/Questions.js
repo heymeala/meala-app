@@ -6,6 +6,8 @@ import LocalizationContext from '../../../LanguageContext';
 import { shuffle } from '../../utils/shuffel';
 import { fatSecretRecipesDE, fatSecretRecipesEN } from './fatSecretIds';
 
+
+
 const Questions = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
@@ -19,8 +21,6 @@ const Questions = props => {
     const node = scrollRef.current;
     if (node) {
       node.scrollTo({ x: 0, y: 0, animated: true });
-    } else {
-      console.log('scrool');
     }
   }
 

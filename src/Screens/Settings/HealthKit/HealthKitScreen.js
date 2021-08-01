@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import AppleHealthKit from 'react-native-health';
 import PermissionListItem from './PermissionListItem';
@@ -13,6 +13,7 @@ import { HEALTHKIT } from '../glucoseSourceConstants';
 import moment from 'moment';
 import { permissions } from '../../MealEntries/DetailSite/HealthKitPermissions';
 import { hkSteps } from './steps';
+import analytics from '@react-native-firebase/analytics';
 
 export default function HealthKitScreen() {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -24,6 +25,9 @@ export default function HealthKitScreen() {
   const [stepSamples, setStepSamples] = useState();
 
   const saveState = () => {
+    analytics().logEvent('glucose_source', {
+      name: HEALTHKIT,
+    });
     saveUserSettings({ ...userSettings, glucoseSource: HEALTHKIT });
   };
   const getPermission = () => {

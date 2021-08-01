@@ -7,7 +7,7 @@ import { spacing } from '../../theme/styles';
 import SettingsListItem from './SettingsListItem';
 import SettingsFooter from './Footer';
 import { useUserSettings } from '../../hooks/useUserSettings';
-import { HEALTHKIT, NIGHTSCOUT } from './glucoseSourceConstants';
+import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from './glucoseSourceConstants';
 
 const SettingsOverview = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -20,7 +20,7 @@ const SettingsOverview = props => {
       title: 'Profil',
       data: [
         {
-          name: 'Einstellungen',
+          name: t('Settings.SettingsTitle'),
           link: 'ProfilSettings',
           icon: 'settings',
         },
@@ -30,17 +30,27 @@ const SettingsOverview = props => {
       title: t('Settings.source'),
       data: [
         {
-          name: 'HealthKit',
+          id: HEALTHKIT,
+          name: t('Settings.healthKit.name'),
           link: 'HealthKitScreen',
           icon: 'heart',
           active: userSettings.glucoseSource === HEALTHKIT,
         },
         {
+          id: NIGHTSCOUT,
           name: 'Nightscout',
           icon: 'nightscout',
           iconType: 'meala',
           link: 'DataSourceScreen',
           active: userSettings.glucoseSource === NIGHTSCOUT,
+        },
+        {
+          id: LIBRETWOAPP,
+          name: t('Settings.Libre.name'),
+          icon: 'libre',
+          iconType: 'meala',
+          link: 'Libre',
+          active: userSettings.glucoseSource === LIBRETWOAPP,
         },
         {
           name: 'FatSecret',
@@ -53,28 +63,16 @@ const SettingsOverview = props => {
                     link: "Tidepool",
                 },*/
         {
-          name: 'Dexcom USA',
+          name: t('Settings.Dexcom.name'),
           icon: 'dexcom',
           iconType: 'meala',
           link: 'Dexcom',
         },
-        {
-          name: 'Libre',
-          icon: 'libre',
-          iconType: 'meala',
-          link: 'Libre',
-        },
       ],
     },
     {
-      title: 'E-Learning',
+      title: t('Settings.database'),
       data: [
-        {
-          name: !screenReaderEnabled ? 'Carb Quiz' : 'Kohlenhydrate Quiz',
-          icon: 'einstein',
-          iconType: 'meala',
-          link: 'Quiz',
-        },
         {
           name: t('GI.NavigationBarTitle'),
           icon: 'rise_arrow',
@@ -102,6 +100,11 @@ const SettingsOverview = props => {
           name: t('Settings.privacy'),
           icon: 'md-lock-closed-sharp',
           weblink: 'https://www.meal-advisor.com/policies/meala_datenschutz.pdf',
+        },
+        {
+          name: t('Settings.Licenses.name'),
+          icon: 'md-logo-github',
+          link: 'Licenses',
         },
       ],
     },

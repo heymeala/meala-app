@@ -38,7 +38,6 @@ export const EmptyListHome = props => {
           loop
         />
 
-        <FAB title={'Quiz'} placement={'left'} onPress={() => navigation.navigate('Quiz')} />
       </View>
     );
   }

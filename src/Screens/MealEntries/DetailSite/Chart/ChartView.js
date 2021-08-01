@@ -11,6 +11,8 @@ import LoadingSpinner from '../../../../Common/LoadingSpinner';
 import { Icon, makeStyles, useTheme } from 'react-native-elements';
 import { spacing } from '../../../../theme/styles';
 import { MAX_CHART_VALUE, MIN_CHART_VALUE } from './chartConstant';
+import { LIBRETWOAPP } from '../../../Settings/glucoseSourceConstants';
+import { useUserSettings } from '../../../../hooks/useUserSettings';
 
 function GeneralChartView(props) {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -19,6 +21,8 @@ function GeneralChartView(props) {
   const styles = useStyles();
   const window = Dimensions.get('window');
   const { theme } = useTheme();
+  const { userSettings } = useUserSettings();
+
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
@@ -53,7 +57,7 @@ function GeneralChartView(props) {
     if (screenReaderEnabled) {
       return (
         <View>
-          {props.coordinates.length > 1 ? (
+          {props.coordinates && props.coordinates.length > 1 ? (
             <>
               <Text style={styles.text}>
                 {t('Accessibility.MealDetails.values', {
@@ -70,12 +74,16 @@ function GeneralChartView(props) {
                 .filter((data, i) => i % 3 === 0)
                 .map((data, i) => (
                   <Text key={i} style={styles.text}>
-                    {moment(data.x).format('LT')} – {data.y}
+                    {moment(data.x).format('LT')} – {data.y.toFixed(settings.unit === 1 ? 0 : 1)}
                   </Text>
                 ))}
             </>
           ) : (
-            <Text>{t('Accessibility.Home.dexcom')}</Text>
+            <Text>
+              {userSettings.glucoseSource === LIBRETWOAPP
+                ? t('Accessibility.Home.libre')
+                : t('Accessibility.Home.dexcom')}
+            </Text>
           )}
         </View>
       );

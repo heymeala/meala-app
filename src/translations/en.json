@@ -1,4 +1,11 @@
 {
+  "BottomNavBar": {
+    "entries": "Entries",
+    "map": "Map",
+    "addMeal": "Add",
+    "knowledge": "Quiz",
+    "more": "More"
+  },
   "AddMeal": {
     "DrawNavigatorTitle": "Add meal",
     "BottomBarTitle": "new entry",
@@ -18,12 +25,15 @@
     "save": "Save",
     "edit": "Edit",
     "copy": "Copy",
+    "startedEating": "Started eating",
+    "rightTime": "Remember to pick the right time",
     "ErrorMessage": "Please fill out",
     "firstEntry": "Put on your first meal. Make sure that your meals are not too varied at the beginning, so that you can learn from your values. Also, try not to consume additional carbohydrates for three hours after eating, so that you can see if you have correctly estimated.",
     "notificationAfterMeal": "Have a look at your last meal: {{mealTitle}}",
     "notificationLunch": "What do you have for lunch?",
     "notificationDinner": "What do you eat for dinner?",
     "tags": "Here you can see the top 8 tags - You can also search for these tags to filter meals",
+    "reminder": "Reminder in {{hours}} hours",
     "exp": "Caution experimental – Similar meals:",
     "resetTitle": "Reset?",
     "resetMessage": "Reset all fields",
@@ -67,10 +77,11 @@
     "tag": {
       "addTag": "Add Tag",
       "addATag": "Add a new Tag",
-      "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
+      "findTag": "You can search and filter your meals later by these words",
       "exampleTag": "z.B. Sport, Basalratentest, Krank",
       "basalrate": "basal rate testing",
       "breakfast": "Breakfast",
+      "period": "period",
       "edit_mode": "We aren't able to edit tags at the moment. We're working on it"
     },
     "foodDataBaseSearch": {
@@ -85,7 +96,6 @@
     "NavigationBarTitle": "meala",
     "Search": "Search for saved places",
     "SearchMeals": "Search for saved meals",
-
     "Meals": "Meals",
     "MealDetails": "Details",
     "Date": "Date",
@@ -128,7 +138,7 @@
     "anotherEntry": "add another meal",
     "copyMeal": "Copy this meal",
     "delete": "Delete",
-    "directBolus": " Direct Bolus: ",
+    "directBolus": "Direct Bolus: ",
     "carbs": "Carbs: ",
     "event": "Event: ",
     "delay": " Delayed Bolus ",
@@ -138,6 +148,7 @@
     "calculating": "Time between eating and injection is calculated",
     "noData": "No Data available",
     "deleteRestaurant": "Delete Restaurant",
+    "tags": "You can find this meal by the following tags",
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Search for a specific date"
     },
@@ -154,17 +165,40 @@
     "fpu": " FPU: ",
     "fpu_formula": "(CCAL - (Carbohydrates*4)) /100",
     "informationFrom": "Information from",
-    "details": "Details"
+    "details": "Details",
+    "libre": {
+      "title": "Libre Data Import",
+      "chooseImage": "Choose picture from ",
+      "openLibre": "Open the Libre App",
+      "differentImage": "Choose different image ",
+      "addImage": "Add Libre Data",
+      "stepOne": "Open your Libre App and go to 'Daily Graph'",
+      "saveLibreImageOne": "Within the Libre App press the share Icon  ",
+      "saveLibreImageTwo": " and save your Daily Graph as Image",
+      "stepTwo": "Afterwards you need to load the image into this app",
+      "errorMessage": "Something is wrong. Did you upload a Libre daily chart? Try again",
+      "loading": "Complex image analysis \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB"
+    }
   },
   "GI": {
     "BottomBarTitle": "GI",
     "NavigationBarTitle": "Glycemic Index",
     "Search": "Search for food",
-    "IntroText": "The glycemic index (GI) from 0 to 100 Example: Dextrose has a GI of 100",
+    "rice": "Rice",
+    "apple": "Apple",
+    "noodles": "Noodle",
+    "IntroText": "The glycemic index (GI) from 0 to 100",
+    "example": "Example: Dextrose has a GI of 100",
     "glyx_description": "When blood sugar rises quickly, it can have many causes. For example, an unsuitable time between injection and eating, stress or even sport, when adrenaline is released. With the consumption of meals there is already a unit of measurement that describes how quickly the carbohydrates act in a certain period of time.It's called Glycemic Index or in short Glyx. The higher the value is, the more sugar enters the blood after carbohydrate consumption. The value can also help to choose the right hypo snack. Because in the event of hypoglycemia, a glycemic index is helpful return to target range quickly."
   },
   "Statistics": {
     "noData": "No data available yet."
+  },
+  "Map": {
+    "title": "Never ever have to guess carbs?",
+    "description": "Our vision is to provide all the nutritional values for every menu. It's a lot of work, but with your help we can do it! Stay tuned.",
+    "contact": "Contact",
+    "help": "You want to support us or have questions?"
   },
   "BarCode": {
     "BottomBarTitle": "Barcode",
@@ -184,7 +218,12 @@
     "ingredients": "Ingredients",
     "show_recipe": "Show recipe"
   },
+  "Knowledge": {
+    "name": "Knowledge",
+    "description": ""
+  },
   "Quiz": {
+    "name": "Quiz",
     "guess_question": "Test your knowledge?",
     "guess_subtitle": "You'll get three possible answers for every question. Choose one and retry till you get the right one",
     "recipe_description": "Description",
@@ -210,12 +249,32 @@
     "again": "Try again",
     "score": "Points",
     "hint": "Hint",
+    "infoScreenTitle": "Question related information",
+    "noInfo": "No further information at the moment.",
     "results": {
       "one": "{{count}} right answer",
       "other": "{{count}} right answers",
       "zero": "{{count}} right answers"
+    },
+    "quote": "Those who know nothing must believe everything.",
+    "guide": "Guide",
+    "guide_desc": "knowledge is power",
+    "community_quiz_desc": "Question from and for the community",
+    "meal_quiz": "Meal-Quiz",
+    "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
+    "community": {
+      "title": "Choose a Quiz Category",
+      "next": "next",
+      "well_done": "Well done, lets move on.",
+      "by": "by",
+      "random": "Random Questions",
+      "reset": "reset all answers",
+      "back": "back to overview",
+      "share": "Share your score",
+      "outOf": "out of",
+      "shareMessage": "Hey, I discovered the meala quiz and already got {{score}} points. Challenge your knowledge - You can find the app at https://heymeala.com/en",
+      "answered": "You have answered all available questions on this topic. However, we are constantly expanding the quiz so there will be more questions soon. If you'd like to add some questions of your own to the community quiz, feel free to Insta or email us."
     }
-
   },
   "Settings": {
     "SettingsTitle": "Settings",
@@ -226,7 +285,13 @@
     "sourceNightscout": "Change source to Nightscout",
     "source": "Choose a data source",
     "dataSource": "Daten-Source",
+    "feedbackQuestion": "What do you think about meala?",
     "feedback": "You have found a suggestion for improvement or a problem? Feel free to send us your feedback to mail@heymeala.com",
+    "dialogFeedbackTitleGood": "Yay that's awesome!",
+    "dialogFeedbackDescriptionGood": "Feedback is our biggest motivation! Feel free to drop us a line if you have more feedback or any question.",
+    "dialogFeedbackTitleBad": "Too bad, what can we improve?",
+    "dialogFeedbackDescriptionBad": "Thanks for your feedback, what can we improve to make you happy?",
+    "yourMessage": "Your message to us...",
     "aboutmeala": "About meala?",
     "about": "More",
     "privacy": "Data privacy",
@@ -234,6 +299,7 @@
     "enter-nightscout-link": "Enter your Nightscout Link here",
     "token": "If your site has a token or a password - enter it here",
     "datasource": "Datasource",
+    "socialMedia": "Follow us on Social Media",
     "whatNightscout": "What is Nightscout?",
     "advanced": "Advanced settings",
     "nsLink": "https://nightscout.github.io",
@@ -246,7 +312,9 @@
     "exampleLink3": "https://yourSite.azurewebsites.net",
     "wrongUrl": "Url is wrong or your Nightscout-Site is offline",
     "urlMissing": "URL is missing",
+    "database": "Database",
     "healthKit": {
+      "name": "Health Kit",
       "title": "Connect Apple Health Kit with meala",
       "titleAccess": "meala has access to the following health data ",
       "canRead": "Through Apple Health Kit you have the ability to compare your health data from other apps here in meala with your meals",
@@ -279,13 +347,21 @@
       "valid": "Enter the Code you got from the FatSecret page. If you forgot please login again and save the code"
     },
     "Dexcom": {
+      "name": "Dexcom US",
       "text": "Do you have an US Dexcom Account or know someone? We're looking for Test-Users. Let us know and send us an email: mail@heymeala.com",
       "button": "Yes I know someone"
     },
     "Libre": {
-      "text": "At the moment the only way to get Libre Data is via Nightscout. We are currently working on an integration with Tidepool",
+      "name": "Libre",
+      "text": "Import Libre Data",
+      "description": "Activate the Libre Importer if you use the Libre App.",
+      "instructions": "Caution: data may differ when imported, this information may not be used for medical purposes.",
+      "instructionsActive": "You can now add Libre data to your existing meals. Go to your created meal and press the 'Add Libre Data' button. If you don't have an entry yet, go to the + and create a new meal.",
       "button": "More about Nightscout",
       "link": "https://nightscout.github.io"
+    },
+    "Licenses": {
+      "name": "Licenses"
     }
   },
   "About": {
@@ -312,8 +388,9 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "close": "Close",
-    "back": "back"
-
+    "back": "back",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
   },
   "Onboarding": {
     "next": "next"
@@ -340,6 +417,7 @@
       "nodata": "You have no meals. Start with your first one",
       "wait": "First values can only be displayed after 3 to 6 hours",
       "dexcom": "Not enough data available, check if data is available in Healthkit. Data from Dexcom is only available after 6 hours.",
+      "libre": "Not enough data found in Libre daily chart or no daily chart added yet",
       "button": "Button"
     },
     "MealDetails": {
@@ -351,7 +429,7 @@
       "open_menu": "Open the menu",
       "edit": "Edit"
     },
-    "Quiz": {
+    "MealQuiz": {
       "answer_right": "Thats right. {{name}} has {{serving}} {{type}}",
       "answer_wrong": "Thats wrong - {{name}} has {{serving}} {{type}}",
       "next": "- tap twice to go to the next question or wait ten seconds",
@@ -365,6 +443,10 @@
       "home": "Saved Meals",
       "add": "Add new Meal",
       "settings": "Settings and more"
+    },
+    "Feedback": {
+      "good": "gut",
+      "bad": "nicht so gut"
     }
   }
 }

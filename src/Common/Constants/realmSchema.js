@@ -40,6 +40,18 @@ export const FatSecretFoodEntryIdsSchema = {
   },
 };
 
+export const CommunityQuiz = {
+  name: 'CommunityQuiz',
+  primaryKey: 'id',
+  properties: {
+    id: 'string',
+    date: 'date',
+    questionId: 'string',
+    tries: 'int',
+    categoryId: 'string',
+  },
+};
+
 // https://realm.io/docs/javascript/latest/api/tutorial-query-language.html  linking objects
 
 export const RestaurantSchema = {
@@ -88,7 +100,7 @@ export const ProfileSchema = {
 };
 
 /*export const QuizSchema = {
-  name: 'Quiz',
+  name: 'MealQuiz',
   primaryKey: 'id',
   properties: {
     id: 'int',

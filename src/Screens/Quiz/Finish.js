@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from 'react-native-elements';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import RecipeDetailModal from '../Recipes/RecipeDetailModal';
 import LocalizationContext from '../../../LanguageContext';
 import RecipeAnsweredCardItem from './RecipeAnsweredCardItem';
 import LottieView from 'lottie-react-native';
-import right from '../../assets/animations/quiz/confetti.json';
-import wrong from '../../assets/animations/quiz/wrong-answer.json';
 import winner from '../../assets/animations/quiz/winner.json';
-import Sound from 'react-native-sound';
+import analytics from '@react-native-firebase/analytics';
+import { calculateScore } from './calculateScore';
+import { playFinishQuizSound } from './GameSounds';
 
-var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
+/*var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
     return;
@@ -22,35 +22,24 @@ var scoreSound = new Sound('score.mp3', Sound.MAIN_BUNDLE, error => {
       'number of channels: ' +
       scoreSound.getNumberOfChannels(),
   );
-});
+});*/
 
 const Finish = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { answeredQuestions, setFinish } = props;
+  const { answeredQuestions, setFinish, quizType } = props;
   const [open, setOpen] = useState(false);
   const [recipe, setRecipe] = useState(null);
   const rightAnswers = answeredQuestions.filter(item => item.userAnswer);
   const numberOfRightAnswers = rightAnswers.length;
-  const score = answeredQuestions
-    .map(data => {
-      if (data.tries === 1) {
-        return 10;
-      } else if (data.tries === 2) {
-        return 5;
-      } else if (data.tries === 3) {
-        return 1;
-      }
-    })
-    .reduce((a, b) => a + b, 0);
+  const tries = answeredQuestions.map(data => data.tries);
+  const score = useMemo(() => calculateScore(tries), []);
 
   useEffect(() => {
-    scoreSound.play(success => {
-      if (success) {
-        console.log('successfully finished playing');
-      } else {
-        console.log('playback failed due to audio decoding errors');
-      }
+    playFinishQuizSound();
+    analytics().logEvent('quiz_result', {
+      score: score,
+      type: quizType,
     });
   }, []);
 

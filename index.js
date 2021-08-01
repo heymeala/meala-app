@@ -2,12 +2,18 @@
  * @format
  */
 
-import { AppRegistry, Platform } from 'react-native';
+import { Alert, AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
+import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import * as RootNavigation from './src/Navigation/RootNavigation';
+
+// Register background handler
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background!', remoteMessage);
+});
 
 AppRegistry.registerComponent(appName, () => {
   // Must be outside of any component LifeCycle (such as `componentDidMount`).
@@ -19,12 +25,21 @@ AppRegistry.registerComponent(appName, () => {
 
     // (required) Called when a remote is received or opened, or local notification is opened
     onNotification: function (notification) {
-      console.log('NOTIFICATION:', notification);
-      console.log(notification.data.screen);
-      RootNavigation.navigate('Home', {
-        screen: 'MealDataCollector',
-        params: { mealId: notification.data.mealId },
-      });
+      console.log('ON NOTIFICATION:', notification);
+
+      if (notification.data.screen && !notification.foreground && notification.userInteraction) {
+        RootNavigation.navigate(notification.data.screen);
+        if (notification.data.message) {
+          Alert.alert('', notification.data.message);
+        }
+      }
+
+      if (notification.data.screen === 'EnterMealStack' && notification.userInteraction) {
+        RootNavigation.navigate('Home', {
+          screen: 'MealDataCollector',
+          params: { userMealId: notification.data.userMealId },
+        });
+      }
 
       // process the notification
 
@@ -53,7 +68,7 @@ AppRegistry.registerComponent(appName, () => {
     },
 
     // Should the initial notification be popped automatically
-    // default: true
+    // default: true,
     popInitialNotification: true,
 
     /**
@@ -63,7 +78,7 @@ AppRegistry.registerComponent(appName, () => {
      * - if you are not using remote notification or do not have Firebase installed, use this:
      *     requestPermissions: Platform.OS === 'ios'
      */
-    requestPermissions: Platform.OS !== 'ios',
+    requestPermissions: false,
   });
 
   PushNotification.createChannel(

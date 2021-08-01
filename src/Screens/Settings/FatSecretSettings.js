@@ -5,9 +5,9 @@ import openLink from '../../Common/InAppBrowser';
 import { Button, Input, Text } from 'react-native-elements';
 
 import * as Keychain from 'react-native-keychain';
-import SaveButton from '../../Common/SaveButton';
 import { useNavigation } from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
+import analytics from '@react-native-firebase/analytics';
 
 const FatSecretSettings = () => {
   const navigation = useNavigation();
@@ -30,7 +30,7 @@ const FatSecretSettings = () => {
       const credentials = await Keychain.getInternetCredentials('https://www.fatsecret.com/oauth/authorize');
       if (credentials) {
         Alert.alert(t('Settings.FatSecretSettings.loginSuccess'));
-        console.log('Credentials successfully loaded for user ' + credentials.username);
+        // console.log('Credentials successfully loaded for user ' + credentials.username);
       } else {
         console.log('No credentials stored');
       }
@@ -86,7 +86,12 @@ const FatSecretSettings = () => {
               getAccessToken(oAuthTokenOne, oAuthSecretOne, text).then(data => {
                 setUserOauthToken(data.oauth_token);
                 setUserOauthTokenSecret(data.oauth_token_secret);
-                store(data.oauth_token, data.oauth_token_secret).then(() => navigation.goBack());
+                store(data.oauth_token, data.oauth_token_secret).then(() => {
+                  analytics().logEvent('connected_app', {
+                    name: 'FatSecret',
+                  });
+                  navigation.goBack();
+                });
               })
             }
           />

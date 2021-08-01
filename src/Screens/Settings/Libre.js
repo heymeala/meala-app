@@ -1,32 +1,72 @@
-import React from 'react';
-import { Linking, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
-import { Button } from 'react-native-elements';
+import { Button, makeStyles, Text } from 'react-native-elements';
 import { spacing } from '../../theme/styles';
+import { useUserSettings } from '../../hooks/useUserSettings';
+import analytics from '@react-native-firebase/analytics';
+import { DEFAULT, LIBRETWOAPP } from './glucoseSourceConstants';
 
 const Libre = () => {
   const { t, locale } = React.useContext(LocalizationContext);
+  const [chartImage, setChartImage] = useState(null);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { userSettings, saveUserSettings } = useUserSettings();
+  const styles = useStyles();
+
+  const saveState = () => {
+    analytics().logEvent('glucose_source', {
+      name: LIBRETWOAPP,
+    });
+    saveUserSettings({ ...userSettings, glucoseSource: LIBRETWOAPP });
+  };
+
+  const removeGlucoseSource = () => {
+    analytics().logEvent('glucose_source', {
+      name: DEFAULT,
+    });
+    saveUserSettings({ ...userSettings, glucoseSource: DEFAULT });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.padding}>{t('Settings.Libre.text')}</Text>
-      <Button title={t('Settings.Libre.button')} onPress={() => Linking.openURL(t('Settings.Libre.link'))} />
+      <View>
+        <Text h2>{t('Settings.Libre.text')}</Text>
+        {userSettings.glucoseSource === LIBRETWOAPP ? null : (
+          <Text h3>{t('Settings.Libre.description')}</Text>
+        )}
+        <Text h4 h4Style={styles.h4}>
+          {t('Settings.Libre.instructions')}
+        </Text>
+        {userSettings.glucoseSource === LIBRETWOAPP ? (
+          <Text h2>{t('Settings.Libre.instructionsActive')}</Text>
+        ) : null}
+      </View>
+      <View style={styles.button}>
+        <Button
+          title={userSettings.glucoseSource === LIBRETWOAPP ? t('General.deactivate') : t('General.activate')}
+          onPress={() => (userSettings.glucoseSource === LIBRETWOAPP ? removeGlucoseSource() : saveState())}
+        />
+      </View>
     </View>
   );
 };
 
 export default Libre;
 
-const styles = StyleSheet.create({
+const useStyles = makeStyles(theme => ({
   container: {
     flexGrow: 1,
-    padding: spacing.M,
+    padding: spacing.L,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   padding: {
     padding: 12,
     fontSize: 18,
     alignItems: 'center',
   },
-});
+  button: { marginVertical: theme.spacing.L },
+  h4: { marginVertical: theme.spacing.L, color: theme.colors.error },
+}));

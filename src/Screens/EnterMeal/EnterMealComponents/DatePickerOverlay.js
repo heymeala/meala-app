@@ -3,9 +3,7 @@ import { Dimensions, Platform, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import LocalizationContext from '../../../../LanguageContext';
-import { Button, FAB, makeStyles, Overlay, Text } from 'react-native-elements';
-import SaveButton from '../../../Common/SaveButton';
-import { spacing } from '../../../theme/styles';
+import { Button, Divider, FAB, Icon, makeStyles, Overlay, Text, useTheme } from 'react-native-elements';
 
 export const DatePickerOverlay = ({ date, setDate }) => {
   const [datePicker, setDatePicker] = useState(date);
@@ -15,7 +13,7 @@ export const DatePickerOverlay = ({ date, setDate }) => {
   const [show, setShow] = useState(false);
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
-
+  const { theme } = useTheme();
   useEffect(() => {
     if (Platform.OS === 'ios') {
       setMode('datetime');
@@ -49,11 +47,25 @@ export const DatePickerOverlay = ({ date, setDate }) => {
   const windowWidth = Dimensions.get('window').width;
   return (
     <>
+      <Divider />
       <TouchableOpacity
         accessible={true}
         accessibilityRole="button"
+        style={styles.container}
         onPress={() => setDateOverlayVisible(true)}>
-        <Text style={styles.date}>{moment(date.toISOString()).format('lll')}</Text>
+        <View style={styles.touchContainer}>
+          <Text style={styles.date}>{moment(date.toISOString()).format('Do')}</Text>
+          <Text style={styles.month}>{moment(date.toISOString()).format('MMM')}</Text>
+        </View>
+        <View style={styles.edit}>
+          <Icon name={'edit'} size={16} color={theme.colors.white} />
+        </View>
+        <View style={{ flexDirection: 'column', paddingTop: 8 }} onPress={() => setDateOverlayVisible(true)}>
+          <Text style={styles.time}>
+            {t('AddMeal.startedEating')} {moment(date.toISOString()).format('LT')}{' '}
+          </Text>
+          <Text style={styles.subtitle}>{t('AddMeal.rightTime')}</Text>
+        </View>
       </TouchableOpacity>
       <Overlay
         isVisible={isDateOverlayVisible}
@@ -124,14 +136,50 @@ export const DatePickerOverlay = ({ date, setDate }) => {
 
 const useStyles = makeStyles((theme, props: Props) => ({
   date: {
+    fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
+    fontSize: 22,
     color: theme.colors.primary,
-    paddingBottom: 15,
   },
+  time: {
+    fontFamily: 'SecularOne-Regular',
+    fontSize: 18,
+    color: theme.colors.primary,
+  },
+  month: {
+    fontFamily: 'SecularOne-Regular',
+
+    color: theme.colors.primary,
+  },
+  subtitle:{fontSize:12},
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
+  },
+  container: { flexDirection: 'row', alignItems: 'center', marginBottom: theme.spacing.L },
+  touchContainer: {
+    marginLeft: theme.spacing.M,
+    marginTop: theme.spacing.M,
+    justifyContent: 'center',
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 20,
+    alignItems: 'center',
+    padding: theme.spacing.S,
+    textAlignVertical: 'center',
+
+    width: 70,
+    height: 65,
+  },
+  edit: {
+    backgroundColor: theme.colors.primary,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: -10,
+    top: -15,
   },
 }));

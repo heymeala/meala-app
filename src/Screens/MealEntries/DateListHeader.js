@@ -19,17 +19,18 @@ const DateListHeader = props => {
   async function dates() {
     const white = await database.fetchMealDates();
     const purDates = white.map(date => moment(date.date));
-    setWhiteListDataBaseDates(purDates);
+    setWhiteListDataBaseDates(
+      purDates.map(dates => {
+        return { date: dates, dots: [{ color: 'blue' }] };
+      }),
+    );
   }
-
-  const markedDates = whiteListDataBaseDates.map(dates => {
-    return { date: dates, dots: [{ color: 'blue' }] };
-  });
 
   return (
     <>
       <View style={styles.container}>
         {controlBar}
+
         <ReactNativeCalendarStrip
           scrollable={true}
           daySelectionAnimation={{
@@ -41,10 +42,10 @@ const DateListHeader = props => {
           maxDate={today}
           // calendarAnimation={{Type:"parallel"}}
           // scrollerPaging={true}
+          markedDates={whiteListDataBaseDates}
           selectedDate={chosenDateStart}
           onDateSelected={setChosenDateStart}
           style={{ height: 150, paddingTop: 20, paddingBottom: 10 }}
-        //  markedDates={markedDates}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'#f9de1c'}
           dateNumberStyle={{ color: 'black' }}

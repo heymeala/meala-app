@@ -6,16 +6,16 @@ import { serving } from '../../utils/specialTranslations';
 import QuizDetailInfos from './QuizDetailInfos';
 import AnswerButtons from './AnswerButtons';
 import { loadQuestionRecipes } from './loadQuestionRecipes';
-import LottieView from 'lottie-react-native';
-import right from '../../assets/animations/quiz/confetti.json';
-import wrong from '../../assets/animations/quiz/wrong-answer.json';
+
 import PoweredByFatSecret from '../../Common/fatsecret/PoweredByFatSecret';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import Finish from './Finish';
 import AccessibleAnswer from './AccessibleAnswer';
-import Sound from 'react-native-sound';
-import { quizServings } from "./quizServingTypes";
+import { quizServings } from './quizServingTypes';
+import AnswerAnimation from './AnswerAnimation';
+import { playRightAnswerSound, playWrongAnswerSound } from './GameSounds';
 
+/*
 var rightSound = new Sound('right.mp3', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
@@ -31,6 +31,7 @@ var wrongSound = new Sound('wrong.mp3', Sound.MAIN_BUNDLE, error => {
   }
   // loaded successfully
 });
+*/
 
 const FatSecretQuiz = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -59,23 +60,10 @@ const FatSecretQuiz = props => {
   function playSound() {
     // Play the sound with an onEnd callback
     if (playWrongAnimation) {
-      wrongSound.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+      playWrongAnswerSound();
     } else {
-      rightSound.play(success => {
-        props.scrollToTop();
-
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
+      playRightAnswerSound();
+      props.scrollToTop();
     }
   }
 
@@ -188,10 +176,9 @@ const FatSecretQuiz = props => {
   return recipeDetails !== null ? (
     <>
       <View style={styles.container}>
-        <Text accessibilityRole={'header'} h2 style={styles.text}>
-          {question.current}
-        </Text>
-
+          <Text accessibilityRole={'header'} h2 h2Style={styles.text}>
+            {question.current}
+          </Text>
         <Image
           style={styles.image}
           source={{
@@ -227,25 +214,7 @@ const FatSecretQuiz = props => {
         <QuizDetailInfos recipeDetails={recipeDetails} />
       </View>
       {(validated && !screenReaderEnabled) || (playWrongAnimation && !screenReaderEnabled) ? (
-        <>
-          <View
-            style={{
-              backgroundColor: answer ? 'rgba(89,255,0,0.3)' : 'rgba(255,0,0,0.3)',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '100%',
-              width: '100%',
-            }}>
-            <LottieView
-              ref={animation}
-              style={{ width: '100%', position: 'absolute', top: 0 }}
-              source={answer ? right : wrong}
-              loop={false}
-            />
-          </View>
-        </>
+        <AnswerAnimation answer={answer} animation={animation} />
       ) : null}
       <PoweredByFatSecret />
     </>

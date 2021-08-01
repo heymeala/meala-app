@@ -1,4 +1,4 @@
-import { Dimensions, Linking, View } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import { FAB, makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
@@ -14,14 +14,10 @@ export const EmptyListDate = ({ navigation }) => {
     <View style={styles.wrapper}>
       <View style={styles.infoBox}>
         <Text h1 h1Style={styles.infoTextHeadline}>
-          Ein ganz besonderer Tag
+          {t('Entries.empty.date.title')}
         </Text>
-        <Text style={styles.infoText}>
-          Du suchst nach einem genauen Tag? Oder dein Arzt fragt nach einem bestimmten Datum? Dann bist du
-          hier richtig.
-        </Text>
+        <Text style={styles.infoText}>{t('Entries.empty.date.description')}</Text>
       </View>
-
       <LottieView
         style={styles.animation}
         source={require('../../../assets/animations/calendar.json')}
@@ -29,7 +25,6 @@ export const EmptyListDate = ({ navigation }) => {
         loop
       />
 
-      <FAB title={'Quiz'} placement={'left'} onPress={() => navigation.navigate('Quiz')} />
     </View>
   );
 };

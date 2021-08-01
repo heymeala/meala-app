@@ -16,38 +16,38 @@ const AccessibleAnswer = props => {
 
   function handleQuizTypeTranslation() {
     if (serving === quizServings.carbohydrate) {
-      return t('Accessibility.Quiz.answer_carbs');
+      return t('Accessibility.MealQuiz.answer_carbs');
     } else if (serving === quizServings.calories) {
-      return t('Accessibility.Quiz.answer_calories');
+      return t('Accessibility.MealQuiz.answer_calories');
     } else if (serving === quizServings.fat) {
-      return t('Accessibility.Quiz.answer_fat');
+      return t('Accessibility.MealQuiz.answer_fat');
     } else if (serving === quizServings.fpe) {
-      return t('Accessibility.Quiz.answer_fpe');
+      return t('Accessibility.MealQuiz.answer_fpe');
     } else if (serving === quizServings.protein) {
-      return t('Accessibility.Quiz.answer_protein');
+      return t('Accessibility.MealQuiz.answer_protein');
     }
   }
 
   function getAnswer() {
     if (answer) {
       return (
-        t('Accessibility.Quiz.answer_right', {
+        t('Accessibility.MealQuiz.answer_right', {
           name: recipeDetails.recipe_name,
           serving: servingAnswer[serving],
           type: type.current,
         }) +
         ' ' +
-        t('Accessibility.Quiz.next')
+        t('Accessibility.MealQuiz.next')
       );
     } else {
       return (
-        t('Accessibility.Quiz.answer_wrong', {
+        t('Accessibility.MealQuiz.answer_wrong', {
           name: recipeDetails.recipe_name,
           serving: servingAnswer[serving],
           type: type.current,
         }) +
         ' ' +
-        t('Accessibility.Quiz.next')
+        t('Accessibility.MealQuiz.next')
       );
     }
   }

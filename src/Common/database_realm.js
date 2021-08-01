@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  CommunityQuiz,
   FatSecretFoodEntryIdsSchema,
   MealSchema,
   ProfileSchema,
@@ -7,6 +8,7 @@ import {
   SettingsSchemaV3,
   tagsSchema,
 } from './Constants/realmSchema';
+import uuid from 'react-native-uuid';
 
 const Realm = require('realm');
 // Define your models and their properties
@@ -20,9 +22,10 @@ export const database = {
       tagsSchema,
       ProfileSchema,
       FatSecretFoodEntryIdsSchema,
+      CommunityQuiz,
     ],
 
-    schemaVersion: 38,
+    schemaVersion: 40,
     migration: (oldRealm, newRealm) => {
       if (oldRealm.schemaVersion < 32) {
         const oldObjects = oldRealm.objects('Settings');
@@ -259,7 +262,7 @@ export const database = {
   fetchMealbyId: id => {
     return database._open
       .then(realm => {
-        const meals = realm.objects('Meal').filtered('id = $0', id);
+        const meals = realm.objects('Meal').filtered('userMealId = $0', id);
         return meals[0];
       })
       .catch(error => {
@@ -409,11 +412,10 @@ export const database = {
       });
   },
 
-  getCgmData: (date, id) => {
+  getCgmData: (id) => {
     return database._open
       .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
-
         return Meal[0].cgmData;
       })
       .catch(error => {
@@ -452,7 +454,6 @@ export const database = {
   deleteRestaurant: () => {
     return database._open.then(realm => {
       realm.write(() => {
-        // Create a book object
         realm.delete(realm.objects('Restaurant').filtered('isDeleted == true'));
       });
     });
@@ -486,7 +487,7 @@ export const database = {
       });
     });
   },
-  editMealCgmData: (date, cgmData, id) => {
+  editMealCgmData: (cgmData, id) => {
     return database._open.then(realm => {
       //  let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {
@@ -498,8 +499,7 @@ export const database = {
           },
           true,
         );
-
-        console.log('REALM DATABASE - editMealCGM' + date);
+        console.log('REALM DATABASE - editMealCGM');
       });
     });
   },
@@ -517,6 +517,36 @@ export const database = {
           },
           true,
         );
+      });
+    });
+  },
+  addCommunityQuizAnswer: (questionId, tries, categoryId) => {
+    return database._open.then(realm => {
+      realm.write(() => {
+        realm.create(
+          'CommunityQuiz',
+          {
+            id: uuid.v4().toString(),
+            date: new Date(),
+            categoryId: categoryId,
+            questionId: questionId.toString(),
+            tries: tries,
+          },
+          false,
+        );
+      });
+    });
+  },
+  getCommunityQuizAnswers: () => {
+    return database._open.then(realm => {
+      const CommunityQuiz = realm.objects('CommunityQuiz');
+      return CommunityQuiz;
+    });
+  },
+  deleteCommunityQuizAnswers: () => {
+    return database._open.then(realm => {
+      realm.write(() => {
+        realm.delete(realm.objects('CommunityQuiz'));
       });
     });
   },

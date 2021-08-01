@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Platform, ScrollView, View } from 'react-native';
 import GItwo from '../../Common/gi';
-import { ListItem, makeStyles, SearchBar, Text } from 'react-native-elements';
+import { Chip, ListItem, makeStyles, SearchBar, Text } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import LottieView from 'lottie-react-native';
 import { mapNumber } from '../../utils/map';
+import LoadingSpinner from '../../Common/LoadingSpinner';
+
 const GlyxSearchScreen = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const updateSearch = search => {
     setSearch(search);
     searchFilterFunction(search);
   };
+  useEffect(() => {
+    setData(GItwo);
+    setLoading(false);
+  }, []);
 
   const searchFilterFunction = text => {
     if (text.length >= 1) {
@@ -58,19 +65,22 @@ const GlyxSearchScreen = props => {
         onChangeText={updateSearch}
         value={search}
       />
-
-      {data.map((list, i) => (
-        <View key={i} style={{ ...styles.giList, backgroundColor: colorCode(list.GI) }}>
-          <Text h3 style={{ fontFamily: 'SecularOne-Regular' }}>
-            {list[locale]}
-          </Text>
-          <Text h3>GI = {list.GI}</Text>
-        </View>
-      ))}
-
-      {data.length < 1 ? (
-        <View style={styles.infoContainer}>
-          <View style={styles.animationContainer}>
+      <View style={{ flexDirection: 'row' }}>
+        <Chip onPress={() => updateSearch(t('GI.rice'))} containerStyle={styles.chip} title={t('GI.rice')} />
+        <Chip
+          onPress={() => updateSearch(t('GI.apple'))}
+          containerStyle={styles.chip}
+          title={t('GI.apple')}
+        />
+        <Chip
+          onPress={() => updateSearch(t('GI.noodles'))}
+          containerStyle={styles.chip}
+          title={t('GI.noodles')}
+        />
+      </View>
+      <View style={styles.infoContainer}>
+        <View style={styles.animationContainer}>
+          <View>
             <LottieView
               style={styles.animation}
               source={require('../../assets/animations/food_carousel.json')}
@@ -78,27 +88,44 @@ const GlyxSearchScreen = props => {
               loop
             />
           </View>
-          <Text h4 style={styles.text}>
-            {t('GI.IntroText')}
-          </Text>
-          <View style={styles.knowledgeContainer}>
-            <ListItem.Accordion
-              content={
-                <Text h3 style={styles.listItem}>
-                  {t('GI.NavigationBarTitle')}
-                </Text>
-              }
-              isExpanded={expanded}
-              onPress={() => {
-                setExpanded(!expanded);
-              }}>
-              <Text h3 style={styles.infoText}>
-                {t('GI.glyx_description')}
-              </Text>
-            </ListItem.Accordion>
+          <View>
+            <Text h4 style={styles.text}>
+              {t('GI.IntroText')}
+            </Text>
+            <Text style={styles.text}>{t('GI.example')}</Text>
           </View>
         </View>
-      ) : null}
+
+        <View style={styles.knowledgeContainer}>
+          <ListItem.Accordion
+            content={
+              <Text h3 style={styles.listItem}>
+                {t('GI.NavigationBarTitle')}
+              </Text>
+            }
+            isExpanded={expanded}
+            onPress={() => {
+              setExpanded(!expanded);
+            }}>
+            <Text h3 style={styles.infoText}>
+              {t('GI.glyx_description')}
+            </Text>
+          </ListItem.Accordion>
+        </View>
+      </View>
+
+      {!loading ? (
+        data.map((list, i) => (
+          <View key={i} style={{ ...styles.giList, backgroundColor: colorCode(list.GI) }}>
+            <Text h3 style={{ fontFamily: 'SecularOne-Regular' }}>
+              {list[locale]}
+            </Text>
+            <Text h3>GI = {list.GI}</Text>
+          </View>
+        ))
+      ) : (
+        <LoadingSpinner />
+      )}
     </ScrollView>
   );
 };
@@ -111,13 +138,15 @@ const useStyles = makeStyles((theme, dimensions) => ({
   animationContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: spacing.M,
+    alignItems: 'center',
+    margin: theme.spacing.M,
   },
-  animation: { width: 150 },
+  chip: { padding: theme.spacing.S },
+  animation: { width: 90, height: 90, justifyContent: 'center', marginRight: theme.spacing.S },
   knowledgeContainer: { marginVertical: spacing.L },
   listItem: { flex: 1, flexGrow: 1 },
   infoContainer: {},
   giList: { padding: spacing.S, marginVertical: 4, borderRadius: 5 },
-  text: { padding: spacing.S },
-  infoText: { padding: spacing.S },
+  text: { padding: theme.spacing.S, width: 200, textAlignVertical: 'center' },
+  infoText: { padding: theme.spacing.S },
 }));

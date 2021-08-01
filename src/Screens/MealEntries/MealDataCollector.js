@@ -5,6 +5,7 @@ import { useProfile } from '../../hooks/useProfile';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { loadSugarData } from './loadHealthData';
+import { useRoute } from '@react-navigation/core';
 
 const MealDataCollector = props => {
   const [sugar, setSugar] = useState([]);
@@ -19,14 +20,14 @@ const MealDataCollector = props => {
   const [carbCoordinates, setCarbCoordinates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stepsPerDay, setStepsPerDay] = useState(null);
-
+  const route = useRoute();
+  const { userMealId } = route.params;
   const [restaurantName, setRestaurantName] = useState(null);
   const { settings } = useProfile();
-  const { route } = props;
   const { userSettings } = useUserSettings();
   useEffect(() => {
     let isMounted = true;
-    if (route.params?.mealId) {
+    if (userMealId) {
       if (isMounted) {
         loadData();
       }
@@ -34,11 +35,10 @@ const MealDataCollector = props => {
     return () => {
       isMounted = false;
     };
-  }, [route.params?.mealId, settings, userSettings]);
+  }, [userMealId, settings, userSettings]);
 
   function loadData() {
-    const mealId = route.params?.mealId ?? undefined;
-    database.fetchMealbyId(mealId).then(mealData => {
+    database.fetchMealbyId(userMealId).then(mealData => {
       database.getRestaurantName(mealData.restaurantId).then(name => setRestaurantName(name));
       setSelectedFood(prevState => mealData);
       loadSugarData(
@@ -46,9 +46,9 @@ const MealDataCollector = props => {
         userSettings,
         settings,
         setCoordinates,
-        setDateStrings,
-        setDates,
-        setSugar,
+       // setDateStrings,
+        //setDates,
+       // setSugar,
         setCarbs,
         setInsulin,
         setTreatments,
@@ -68,15 +68,16 @@ const MealDataCollector = props => {
           carbCoordinates={carbCoordinates}
           selectedFood={selectedFood}
           insulinCoordinates={insulinCoordinates}
-          sugar={sugar}
-          dates={dates}
+          //   sugar={sugar}
+          //   dates={dates}
           carbs={carbs}
           insulin={insulin}
-          dateStrings={dateStrings}
+         // dateStrings={dateStrings}
           coordinates={coordinates}
           restaurantName={restaurantName}
           loading={loading}
           stepsPerDay={stepsPerDay}
+          reloadData={loadData}
         />
       ) : (
         <LoadingSpinner />

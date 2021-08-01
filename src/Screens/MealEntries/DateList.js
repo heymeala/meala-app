@@ -84,7 +84,11 @@ const DateList = props => {
       extraData={chosenDateStart}
       contentInsetAdjustmentBehavior="automatic"
       ListHeaderComponent={
-        <DateListHeader controlBar={props.controlBar} setChosenDateStart={setChosenDateStart} />
+        <DateListHeader
+          controlBar={props.controlBar}
+          chosenDateStart={chosenDateStart}
+          setChosenDateStart={setChosenDateStart}
+        />
       }
       ListFooterComponentStyle={{ height: '100%' }}
       ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}

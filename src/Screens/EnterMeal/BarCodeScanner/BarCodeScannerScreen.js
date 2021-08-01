@@ -7,6 +7,7 @@ import ScannerResults from './Scanner/ScannerResults';
 import Modal from 'react-native-modal';
 import { spacing } from '../../../theme/styles';
 import { openFoodFactsApi } from './openFoodFactsApi';
+import analytics from '@react-native-firebase/analytics';
 
 const ScanScreen = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -40,12 +41,16 @@ const ScanScreen = props => {
     if (foodData.status === 0) {
       setStatus(false);
       setTimeout(() => setStatus(true), 3000);
+      await analytics().logEvent('barcode_scan', { result: 'not found' });
     } else {
       setData(foodData.product);
+
       if (foodData.product_name === undefined || foodData.product_name === '') {
         setStatus(true);
         setModal(true);
+        await analytics().logEvent('barcode_scan', { result: 'no name' });
       }
+      await analytics().logEvent('barcode_scan', { result: 'success' });
     }
   };
 

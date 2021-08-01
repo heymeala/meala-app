@@ -13,8 +13,10 @@ import FatSecretSettings from '../Screens/Settings/FatSecretSettings';
 import Dexcom from '../Screens/Settings/Dexcom';
 import Libre from '../Screens/Settings/Libre';
 import TidePool from '../Screens/Settings/TidePool';
-import Quiz from '../Screens/Quiz/Quiz';
-import { Icon } from 'react-native-elements';
+import MealQuiz from '../Screens/Quiz/MealQuiz';
+import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
+import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
+import Licenses from "../Screens/Settings/License/Licenses";
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -31,9 +33,9 @@ function SettingsStack() {
           headerStyle:
             Platform.OS !== 'android' && Platform.Version >= 13
               ? {
-                  backgroundColor: 'transparent',
-                  blurEffect: 'light',
-                }
+                backgroundColor: 'transparent',
+                blurEffect: 'light',
+              }
               : { backgroundColor: 'white' },
 
           title: t('Settings.SettingsTitle'),
@@ -62,7 +64,7 @@ function SettingsStack() {
         component={HealthKitScreen}
         initialParams={{}}
         options={{
-          title: 'HealthKitScreen',
+          title: t('Settings.healthKit.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -94,7 +96,7 @@ function SettingsStack() {
         component={Dexcom}
         initialParams={{}}
         options={{
-          title: 'Dexcom',
+          title: t('Settings.Dexcom.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -104,7 +106,7 @@ function SettingsStack() {
         name="Libre"
         component={Libre}
         options={{
-          title: 'Libre',
+          title: t('Settings.Libre.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
@@ -112,14 +114,36 @@ function SettingsStack() {
       />
       <Stack.Screen
         name="Quiz"
-        component={Quiz}
+        component={MealQuiz}
         options={{
-          title: 'Quiz',
+          title: t('MealQuiz.name'),
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
         }}
       />
+      <Stack.Screen
+        name="Knowledge"
+        component={Knowledge}
+        options={{
+          title: t('Knowledge.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="KnowledgeDetails"
+        initialParams={{ itemId: null }}
+        component={KnowledgeDetails}
+        options={{
+          title: t('Knowledge.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+
       <Stack.Screen
         name="AboutScreen"
         component={AboutScreen}
@@ -159,6 +183,16 @@ function SettingsStack() {
         initialParams={{}}
         options={{
           title: 'Profil',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Licenses"
+        component={Licenses}
+        options={{
+          title: 'Licenses',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

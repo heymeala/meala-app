@@ -1,4 +1,11 @@
 {
+  "BottomNavBar": {
+    "entries": "Einträge",
+    "map": "Karte",
+    "addMeal": "Hinzufügen",
+    "knowledge": "Wissen",
+    "more": "Mehr"
+  },
   "AddMeal": {
     "DrawNavigatorTitle": "Gericht anlegen",
     "BottomBarTitle": "Gericht anlegen",
@@ -18,12 +25,15 @@
     "save": "Speichern",
     "edit": "Bearbeiten",
     "copy": "Kopieren",
+    "startedEating": "Essenszeit um",
+    "rightTime": "Wähle die richtige Uhrzeit",
     "ErrorMessage": "Bitte ausfüllen",
     "firstEntry": "Lege Deine erste Mahlzeit an. Achte darauf, dass Deine Gerichte am Anfang nicht zu vielfältig sind, damit Du aus Deinen Werten lernen kannst. Versuche zudem drei Stunden nach dem Essen keine weiteren Kohlenhydrate aufzunehmen, damit Du erkennst, ob Du richtig geschätzt hast.",
     "notificationAfterMeal": "Schaue Dir Deine letzte Mahlzeit {{mealTitle}} an",
     "notificationLunch": "Was isst Du zum Mittagessen?",
     "notificationDinner": "Was gab es zum Abendessen?",
     "tags": "Folgende Markierungen haben wir am häufigsten in Deinen Mahlzeiten gefunden. Nach diesen Begriffen kannst Du übrigens auch suchen.",
+    "reminder": "Erinnerung in {{hours}} Stunden",
     "exp": "Experimentell – Ähnliche Gerichte:",
     "resetTitle": "Zurücksetzen?",
     "resetMessage": "Alle Felder werden zurückgesetzt",
@@ -69,6 +79,7 @@
       "findTag": "Du kannst deine Mahlzeiten später nach diesen Wörtern suchen und filtern",
       "exampleTag": "z.B. Sport, Basalratentest, Krank",
       "basalrate": "Basalratentest",
+      "period": "Periode",
       "breakfast": "Frühstück",
       "edit_mode": "Labels können aktuell nicht bearbeitet werden. Wir arbeiten schon dran"
     },
@@ -121,8 +132,8 @@
     "noDataSource": "Leider können wir keine genauere Analyse darstellen. Du hast noch keine Gesundheitsdaten mit meala verbunden. Gehe in die Einstellungen, um Daten-Quellen hinzuzufügen.",
     "notEnoughData": "Nicht genügend Daten im Health Kit. Es sind mindestens drei Messungen erforderlich.",
     "youHave": "Du hast ca: ",
-    "before": " Minuten vor dem Essen gespritzt",
-    "after": " Minuten nach dem Essen gespritzt",
+    "before": " Min. vor dem Essen gespritzt",
+    "after": " Min. nach dem Essen gespritzt",
     "anotherEntry": "Weiteres Gericht eintragen",
     "copyMeal": "Mahlzeit kopieren",
     "delete": "Löschen",
@@ -136,6 +147,7 @@
     "noImage": "Kein Bild",
     "noData": "Keine Daten vorhanden",
     "deleteRestaurant": "Restaurant löschen",
+    "tags": "Diese Mahlzeit wird über folgende Tags gefunden",
     "SearchExistingRealmDatabaseDateTime": {
       "searchDate": "Suche nach einem Datum"
     },
@@ -152,17 +164,40 @@
     "fpu": " FPE: ",
     "fpu_formula": "(KCal - (Kohlenhydrate*4)) / 100",
     "informationFrom": "Information von",
-    "details": "Details"
+    "details": "Details",
+    "libre": {
+      "title": "Libre Daten Import",
+      "chooseImage": "Wähle das Bild vom ",
+      "openLibre": "Öffne die Libre App",
+      "differentImage": "Anderes Libre Bild auswählen",
+      "addImage": "Füge Libre Daten hinzu",
+      "stepOne": "Öffne deine Libre App und gehe auf das Tagesdiagramm",
+      "saveLibreImageOne": "Im Tagesdiagramm der Libre App, drücke das Teilen Icon ",
+      "saveLibreImageTwo": " und speichere das Diagramm auf deinem Smartphone",
+      "stepTwo": "Wenn du das Tagesdiagramm gespeichert hast, wähle das Bild hier aus",
+      "errorMessage": "Da ist etwas nicht richtig. Hast du ein Libre-Tagesdiagramm hochgeladen? Versuche es noch einmal",
+      "loading": "Komplexe Datenanalyse \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB bitte warte kurz"
+    }
   },
   "GI": {
     "BottomBarTitle": "GI",
     "NavigationBarTitle": "Glykämischer Index",
     "Search": "Nahrungsmittel suchen",
-    "IntroText": "Der Glykämische Index (GI) von 0 bis 100. Beispiel: Traubenzucker hat einen GI von 100",
+    "rice": "Reis",
+    "apple": "Apfel",
+    "noodles": "Nudeln",
+    "IntroText": "Der Glykämische Index (GI) von 0 bis 100.",
+    "example": "Beispiel: Traubenzucker hat einen GI von 100",
     "glyx_description": "Wenn der Blutzucker schnell steigt, kann es viele Ursachen haben. Beispielweise ein ungeeigneter Spritz Ess Abstand (SEA), Stress oder sogar Sport, wenn dabei nämlich Adrenalin ausgeschüttet wird. Beim Verzehr von Mahlzeiten gibt es glücklicherweise bereits eine Messeinheit, die beschreibt, wie schnell die Kohlenhydrate in einem bestimmten Zeitraum wirken. Diese bezeichnet man Glykämischer Index oder kurz Glyx. Je höher dieser Wert ist, desto mehr Zucker gelangt nach dem Verzehr ins Blut. Der Wert kann also auch helfen die richtigen Hypo-Helfer auszuwählen. Denn bei einer Unterzuckerung ist ein hoher Glykämischer Index hilfreich, um schnell wieder in den Zielbereich zu gelangen."
   },
   "Statistics": {
     "noData": "Noch nicht genug Daten vorhanden. Erstelle mehr Einträge und achte darauf, dass Du auch das Essen fotografierst."
+  },
+  "Map": {
+    "title": "Nie wieder Kohlenhydrate schätzen?",
+    "description": "Unsere Vision ist es hier für jede Speisekarte alle Nährwerte bereitzustellen. Das ist viel Arbeit, aber mit deiner Hilfe können wir es schaffen! Bleibe dran",
+    "contact": "Kontakt",
+    "help": "Du möchtest uns Unterstützen oder hast Fragen?"
   },
   "BarCode": {
     "BottomBarTitle": "Barcode",
@@ -182,7 +217,11 @@
     "ingredients": "Zutaten",
     "show_recipe": "Rezept anzeigen"
   },
+  "Knowledge": {
+    "name": "Wissenswertes"
+  },
   "Quiz": {
+    "name": "Quiz",
     "guess_question": "Wie gut kannst du Mahlzeiten einschätzen?",
     "guess_subtitle": "Zu jedem der unteren Rubriken gibt es 5 Fragen. Du erhältst zu jeder Frage drei Antwortmöglichkeiten. Versuche es solange, bis du die richtige Antwort findest",
     "recipe_description": "Beschreibung",
@@ -208,10 +247,31 @@
     "again": "Versuche es noch einmal",
     "score": "Punkte",
     "hint": "Hinweis",
+    "infoScreenTitle": "Weitere Infos zur Frage",
+    "noInfo": "Keine weiteren Informationen verfügbar.",
     "results": {
       "one": "{{count}} richtige Antwort",
       "other": "{{count}} richtige Antworten",
       "zero": "{{count}} richtige Antworten"
+    },
+    "quote": "Wer nichts weiß, muss alles glauben.",
+    "guide": "Ratgeber",
+    "guide_desc": "Wissen ist Macht",
+    "community_quiz_desc": "Fragen von und für die Community",
+    "meal_quiz": " Mahlzeiten-Quiz",
+    "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
+    "community": {
+      "title": "Wähle eine Quiz-Kategorie",
+      "next": "weiter",
+      "well_done": "Sehr gut weiter so.",
+      "by": "von",
+      "random": "Zufällige Fragen",
+      "reset": "alle Antworten zurücksetzen",
+      "back": "zur Übersicht",
+      "share": "Teile deine Punktzahl",
+      "outOf": "von",
+      "shareMessage": "Hey, ich habe das meala Quiz entdeckt und bereits  {{score}} Punkte. Wie viel schaffst du? Die App findest du hier: https://heymeala.com/de",
+      "answered": "Du hast alle verfügbaren Fragen zu diesem Thema beantwortet. Wir erweitern das Quiz jedoch ständig, sodass es bald weitere Fragen gibt. Wenn Du selber ein paar Fragen zum Community Quiz hinzufügen möchtest, schreibe uns gerne per Insta oder E-Mail."
     }
   },
   "Settings": {
@@ -223,7 +283,14 @@
     "sourceNightscout": "Quelle ändern (Nightscout)",
     "source": "Wähle eine Datenquelle",
     "dataSource": "Daten-Quellen",
+    "socialMedia": "Folge uns auf Social Media",
+    "feedbackQuestion": "Wie findest du die App?",
     "feedback": "Du hast einen Vorschlag zur Verbesserung oder ein Problem gefunden? Schreib uns gerne Dein Feedback an mail@heymeala.com",
+    "dialogFeedbackTitleGood": "Yay, das freut uns sehr!",
+    "dialogFeedbackDescriptionGood": "Feedback ist die größte Motivation für uns! Schreib uns gerne eine Nachricht, falls du noch mehr Feedback für uns hast. Wir können jede Unterstützung gebrauchen. Dein Feedback ist anonym, gib daher eine E-Mail an falls wir uns bei dir melden sollen",
+    "dialogFeedbackTitleBad": "Schade, was können wir verbessern?",
+    "dialogFeedbackDescriptionBad": "Danke für dein Feedback, was können wir verbessern um dich glücklich zumachen? Dein Feedback ist anonym, gib daher eine E-Mail an falls wir uns bei dir melden sollen",
+    "yourMessage": "Deine Nachricht an uns...",
     "about": "Mehr",
     "aboutmeala": "Was ist meala?",
     "privacy": "Datenschutz",
@@ -243,7 +310,9 @@
     "exampleLink3": "https://deineSeite.azurewebsites.net",
     "wrongUrl": "URL fehlerhaft oder Nightscout ist offline",
     "urlMissing": "URL fehlt",
+    "database": "Datenbanken",
     "healthKit": {
+      "name": "Health Kit",
       "title": "Verbinde Apple Health Kit mit meala",
       "titleAccess": "meala kann auf folgende Daten zugreifen",
       "canRead": "Durch Apple Health Kit hast Du die Möglichkeit Deine Gesundheitsdaten aus anderen Apps hier in meala mit Deinen Mahlzeiten zu vergleichen",
@@ -276,13 +345,21 @@
       "valid": "Tage hier den Code ein, den Du gerade auf der FatSecret Seite erhalten hast. Falls Du Ihn dir nicht gemerkt hast, logge dich erneut ein."
     },
     "Dexcom": {
+      "name": "Dexcom USA",
       "text": "Wir suchen Menschen mit einem amerikanischen Dexcom Account. Wir suchen Test-Nutzer_innen. Schreib uns bitte eine E-Mail: mail@heymeala.com",
       "button": "Ich kenne jemanden"
     },
     "Libre": {
-      "text": "Aktuell können Libre Daten nur über Nightscout importiert werden. Wir arbeiten zusätzlich an einer Integration von Tidepool. Damit können ebenfalls Libre Daten importiert werden.",
+      "name": "Libre",
+      "text": "Libre Daten importieren",
+      "description": "Aktiviere den Libre Importer, wenn du die Libre App nutzt.",
+      "instructions": "Achtung: Die Daten können nach dem Import abweichen, diese Informationen dürfen nicht für medizinische Zwecke genutzt werden. ",
+      "instructionsActive": "Du kannst jetzt zu deinen eingetragenen Mahlzeiten deine Libre Daten hinzufügen. Gehe auf deine angelegte Mahlzeit und drücke den Button 'Libre Daten hinzufügen'. Wenn du noch keinen Eintrag hast, gehe auf das + und lege eine neue Mahlzeit an.",
       "button": "Mehr über Nightscout",
       "link": "https://nightscout-user-guide.readthedocs.io/de/latest/docs/nightscout/index.html"
+    },
+    "Licenses": {
+      "name": "Lizenzen"
     }
   },
   "About": {
@@ -309,7 +386,9 @@
     "cancel": "Abbrechen",
     "reset": "Zurücksetzen",
     "close": "Schließen",
-    "back": "zurück"
+    "back": "zurück",
+    "activate": "Aktivieren",
+    "deactivate": "Deaktivieren"
   },
   "Onboarding": {
     "next": "weiter"
@@ -336,6 +415,7 @@
       "nodata": "Du hast noch keine Mahlzeiten angelegt. Hier werden sie erscheinen. Füge jetzt Deine erste Mahlzeit hinzu",
       "wait": "Erste Werte können erst nach 3 bis 6 Stunden angezeigt werden",
       "dexcom": "Nicht genug Daten vorhanden. Überprüfe, ob Daten im HealthKit vorhanden sind. Daten von Dexcom sind erst nach 6 Stunden verfügbar.",
+      "libre": "Nicht genug Daten im Libre Tagesdiagramm gefunden oder noch kein Tagesdiagramm hinzugefügt.",
       "button": "Taste"
     },
     "MealDetails": {
@@ -347,7 +427,7 @@
       "open_menu": "Öffne Menü",
       "edit": "Bearbeiten"
     },
-    "Quiz": {
+    "MealQuiz": {
       "answer_right": "Richtig. {{name}} hat {{serving}} {{type}}",
       "answer_wrong": "Leider falsch - {{name}} hat {{serving}} {{type}}",
       "next": "- weiter zur nächsten Frage durch tippen oder in 10 Sekunden",
@@ -361,6 +441,10 @@
       "home": "Gespeicherte Mahlzeiten",
       "add": "Neues Gericht eintragen",
       "settings": "Einstellungen und mehr"
+    },
+    "Feedback": {
+      "good": "gut",
+      "bad": "nicht so gut"
     }
   }
 }

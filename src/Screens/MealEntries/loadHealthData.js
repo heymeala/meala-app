@@ -1,4 +1,4 @@
-import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
+import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
 import { filterCoordinates, mapUnit } from './DetailSite/filterCoordinates';
 import AppleHealthKit from 'react-native-health';
@@ -6,15 +6,16 @@ import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
 import { permissions } from './DetailSite/HealthKitPermissions';
 import { Platform } from 'react-native';
+import { database } from '../../Common/database_realm';
 
 export async function loadSugarData(
   mealData,
   userSettings,
   settings,
   setCoordinates,
-  setDateStrings,
-  setDates,
-  setSugar,
+  //setDateStrings,
+  //setDates,
+  //setSugar,
   setCarbs,
   setInsulin,
   setTreatments,
@@ -25,22 +26,36 @@ export async function loadSugarData(
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
+
+  const tillDate = moment(foodDate).add(3, 'hours').toISOString();
+  const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+
+  function filterSVGDataByTime(glucoseData) {
+    return glucoseData
+      .filter(data => {
+        const start = new Date(fromDate).getTime();
+        const end = new Date(tillDate).getTime();
+        return data.date > start && data.date < end;
+      })
+      .map(data => {
+        const glucoseValueDate = new Date(data.date);
+        return {
+          x: glucoseValueDate,
+          y: data.sgv / settings.unit,
+        };
+      });
+  }
+
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
-    const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
-    const nsSugarDates = nsSugarData.map(data => data.date);
-    const foodDataString = nsSugarData.map(data => data.dateString);
-    const glucoseCoordinates = nsSugarData.map(data => {
-      const glucoseValueDate = new Date(data.date);
-      return {
-        x: glucoseValueDate,
-        y: data.sgv / settings.unit,
-      };
-    });
+    // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
+    //  const nsSugarDates = nsSugarData.map(data => data.date);
+    // const foodDataString = nsSugarData.map(data => data.dateString);
+    const glucoseCoordinates = filterSVGDataByTime(nsSugarData);
     setCoordinates(glucoseCoordinates);
-    setDateStrings(foodDataString);
-    setDates(nsSugarDates);
-    setSugar(nsSugarSGV);
+    //setDateStrings(foodDataString);
+    // setDates(nsSugarDates);
+    // setSugar(nsSugarSGV);
 
     const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
 
@@ -62,8 +77,6 @@ export async function loadSugarData(
   } else if (userSettings && userSettings.glucoseSource === HEALTHKIT) {
     setTreatments(null);
     setInsulinCoordinates(null);
-    const tillDate = moment(foodDate).add(3, 'hours').toISOString();
-    const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
 
     AppleHealthKit.initHealthKit(permissions, (error: string) => {
       /* Called after we receive a response from the system */
@@ -127,6 +140,14 @@ export async function loadSugarData(
         });
       }
     });
+    setLoading(false);
+  } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
+    const localCGMData = await database.getCgmData(id);
+    if (localCGMData && localCGMData.length > 0) {
+      const jsonLocalCGMData = JSON.parse(localCGMData);
+      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData);
+      setCoordinates(glucoseCoordinates);
+    }
     setLoading(false);
   } else {
     setLoading(false);

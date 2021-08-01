@@ -1,6 +1,5 @@
 import { Image, TouchableOpacity, View } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { makeStyles, Text } from 'react-native-elements';
+import { Icon, makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 

@@ -3,6 +3,7 @@ import moment from 'moment';
 import { database } from './database_realm';
 import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
+import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
 
 let newDate = moment();
 let waitDate = newDate.subtract(3, 'hours');
@@ -10,10 +11,9 @@ let waitDate = newDate.subtract(3, 'hours');
 export async function nightscoutCall(date, id) {
   const fromDateInput = date;
   const tillDateInput = date;
-  const getCGMDate = date;
 
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
-  return database.getCgmData(moment(getCGMDate).toISOString(), id).then(cgm => {
+  return database.getCgmData(id).then(cgm => {
     if (cgm === 'null' || cgm === null) {
       return database
         .getSettings()
@@ -21,13 +21,13 @@ export async function nightscoutCall(date, id) {
           // newer Nightscout Version use moment and have a different datestring
           if (settings.nightscoutVersion >= 0.12) {
             const tillDate = moment(tillDateInput).add(3, 'hours').toISOString();
-            const fromDate = moment(fromDateInput).subtract(35, 'minutes').toISOString();
+            const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').toISOString();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
           } else {
             const tillDate = moment(tillDateInput).add(3, 'hours').format();
-            const fromDate = moment(fromDateInput).subtract(35, 'minutes').format();
+            const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').format();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
@@ -38,7 +38,7 @@ export async function nightscoutCall(date, id) {
         .then(data => {
           // add data from nightscout  to offline realm database after 3hours
           if (waitDate.valueOf() >= date.getTime()) {
-            database.editMealCgmData(date, data, id);
+            database.editMealCgmData(data, id);
           }
           return data.reverse();
         });
@@ -57,7 +57,7 @@ export function nightscoutTreatmens(date, userMealId) {
 
   return database.getTreatmentsData(date, userMealId).then(treatments => {
     const tillDate = moment(tillDateInput).add(2, 'hours').toISOString();
-    const fromDate = moment(fromDateInput).subtract(35, 'minutes').toISOString();
+    const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').toISOString();
 
     if (treatments === null) {
       return database

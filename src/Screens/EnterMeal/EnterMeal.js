@@ -31,6 +31,7 @@ import uuid from 'react-native-uuid';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
+import ReminderSlider from './EnterMealComponents/ReminderSlider';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -77,6 +78,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [fatSecretData, setFatSecretData] = useState(null);
   const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
 
+  const [value, setValue] = useState(3);
+
   React.useEffect(() => {
     if (scan === true) {
       setIsScannerVisible(prevState => true);
@@ -88,7 +91,8 @@ const EnterMeal = ({ route, navigation }, props) => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
       }
-      return () => {};
+      return () => {
+      };
     }, []),
   );
 
@@ -121,7 +125,8 @@ const EnterMeal = ({ route, navigation }, props) => {
         }
       },
     });
-    return () => {};
+    return () => {
+    };
   }, [navigation, type]);
 
   useEffect(() => {
@@ -136,7 +141,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     auth()
       .signInAnonymously()
       .then(data => {
-        console.log(data.user.uid)
+        //  console.log(data.user.uid)
         setUser_id(data.user.uid);
       });
   }, []);
@@ -191,24 +196,33 @@ const EnterMeal = ({ route, navigation }, props) => {
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-          .filter(data => data.checked)
-          .map(data => {
-            return { foodEntryId: data.food_entry_id };
-          })
+        .filter(data => data.checked)
+        .map(data => {
+          return { foodEntryId: data.food_entry_id };
+        })
       : [];
 
-    const defaultMealTitle = mealTitle || mealTypeByTime(date, t);
+    const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
     const defaultRestaurantName = restaurantName || t('AddMeal.home');
     const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
     if (type.mode !== EDIT_MODE) {
-      reminderNotification(userMealId, mealId, t, defaultMealTitle);
+      reminderNotification(userMealId, mealId, t, defaultMealTitle, value);
       uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
     }
 
     if (type.mode === EDIT_MODE) {
       database
-        .editRestaurantAndMeal(mealTitle, foodPicture, note, mealId, userMealId, date, fatSecretUserIds, tags)
+        .editRestaurantAndMeal(
+          defaultMealTitle,
+          foodPicture,
+          note,
+          mealId,
+          userMealId,
+          date,
+          fatSecretUserIds,
+          tags,
+        )
         .then(() => {
           reset();
           navigation.setParams({
@@ -295,7 +309,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   const handleMealInputBlur = () => setMealIsFocused(false);
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
-    setMealId(id);
+    setMealId(id); // comes from database
     setMealIsFocused(false);
     Keyboard.dismiss();
   };
@@ -440,15 +454,10 @@ const EnterMeal = ({ route, navigation }, props) => {
         <NoteInputField notiz={note} setNotiz={setNote} />
 
         <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        <ReminderSlider value={value} setValue={setValue} />
       </ScrollView>
       <FAB
-        title={
-          type.mode === EDIT_MODE
-            ? t('AddMeal.edit')
-            : type.mode === COPY_MODE
-            ? t('AddMeal.copy')
-            : t('AddMeal.save')
-        }
+        title={t('AddMeal.save')}
         onPress={() => saveAll()}
         size={'small'}
         placement={'right'}

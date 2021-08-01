@@ -9,6 +9,7 @@ import MealList from './MealList';
 import { spacing } from '../../theme/styles';
 import FirstOpenDialog from '../FirstOpenDialog';
 import RestaurantList from './RestaurantList';
+import messaging from '@react-native-firebase/messaging';
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -24,7 +25,21 @@ const MealSearchController = () => {
     setSelectedIndex(index);
   };
 
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      console.log(fcmToken);
+      console.log('Your Firebase Token is:', fcmToken);
+    } else {
+      console.log('Failed', 'No token received');
+    }
+  };
+
   useEffect(() => {
+    /*
+    getFcmToken();
+*/
+
     let isMounted = true;
 
     if (isMounted) {

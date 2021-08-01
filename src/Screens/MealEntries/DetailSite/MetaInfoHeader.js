@@ -11,10 +11,12 @@ const MetaInfoHeader = props => {
       {/*
       <Text style={styles.date}>{props.date}</Text>
 */}
-      <Text h2 style={styles.mealTitle}>
+      <Text h2 style={styles.mealTitle} accessibilityRole={'header'}>
         {props.food}
       </Text>
-      <Text style={styles.restaurantName}>{props.restaurantName}</Text>
+      <Text style={styles.restaurantName} accessibilityRole={'header'}>
+        {props.restaurantName}
+      </Text>
     </View>
   );
 };
