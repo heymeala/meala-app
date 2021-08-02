@@ -32,6 +32,7 @@ import { useUserSettings } from '../../hooks/useUserSettings';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
+import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -44,8 +45,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
   const [avatarSourceCamera, setAvatarSourceCamera] = useState(undefined);
 
-  const [restaurantName, setRestaurantName] = useState('');
-  const [restaurantId, setRestaurantId] = useState('');
+  const [restaurantName, setRestaurantName] = useState(t('AddMeal.home'));
+  const [restaurantId, setRestaurantId] = useState(t('AddMeal.home'));
   const [mealTitle, setMealTitle] = useState('');
 
   const [note, setNote] = useState('');
@@ -295,7 +296,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     loadCommunityMeals(id);
     Keyboard.dismiss();
   };
-
+  //todo: real id?
   const handleRestaurantName = text => {
     setRestaurantName(text);
     setRestaurantId(text);
@@ -400,6 +401,12 @@ const EnterMeal = ({ route, navigation }, props) => {
         />
 
         <DatePickerOverlay date={date} setDate={setDate} />
+        <SearchRestaurantModal
+          handleRestaurantPress={handleRestaurantPress}
+          lat={lat}
+          lng={lng}
+          gpsEnabled={gpsEnabled}
+        />
         <RestaurantInputField
           editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
