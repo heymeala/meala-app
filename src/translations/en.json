@@ -48,6 +48,20 @@
     "lunch": "Lunch",
     "dinner": "Dinner",
     "home": "Home",
+    "SearchRestaurant": {
+      "where": "Where are you?",
+      "newPlace": "Create a new place",
+      "searchPlaceHolder": "where are you eating?",
+        "search":  "search",
+        "noSearchText": "Enter the place where you eat, if you don't enter a place it will stay at \"home\"",
+        "noSearchText2": "Also search for the name of your favorite restaurant or the street name where the restaurant you are in is located",
+        "office": "office",
+        "uni": "university",
+        "school": "school",
+        "gym": "fitness studio",
+        "train": "train",
+        "toGo": "on the road"
+      },
     "fatSecretUserEntries": {
       "title": "What did you eat?",
       "button": "FatSecret Data",

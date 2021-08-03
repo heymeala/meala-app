@@ -5,7 +5,7 @@ import { database } from '../../../Common/database_realm';
 const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 
 export const getLocalDatabaseRestaurants = text => {
-  if (text.length > 0) {
+  if (text && text.length > 0) {
     return database.fetchRestaurantsWithFilterLimit(text).then(restaurant => {
       if (restaurant.length > 0) {
         const allRestaurantsIsDeleted = restaurant.filter(restaurants => restaurants.isDeleted === false);

@@ -57,14 +57,17 @@ export const DatePickerOverlay = ({ date, setDate }) => {
           <Text style={styles.date}>{moment(date.toISOString()).format('Do')}</Text>
           <Text style={styles.month}>{moment(date.toISOString()).format('MMM')}</Text>
         </View>
-        <View style={styles.edit}>
+   {/*     <View style={styles.edit}>
           <Icon name={'edit'} size={16} color={theme.colors.white} />
-        </View>
+        </View>*/}
         <View style={{ flexDirection: 'column', paddingTop: 8 }} onPress={() => setDateOverlayVisible(true)}>
           <Text style={styles.time}>
             {t('AddMeal.startedEating')} {moment(date.toISOString()).format('LT')}{' '}
           </Text>
           <Text style={styles.subtitle}>{t('AddMeal.rightTime')}</Text>
+        </View>
+        <View style={{ margin: 8 }}>
+          <Button icon={<Icon name={'edit'} />} accessibilityLabel={t('AddMeal.edit')} />
         </View>
       </TouchableOpacity>
       <Overlay
@@ -139,17 +142,20 @@ const useStyles = makeStyles((theme, props: Props) => ({
     fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
     fontSize: 22,
-    color: theme.colors.primary,
+   // color: theme.colors.primary,
+
   },
   time: {
     fontFamily: 'SecularOne-Regular',
     fontSize: 18,
-    color: theme.colors.primary,
+    textAlign: 'left',
+
+    //color: theme.colors.primary,
   },
   month: {
     fontFamily: 'SecularOne-Regular',
 
-    color: theme.colors.primary,
+    //color: theme.colors.primary,
   },
   subtitle: { fontSize: 12 },
   overlay: {
@@ -161,6 +167,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: theme.spacing.L,
     marginTop: theme.spacing.L,
   },

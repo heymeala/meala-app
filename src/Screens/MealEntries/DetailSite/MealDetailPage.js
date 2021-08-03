@@ -16,7 +16,6 @@ import { carbSum, getDuration, getInsulinInfo, getSEA } from './InsulinCarbSum';
 import { useUserSettings } from '../../../hooks/useUserSettings';
 import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
-import { spacing } from '../../../theme/styles';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
 
@@ -128,7 +127,7 @@ const useStyles = makeStyles((theme, dimension) => ({
     paddingTop: 5,
     marginTop: theme.spacing.S,
   },
-  space: { paddingBottom: spacing.S },
+  space: { paddingBottom: theme.spacing.S, paddingLeft: theme.spacing.L },
   list: {
     backgroundColor: theme.colors.secondary,
   },

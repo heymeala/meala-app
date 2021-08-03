@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList, TextInput, View } from 'react-native';
+import { FlatList, Image, TextInput, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
@@ -66,7 +66,7 @@ const SearchRestaurantModal = props => {
         return [...newName, ...localList];
       } else if (googleList) {
         return [...newName, ...googleList];
-      } else if (text.length > 0) {
+      } else if (text && text.length > 0) {
         return [...newName];
       }
     };
@@ -91,7 +91,9 @@ const SearchRestaurantModal = props => {
       </View>
       <ListItem.Content>
         <ListItem.Title h4>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{index === 0 ? 'Erstelle einen neuen Ort' : item.address}</ListItem.Subtitle>
+        <ListItem.Subtitle>
+          {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
+        </ListItem.Subtitle>
       </ListItem.Content>
       <Button
         onPress={() => {
@@ -119,14 +121,16 @@ const SearchRestaurantModal = props => {
           <Icon name={'map'} type={'meala'} size={35} />
         </View>
         <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
-          <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>Wo isst Du?</Text>
+          <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>
+            {t('AddMeal.SearchRestaurant.where')}
+          </Text>
           <Text>{props.restaurantName}</Text>
         </View>
         <View style={{ margin: 8 }}>
           <Button
             disabled={props.editMode}
             icon={<Icon name={'edit'} />}
-            accessibilityLabel={'Bearbeiten'}
+            accessibilityLabel={t('AddMeal.edit')}
             onPress={() => setOpen(true)}
           />
         </View>
@@ -142,6 +146,9 @@ const SearchRestaurantModal = props => {
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
+            <Text h2 style={styles.headline}>
+              {t('AddMeal.SearchRestaurant.where')}
+            </Text>
             <TextInput
               autoFocus={true}
               clearButtonMode={'while-editing'}
@@ -150,43 +157,111 @@ const SearchRestaurantModal = props => {
                 searchForRestaurants(searchText, true);
               }}
               returnKeyType={'search'}
-              placeholder={'Wo isst du?'}
-              returnKeyLabel={'Search'}
+              placeholder={t('AddMeal.SearchRestaurant.searchPlaceHolder')}
+              returnKeyLabel={t('AddMeal.SearchRestaurant.search')}
               //  enablesReturnKeyAutomatically={true}
               value={searchText}
               //   platform={Platform.OS}
-              onChangeText={text => searchForRestaurants(text,false)}
+              onChangeText={text => searchForRestaurants(text, false)}
             />
             <FlatList
               ListEmptyComponent={
                 <View>
-                  <Text>
-                    Trage den Ort ein an dem Du isst, wenn du kein Ort einträgst bleibt er bei "Zuhause"
-                  </Text>
-                  <Text>
-                    Suche außerdem nach dem Namen deines Lieblingsrestaurants oder dem Straßenname in dem sich
-                    das Restaurant befindet in dem du gerade bist{' '}
+                  <Text>{t('AddMeal.SearchRestaurant.noSearchText')}</Text>
+                  <Text h4 h4Style={styles.text}>
+                    {t('AddMeal.SearchRestaurant.noSearchText2')}
                   </Text>
                   <Button
-                    title={'Büro'}
-                    type={'clear'}
-                    containerStyle={{ backgroundColor: 'transparent' }}
-                    onPress={() => props.handleRestaurantPress('Büro', 'Büro', 'local')}
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.office')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.office'),
+                        t('AddMeal.SearchRestaurant.office'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
                   />
-                  <Button title={'Uni'} onPress={() => props.handleRestaurantPress('Uni', 'Uni', 'local')} />
                   <Button
-                    title={'Schule'}
-                    onPress={() => props.handleRestaurantPress('Schule', 'Schule', 'local')}
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.uni')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.uni'),
+                        t('AddMeal.SearchRestaurant.uni'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
                   />
                   <Button
-                    title={'Fitness Studio'}
-                    onPress={() => props.handleRestaurantPress('Fitness Studio', 'Fitness Studio', 'local')}
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.school')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.school'),
+                        t('AddMeal.SearchRestaurant.school'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
                   />
-                  <Button title={'Bahn'} />
-                  <Button title={'Unterwegs'} />
+                  <Button
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.gym')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.gym'),
+                        t('AddMeal.SearchRestaurant.gym'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
+                  />
+                  <Button
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.train')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.train'),
+                        t('AddMeal.SearchRestaurant.train'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
+                  />
+                  <Button
+                    type={'outline'}
+                    buttonStyle={styles.button}
+                    title={t('AddMeal.SearchRestaurant.toGo')}
+                    onPress={() => {
+                      props.handleRestaurantPress(
+                        t('AddMeal.SearchRestaurant.toGo'),
+                        t('AddMeal.SearchRestaurant.toGo'),
+                        'local',
+                      );
+                      setOpen(false);
+                    }}
+                  />
                 </View>
               }
-              ListFooterComponent={loading && <LoadingSpinner />}
+              ListFooterComponent={
+                loading ? (
+                  <LoadingSpinner />
+                ) : restaurants && restaurants.length > 1 ? (
+                  <Image
+                    style={{ margin: 12 }}
+                    source={require('../../../assets/powered_by_google_on_white.png')}
+                    placeholderStyle={{ backgroundColor: '#fff' }}
+                  />
+                ) : null
+              }
               keyExtractor={keyExtractor}
               data={restaurants}
               renderItem={FlatListItem}
@@ -204,6 +279,8 @@ const SearchRestaurantModal = props => {
 export default SearchRestaurantModal;
 
 const useStyles = makeStyles(theme => ({
+  headline: { margin: theme.spacing.S },
+  text:{marginTop:theme.spacing.S},
   touchContainer: {
     marginLeft: theme.spacing.M,
     justifyContent: 'center',
@@ -248,9 +325,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   buttonsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
     margin: theme.spacing.XS,
   },
+  button: { backgroundColor: 'transparent', alignSelf: 'center', width: 300, margin: theme.spacing.S },
 }));
