@@ -6,7 +6,6 @@ import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
 import MealInputField from './EnterMealComponents/MealInputField';
-import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
 import { uploadImageToServer } from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import { DatePickerOverlay } from './EnterMealComponents/DatePickerOverlay';
@@ -96,8 +95,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
       }
-      return () => {
-      };
+      return () => {};
     }, []),
   );
 
@@ -130,8 +128,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         }
       },
     });
-    return () => {
-    };
+    return () => {};
   }, [navigation, type]);
 
   useEffect(() => {
@@ -201,10 +198,10 @@ const EnterMeal = ({ route, navigation }, props) => {
   function saveAll() {
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-        .filter(data => data.checked)
-        .map(data => {
-          return { foodEntryId: data.food_entry_id };
-        })
+          .filter(data => data.checked)
+          .map(data => {
+            return { foodEntryId: data.food_entry_id };
+          })
       : [];
 
     if (type.mode !== EDIT_MODE) {
@@ -319,8 +316,8 @@ const EnterMeal = ({ route, navigation }, props) => {
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
     setAvatarSourceCamera(undefined);
-    setRestaurantName(defaultRestaurantName);
-    setRestaurantId(defaultRestaurantId);
+    setRestaurantName(t('AddMeal.home'));
+    setRestaurantId(t('AddMeal.home'));
     setMealTitle(defaultMealTitle);
     setNote('');
     setCarbs(null);
@@ -410,7 +407,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           gpsEnabled={gpsEnabled}
           restaurantName={restaurantName}
         />
-  {/*      <RestaurantInputField
+        {/*      <RestaurantInputField
           editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
           handleRestaurantPress={handleRestaurantPress}

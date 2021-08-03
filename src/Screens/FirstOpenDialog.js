@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
-import { FAB, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
+import { FAB, makeStyles, Text } from 'react-native-elements';
 import { database } from '../Common/database_realm';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
@@ -62,25 +62,23 @@ const FirstOpenDialog = props => {
                   {t('Entries.firstOpenDialog.subtitle')}
                 </Text>
                 <ListItemWithIcon title={t('Entries.firstOpenDialog.Nightscout')} icon={'nightscout'} />
-                <ListItemWithIcon
-                  title={t('Entries.firstOpenDialog.FatSecret')}
-                  icon={'apps'}
-                  type={'ionicon'}
-                />
+                <ListItemWithIcon title={t('Entries.firstOpenDialog.Libre')} icon={'libre'} />
+
                 <ListItemWithIcon
                   title={t('Entries.firstOpenDialog.AppleHealth')}
                   icon={'heart'}
                   type={'ionicon'}
                 />
+                <ListItemWithIcon
+                  title={t('Entries.firstOpenDialog.FatSecret')}
+                  icon={'apps'}
+                  type={'ionicon'}
+                />
                 <ListItemWithIcon title={t('Entries.firstOpenDialog.Dexcom')} icon={'dexcom'} />
+
                 <ListItemWithIcon
                   title={t('Entries.firstOpenDialog.Tidepool')}
                   icon={'tidepool'}
-                  subtitle={t('Entries.firstOpenDialog.wip')}
-                />
-                <ListItemWithIcon
-                  title={t('Entries.firstOpenDialog.Libre')}
-                  icon={'libre'}
                   subtitle={t('Entries.firstOpenDialog.wip')}
                 />
               </View>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, TextInput, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
@@ -11,6 +11,8 @@ const SearchRestaurantModal = props => {
   const [open, setOpen] = useState(false);
   const [restaurants, setRestaurants] = useState(null);
   const [searchText, setSearchText] = useState(null);
+
+
   const searchForRestaurants = async text => {
     setSearchText(text);
     const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
@@ -93,7 +95,7 @@ const SearchRestaurantModal = props => {
           alignItems: 'center',
         }}>
         <View style={styles.touchContainer}>
-          <Icon name={'map'} type={'meala'} size={30} />
+          <Icon name={'map'} type={'meala'} size={35} />
         </View>
         <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
           <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>Wo isst Du?</Text>
@@ -120,9 +122,11 @@ const SearchRestaurantModal = props => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <TextInput
+              autoFocus={true}
               clearButtonMode={'while-editing'}
               style={styles.input}
               returnKeyType={'search'}
+              placeholder={'Wo isst du?'}
               returnKeyLabel={'Search'}
               //  enablesReturnKeyAutomatically={true}
               value={searchText}
@@ -141,15 +145,21 @@ const SearchRestaurantModal = props => {
                   </Text>
                   <Button
                     title={'Büro'}
+                    type={'clear'}
+                    containerStyle={{ backgroundColor: 'transparent' }}
                     onPress={() => props.handleRestaurantPress('Büro', 'Büro', 'local')}
                   />
+                  <Button title={'Uni'} onPress={() => props.handleRestaurantPress('Uni', 'Uni', 'local')} />
                   <Button
-                    title={'Flugzeug'}
-                    onPress={() => props.handleRestaurantPress('Flugzeug', 'Flugzeug', 'local')}
+                    title={'Schule'}
+                    onPress={() => props.handleRestaurantPress('Schule', 'Schule', 'local')}
+                  />
+                  <Button
+                    title={'Fitness Studio'}
+                    onPress={() => props.handleRestaurantPress('Fitness Studio', 'Fitness Studio', 'local')}
                   />
                   <Button title={'Bahn'} />
                   <Button title={'Unterwegs'} />
-                  <Button title={'Bei Oma'} />
                 </View>
               }
               keyExtractor={keyExtractor}
