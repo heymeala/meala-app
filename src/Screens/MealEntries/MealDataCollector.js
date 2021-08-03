@@ -6,15 +6,11 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { loadSugarData } from './loadHealthData';
 import { useRoute } from '@react-navigation/core';
-import { locale } from "moment";
-import LocalizationContext from "../../../LanguageContext";
 
 const MealDataCollector = props => {
-  const [sugar, setSugar] = useState([]);
-  const [dates, setDates] = useState([]);
+
   const [insulin, setInsulin] = useState([]);
   const [carbs, setCarbs] = useState([]);
-  const [dateStrings, setDateStrings] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
   const [treatments, setTreatments] = useState(null);
   const [selectedFood, setSelectedFood] = useState(undefined);
@@ -49,9 +45,6 @@ const MealDataCollector = props => {
         userSettings,
         settings,
         setCoordinates,
-       // setDateStrings,
-        //setDates,
-       // setSugar,
         setCarbs,
         setInsulin,
         setTreatments,
@@ -71,11 +64,8 @@ const MealDataCollector = props => {
           carbCoordinates={carbCoordinates}
           selectedFood={selectedFood}
           insulinCoordinates={insulinCoordinates}
-          //   sugar={sugar}
-          //   dates={dates}
           carbs={carbs}
           insulin={insulin}
-         // dateStrings={dateStrings}
           coordinates={coordinates}
           restaurantName={restaurantName}
           loading={loading}
