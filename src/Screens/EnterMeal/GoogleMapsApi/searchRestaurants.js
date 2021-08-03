@@ -16,16 +16,20 @@ export const getLocalDatabaseRestaurants = text => {
   }
 };
 
-export const fetchGoogleRestaurants = (searchString, lat, lng) => {
+export const fetchGoogleRestaurants = (searchString, lat, lng, setLoading) => {
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchString}&location=${lat},${lng}&radius=1000&types=food|restaurant|cafe|meal_takeaway|bar|bakery&key=${apiKey}`;
   console.log(url);
   if (searchString && searchString.length > 3) {
+    setLoading(true);
     return fetch(url)
       .then(response => response.json())
       .then(data => {
+        setLoading(false);
         return data.results;
       })
       .catch(error => {
+        setLoading(false);
+
         console.log(error);
       });
   }

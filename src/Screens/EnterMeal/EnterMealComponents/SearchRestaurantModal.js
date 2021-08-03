@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FlatList, TextInput, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
 import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
+import LoadingSpinner from '../../../Common/LoadingSpinner';
 
 const SearchRestaurantModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -11,12 +12,13 @@ const SearchRestaurantModal = props => {
   const [open, setOpen] = useState(false);
   const [restaurants, setRestaurants] = useState(null);
   const [searchText, setSearchText] = useState(null);
-
-
-  const searchForRestaurants = async text => {
+  const [loading, setLoading] = useState(false);
+  const [startGoogleSearch, setStartGoogleSearch] = useState(false);
+  const searchForRestaurants = async (text, googleSearch) => {
     setSearchText(text);
     const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
-    const googleRestaurants = await fetchGoogleRestaurants(text, props.lat, props.lng);
+    const googleRestaurants =
+      googleSearch && (await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading));
 
     const createLocalRestaurantList =
       localDatabaseRestaurants &&
@@ -44,21 +46,40 @@ const SearchRestaurantModal = props => {
           rating: item.rating,
         };
       });
-    const mergeLists = (localList, googleList) => {
+
+    let createRestaurant = [
+      {
+        id: text,
+        name: text,
+        type: 'local',
+        lat: props.lat,
+        lng: props.lng,
+        address: '',
+        rating: '',
+      },
+    ];
+
+    const mergeLists = (newName, localList, googleList) => {
       if (localList && googleList) {
-        return [...localList, ...googleList];
+        return [...newName, ...localList, ...googleList];
       } else if (localList) {
-        return [...localList];
+        return [...newName, ...localList];
       } else if (googleList) {
-        return [...googleList];
+        return [...newName, ...googleList];
+      } else if (text.length > 0) {
+        return [...newName];
       }
     };
-    const restaurantsList = mergeLists(createLocalRestaurantList, createGoogleRestaurantList);
+    const restaurantsList = mergeLists(
+      createRestaurant,
+      createLocalRestaurantList,
+      createGoogleRestaurantList,
+    );
     console.log('list', restaurantsList);
     setRestaurants(restaurantsList);
   };
 
-  const FlatListItem = ({ item }) => (
+  const FlatListItem = ({ item, index }) => (
     <ListItem bottomDivider>
       <View>
         <Icon
@@ -70,7 +91,7 @@ const SearchRestaurantModal = props => {
       </View>
       <ListItem.Content>
         <ListItem.Title h4>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>{item.address}</ListItem.Subtitle>
+        <ListItem.Subtitle>{index === 0 ? 'Erstelle einen neuen Ort' : item.address}</ListItem.Subtitle>
       </ListItem.Content>
       <Button
         onPress={() => {
@@ -125,13 +146,16 @@ const SearchRestaurantModal = props => {
               autoFocus={true}
               clearButtonMode={'while-editing'}
               style={styles.input}
+              onBlur={() => {
+                searchForRestaurants(searchText, true);
+              }}
               returnKeyType={'search'}
               placeholder={'Wo isst du?'}
               returnKeyLabel={'Search'}
               //  enablesReturnKeyAutomatically={true}
               value={searchText}
               //   platform={Platform.OS}
-              onChangeText={text => searchForRestaurants(text)}
+              onChangeText={text => searchForRestaurants(text,false)}
             />
             <FlatList
               ListEmptyComponent={
@@ -162,6 +186,7 @@ const SearchRestaurantModal = props => {
                   <Button title={'Unterwegs'} />
                 </View>
               }
+              ListFooterComponent={loading && <LoadingSpinner />}
               keyExtractor={keyExtractor}
               data={restaurants}
               renderItem={FlatListItem}
