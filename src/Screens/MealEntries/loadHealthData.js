@@ -97,6 +97,7 @@ export async function loadSugarData(
         }
         setCoordinates(
           results.map(coordinates => {
+            console.log(coordinates.value)
             return {
               x: new Date(moment(coordinates.startDate).toISOString()),
               y: coordinates.value / settings.unit,
