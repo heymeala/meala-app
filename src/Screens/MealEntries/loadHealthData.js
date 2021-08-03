@@ -88,6 +88,7 @@ export async function loadSugarData(
       let options = {
         startDate: fromDate, // required
         endDate: tillDate, // optional; default now
+        unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL',
       };
       AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
         /* Samples are now collected from HealthKit */
@@ -97,10 +98,10 @@ export async function loadSugarData(
         }
         setCoordinates(
           results.map(coordinates => {
-            console.log(coordinates.value)
+            console.log(coordinates.value);
             return {
               x: new Date(moment(coordinates.startDate).toISOString()),
-              y: coordinates.value / settings.unit,
+              y: coordinates.value,
             };
           }),
         );

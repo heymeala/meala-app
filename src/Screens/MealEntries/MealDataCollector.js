@@ -6,6 +6,8 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { loadSugarData } from './loadHealthData';
 import { useRoute } from '@react-navigation/core';
+import { locale } from "moment";
+import LocalizationContext from "../../../LanguageContext";
 
 const MealDataCollector = props => {
   const [sugar, setSugar] = useState([]);
@@ -25,6 +27,7 @@ const MealDataCollector = props => {
   const [restaurantName, setRestaurantName] = useState(null);
   const { settings } = useProfile();
   const { userSettings } = useUserSettings();
+
   useEffect(() => {
     let isMounted = true;
     if (userMealId) {
