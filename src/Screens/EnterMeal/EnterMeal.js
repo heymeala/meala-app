@@ -81,6 +81,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const [value, setValue] = useState(3);
 
+  const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
+  const defaultRestaurantName = restaurantName || t('AddMeal.home');
+  const defaultRestaurantId = restaurantId || t('AddMeal.home');
+
   React.useEffect(() => {
     if (scan === true) {
       setIsScannerVisible(prevState => true);
@@ -203,10 +207,6 @@ const EnterMeal = ({ route, navigation }, props) => {
         })
       : [];
 
-    const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
-    const defaultRestaurantName = restaurantName || t('AddMeal.home');
-    const defaultRestaurantId = restaurantId || t('AddMeal.home');
-
     if (type.mode !== EDIT_MODE) {
       reminderNotification(userMealId, mealId, t, defaultMealTitle, value);
       uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
@@ -319,9 +319,9 @@ const EnterMeal = ({ route, navigation }, props) => {
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
     setAvatarSourceCamera(undefined);
-    setRestaurantName('');
-    setRestaurantId('');
-    setMealTitle('');
+    setRestaurantName(defaultRestaurantName);
+    setRestaurantId(defaultRestaurantId);
+    setMealTitle(defaultMealTitle);
     setNote('');
     setCarbs(null);
     setFoodPicture('');
@@ -402,12 +402,15 @@ const EnterMeal = ({ route, navigation }, props) => {
 
         <DatePickerOverlay date={date} setDate={setDate} />
         <SearchRestaurantModal
+          editMode={type.mode === EDIT_MODE}
           handleRestaurantPress={handleRestaurantPress}
+          handleRestaurantName={handleRestaurantName}
           lat={lat}
           lng={lng}
           gpsEnabled={gpsEnabled}
+          restaurantName={restaurantName}
         />
-        <RestaurantInputField
+  {/*      <RestaurantInputField
           editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
           handleRestaurantPress={handleRestaurantPress}
@@ -415,7 +418,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           lat={lat}
           lng={lng}
           gpsEnabled={gpsEnabled}
-        />
+        />*/}
 
         <View style={styles.spacing}>
           {fatSecretData && (

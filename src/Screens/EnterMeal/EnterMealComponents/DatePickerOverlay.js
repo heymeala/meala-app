@@ -151,25 +151,29 @@ const useStyles = makeStyles((theme, props: Props) => ({
 
     color: theme.colors.primary,
   },
-  subtitle:{fontSize:12},
+  subtitle: { fontSize: 12 },
   overlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
   },
-  container: { flexDirection: 'row', alignItems: 'center', marginBottom: theme.spacing.L },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: theme.spacing.L,
+    marginTop: theme.spacing.L,
+  },
   touchContainer: {
     marginLeft: theme.spacing.M,
-    marginTop: theme.spacing.M,
     justifyContent: 'center',
     backgroundColor: theme.colors.secondary,
-    borderRadius: 20,
+    borderRadius: 16,
     alignItems: 'center',
     padding: theme.spacing.S,
     textAlignVertical: 'center',
 
-    width: 70,
+    width: 65,
     height: 65,
   },
   edit: {
@@ -179,7 +183,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
     borderRadius: 13,
     alignItems: 'center',
     justifyContent: 'center',
-    left: -10,
-    top: -15,
+    left: -15,
+    top: -25,
   },
 }));

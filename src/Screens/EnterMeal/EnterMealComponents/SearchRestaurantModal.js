@@ -1,34 +1,112 @@
 import React, { useState } from 'react';
-import { ScrollView, TextInput, View } from 'react-native';
+import { FlatList, TextInput, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
-import { fetchGoogleRestaurants } from '../GoogleMapsApi/searchRestaurants';
+import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
 
 const SearchRestaurantModal = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [open, setOpen] = useState(false);
-  const [searchText, setSearchText] = useState(null);
   const [restaurants, setRestaurants] = useState(null);
-
+  const [searchText, setSearchText] = useState(null);
   const searchForRestaurants = async text => {
+    setSearchText(text);
+    const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
     const googleRestaurants = await fetchGoogleRestaurants(text, props.lat, props.lng);
-    console.log(googleRestaurants);
-    setRestaurants(googleRestaurants);
+
+    const createLocalRestaurantList =
+      localDatabaseRestaurants &&
+      localDatabaseRestaurants.map(item => {
+        return {
+          id: item.id,
+          name: item.restaurant_name,
+          type: item.scope || 'local',
+          lat: item.lat,
+          lng: item.long,
+          address: item.address,
+          rating: null,
+        };
+      });
+    const createGoogleRestaurantList =
+      googleRestaurants &&
+      googleRestaurants.map(item => {
+        return {
+          id: item.place_id,
+          name: item.name,
+          type: 'GOOGLE',
+          lat: item.geometry.location.lat,
+          lng: item.geometry.location.lng,
+          address: item.formatted_address,
+          rating: item.rating,
+        };
+      });
+    const mergeLists = (localList, googleList) => {
+      if (localList && googleList) {
+        return [...localList, ...googleList];
+      } else if (localList) {
+        return [...localList];
+      } else if (googleList) {
+        return [...googleList];
+      }
+    };
+    const restaurantsList = mergeLists(createLocalRestaurantList, createGoogleRestaurantList);
+    console.log('list', restaurantsList);
+    setRestaurants(restaurantsList);
   };
+
+  const FlatListItem = ({ item }) => (
+    <ListItem bottomDivider>
+      <View>
+        <Icon
+          size={16}
+          name={item.type === 'local' ? 'eat' : 'logo-google'}
+          type={item.type === 'local' ? 'meala' : 'ionicon'}
+        />
+        <Text>{item.rating}</Text>
+      </View>
+      <ListItem.Content>
+        <ListItem.Title h4>{item.name}</ListItem.Title>
+        <ListItem.Subtitle>{item.address}</ListItem.Subtitle>
+      </ListItem.Content>
+      <Button
+        onPress={() => {
+          props.handleRestaurantPress(item.name, item.id, item.type);
+          setOpen(false);
+        }}
+        iconRight
+        titleStyle={{ fontSize: 10 }}
+        icon={<Icon name={'add-circle'} type={'ionicon'} />}
+      />
+    </ListItem>
+  );
+  const keyExtractor = (item, index) => index.toString();
 
   return (
     <>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-        <View style={{ backgroundColor: '#99ff88' }}>
-          <Icon name={'search'} />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: '100%',
+          alignItems: 'center',
+        }}>
+        <View style={styles.touchContainer}>
+          <Icon name={'map'} type={'meala'} size={30} />
         </View>
-        <View>
-          <Text>Wo isst Du?</Text>
-          <Text>Zuhause</Text>
+        <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
+          <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>Wo isst Du?</Text>
+          <Text>{props.restaurantName}</Text>
         </View>
-        <Button title={'Bearbeiten'} onPress={() => setOpen(true)} />
+        <View style={{ margin: 8 }}>
+          <Button
+            disabled={props.editMode}
+            icon={<Icon name={'edit'} />}
+            accessibilityLabel={'Bearbeiten'}
+            onPress={() => setOpen(true)}
+          />
+        </View>
       </View>
 
       <Modal
@@ -37,9 +115,6 @@ const SearchRestaurantModal = props => {
         isVisible={open}
         backdropOpacity={0.3}
         onBackdropPress={() => setOpen(false)}
-        //  onSwipeComplete={() => setOpen(false)}
-        //  swipeDirection={['down']}
-        // propagateSwipe={true}
         style={styles.modal}
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
@@ -54,26 +129,35 @@ const SearchRestaurantModal = props => {
               //   platform={Platform.OS}
               onChangeText={text => searchForRestaurants(text)}
             />
-            <ScrollView>
-              {restaurants && restaurants.length > 0 ? (
-                restaurants.map((item, index) => (
-                  <ListItem bottomDivider key={index}>
-                    <ListItem.Content>
-                      <ListItem.Title>{item.name}</ListItem.Title>
-                      <ListItem.Subtitle>{item.formatted_address}</ListItem.Subtitle>
-                    </ListItem.Content>
-                    <ListItem.Chevron />
-                  </ListItem>
-                ))
-              ) : (
+            <FlatList
+              ListEmptyComponent={
                 <View>
-                  <Text>Trage den Ort ein an dem Du isst</Text>
+                  <Text>
+                    Trage den Ort ein an dem Du isst, wenn du kein Ort einträgst bleibt er bei "Zuhause"
+                  </Text>
+                  <Text>
+                    Suche außerdem nach dem Namen deines Lieblingsrestaurants oder dem Straßenname in dem sich
+                    das Restaurant befindet in dem du gerade bist{' '}
+                  </Text>
+                  <Button
+                    title={'Büro'}
+                    onPress={() => props.handleRestaurantPress('Büro', 'Büro', 'local')}
+                  />
+                  <Button
+                    title={'Flugzeug'}
+                    onPress={() => props.handleRestaurantPress('Flugzeug', 'Flugzeug', 'local')}
+                  />
+                  <Button title={'Bahn'} />
+                  <Button title={'Unterwegs'} />
+                  <Button title={'Bei Oma'} />
                 </View>
-              )}
-            </ScrollView>
+              }
+              keyExtractor={keyExtractor}
+              data={restaurants}
+              renderItem={FlatListItem}
+            />
             <View style={styles.buttonsContainer}>
               <Button type={'clear'} title={t('General.close')} onPress={() => setOpen(false)} />
-              <Button type={'clear'} title={t('AddMeal.save')} />
             </View>
           </View>
         </View>
@@ -85,6 +169,18 @@ const SearchRestaurantModal = props => {
 export default SearchRestaurantModal;
 
 const useStyles = makeStyles(theme => ({
+  touchContainer: {
+    marginLeft: theme.spacing.M,
+    justifyContent: 'center',
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 16,
+    alignItems: 'center',
+    padding: theme.spacing.S,
+    textAlignVertical: 'center',
+
+    width: 65,
+    height: 65,
+  },
   modal: { marginHorizontal: 4 },
   input: {
     height: 40,
