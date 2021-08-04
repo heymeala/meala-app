@@ -39,8 +39,8 @@ const CustomMealSearchBar = props => {
   }, [props.predictions]);
 
   useEffect(() => {
-    if (chipSearch.length > 2) {
-      startSearch();
+    if (chipSearch.length > 1) {
+      startSearch(chipSearch);
     }
   }, [chipSearch]);
 
@@ -201,7 +201,7 @@ export default CustomMealSearchBar;
 
 const useStyles = makeStyles(theme => ({
   headline: { margin: theme.spacing.S },
-  chipsContainer: { flexDirection: 'row', flexWrap: 'wrap', paddingBottom: 12 },
+  chipsContainer: { flexDirection: 'row', flexWrap: 'wrap', padding:theme.spacing.S },
 
   searchInputContainer: {
     flexDirection: 'row',

@@ -10,7 +10,7 @@ import OutLineButton from '../../../Common/OutLineButton';
 import Modal from 'react-native-modal';
 import EditIcon from './EditIcon';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
-import IconView from "./IconView";
+import IconView from './IconView';
 
 const SearchRestaurantModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -117,9 +117,11 @@ const SearchRestaurantModal = props => {
         </View>
         <ListItem.Content>
           <ListItem.Title h4>{item.name}</ListItem.Title>
-          <ListItem.Subtitle>
-            {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
-          </ListItem.Subtitle>
+          {item.address ? (
+            <ListItem.Subtitle>
+              {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
+            </ListItem.Subtitle>
+          ) : null}
         </ListItem.Content>
         <Icon name={'add-circle'} type={'ionicon'} />
       </ListItem>
@@ -135,13 +137,7 @@ const SearchRestaurantModal = props => {
         onPress={() => {
           setOpen(true);
         }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            width: '100%',
-            alignItems: 'center',
-          }}>
+        <View style={props.editMode ? { ...styles.container, opacity: 0.3 } : { ...styles.container }}>
           <IconView iconName={'map'} iconType={'meala'} size={35} />
 
           <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
@@ -230,7 +226,12 @@ export default SearchRestaurantModal;
 
 const useStyles = makeStyles(theme => ({
   headline: { margin: theme.spacing.S },
-
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+  },
   modal: { marginHorizontal: 4 },
   searchInputContainer: {
     flexDirection: 'row',

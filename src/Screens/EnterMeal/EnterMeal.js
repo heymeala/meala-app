@@ -459,7 +459,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
 
-        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} mode={type.mode} />
         <ReminderSlider value={value} setValue={setValue} />
       </ScrollView>
       <FAB
