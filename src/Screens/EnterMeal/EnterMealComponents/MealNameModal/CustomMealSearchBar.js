@@ -13,7 +13,7 @@ import { searchFood } from '../../../../Common/fatsecret/fatsecretApi';
 const CustomMealSearchBar = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { autoFocus, loading, setMeals, setLoading } = props;
+  const { autoFocus, loading, setMeals, setLoading, communityMeals } = props;
   const inputRef = useRef();
   const [searchText, setSearchText] = useState(null);
 
@@ -112,19 +112,19 @@ const CustomMealSearchBar = props => {
             type: item.type || 'local',
           };
         });
-      const createFatSecretMealsList =
-        fatSecretMeals &&
-        fatSecretMeals.map(item => {
-          return {
-            id: item.food_id,
-            name: item.food_name,
-            subtitle: {
-              brand: item.brand_name !== undefined ? item.brand_name : null,
-              description: item.food_description && item.food_description,
-            },
-            type: 'FatSecret',
-          };
-        });
+      const createFatSecretMealsList = fatSecretMeals
+        ? fatSecretMeals.map(item => {
+            return {
+              id: item.food_id,
+              name: item.food_name,
+              subtitle: {
+                brand: item.brand_name !== undefined ? item.brand_name : null,
+                description: item.food_description && item.food_description,
+              },
+              type: 'FatSecret',
+            };
+          })
+        : null;
 
       let createMealName = [
         {
@@ -133,14 +133,14 @@ const CustomMealSearchBar = props => {
           type: 'local',
         },
       ];
-
-      const mergeLists = (newName, localList, fatSecretList) => {
-        if (localList && fatSecretList) {
-          return [...newName, ...localList, ...fatSecretList];
+      console.log(createFatSecretMealsList);
+      const mergeLists = (newName, localList, fatSecretDataList) => {
+        if (localList && fatSecretDataList) {
+          return [...newName, ...localList, ...fatSecretDataList];
         } else if (localList) {
           return [...newName, ...localList];
-        } else if (fatSecretList) {
-          return [...newName, ...fatSecretList];
+        } else if (fatSecretDataList) {
+          return [...newName, ...fatSecretDataList];
         } else if (text && text.length > 0) {
           return [...newName];
         }
@@ -201,7 +201,7 @@ export default CustomMealSearchBar;
 
 const useStyles = makeStyles(theme => ({
   headline: { margin: theme.spacing.S },
-  chipsContainer: { flexDirection: 'row', flexWrap: 'wrap', padding:theme.spacing.S },
+  chipsContainer: { flexDirection: 'row', flexWrap: 'wrap', padding: theme.spacing.S },
 
   searchInputContainer: {
     flexDirection: 'row',

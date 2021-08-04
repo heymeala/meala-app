@@ -40,6 +40,7 @@ const EnterMealNameModal = props => {
               loading={loading}
               setLoading={setLoading}
               autoFocus={autoFocus}
+              communityMeals={props.cMeals}
               setMeals={setMeals}
               predictions={props.predictions}
             />
