@@ -40,9 +40,7 @@ const MealNameListItem = props => {
             {item.name} {item.subtitle && item.subtitle.brand ? ' – ' + item.subtitle.brand : null}
           </ListItem.Title>
           <ListItem.Subtitle>
-            {index === 0
-              ? t('AddMeal.SearchRestaurant.newPlace')
-              : item.subtitle && item.subtitle.description}
+            {index === 0 ? t('AddMeal.MealName.newMealName') : item.subtitle && item.subtitle.description}
           </ListItem.Subtitle>
         </ListItem.Content>
         <Icon name={'add-circle'} type={'ionicon'} />

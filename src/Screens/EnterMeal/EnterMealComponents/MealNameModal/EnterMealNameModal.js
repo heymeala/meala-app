@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { makeStyles } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import OutLineButton from '../../../../Common/OutLineButton';
 import LocalizationContext from '../../../../../LanguageContext';
-import EmptyPlacesButtons from '../EmptyPlacesButtons';
 import LoadingSpinner from '../../../../Common/LoadingSpinner';
 import PoweredByFatSecret from '../../../../Common/fatsecret/PoweredByFatSecret';
 import MealNameListItem from './List';
 import CustomMealEditButton from './CustomMealEditButton';
 import CustomMealSearchBar from './CustomMealSearchBar';
-import PredictionCips from "../../FatSecretSearch/PredictionCips";
+import EmptyMealName from './EmptyMealName';
 
 const EnterMealNameModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -21,8 +20,6 @@ const EnterMealNameModal = props => {
   const [meals, setMeals] = useState(null);
 
   const keyExtractor = (item, index) => index.toString();
-
-
 
   return (
     <>
@@ -39,13 +36,17 @@ const EnterMealNameModal = props => {
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <CustomMealSearchBar loading={loading} setLoading={setLoading} autoFocus={autoFocus} setMeals={setMeals} predictions={props.predictions}/>
+            <CustomMealSearchBar
+              loading={loading}
+              setLoading={setLoading}
+              autoFocus={autoFocus}
+              setMeals={setMeals}
+              predictions={props.predictions}
+            />
 
             <FlatList
               keyboardShouldPersistTaps="handled"
-              ListEmptyComponent={
-                <EmptyPlacesButtons handleRestaurantPress={props.handleRestaurantPress} setOpen={setOpen} />
-              }
+              ListEmptyComponent={<EmptyMealName />}
               ListFooterComponent={
                 loading ? <LoadingSpinner /> : meals && meals.length > 1 ? <PoweredByFatSecret /> : null
               }

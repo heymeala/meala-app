@@ -49,19 +49,24 @@
     "dinner": "Dinner",
     "home": "Home",
     "SearchRestaurant": {
-      "where": "Where are you?",
+      "name": "Where are you?",
       "newPlace": "Create a new place",
       "searchPlaceHolder": "where are you eating?",
-        "search":  "search",
-        "noSearchText": "Enter the place where you eat, if you don't enter a place it will stay at \"home\"",
-        "noSearchText2": "Also search for the name of your favorite restaurant or the street name where the restaurant you are in is located",
-        "office": "office",
-        "uni": "university",
-        "school": "school",
-        "gym": "fitness studio",
-        "train": "train",
-        "toGo": "on the road"
-      },
+      "search": "search",
+      "noSearchText": "Enter the place where you eat, if you don't enter a place it will stay at \"home\"",
+      "noSearchText2": "Also search for the name of your favorite restaurant or the street name where the restaurant you are in is located",
+      "office": "office",
+      "uni": "university",
+      "school": "school",
+      "gym": "fitness studio",
+      "train": "train",
+      "toGo": "on the road"
+    },
+    "MealName": {
+      "name": "Your meal",
+      "noSearchText": "Search for dishes, snacks or food. If your entry does not exist yet, you can create your own.",
+      "newMealName": "Create new meal name"
+    },
     "fatSecretUserEntries": {
       "title": "What did you eat?",
       "button": "FatSecret Data",

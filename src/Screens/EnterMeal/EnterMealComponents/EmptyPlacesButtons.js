@@ -10,11 +10,11 @@ const EmptyPlacesButtons = props => {
   const { setOpen } = props;
 
   return (
-    <View>
-      <Text>{t('AddMeal.SearchRestaurant.noSearchText')}</Text>
-      <Text h4 h4Style={styles.text}>
-        {t('AddMeal.SearchRestaurant.noSearchText2')}
-      </Text>
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <Text>{t('AddMeal.SearchRestaurant.noSearchText')}</Text>
+        <Text style={styles.text}>{t('AddMeal.SearchRestaurant.noSearchText2')}</Text>
+      </View>
       <OutLineButton
         title={t('AddMeal.SearchRestaurant.office')}
         onPress={() => {
@@ -89,4 +89,6 @@ export default EmptyPlacesButtons;
 
 const useStyles = makeStyles(theme => ({
   text: { marginTop: theme.spacing.S },
+  textContainer: { paddingVertical: theme.spacing.M },
+  container: { padding: theme.spacing.S, }
 }));

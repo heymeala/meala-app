@@ -49,7 +49,7 @@
     "dinner": "Abendessen",
     "home": "Zuhause",
     "SearchRestaurant": {
-      "where": "Wo isst du?",
+      "name": "Wo isst du?",
       "newPlace": "Erstelle einen neuen Ort",
       "searchPlaceHolder": "Wo isst du?",
       "search": "Suchen",
@@ -63,7 +63,9 @@
       "toGo": "Unterwegs"
     },
     "MealName": {
-      "name": "Wie heißt dein Gericht?"
+      "name": "Dein Gericht?",
+      "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es dein Eintrag noch nicht gibt kannst du deinen eigenen anlegen.",
+      "newMealName": "Neues erstellen"
     },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",

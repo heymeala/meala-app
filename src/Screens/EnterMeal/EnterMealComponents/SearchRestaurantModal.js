@@ -146,7 +146,7 @@ const SearchRestaurantModal = props => {
 
           <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
             <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>
-              {t('AddMeal.SearchRestaurant.where')}
+              {t('AddMeal.SearchRestaurant.name')}
             </Text>
             <Text>{props.restaurantName}</Text>
           </View>
@@ -167,7 +167,7 @@ const SearchRestaurantModal = props => {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text h2 style={styles.headline}>
-              {t('AddMeal.SearchRestaurant.where')}
+              {t('AddMeal.SearchRestaurant.name')}
             </Text>
             <View style={styles.searchInputContainer}>
               <TextInput

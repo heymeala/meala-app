@@ -150,14 +150,14 @@ const CustomMealSearchBar = props => {
       setMeals(mealsList);
     } else {
       setMeals(null);
-      setSearchText(null)
+      setSearchText(null);
     }
   };
 
   return (
     <>
       <Text h2 style={styles.headline}>
-        {t('AddMeal.SearchRestaurant.where')}
+        {t('AddMeal.MealName.name')}
       </Text>
       <View style={styles.searchInputContainer}>
         <TextInput
@@ -169,7 +169,7 @@ const CustomMealSearchBar = props => {
             handleTextChange(searchText, true);
           }}
           returnKeyType={'search'}
-          placeholder={t('AddMeal.SearchRestaurant.searchPlaceHolder')}
+          placeholder={t('AddMeal.MealName.name')}
           returnKeyLabel={t('AddMeal.SearchRestaurant.search')}
           value={searchText}
           onChangeText={text => {
