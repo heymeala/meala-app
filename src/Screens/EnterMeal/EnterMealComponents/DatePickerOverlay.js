@@ -3,7 +3,8 @@ import { Dimensions, Platform, TouchableOpacity, View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import LocalizationContext from '../../../../LanguageContext';
-import { Button, Divider, FAB, Icon, makeStyles, Overlay, Text, useTheme } from 'react-native-elements';
+import { Button, Divider, FAB, makeStyles, Overlay, Text, useTheme } from 'react-native-elements';
+import EditIcon from './EditIcon';
 
 export const DatePickerOverlay = ({ date, setDate }) => {
   const [datePicker, setDatePicker] = useState(date);
@@ -57,18 +58,13 @@ export const DatePickerOverlay = ({ date, setDate }) => {
           <Text style={styles.date}>{moment(date.toISOString()).format('Do')}</Text>
           <Text style={styles.month}>{moment(date.toISOString()).format('MMM')}</Text>
         </View>
-   {/*     <View style={styles.edit}>
-          <Icon name={'edit'} size={16} color={theme.colors.white} />
-        </View>*/}
-        <View style={{ flexDirection: 'column', paddingTop: 8 }} onPress={() => setDateOverlayVisible(true)}>
+        <View style={styles.textContainer} onPress={() => setDateOverlayVisible(true)}>
           <Text style={styles.time}>
             {t('AddMeal.startedEating')} {moment(date.toISOString()).format('LT')}{' '}
           </Text>
           <Text style={styles.subtitle}>{t('AddMeal.rightTime')}</Text>
         </View>
-        <View style={{ margin: 8 }}>
-          <Button icon={<Icon name={'edit'} />} accessibilityLabel={t('AddMeal.edit')} />
-        </View>
+        <EditIcon />
       </TouchableOpacity>
       <Overlay
         isVisible={isDateOverlayVisible}
@@ -142,8 +138,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
     fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
     fontSize: 22,
-   // color: theme.colors.primary,
-
+    // color: theme.colors.primary,
   },
   time: {
     fontFamily: 'SecularOne-Regular',
@@ -179,7 +174,6 @@ const useStyles = makeStyles((theme, props: Props) => ({
     alignItems: 'center',
     padding: theme.spacing.S,
     textAlignVertical: 'center',
-
     width: 65,
     height: 65,
   },
@@ -193,4 +187,5 @@ const useStyles = makeStyles((theme, props: Props) => ({
     left: -15,
     top: -25,
   },
+  textContainer: { flexShrink: 1, paddingLeft: 24, width: '100%', flexDirection: 'column', paddingTop: 8 },
 }));

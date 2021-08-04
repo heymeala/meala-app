@@ -2,13 +2,14 @@ import React, { useRef, useState } from 'react';
 import { FlatList, Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
-import Modal from 'react-native-modal';
 import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
-import LoadingSpinner from '../../../Common/LoadingSpinner';
 import useAutoFocus from '../../../hooks/useAutoFocus';
 import FadeInView from '../../../Common/FadeInView';
-import OutLineButton from '../../../Common/OutLineButton';
 import EmptyPlacesButtons from './EmptyPlacesButtons';
+import OutLineButton from '../../../Common/OutLineButton';
+import Modal from 'react-native-modal';
+import EditIcon from './EditIcon';
+import LoadingSpinner from '../../../Common/LoadingSpinner';
 
 const SearchRestaurantModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -87,37 +88,48 @@ const SearchRestaurantModal = props => {
   };
 
   const FlatListItem = ({ item, index }) => (
-    <ListItem bottomDivider>
-      <View>
-        <Icon
-          size={16}
-          name={item.type === 'local' ? 'eat' : 'logo-google'}
-          type={item.type === 'local' ? 'meala' : 'ionicon'}
-        />
-        <Text>{item.rating}</Text>
-      </View>
-      <ListItem.Content>
-        <ListItem.Title h4>{item.name}</ListItem.Title>
-        <ListItem.Subtitle>
-          {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
-        </ListItem.Subtitle>
-      </ListItem.Content>
-      <Button
-        onPress={() => {
-          props.handleRestaurantPress(item.name, item.id, item.type);
-          setOpen(false);
-        }}
-        iconRight
-        titleStyle={{ fontSize: 10 }}
-        icon={<Icon name={'add-circle'} type={'ionicon'} />}
-      />
-    </ListItem>
+    <TouchableOpacity
+      accessibilityRole={'button'}
+      onPress={() => {
+        props.handleRestaurantPress(item.name, item.id, item.type);
+        setOpen(false);
+      }}>
+      <ListItem bottomDivider>
+        <View>
+          <Icon
+            accessibilityLabel={
+              item.type === 'local'
+                ? t('Accessibility.EnterMeal.search')
+                : t('Accessibility.EnterMeal.googlePlace')
+            }
+            size={14}
+            name={item.type === 'local' ? 'eat' : 'logo-google'}
+            type={item.type === 'local' ? 'meala' : 'ionicon'}
+          />
+          {item.rating ? (
+            <Text
+              accessibilityLabel={item.rating + t('Accessibility.EnterMeal.rating')}
+              style={{ fontSize: 10 }}>
+              {item.rating}
+            </Text>
+          ) : null}
+        </View>
+        <ListItem.Content>
+          <ListItem.Title h4>{item.name}</ListItem.Title>
+          <ListItem.Subtitle>
+            {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <Icon name={'add-circle'} type={'ionicon'} />
+      </ListItem>
+    </TouchableOpacity>
   );
   const keyExtractor = (item, index) => index.toString();
 
   return (
     <>
       <TouchableOpacity
+        accessibilityRole={'button'}
         disabled={props.editMode}
         onPress={() => {
           setOpen(true);
@@ -138,9 +150,7 @@ const SearchRestaurantModal = props => {
             </Text>
             <Text>{props.restaurantName}</Text>
           </View>
-          <View style={styles.editIconContainer}>
-            <Icon accessibilityLabel={t('AddMeal.edit')} name={'edit'} />
-          </View>
+          <EditIcon />
         </View>
       </TouchableOpacity>
 
@@ -178,6 +188,7 @@ const SearchRestaurantModal = props => {
                 {searchText && searchText.length > 0 ? (
                   <FadeInView>
                     <Button
+                      accessibilityLabel={t('Accessibility.EnterMeal.search')}
                       loading={loading}
                       onPress={() => inputRef.current.blur()}
                       containerStyle={{ borderRadius: 50 }}
@@ -189,7 +200,9 @@ const SearchRestaurantModal = props => {
             </View>
             <FlatList
               keyboardShouldPersistTaps="handled"
-              ListEmptyComponent={<EmptyPlacesButtons setOpen={setOpen} />}
+              ListEmptyComponent={
+                <EmptyPlacesButtons handleRestaurantPress={props.handleRestaurantPress} setOpen={setOpen} />
+              }
               ListFooterComponent={
                 loading ? (
                   <LoadingSpinner />
@@ -225,16 +238,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     padding: theme.spacing.S,
     textAlignVertical: 'center',
-
     width: 65,
     height: 65,
   },
-  editIconContainer: {
-    padding: theme.spacing.S,
-    marginRight: theme.spacing.M,
-    borderRadius: 20,
-    backgroundColor: theme.colors.primary,
-  },
+
   modal: { marginHorizontal: 4 },
   searchInputContainer: {
     flexDirection: 'row',
@@ -244,7 +251,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   input: {
-    paddingLeft: 20,
+    marginLeft: 20,
+    flex: 1,
   },
   searchIcon: { margin: 10, height: 30 },
   centeredView: {
