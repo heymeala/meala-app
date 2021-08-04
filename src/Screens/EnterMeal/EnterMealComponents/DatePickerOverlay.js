@@ -137,7 +137,9 @@ const useStyles = makeStyles((theme, props: Props) => ({
   date: {
     fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 28,
+    lineHeight: 35,
+    marginBottom: -5,
     // color: theme.colors.primary,
   },
   time: {
@@ -149,6 +151,8 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   month: {
     fontFamily: 'SecularOne-Regular',
+    fontSize: 14,
+    lineHeight: 16,
 
     //color: theme.colors.primary,
   },

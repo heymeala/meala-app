@@ -9,7 +9,7 @@ const EditIcon = props => {
 
   return (
     <View style={styles.editIconContainer}>
-      <Icon color={'#fff'}  name={'edit'} />
+      <Icon color={'#fff'} name={'edit'} />
     </View>
   );
 };
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
   editIconContainer: {
     padding: theme.spacing.S,
     marginRight: theme.spacing.M,
+    marginLeft: theme.spacing.S,
     borderRadius: 20,
     backgroundColor: theme.colors.primary,
   },

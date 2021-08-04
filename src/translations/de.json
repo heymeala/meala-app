@@ -62,6 +62,9 @@
       "train": "Bahn",
       "toGo": "Unterwegs"
     },
+    "MealName": {
+      "name": "Wie heißt dein Gericht?"
+    },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",
       "button": "FatSecret Daten",
@@ -381,8 +384,8 @@
     "DrawNavigatorTitle": "Über meala",
     "NavigationBarTitle": "Über meala",
     "title": "Warum meala",
-    "p1": "Das schätzen von Kohlenhydraten ist die einflussreichste Fehlerquelle in der Diabetes-Therapie – Dies ergab eine Umfrage mit über 100 Teilnehmer_innen und ist der Grund für diese App. Aus den eigenen Fehlern lernen und auf die Erfahrung von anderen Nutzer_innen zurückgreifen – das ermöglicht die App meala Restaurantbesucher_innen. Standortabhängig werden von Anderen bereits erfasste Mahlzeiten mit ihren Nährwerten angegeben oder von Nutzer_innen per Bilderkennung selbst erfasst. Drei Stunden nach dem Essen analysiert die App die Kohlenhydrat- und die Spritz-Ess-Abstand-Schätzung und zeigt an, ob der Zielbereich erreicht wurde.",
-    "p2": "meala darf nicht für medizinische Entscheidungen verwendet werden. Es ist ein reines Recherchetool und wird in der vorliegenden Form ohne jegliche ausdrückliche oder stillschweigende Garantie bereitgestellt, einschließlich, aber nicht beschränkt auf die implizite Gewährleistung der Marktgängigkeit und Eignung für einen bestimmten Zweck. Das gesamte Risiko hinsichtlich der Qualität und Leistung des Programms liegt bei Ihnen. Sollte sich das Programm als fehlerhaft erweisen, übernehmen Sie die Kosten für alle notwendigen Wartungs-, Reparatur- oder Korrekturarbeiten.",
+    "p1": "Lege deine eigene Mahlzeiten Datenbank an und lerne daraus. Lerne außerdem mehr über Kohlenhydrate, Kalorien, FPE und Gesundheitsthemen. Teste dein Wissen mit dem Community Quiz. Fragen von und für die Community rund ums Thema Ernährung, Körper und Gesundheit. ",
+    "p2": "Die medizinischen oder ernährungswissenschaftlichen Informationen in der App ersetzen keine ärztliche Beratung, Diagnose oder Behandlung. Wende dich bei allen Fragen an deinen Arzt oder Ärztin. meala darf nicht für medizinische Entscheidungen verwendet werden. Es ist ein reines retrospektives Recherchetool und wird in der vorliegenden Form ohne jegliche ausdrückliche oder stillschweigende Garantie bereitgestellt, einschließlich, aber nicht beschränkt auf die implizite Gewährleistung der Marktgängigkeit und Eignung für einen bestimmten Zweck. Das gesamte Risiko hinsichtlich der Qualität und Leistung des Programms liegt bei dir. Sollte sich das Programm als fehlerhaft erweisen, übernimmst du die Kosten für alle notwendigen Wartungs-, Reparatur- oder Korrekturarbeiten an deinem Gerät.",
     "p2Title": "Disclaimer"
   },
   "General": {

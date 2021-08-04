@@ -1,58 +1,51 @@
 import React, { useRef, useState } from 'react';
 import { FlatList, Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
-import LocalizationContext from '../../../../LanguageContext';
-import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
-import useAutoFocus from '../../../hooks/useAutoFocus';
-import FadeInView from '../../../Common/FadeInView';
-import EmptyPlacesButtons from './EmptyPlacesButtons';
-import OutLineButton from '../../../Common/OutLineButton';
-import Modal from 'react-native-modal';
 import EditIcon from './EditIcon';
+import Modal from 'react-native-modal';
+import FadeInView from '../../../Common/FadeInView';
+import OutLineButton from '../../../Common/OutLineButton';
+import useAutoFocus from '../../../hooks/useAutoFocus';
+import LocalizationContext from '../../../../LanguageContext';
+import IconView from './IconView';
+import { database } from '../../../Common/database_realm';
+import EmptyPlacesButtons from './EmptyPlacesButtons';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
-import IconView from "./IconView";
+import { removeDuplicates } from '../../../utils/removeDuplicates';
+import PoweredByFatSecret from "../../../Common/fatsecret/PoweredByFatSecret";
 
-const SearchRestaurantModal = props => {
+const EnterMealNameModal = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [open, setOpen] = useState(false);
-  const [restaurants, setRestaurants] = useState(null);
   const [searchText, setSearchText] = useState(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const [autoFocus, setAutoFocus] = useState(false);
+  const [meals, setMeals] = useState(null);
   useAutoFocus(autoFocus, inputRef);
 
-  const searchForRestaurants = async (text, googleSearch) => {
+  const handleTextChange = async text => {
     setSearchText(text);
-    const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
-    const googleRestaurants =
-      googleSearch && (await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading));
-
-    const createLocalRestaurantList =
-      localDatabaseRestaurants &&
-      localDatabaseRestaurants.map(item => {
+    const localDatabaseMeals = await database.fetchMealWithName(text);
+    const uniqueLocalMeals = removeDuplicates(localDatabaseMeals);
+    const fatSecretMeals = null;
+    const createLocalMealNameList =
+      uniqueLocalMeals &&
+      uniqueLocalMeals.map(item => {
         return {
           id: item.id,
-          name: item.restaurant_name,
-          type: item.scope || 'local',
-          lat: item.lat,
-          lng: item.long,
-          address: item.address,
-          rating: null,
+          name: item.food,
+          type: item.type || 'local',
         };
       });
-    const createGoogleRestaurantList =
-      googleRestaurants &&
-      googleRestaurants.map(item => {
+    const createFatSecretMealsList =
+      fatSecretMeals &&
+      fatSecretMeals.map(item => {
         return {
           id: item.place_id,
           name: item.name,
           type: 'GOOGLE',
-          lat: item.geometry.location.lat,
-          lng: item.geometry.location.lng,
-          address: item.formatted_address,
-          rating: item.rating,
         };
       });
 
@@ -68,31 +61,27 @@ const SearchRestaurantModal = props => {
       },
     ];
 
-    const mergeLists = (newName, localList, googleList) => {
-      if (localList && googleList) {
-        return [...newName, ...localList, ...googleList];
+    const mergeLists = (newName, localList, fatSecretList) => {
+      if (localList && fatSecretList) {
+        return [...newName, ...localList, ...fatSecretList];
       } else if (localList) {
         return [...newName, ...localList];
-      } else if (googleList) {
-        return [...newName, ...googleList];
+      } else if (fatSecretList) {
+        return [...newName, ...fatSecretList];
       } else if (text && text.length > 0) {
         return [...newName];
       }
     };
-    const restaurantsList = mergeLists(
-      createRestaurant,
-      createLocalRestaurantList,
-      createGoogleRestaurantList,
-    );
-    console.log('list', restaurantsList);
-    setRestaurants(restaurantsList);
+    const mealsList = mergeLists(createRestaurant, createLocalMealNameList, createFatSecretMealsList);
+    console.log('list', mealsList);
+    setMeals(mealsList);
   };
 
   const FlatListItem = ({ item, index }) => (
     <TouchableOpacity
       accessibilityRole={'button'}
       onPress={() => {
-        props.handleRestaurantPress(item.name, item.id, item.type);
+        props.handleInputMealChange(item.name);
         setOpen(false);
       }}>
       <ListItem bottomDivider>
@@ -117,9 +106,7 @@ const SearchRestaurantModal = props => {
         </View>
         <ListItem.Content>
           <ListItem.Title h4>{item.name}</ListItem.Title>
-          <ListItem.Subtitle>
-            {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
-          </ListItem.Subtitle>
+          <ListItem.Subtitle>{index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : null}</ListItem.Subtitle>
         </ListItem.Content>
         <Icon name={'add-circle'} type={'ionicon'} />
       </ListItem>
@@ -131,7 +118,6 @@ const SearchRestaurantModal = props => {
     <>
       <TouchableOpacity
         accessibilityRole={'button'}
-        disabled={props.editMode}
         onPress={() => {
           setOpen(true);
         }}>
@@ -142,13 +128,13 @@ const SearchRestaurantModal = props => {
             width: '100%',
             alignItems: 'center',
           }}>
-          <IconView iconName={'map'} iconType={'meala'} size={35} />
+          <IconView iconName={'eat'} iconType={'meala'} size={35} />
 
           <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
             <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>
-              {t('AddMeal.SearchRestaurant.where')}
+              {t('AddMeal.MealName.name')}
             </Text>
-            <Text>{props.restaurantName}</Text>
+            <Text>{props.mealName}</Text>
           </View>
           <EditIcon />
         </View>
@@ -176,13 +162,15 @@ const SearchRestaurantModal = props => {
                 clearButtonMode={'unless-editing'}
                 style={styles.input}
                 onBlur={() => {
-                  searchForRestaurants(searchText, true);
+                  handleTextChange(searchText);
                 }}
                 returnKeyType={'search'}
                 placeholder={t('AddMeal.SearchRestaurant.searchPlaceHolder')}
                 returnKeyLabel={t('AddMeal.SearchRestaurant.search')}
                 value={searchText}
-                onChangeText={text => searchForRestaurants(text, false)}
+                onChangeText={text => {
+                  handleTextChange(text);
+                }}
               />
               <View style={styles.searchIcon}>
                 {searchText && searchText.length > 0 ? (
@@ -206,16 +194,12 @@ const SearchRestaurantModal = props => {
               ListFooterComponent={
                 loading ? (
                   <LoadingSpinner />
-                ) : restaurants && restaurants.length > 1 ? (
-                  <Image
-                    style={{ margin: 12 }}
-                    source={require('../../../assets/powered_by_google_on_white.png')}
-                    placeholderStyle={{ backgroundColor: '#fff' }}
-                  />
+                ) : meals && meals.length > 1 ? (
+                <PoweredByFatSecret/>
                 ) : null
               }
               keyExtractor={keyExtractor}
-              data={restaurants}
+              data={meals}
               renderItem={FlatListItem}
             />
             <OutLineButton type={'clear'} title={t('General.close')} onPress={() => setOpen(false)} />
@@ -226,7 +210,7 @@ const SearchRestaurantModal = props => {
   );
 };
 
-export default SearchRestaurantModal;
+export default EnterMealNameModal;
 
 const useStyles = makeStyles(theme => ({
   headline: { margin: theme.spacing.S },

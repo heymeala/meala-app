@@ -424,7 +424,11 @@
       "meal": "What do you eat? ",
       "restaurant": "Where do you eat? ",
       "lable": "Press to remove the lable",
-      "add_lable": "Opens a dialog that lets you enter custom lables"
+      "add_lable": "Opens a dialog that lets you enter custom lables",
+      "ownPlace": "Own place",
+      "googlePlace": "Google Place",
+      "rating": "start rating",
+      "search": "search"
     },
     "Home": {
       "newEntry": "Add a new meal entry",

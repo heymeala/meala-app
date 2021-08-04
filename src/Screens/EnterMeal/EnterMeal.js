@@ -32,6 +32,7 @@ import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMeal
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
+import EnterMealNameModal from "./EnterMealComponents/EnterMealNameModal";
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -46,7 +47,6 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const [restaurantName, setRestaurantName] = useState(t('AddMeal.home'));
   const [restaurantId, setRestaurantId] = useState(t('AddMeal.home'));
-  const [mealTitle, setMealTitle] = useState('');
 
   const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
@@ -59,6 +59,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [lng, setLng] = useState('');
 
   const [date, setDate] = useState(new Date());
+  const [mealTitle, setMealTitle] = useState(mealTypeByTime(date, t));
 
   const [cMeals, setCMeals] = useState([]);
   const [mealIsFocused, setMealIsFocused] = useState(false);
@@ -440,6 +441,15 @@ const EnterMeal = ({ route, navigation }, props) => {
             </>
           )}
         </View>
+        <EnterMealNameModal
+          MealInput={MealInput}
+          isLoadingcMeals={isLoadingcMeals}
+          cMeals={cMeals}
+          handleMealPress={handleMealPress}
+          handleInputMealChange={handleInputMealChange}
+          mealName={mealTitle}
+          predictions={predictions}
+        />
         <MealInputField
           MealInput={MealInput}
           mealIsFocused={mealIsFocused}

@@ -8,7 +8,6 @@ const OutLineButton = props => {
     <View style={styles.wrapper}>
       <Button
         type={'outline'}
-
         {...props}
         style={styles.buttonContainer}
         containerStyle={styles.buttonContainer}
