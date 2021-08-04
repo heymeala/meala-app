@@ -13,9 +13,8 @@ const NoteInputField = props => {
     <Input
       style={styles.container}
       inputContainerStyle={styles.inputPaddingTextarea}
-      inputStyle={{ fontSize: 15 }}
+      inputStyle={{ fontSize: 18 }}
       placeholder={t('AddMeal.Note')}
-      numberOfLines={3}
       renderErrorMessage={false}
       returnKeyType="done"
       blurOnSubmit={true}
@@ -33,7 +32,7 @@ const NoteInputField = props => {
 export default NoteInputField;
 
 const useStyles = makeStyles(theme => ({
-  container: { height: 90, alignSelf: 'center' },
+  container: { height: 70, alignSelf: 'center' },
   inputPaddingTextarea: {
     // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
     borderRadius: 15,
