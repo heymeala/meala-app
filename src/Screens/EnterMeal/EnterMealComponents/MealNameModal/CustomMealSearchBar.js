@@ -13,7 +13,7 @@ import { searchFood } from '../../../../Common/fatsecret/fatsecretApi';
 const CustomMealSearchBar = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const { autoFocus, loading, setMeals } = props;
+  const { autoFocus, loading, setMeals, setLoading } = props;
   const inputRef = useRef();
   const [searchText, setSearchText] = useState(null);
 
@@ -45,29 +45,49 @@ const CustomMealSearchBar = props => {
   }, [chipSearch]);
 
   async function startSearch(text) {
-    const trimmedText = text.trim()
+    const trimmedText = text.trim();
     if (trimmedText.length > 2) {
+      setLoading(true);
       if (locale === 'de') {
         const translatedFoodSearchText = await translate(locale, trimmedText, 'de', 'en');
-        return searchFood(translatedFoodSearchText).then(data => {
-          //setServingListVisible(false);
-          // setNutritionData(false);
-          if (data && data.foods && data.foods.food) {
-            setFatSecretList(data.foods.food);
-            console.log(data.foods.food);
-            return data.foods.food;
-          }
-        });
+        return searchFood(translatedFoodSearchText)
+          .then(data => {
+            //setServingListVisible(false);
+            // setNutritionData(false);
+            console.log(data);
+            if (data && data.foods && data.foods.food) {
+              setFatSecretList(data.foods.food);
+              console.log(data.foods.food);
+              setLoading(false);
+
+              return data.foods.food;
+            } else {
+              setLoading(false);
+            }
+          })
+          .catch(er => {
+            console.log(er);
+            setLoading(false);
+          });
       } else {
-        return searchFood(searchText).then(data => {
-          setServingListVisible(false);
-          setNutritionData(false);
-          setFatSecretList(data);
-          if (data && data.foods && data.foods.food) {
-            setFatSecretList(data.foods.food);
-            return data.foods.food;
-          }
-        });
+        return searchFood(searchText)
+          .then(data => {
+            setServingListVisible(false);
+            setNutritionData(false);
+            setFatSecretList(data);
+            if (data && data.foods && data.foods.food) {
+              setFatSecretList(data.foods.food);
+              setLoading(false);
+
+              return data.foods.food;
+            } else {
+              setLoading(false);
+            }
+          })
+          .catch(er => {
+            console.log(er);
+            setLoading(false);
+          });
       }
     }
   }
@@ -75,59 +95,63 @@ const CustomMealSearchBar = props => {
   useAutoFocus(autoFocus, inputRef);
 
   const handleTextChange = async (text, remoteSearch) => {
-
     const textLength = text && text.length > 0;
-    setSearchText(text);
-    const localDatabaseMeals = textLength && (await database.fetchMealWithName(text));
-    const uniqueLocalMeals = removeDuplicates(localDatabaseMeals);
-    const fatSecretMeals = remoteSearch && textLength && (await startSearch(text));
+    if (textLength) {
+      setSearchText(text);
+      const localDatabaseMeals = await database.fetchMealWithName(text);
+      const uniqueLocalMeals = removeDuplicates(localDatabaseMeals);
+      const fatSecretMeals = remoteSearch && (await startSearch(text));
 
-    const createLocalMealNameList =
-      uniqueLocalMeals &&
-      uniqueLocalMeals.map(item => {
-        return {
-          id: item.id,
-          name: item.food,
-          subtitle: '',
-          type: item.type || 'local',
-        };
-      });
-    const createFatSecretMealsList =
-      fatSecretMeals &&
-      fatSecretMeals.map(item => {
-        return {
-          id: item.food_id,
-          name: item.food_name,
-          subtitle: {
-            brand: item.brand_name !== undefined ? item.brand_name : null,
-            description: item.food_description && item.food_description,
-          },
-          type: 'FatSecret',
-        };
-      });
+      const createLocalMealNameList =
+        uniqueLocalMeals &&
+        uniqueLocalMeals.map(item => {
+          return {
+            id: item.id,
+            name: item.food,
+            subtitle: '',
+            type: item.type || 'local',
+          };
+        });
+      const createFatSecretMealsList =
+        fatSecretMeals &&
+        fatSecretMeals.map(item => {
+          return {
+            id: item.food_id,
+            name: item.food_name,
+            subtitle: {
+              brand: item.brand_name !== undefined ? item.brand_name : null,
+              description: item.food_description && item.food_description,
+            },
+            type: 'FatSecret',
+          };
+        });
 
-    let createMealName = [
-      {
-        id: text,
-        name: text,
-        type: 'local',
-      },
-    ];
+      let createMealName = [
+        {
+          id: text,
+          name: text,
+          type: 'local',
+        },
+      ];
 
-    const mergeLists = (newName, localList, fatSecretList) => {
-      if (localList && fatSecretList) {
-        return [...newName, ...localList, ...fatSecretList];
-      } else if (localList) {
-        return [...newName, ...localList];
-      } else if (fatSecretList) {
-        return [...newName, ...fatSecretList];
-      } else if (text && text.length > 0) {
-        return [...newName];
-      }
-    };
-    const mealsList = mergeLists(createMealName, createLocalMealNameList, createFatSecretMealsList);
-    console.log('list', mealsList);
-    setMeals(mealsList);
+      const mergeLists = (newName, localList, fatSecretList) => {
+        if (localList && fatSecretList) {
+          return [...newName, ...localList, ...fatSecretList];
+        } else if (localList) {
+          return [...newName, ...localList];
+        } else if (fatSecretList) {
+          return [...newName, ...fatSecretList];
+        } else if (text && text.length > 0) {
+          return [...newName];
+        }
+      };
+      const mealsList = mergeLists(createMealName, createLocalMealNameList, createFatSecretMealsList);
+      console.log('list', mealsList);
+      setMeals(mealsList);
+    } else {
+      setMeals(null);
+      setSearchText(null)
+    }
   };
 
   return (

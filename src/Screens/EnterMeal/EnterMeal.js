@@ -450,18 +450,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           mealName={mealTitle}
           predictions={predictions}
         />
-        <MealInputField
-          MealInput={MealInput}
-          mealIsFocused={mealIsFocused}
-          isLoadingcMeals={isLoadingcMeals}
-          cMeals={cMeals}
-          handleMealPress={handleMealPress}
-          handleMealInputFocus={handleMealInputFocus}
-          handleInputMealChange={handleInputMealChange}
-          Gericht={mealTitle}
-          predictions={predictions}
-          handleMealInputBlur={handleMealInputBlur}
-        />
+
         <HealthKitInputField carbs={carbs} setCarbs={setCarbs} />
 
         <NightScoutInputFields

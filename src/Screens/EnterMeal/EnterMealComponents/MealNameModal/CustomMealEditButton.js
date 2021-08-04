@@ -31,6 +31,8 @@ export default CustomMealEditButton;
 
 const useStyles = makeStyles(theme => ({
   container: {
+    marginTop:theme.spacing.S,
+    marginBottom:theme.spacing.L,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',

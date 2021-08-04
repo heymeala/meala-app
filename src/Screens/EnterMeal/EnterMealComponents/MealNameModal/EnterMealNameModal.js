@@ -39,7 +39,7 @@ const EnterMealNameModal = props => {
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <CustomMealSearchBar loading={loading} autoFocus={autoFocus} setMeals={setMeals} predictions={props.predictions}/>
+            <CustomMealSearchBar loading={loading} setLoading={setLoading} autoFocus={autoFocus} setMeals={setMeals} predictions={props.predictions}/>
 
             <FlatList
               keyboardShouldPersistTaps="handled"

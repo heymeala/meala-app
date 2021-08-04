@@ -1,5 +1,5 @@
 import React from 'react';
-import { Keyboard, ScrollView, View } from 'react-native';
+import { Keyboard } from 'react-native';
 import { Input, makeStyles } from 'react-native-elements';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
@@ -11,25 +11,20 @@ const NoteInputField = props => {
   const { notiz, setNotiz } = props;
   return (
     <Input
+      style={styles.container}
       inputContainerStyle={styles.inputPaddingTextarea}
       inputStyle={{ fontSize: 15 }}
       placeholder={t('AddMeal.Note')}
       numberOfLines={3}
       renderErrorMessage={false}
       returnKeyType="done"
+      blurOnSubmit={true}
+      textAlignVertical={'top'}
       onSubmitEditing={() => {
         Keyboard.dismiss();
       }}
       multiline={true}
       value={notiz}
-      leftIcon={
-        !screenReaderEnabled && {
-          type: 'ionicon',
-          name: 'ios-information-circle',
-          containerStyle: { paddingRight: 10 },
-          iconStyle: { color: '#154d80' },
-        }
-      }
       onChangeText={text => setNotiz(text)}
     />
   );
@@ -38,10 +33,13 @@ const NoteInputField = props => {
 export default NoteInputField;
 
 const useStyles = makeStyles(theme => ({
+  container: { height: 90, alignSelf: 'center' },
   inputPaddingTextarea: {
     // backgroundColor: isDarkMode ? '#ffffff' : '#000000',
-    borderRadius: 6,
+    borderRadius: 15,
+    borderWidth: 1,
+    padding: theme.spacing.S,
+    marginHorizontal: theme.spacing.S,
     marginBottom: 10,
-    height: 70,
   },
 }));
