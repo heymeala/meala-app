@@ -32,7 +32,7 @@ import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMeal
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
-import EnterMealNameModal from "./EnterMealComponents/EnterMealNameModal";
+import EnterMealNameModal from "./EnterMealComponents/MealNameModal/EnterMealNameModal";
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
