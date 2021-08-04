@@ -12,7 +12,7 @@ const MealNameListItem = props => {
     <TouchableOpacity
       accessibilityRole={'button'}
       onPress={() => {
-        handleInputMealChange(item.name);
+        handleInputMealChange(item.name.trim());
         setOpen(false);
       }}>
       <ListItem bottomDivider>
@@ -24,7 +24,7 @@ const MealNameListItem = props => {
                 : t('Accessibility.EnterMeal.googlePlace')
             }
             size={14}
-            name={item.type === 'local' ? 'eat' : 'logo-google'}
+            name={item.type === 'local' ? 'eat' : 'server'}
             type={item.type === 'local' ? 'meala' : 'ionicon'}
           />
           {item.rating ? (
@@ -36,8 +36,14 @@ const MealNameListItem = props => {
           ) : null}
         </View>
         <ListItem.Content>
-          <ListItem.Title h4>{item.name}</ListItem.Title>
-          <ListItem.Subtitle>{index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : null}</ListItem.Subtitle>
+          <ListItem.Title h4>
+            {item.name} {item.subtitle && item.subtitle.brand ? ' – ' + item.subtitle.brand : null}
+          </ListItem.Title>
+          <ListItem.Subtitle>
+            {index === 0
+              ? t('AddMeal.SearchRestaurant.newPlace')
+              : item.subtitle && item.subtitle.description}
+          </ListItem.Subtitle>
         </ListItem.Content>
         <Icon name={'add-circle'} type={'ionicon'} />
       </ListItem>

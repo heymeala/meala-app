@@ -16,7 +16,7 @@ const PredictionsChips = props => {
         <TouchableOpacity
           accessibilityRole={'button'}
           onPress={() => {
-            setSearch(data.name);
+            setSearch(data.name, true);
             setChipSearch(data.name);
           }}>
           <Text style={{ borderRadius: 15 }}>{` ${data.name} ${

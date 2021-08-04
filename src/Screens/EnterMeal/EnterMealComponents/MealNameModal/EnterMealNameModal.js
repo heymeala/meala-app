@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FlatList, View } from 'react-native';
 import { makeStyles } from 'react-native-elements';
 import Modal from 'react-native-modal';
@@ -10,6 +10,7 @@ import PoweredByFatSecret from '../../../../Common/fatsecret/PoweredByFatSecret'
 import MealNameListItem from './List';
 import CustomMealEditButton from './CustomMealEditButton';
 import CustomMealSearchBar from './CustomMealSearchBar';
+import PredictionCips from "../../FatSecretSearch/PredictionCips";
 
 const EnterMealNameModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -20,6 +21,8 @@ const EnterMealNameModal = props => {
   const [meals, setMeals] = useState(null);
 
   const keyExtractor = (item, index) => index.toString();
+
+
 
   return (
     <>
@@ -36,7 +39,8 @@ const EnterMealNameModal = props => {
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <CustomMealSearchBar loading={loading} autoFocus={autoFocus} setMeals={setMeals} />
+            <CustomMealSearchBar loading={loading} autoFocus={autoFocus} setMeals={setMeals} predictions={props.predictions}/>
+
             <FlatList
               keyboardShouldPersistTaps="handled"
               ListEmptyComponent={
