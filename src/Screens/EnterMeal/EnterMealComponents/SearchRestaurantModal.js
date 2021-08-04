@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { FlatList, Image, TextInput, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { FlatList, Image, TextInput, TouchableOpacity, View } from 'react-native';
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import Modal from 'react-native-modal';
 import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
+import useAutoFocus from '../../../hooks/useAutoFocus';
+import FadeInView from '../../../Common/FadeInView';
+import OutLineButton from '../../../Common/OutLineButton';
+import EmptyPlacesButtons from './EmptyPlacesButtons';
 
 const SearchRestaurantModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -13,7 +17,10 @@ const SearchRestaurantModal = props => {
   const [restaurants, setRestaurants] = useState(null);
   const [searchText, setSearchText] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [startGoogleSearch, setStartGoogleSearch] = useState(false);
+  const inputRef = useRef();
+  const [autoFocus, setAutoFocus] = useState(false);
+  useAutoFocus(autoFocus, inputRef);
+
   const searchForRestaurants = async (text, googleSearch) => {
     setSearchText(text);
     const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
@@ -110,37 +117,40 @@ const SearchRestaurantModal = props => {
 
   return (
     <>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '100%',
-          alignItems: 'center',
+      <TouchableOpacity
+        disabled={props.editMode}
+        onPress={() => {
+          setOpen(true);
         }}>
-        <View style={styles.touchContainer}>
-          <Icon name={'map'} type={'meala'} size={35} />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <View style={styles.touchContainer}>
+            <Icon name={'map'} type={'meala'} size={35} />
+          </View>
+          <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
+            <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>
+              {t('AddMeal.SearchRestaurant.where')}
+            </Text>
+            <Text>{props.restaurantName}</Text>
+          </View>
+          <View style={styles.editIconContainer}>
+            <Icon accessibilityLabel={t('AddMeal.edit')} name={'edit'} />
+          </View>
         </View>
-        <View style={{ flexShrink: 1, paddingLeft: 24, width: '100%' }}>
-          <Text style={{ textAlign: 'left', fontFamily: 'SecularOne-Regular' }}>
-            {t('AddMeal.SearchRestaurant.where')}
-          </Text>
-          <Text>{props.restaurantName}</Text>
-        </View>
-        <View style={{ margin: 8 }}>
-          <Button
-            disabled={props.editMode}
-            icon={<Icon name={'edit'} />}
-            accessibilityLabel={t('AddMeal.edit')}
-            onPress={() => setOpen(true)}
-          />
-        </View>
-      </View>
+      </TouchableOpacity>
 
       <Modal
         animationIn="slideInUp"
         animationOut="slideOutDown"
         isVisible={open}
         backdropOpacity={0.3}
+        onModalShow={() => setAutoFocus(true)}
+        onModalHide={() => setAutoFocus(false)}
         onBackdropPress={() => setOpen(false)}
         style={styles.modal}
         onAccessibilityEscape={() => setOpen(false)}>
@@ -149,108 +159,37 @@ const SearchRestaurantModal = props => {
             <Text h2 style={styles.headline}>
               {t('AddMeal.SearchRestaurant.where')}
             </Text>
-            <TextInput
-              autoFocus={true}
-              clearButtonMode={'while-editing'}
-              style={styles.input}
-              onBlur={() => {
-                searchForRestaurants(searchText, true);
-              }}
-              returnKeyType={'search'}
-              placeholder={t('AddMeal.SearchRestaurant.searchPlaceHolder')}
-              returnKeyLabel={t('AddMeal.SearchRestaurant.search')}
-              //  enablesReturnKeyAutomatically={true}
-              value={searchText}
-              //   platform={Platform.OS}
-              onChangeText={text => searchForRestaurants(text, false)}
-            />
+            <View style={styles.searchInputContainer}>
+              <TextInput
+                textContentType={'location'}
+                ref={inputRef}
+                clearButtonMode={'unless-editing'}
+                style={styles.input}
+                onBlur={() => {
+                  searchForRestaurants(searchText, true);
+                }}
+                returnKeyType={'search'}
+                placeholder={t('AddMeal.SearchRestaurant.searchPlaceHolder')}
+                returnKeyLabel={t('AddMeal.SearchRestaurant.search')}
+                value={searchText}
+                onChangeText={text => searchForRestaurants(text, false)}
+              />
+              <View style={styles.searchIcon}>
+                {searchText && searchText.length > 0 ? (
+                  <FadeInView>
+                    <Button
+                      loading={loading}
+                      onPress={() => inputRef.current.blur()}
+                      containerStyle={{ borderRadius: 50 }}
+                      icon={<Icon size={14} name={'search'} />}
+                    />
+                  </FadeInView>
+                ) : null}
+              </View>
+            </View>
             <FlatList
-              ListEmptyComponent={
-                <View>
-                  <Text>{t('AddMeal.SearchRestaurant.noSearchText')}</Text>
-                  <Text h4 h4Style={styles.text}>
-                    {t('AddMeal.SearchRestaurant.noSearchText2')}
-                  </Text>
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.office')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.office'),
-                        t('AddMeal.SearchRestaurant.office'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.uni')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.uni'),
-                        t('AddMeal.SearchRestaurant.uni'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.school')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.school'),
-                        t('AddMeal.SearchRestaurant.school'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.gym')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.gym'),
-                        t('AddMeal.SearchRestaurant.gym'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.train')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.train'),
-                        t('AddMeal.SearchRestaurant.train'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                  <Button
-                    type={'outline'}
-                    buttonStyle={styles.button}
-                    title={t('AddMeal.SearchRestaurant.toGo')}
-                    onPress={() => {
-                      props.handleRestaurantPress(
-                        t('AddMeal.SearchRestaurant.toGo'),
-                        t('AddMeal.SearchRestaurant.toGo'),
-                        'local',
-                      );
-                      setOpen(false);
-                    }}
-                  />
-                </View>
-              }
+              keyboardShouldPersistTaps="handled"
+              ListEmptyComponent={<EmptyPlacesButtons setOpen={setOpen} />}
               ListFooterComponent={
                 loading ? (
                   <LoadingSpinner />
@@ -266,9 +205,7 @@ const SearchRestaurantModal = props => {
               data={restaurants}
               renderItem={FlatListItem}
             />
-            <View style={styles.buttonsContainer}>
-              <Button type={'clear'} title={t('General.close')} onPress={() => setOpen(false)} />
-            </View>
+            <OutLineButton type={'clear'} title={t('General.close')} onPress={() => setOpen(false)} />
           </View>
         </View>
       </Modal>
@@ -280,7 +217,6 @@ export default SearchRestaurantModal;
 
 const useStyles = makeStyles(theme => ({
   headline: { margin: theme.spacing.S },
-  text:{marginTop:theme.spacing.S},
   touchContainer: {
     marginLeft: theme.spacing.M,
     justifyContent: 'center',
@@ -293,16 +229,24 @@ const useStyles = makeStyles(theme => ({
     width: 65,
     height: 65,
   },
-  modal: { marginHorizontal: 4 },
-  input: {
-    height: 40,
-    margin: 12,
-    alignSelf: 'center',
-    width: '100%',
-    borderWidth: 1,
-    padding: 10,
+  editIconContainer: {
+    padding: theme.spacing.S,
+    marginRight: theme.spacing.M,
     borderRadius: 20,
+    backgroundColor: theme.colors.primary,
   },
+  modal: { marginHorizontal: 4 },
+  searchInputContainer: {
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderRadius: 30,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  input: {
+    paddingLeft: 20,
+  },
+  searchIcon: { margin: 10, height: 30 },
   centeredView: {
     //flex: 1,
     // height:300,
@@ -311,7 +255,7 @@ const useStyles = makeStyles(theme => ({
   modalView: {
     margin: theme.spacing.S,
     backgroundColor: 'white',
-    height: '90%',
+    height: '95%',
     borderRadius: 20,
     padding: theme.spacing.S,
     shadowColor: '#000',
@@ -323,9 +267,4 @@ const useStyles = makeStyles(theme => ({
     shadowRadius: 3.84,
     elevation: 5,
   },
-
-  buttonsContainer: {
-    margin: theme.spacing.XS,
-  },
-  button: { backgroundColor: 'transparent', alignSelf: 'center', width: 300, margin: theme.spacing.S },
 }));
