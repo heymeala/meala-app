@@ -44,6 +44,12 @@ const CustomMealSearchBar = props => {
     }
   }, [chipSearch]);
 
+  useEffect(() => {
+    if (communityMeals && communityMeals.length > 0) {
+      handleTextChange('');
+    }
+  }, []);
+
   async function startSearch(text) {
     const trimmedText = text.trim();
     if (trimmedText.length > 2) {
@@ -96,12 +102,25 @@ const CustomMealSearchBar = props => {
 
   const handleTextChange = async (text, remoteSearch) => {
     const textLength = text && text.length > 0;
-    if (textLength) {
+    if (textLength || communityMeals) {
       setSearchText(text);
       const localDatabaseMeals = await database.fetchMealWithName(text);
       const uniqueLocalMeals = removeDuplicates(localDatabaseMeals);
       const fatSecretMeals = remoteSearch && (await startSearch(text));
-
+      const communityMealsList =
+        communityMeals &&
+        communityMeals
+          .filter(item => item.meal.includes(text))
+          .map(item => {
+            console.log(item)
+            return {
+              id: item.meal_id,
+              name: item.meal,
+              imagePath: item.image_path,
+              subtitle: '',
+              type: 'community',
+            };
+          });
       const createLocalMealNameList =
         uniqueLocalMeals &&
         uniqueLocalMeals.map(item => {
@@ -142,12 +161,15 @@ const CustomMealSearchBar = props => {
         } else if (fatSecretDataList) {
           return [...newName, ...fatSecretDataList];
         } else if (text && text.length > 0) {
-          return [...newName];
+          return newName;
         }
       };
       const mealsList = mergeLists(createMealName, createLocalMealNameList, createFatSecretMealsList);
-      console.log('list', mealsList);
-      setMeals(mealsList);
+      const allLists = communityMealsList ? [...createMealName, ...communityMealsList] : mealsList;
+      const filterAllList = communityMeals && textLength ? allLists : allLists.filter(item => item.name);
+
+      console.log('list', filterAllList);
+      setMeals(filterAllList);
     } else {
       setMeals(null);
       setSearchText(null);

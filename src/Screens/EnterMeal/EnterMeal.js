@@ -61,7 +61,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [date, setDate] = useState(new Date());
   const [mealTitle, setMealTitle] = useState(mealTypeByTime(date, t));
 
-  const [cMeals, setCMeals] = useState([]);
+  const [cMeals, setCMeals] = useState(null);
   const [mealIsFocused, setMealIsFocused] = useState(false);
 
   const [mealId, setMealId] = useState(uuid.v4());
@@ -191,7 +191,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         setIsLoadingcMeals(false);
       })
       .catch(error => {
-        setCMeals([]);
+        setCMeals(null);
         setIsLoadingcMeals(false);
       });
   };
@@ -327,7 +327,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     setNsTreatmentsUpload(null);
     setPredictions([]);
 
-    setCMeals([]);
+    setCMeals(null);
     setMealIsFocused(true);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());

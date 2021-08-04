@@ -42,6 +42,9 @@ const MealNameListItem = props => {
           <ListItem.Subtitle>
             {index === 0 ? t('AddMeal.MealName.newMealName') : item.subtitle && item.subtitle.description}
           </ListItem.Subtitle>
+          {/*
+          {item.imagePath ? <Image source={item.imagePath} width={300} height={300} /> : null}
+*/}
         </ListItem.Content>
         <Icon name={'add-circle'} type={'ionicon'} />
       </ListItem>
