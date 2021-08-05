@@ -3,7 +3,6 @@ import { FlatList, Image, TextInput, TouchableOpacity, View } from 'react-native
 import { Button, Icon, ListItem, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { fetchGoogleRestaurants, getLocalDatabaseRestaurants } from '../GoogleMapsApi/searchRestaurants';
-import useAutoFocus from '../../../hooks/useAutoFocus';
 import FadeInView from '../../../Common/FadeInView';
 import EmptyPlacesButtons from './EmptyPlacesButtons';
 import OutLineButton from '../../../Common/OutLineButton';
@@ -69,15 +68,7 @@ const SearchRestaurantModal = props => {
     ];
 
     const mergeLists = (newName, localList, googleList) => {
-      if (localList && googleList) {
-        return [...newName, ...localList, ...googleList];
-      } else if (localList) {
-        return [...newName, ...localList];
-      } else if (googleList) {
-        return [...newName, ...googleList];
-      } else if (text && text.length > 0) {
-        return [...newName];
-      }
+      return [...((text && text.length > 0 && newName) || []), ...(localList || []), ...(googleList || [])];
     };
     const restaurantsList = mergeLists(
       createRestaurant,
@@ -117,13 +108,13 @@ const SearchRestaurantModal = props => {
         </View>
         <ListItem.Content>
           <ListItem.Title h4>{item.name}</ListItem.Title>
-          {item.address ? (
+          {item.address || index === 0 ? (
             <ListItem.Subtitle>
               {index === 0 ? t('AddMeal.SearchRestaurant.newPlace') : item.address}
             </ListItem.Subtitle>
           ) : null}
         </ListItem.Content>
-        <Icon name={'add-circle'} type={'ionicon'} />
+        {index === 0 ? <Icon name={'add-circle'} type={'ionicon'} /> : null}
       </ListItem>
     </TouchableOpacity>
   );
@@ -186,9 +177,10 @@ const SearchRestaurantModal = props => {
                     <Button
                       accessibilityLabel={t('Accessibility.EnterMeal.search')}
                       loading={loading}
+                      buttonStyle={{ paddingHorizontal: 16 }}
                       onPress={() => inputRef.current.blur()}
                       containerStyle={{ borderRadius: 50 }}
-                      icon={<Icon size={14} name={'search'} />}
+                      icon={<Icon size={17} name={'search'} />}
                     />
                   </FadeInView>
                 ) : null}

@@ -73,7 +73,7 @@
     },
     "fatSecretUserEntries": {
       "title": "What did you eat?",
-      "button": "FatSecret Data",
+      "button": "Choose FatSecret Data",
       "noData": "No Data in FatSecret App",
       "description": "Be sure to select only the meals you ate at the currently selected time."
     },

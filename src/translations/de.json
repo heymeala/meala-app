@@ -73,7 +73,7 @@
     },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",
-      "button": "FatSecret Daten",
+      "button": "FatSecret Daten auswählen",
       "noData": "Keine Daten in FatSecret",
       "description": "Achte darauf nur die Daten auszuwählen, die Du zur aktuell ausgewählten Uhrzeit gegessen hast."
     },

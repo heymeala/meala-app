@@ -22,6 +22,8 @@ const MealNameListItem = props => {
         <View>
           {item.imagePath ? (
             <Image source={{ uri: item.imagePath }} style={styles.image} />
+          ) : item.type === 'glyx' ? (
+            <Icon name={'rise_arrow'} type={'meala'} />
           ) : (
             <Icon
               accessibilityLabel={
@@ -34,6 +36,7 @@ const MealNameListItem = props => {
               type={item.type === 'local' ? 'meala' : 'ionicon'}
             />
           )}
+          {item.type === 'glyx' ? <Text style={{ fontSize: 10, marginTop: 4 }}>Glyx</Text> : null}
 
           {item.rating ? (
             <Text
@@ -54,7 +57,7 @@ const MealNameListItem = props => {
             <ListItem.Subtitle>{item.subtitle.description}</ListItem.Subtitle>
           ) : null}
         </ListItem.Content>
-        <Icon name={'add-circle'} type={'ionicon'} />
+        {index === 0 && item.type === 'local' ? <Icon name={'add-circle'} type={'ionicon'} /> : null}
       </ListItem>
     </TouchableOpacity>
   );
