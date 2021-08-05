@@ -284,7 +284,9 @@ const EnterMeal = ({ route, navigation }, props) => {
     }
   }
 
-  const handleInputMealChange = text => setMealTitle(text);
+  const handleInputMealChange = text => {
+    setMealTitle(text);
+  };
 
   const handleRestaurantPress = (restaurant, id, scopeInfo) => {
     setRestaurantName(restaurant);
@@ -319,7 +321,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     setAvatarSourceCamera(undefined);
     setRestaurantName(t('AddMeal.home'));
     setRestaurantId(t('AddMeal.home'));
-    setMealTitle(defaultMealTitle);
+    setMealTitle(mealTypeByTime(date, t));
     setNote('');
     setCarbs(null);
     setFoodPicture('');

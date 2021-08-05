@@ -112,7 +112,7 @@ const CustomMealSearchBar = props => {
         communityMeals
           .filter(item => item.meal.includes(text))
           .map(item => {
-            console.log(item)
+            console.log(item);
             return {
               id: item.meal_id,
               name: item.meal,
@@ -153,23 +153,24 @@ const CustomMealSearchBar = props => {
         },
       ];
       console.log(createFatSecretMealsList);
-      const mergeLists = (newName, localList, fatSecretDataList) => {
-        if (localList && fatSecretDataList) {
-          return [...newName, ...localList, ...fatSecretDataList];
-        } else if (localList) {
-          return [...newName, ...localList];
-        } else if (fatSecretDataList) {
-          return [...newName, ...fatSecretDataList];
-        } else if (text && text.length > 0) {
-          return newName;
-        }
+      const mergeLists = (newName, localList, fatSecretDataList, communityMealsList) => {
+        return [
+          ...(textLength ? newName || [] : []),
+          ...(communityMealsList || []),
+          ...(localList || []),
+          ...(fatSecretDataList || []),
+        ];
       };
-      const mealsList = mergeLists(createMealName, createLocalMealNameList, createFatSecretMealsList);
-      const allLists = communityMealsList ? [...createMealName, ...communityMealsList] : mealsList;
-      const filterAllList = communityMeals && textLength ? allLists : allLists.filter(item => item.name);
 
-      console.log('list', filterAllList);
-      setMeals(filterAllList);
+      const mealsList = mergeLists(
+        createMealName,
+        createLocalMealNameList,
+        createFatSecretMealsList,
+        communityMealsList,
+      );
+
+      console.log('list', mealsList);
+      setMeals(mealsList);
     } else {
       setMeals(null);
       setSearchText(null);

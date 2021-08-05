@@ -13,6 +13,7 @@ const MealNameListItem = props => {
       accessibilityRole={'button'}
       onPress={() => {
         handleInputMealChange(item.name.trim());
+        props.setMeals(null)
         setOpen(false);
       }}>
       <ListItem bottomDivider>
@@ -40,7 +41,9 @@ const MealNameListItem = props => {
             {item.name} {item.subtitle && item.subtitle.brand ? ' – ' + item.subtitle.brand : null}
           </ListItem.Title>
           <ListItem.Subtitle>
-            {index === 0 ? t('AddMeal.MealName.newMealName') : item.subtitle && item.subtitle.description}
+            {index === 0 && item.type === 'local'
+              ? t('AddMeal.MealName.newMealName')
+              : item.subtitle && item.subtitle.description}
           </ListItem.Subtitle>
           {/*
           {item.imagePath ? <Image source={item.imagePath} width={300} height={300} /> : null}
