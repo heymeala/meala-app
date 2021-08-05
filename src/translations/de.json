@@ -66,7 +66,7 @@
     },
     "MealName": {
       "name": "Dein Gericht?",
-      "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es dein Eintrag noch nicht gibt kannst du deinen eigenen anlegen.",
+      "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es deinen Eintrag noch nicht gibt kannst du einen eigenen anlegen.",
       "newMealName": "Neu erstellen"
     },
     "fatSecretUserEntries": {

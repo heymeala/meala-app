@@ -9,6 +9,8 @@ import { removeDuplicates } from '../../../../utils/removeDuplicates';
 import PredictionCips from '../../FatSecretSearch/PredictionCips';
 import { translate } from '../../../../Common/translate';
 import { searchFood } from '../../../../Common/fatsecret/fatsecretApi';
+import GItwo from '../../../../Common/gi';
+import uuid from 'react-native-uuid';
 
 const CustomMealSearchBar = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -100,6 +102,20 @@ const CustomMealSearchBar = props => {
 
   useAutoFocus(autoFocus, inputRef);
 
+  const searchFilterFunction = text => {
+    if (text.length >= 2) {
+      const newData = GItwo.filter(item => {
+        const itemData = `${item[locale].toUpperCase()}`;
+        const textData = text.toUpperCase();
+        if (itemData.includes(textData)) {
+          return item;
+        }
+      });
+      const filteredData = newData.slice(0, 3);
+      return filteredData;
+    }
+  };
+
   const handleTextChange = async (text, remoteSearch) => {
     const textLength = text && text.length > 0;
     if (textLength || communityMeals) {
@@ -144,7 +160,18 @@ const CustomMealSearchBar = props => {
             };
           })
         : null;
-
+      const glyx = searchFilterFunction(text);
+      let glyxList =
+        glyx &&
+        glyx.map(item => {
+          return {
+            id: uuid.v4(),
+            name: item[locale],
+            nutritionData: { glyx: item.GI },
+            type: 'glyx',
+          };
+        });
+      console.log(glyxList);
       let createMealName = [
         {
           id: text,
@@ -153,17 +180,19 @@ const CustomMealSearchBar = props => {
         },
       ];
       console.log(createFatSecretMealsList);
-      const mergeLists = (newName, localList, fatSecretDataList, communityMealsList) => {
+      const mergeLists = (newName, glyxList, localList, fatSecretDataList, communityMealsList) => {
         return [
           ...(textLength ? newName || [] : []),
           ...(communityMealsList || []),
           ...(localList || []),
+          ...(glyxList || []),
           ...(fatSecretDataList || []),
         ];
       };
 
       const mealsList = mergeLists(
         createMealName,
+        glyxList,
         createLocalMealNameList,
         createFatSecretMealsList,
         communityMealsList,
