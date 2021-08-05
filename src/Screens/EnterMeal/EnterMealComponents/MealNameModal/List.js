@@ -12,7 +12,9 @@ const MealNameListItem = props => {
     <TouchableOpacity
       accessibilityRole={'button'}
       onPress={() => {
-        handleMealPress(item.name.trim(), item.id);
+        item.type === 'community'
+          ? handleMealPress(item.name.trim(), item.id)
+          : props.handleInputMealChange(item.name.trim());
         props.setMeals(null);
         setOpen(false);
       }}>
@@ -61,5 +63,5 @@ const MealNameListItem = props => {
 export default MealNameListItem;
 
 const useStyles = makeStyles(theme => ({
-  image: { width: 80, height: 80, borderRadius: 15 }
+  image: { width: 80, height: 80, borderRadius: 15 },
 }));
