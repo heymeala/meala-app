@@ -67,7 +67,9 @@
     "MealName": {
       "name": "Dein Gericht?",
       "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es deinen Eintrag noch nicht gibt kannst du einen eigenen anlegen.",
-      "newMealName": "Neu erstellen"
+      "newMealName": "Neu erstellen",
+      "userCarbGuess": "Anonymer Nutzer schätzte {{carbs}}g Kohlenhydrate",
+      "glyx": "Glykämischer Index: "
     },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",

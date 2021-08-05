@@ -334,8 +334,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
     setMealId(id); // comes from database
-    setMealIsFocused(false);
-    Keyboard.dismiss();
+   // setMealIsFocused(false);
+   // Keyboard.dismiss();
   };
 
   function reset() {

@@ -111,7 +111,7 @@ const CustomMealSearchBar = props => {
           return item;
         }
       });
-      const filteredData = newData.slice(0, 3);
+      const filteredData = newData.slice(0, 2);
       return filteredData;
     }
   };
@@ -133,7 +133,10 @@ const CustomMealSearchBar = props => {
               id: item.meal_id,
               name: item.meal,
               imagePath: item.image_path,
-              subtitle: '',
+              subtitle: {
+                brand: null,
+                description: item.carbs ? t('AddMeal.MealName.userCarbGuess', { carbs: item.carbs }) : null,
+              },
               type: 'community',
             };
           });
@@ -143,7 +146,7 @@ const CustomMealSearchBar = props => {
           return {
             id: item.id,
             name: item.food,
-            subtitle: '',
+            subtitle: null,
             type: item.type || 'local',
           };
         });
@@ -167,7 +170,10 @@ const CustomMealSearchBar = props => {
           return {
             id: uuid.v4(),
             name: item[locale],
-            nutritionData: { glyx: item.GI },
+            subtitle: {
+              brand: null,
+              description: t('AddMeal.MealName.glyx') + item.GI,
+            },
             type: 'glyx',
           };
         });

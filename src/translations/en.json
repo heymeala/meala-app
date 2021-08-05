@@ -67,7 +67,9 @@
     "MealName": {
       "name": "Your meal",
       "noSearchText": "Search for dishes, snacks or food. If your entry does not exist yet, you can create your own.",
-      "newMealName": "Create new meal name"
+      "newMealName": "Create new meal name",
+      "userCarbGuess": "Anonymous user guessed {{carbs}}g carbs",
+      "glyx": "Glycemic Index: "
     },
     "fatSecretUserEntries": {
       "title": "What did you eat?",

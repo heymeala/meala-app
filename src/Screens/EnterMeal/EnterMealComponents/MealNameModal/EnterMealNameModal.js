@@ -57,6 +57,7 @@ const EnterMealNameModal = props => {
                 <MealNameListItem
                   setMeals={setMeals}
                   listInfo={listInfo}
+                  handleMealPress={props.handleMealPress}
                   handleInputMealChange={props.handleInputMealChange}
                   setOpen={setOpen}
                 />
