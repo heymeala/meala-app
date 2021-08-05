@@ -65,7 +65,7 @@
       "toGo": "Unterwegs"
     },
     "MealName": {
-      "name": "Dein Gericht?",
+      "name": "Wie heißt dein Gericht?",
       "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es deinen Eintrag noch nicht gibt kannst du einen eigenen anlegen.",
       "newMealName": "Neu erstellen",
       "userCarbGuess": "Anonymer Nutzer schätzte {{carbs}}g Kohlenhydrate",
@@ -74,6 +74,7 @@
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",
       "button": "FatSecret Daten",
+      "noData": "Keine Daten in FatSecret",
       "description": "Achte darauf nur die Daten auszuwählen, die Du zur aktuell ausgewählten Uhrzeit gegessen hast."
     },
     "nutritionData": {

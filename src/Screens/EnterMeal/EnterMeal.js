@@ -32,6 +32,7 @@ import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
 import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNameModal';
+import * as Keychain from 'react-native-keychain';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -78,11 +79,20 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [fatSecretData, setFatSecretData] = useState(null);
   const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
 
+  const [loadingOnSave, setLoadingOnSave] = useState(false);
   const [value, setValue] = useState(3);
 
   const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
   const defaultRestaurantName = restaurantName || t('AddMeal.home');
   const defaultRestaurantId = restaurantId || t('AddMeal.home');
+  const hasFatSecretCredentials = Keychain.hasInternetCredentials(
+    'https://www.fatsecret.com/oauth/authorize',
+  ).then(result => result !== false);
+  const fatSecretButtonText = fatSecretData ?
+    t('AddMeal.fatSecretUserEntries.button') +
+    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+      ? ` (${fatSecretData.filter(data => data.checked).length})`
+      : '') :  t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
     if (scan === true) {
@@ -220,6 +230,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   }
 
   function saveAll() {
+    setLoadingOnSave(true);
+
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
           .filter(data => data.checked)
@@ -302,6 +314,8 @@ const EnterMeal = ({ route, navigation }, props) => {
           });
           changeType({ mode: 'default', meal_id: null });
           //navigation.goBack();
+          setLoadingOnSave(false);
+
           navigation.navigate('meala');
         });
     }
@@ -334,8 +348,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
     setMealId(id); // comes from database
-   // setMealIsFocused(false);
-   // Keyboard.dismiss();
+    // setMealIsFocused(false);
+    // Keyboard.dismiss();
   };
 
   function reset() {
@@ -444,25 +458,22 @@ const EnterMeal = ({ route, navigation }, props) => {
         />*/}
 
         <View style={styles.spacing}>
-          {fatSecretData && (
+          {hasFatSecretCredentials && (
             <>
               <Button
+                disabled={!fatSecretData}
                 buttonStyle={styles.fatSecretButton}
-                title={
-                  t('AddMeal.fatSecretUserEntries.button') +
-                  (fatSecretData.filter(data => data.checked).length > 0
-                    ? ` (${fatSecretData.filter(data => data.checked).length})`
-                    : '')
-                }
+                title={fatSecretButtonText}
                 onPress={() => setVisible(true)}
               />
-
-              <FatSecretUserDataModal
-                fatSecretData={fatSecretData}
-                setFatSecretData={setFatSecretData}
-                visible={visible}
-                setVisible={setVisible}
-              />
+              {fatSecretData && (
+                <FatSecretUserDataModal
+                  fatSecretData={fatSecretData}
+                  setFatSecretData={setFatSecretData}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+              )}
             </>
           )}
         </View>
@@ -488,11 +499,12 @@ const EnterMeal = ({ route, navigation }, props) => {
         <ReminderSlider value={value} setValue={setValue} />
       </ScrollView>
       <FAB
+        loading={loadingOnSave}
         title={t('AddMeal.save')}
         onPress={() => validateTimeBeforeSave()}
         size={'small'}
         placement={'right'}
-        buttonStyle={{ height: 40 }}
+        buttonStyle={{ height: 40, width: 150 }}
         icon={{ name: 'save', color: 'black' }}
       />
       {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
@@ -503,7 +515,6 @@ const EnterMeal = ({ route, navigation }, props) => {
           onPress={() => cancel()}
           size={'small'}
           placement={'left'}
-          icon={{ name: 'cancel', color: 'white' }}
         />
       ) : null}
     </KeyboardAvoidingView>
@@ -517,10 +528,13 @@ const useStyles = makeStyles((theme, props: Props) => ({
 
   spacing: {
     alignItems: 'flex-start',
-    paddingHorizontal: spacing.L,
-    marginBottom: spacing.M,
   },
-  fatSecretButton: { paddingHorizontal: spacing.L },
+  fatSecretButton: {
+    paddingHorizontal: theme.spacing.M,
+    marginHorizontal: spacing.M,
+    marginTop: theme.spacing.L,
+    marginBottom: theme.spacing.M,
+  },
   container: {
     flexGrow: 1,
     flexDirection: 'column',

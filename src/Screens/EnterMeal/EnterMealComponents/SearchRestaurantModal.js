@@ -21,7 +21,7 @@ const SearchRestaurantModal = props => {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const [autoFocus, setAutoFocus] = useState(false);
-  useAutoFocus(autoFocus, inputRef);
+  //useAutoFocus(autoFocus, inputRef);
 
   const searchForRestaurants = async (text, googleSearch) => {
     setSearchText(text);

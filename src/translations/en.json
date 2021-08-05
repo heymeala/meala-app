@@ -65,7 +65,7 @@
       "toGo": "on the road"
     },
     "MealName": {
-      "name": "Your meal",
+      "name": "Name of your meal",
       "noSearchText": "Search for dishes, snacks or food. If your entry does not exist yet, you can create your own.",
       "newMealName": "Create new meal name",
       "userCarbGuess": "Anonymous user guessed {{carbs}}g carbs",
@@ -74,6 +74,7 @@
     "fatSecretUserEntries": {
       "title": "What did you eat?",
       "button": "FatSecret Data",
+      "noData": "No Data in FatSecret App",
       "description": "Be sure to select only the meals you ate at the currently selected time."
     },
     "nutritionData": {
