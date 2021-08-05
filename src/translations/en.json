@@ -48,6 +48,8 @@
     "lunch": "Lunch",
     "dinner": "Dinner",
     "home": "Home",
+    "timeAlertTitle": "Note",
+    "timeAlertDescription": "You create an entry in the past",
     "SearchRestaurant": {
       "name": "Where are you?",
       "newPlace": "Create a new place",
@@ -408,6 +410,7 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "close": "Close",
+    "yesSave": "Yes, save",
     "back": "back",
     "activate": "Activate",
     "deactivate": "Deactivate"

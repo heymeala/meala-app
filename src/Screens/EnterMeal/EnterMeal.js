@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { Button, FAB, makeStyles } from 'react-native-elements';
 import { database } from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
-import MealInputField from './EnterMealComponents/MealInputField';
 import { uploadImageToServer } from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import { DatePickerOverlay } from './EnterMealComponents/DatePickerOverlay';
@@ -32,7 +31,7 @@ import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMeal
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
-import EnterMealNameModal from "./EnterMealComponents/MealNameModal/EnterMealNameModal";
+import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNameModal';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -125,7 +124,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           : t('AddMeal.AddMealTitle'),
       headerRight: () => {
         if (type.mode !== EDIT_MODE) {
-          return <HeaderRightIconGroup reset={reset} saveAll={saveAll} />;
+          return <HeaderRightIconGroup reset={reset} saveAll={validateTimeBeforeSave} />;
         }
       },
     });
@@ -195,6 +194,30 @@ const EnterMeal = ({ route, navigation }, props) => {
         setIsLoadingcMeals(false);
       });
   };
+
+  function validateTimeBeforeSave() {
+    const currentTime = new Date().getTime() - 900000;
+    if (date.getTime() < currentTime) {
+      Alert.alert(t('AddMeal.timeAlertTitle'), t('AddMeal.timeAlertDescription'), [
+        {
+          text: t('General.cancel'),
+          onPress: () => {
+            console.log('Cancel Pressed');
+          },
+          style: 'cancel',
+        },
+        {
+          text: t('General.yesSave'),
+          onPress: () => {
+            console.log('OK Pressed');
+            saveAll();
+          },
+        },
+      ]);
+    } else {
+      saveAll();
+    }
+  }
 
   function saveAll() {
     const fatSecretUserIds = fatSecretData
@@ -466,7 +489,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       </ScrollView>
       <FAB
         title={t('AddMeal.save')}
-        onPress={() => saveAll()}
+        onPress={() => validateTimeBeforeSave()}
         size={'small'}
         placement={'right'}
         buttonStyle={{ height: 40 }}

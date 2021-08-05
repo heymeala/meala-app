@@ -48,6 +48,8 @@
     "lunch": "Mittagessen",
     "dinner": "Abendessen",
     "home": "Zuhause",
+    "timeAlertTitle": "Hinweis",
+    "timeAlertDescription": "Du erstellst einen Eintrag in der Vergangenheit",
     "SearchRestaurant": {
       "name": "Wo isst du?",
       "newPlace": "Erstelle einen neuen Ort",
@@ -404,6 +406,7 @@
     "welcome": "Willkommen bei meala - Deiner Mahlzeiten-Assistentin",
     "various": "Sonstiges",
     "cancel": "Abbrechen",
+    "yesSave": "Ja, speichen",
     "reset": "Zurücksetzen",
     "close": "Schließen",
     "back": "zurück",
