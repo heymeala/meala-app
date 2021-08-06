@@ -7,6 +7,7 @@ import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
 import { permissions } from './DetailSite/HealthKitPermissions';
 import { Platform } from 'react-native';
 import { database } from '../../Common/database_realm';
+import { MGPERDL, MMOLPERL } from "../../Common/Constants/units";
 
 export async function loadSugarData(
   mealData,
@@ -88,7 +89,6 @@ export async function loadSugarData(
       let options = {
         startDate: fromDate, // required
         endDate: tillDate, // optional; default now
-        unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL',
       };
       AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
         /* Samples are now collected from HealthKit */
@@ -101,7 +101,7 @@ export async function loadSugarData(
             console.log(coordinates.value);
             return {
               x: new Date(moment(coordinates.startDate).toISOString()),
-              y: coordinates.value,
+              y: coordinates.value * (settings.unit === 1 ? MMOLPERL : MGPERDL),
             };
           }),
         );
