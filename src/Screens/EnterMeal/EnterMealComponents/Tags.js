@@ -4,6 +4,7 @@ import { Icon, makeStyles, SearchBar, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import Modal from 'react-native-modal';
+import { EDIT_MODE } from '../../../hooks/useEnterMealState';
 
 export const Tags = props => {
   const [visible, setVisible] = useState(false);
@@ -70,13 +71,16 @@ export const Tags = props => {
 
   return (
     <>
-      <View style={{ display: 'flex', flexDirection: 'row', padding: 8, marginTop: 8  }}>
+      <View
+        style={
+          props.mode === EDIT_MODE ? { ...styles.container, marginBottom: 40 } : { ...styles.container }
+        }>
         <TouchableOpacity
           accessible={true}
           accessibilityRole="button"
           accessibilityHint={t('Accessibility.EnterMeal.add_lable')}
           accessibilityLabel={t('Accessibility.EnterMeal.addTag')}
-          style={{ ...styles.openButton, marginRight:12 }}
+          style={{ ...styles.openButton, marginRight: 12 }}
           onPress={() => setVisible(true)}>
           <Icon name={'add'} color={'#fff'} />
         </TouchableOpacity>
@@ -187,6 +191,7 @@ export const Tags = props => {
 };
 
 const useStyles = makeStyles(theme => ({
+  container: { display: 'flex', flexDirection: 'row', padding: 8, marginTop: 8 },
   centeredView: {
     flex: 1,
     justifyContent: 'center',

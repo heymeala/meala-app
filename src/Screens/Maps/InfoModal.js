@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Keyboard, View } from "react-native";
+import { Keyboard, View } from 'react-native';
 import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../../LanguageContext';
@@ -10,10 +10,15 @@ const InfoModal = props => {
   const styles = useStyles();
   const { open, setOpen } = props;
   const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   function sendFeedback() {
     if (message) {
+      setLoading(true);
+
       fetch(FEEDBACK_MAIL + message).then(() => {
+        setLoading(false);
+
         setOpen(false);
         setMessage(null);
       });
@@ -52,7 +57,12 @@ const InfoModal = props => {
           />
 
           <View style={styles.buttons}>
-            <Button disabled={!message} title={'Nachricht senden'} onPress={() => sendFeedback()} />
+            <Button
+              loading={loading}
+              disabled={!message}
+              title={t('Settings.sendMessage')}
+              onPress={() => sendFeedback()}
+            />
             <Button title={t('General.close')} onPress={() => setOpen(false)} />
           </View>
         </View>

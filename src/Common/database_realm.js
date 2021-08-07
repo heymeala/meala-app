@@ -459,6 +459,7 @@ export const database = {
     });
   },
   deleteMealSoft: id => {
+    console.log(id)
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(

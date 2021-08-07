@@ -19,6 +19,7 @@ const HealthKitInputField = props => {
       inputStyle={{ fontSize: 15 }}
       placeholder={t('AddMeal.Carbs')}
       keyboardType={'numeric'}
+      returnKeyType={'done'}
       renderErrorMessage={false}
       value={carbs}
       leftIcon={
@@ -39,7 +40,8 @@ export default HealthKitInputField;
 const useStyles = makeStyles(theme => ({
   inputPadding: {
     borderRadius: 6,
-    marginBottom: 10,
+    marginBottom: theme.spacing.L,
     height: 56,
+    marginHorizontal: theme.spacing.M,
   },
 }));

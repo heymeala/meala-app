@@ -30,7 +30,8 @@ const MealList = props => {
   };
 
   function deleteMeal(id) {
-    PushNotification.cancelLocalNotifications({ userMealId: id });
+    //todo: cancel Notification on ios
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
     mealData(search);
   }

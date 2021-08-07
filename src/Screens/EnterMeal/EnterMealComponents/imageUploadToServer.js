@@ -36,6 +36,7 @@ export const uploadImageToServer = async props => {
       })
       .catch(err => {
         // ...
+        console.log(err)
       });
   } else {
     console.log('No Image');

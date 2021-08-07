@@ -39,21 +39,17 @@ const useStyles = makeStyles(theme => ({
   text: {
     color: theme.colors.white,
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 11,
   },
   avatarContainer: {
     backgroundColor: theme.colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  avatar: {
-    borderRadius: 75,
-    width: 150,
-    height: 150,
-  },
+
   avatarSmall: {
-    borderRadius: 50,
-    width: 100,
-    height: 100,
+    borderRadius: 45,
+    width: 90,
+    height: 90,
   },
 }));

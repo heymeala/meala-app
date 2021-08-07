@@ -48,9 +48,33 @@
     "lunch": "Lunch",
     "dinner": "Dinner",
     "home": "Home",
+    "timeAlertTitle": "Note",
+    "timeAlertDescription": "You create an entry in the past",
+    "SearchRestaurant": {
+      "name": "Where are you?",
+      "newPlace": "Create a new place",
+      "searchPlaceHolder": "where are you eating?",
+      "search": "search",
+      "noSearchText": "Enter the place where you eat, if you don't enter a place it will stay at \"home\"",
+      "noSearchText2": "Also search for the name of your favorite restaurant or the street name where the restaurant you are in is located",
+      "office": "office",
+      "uni": "university",
+      "school": "school",
+      "gym": "fitness studio",
+      "train": "train",
+      "toGo": "on the road"
+    },
+    "MealName": {
+      "name": "Name of your meal",
+      "noSearchText": "Search for dishes, snacks or food. If your entry does not exist yet, you can create your own.",
+      "newMealName": "Create new meal name",
+      "userCarbGuess": "Anonymous user guessed {{carbs}}g carbs",
+      "glyx": "Glycemic Index: "
+    },
     "fatSecretUserEntries": {
       "title": "What did you eat?",
-      "button": "FatSecret Data",
+      "button": "Choose FatSecret Data",
+      "noData": "No Data in FatSecret App",
       "description": "Be sure to select only the meals you ate at the currently selected time."
     },
     "nutritionData": {
@@ -288,6 +312,7 @@
     "feedbackQuestion": "What do you think about meala?",
     "feedback": "You have found a suggestion for improvement or a problem? Feel free to send us your feedback to mail@heymeala.com",
     "dialogFeedbackTitleGood": "Yay that's awesome!",
+    "sendMessage": "Send message",
     "dialogFeedbackDescriptionGood": "Feedback is our biggest motivation! Feel free to drop us a line if you have more feedback or any question.",
     "dialogFeedbackTitleBad": "Too bad, what can we improve?",
     "dialogFeedbackDescriptionBad": "Thanks for your feedback, what can we improve to make you happy?",
@@ -388,6 +413,7 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "close": "Close",
+    "yesSave": "Yes, save",
     "back": "back",
     "activate": "Activate",
     "deactivate": "Deactivate"
@@ -409,7 +435,11 @@
       "meal": "What do you eat? ",
       "restaurant": "Where do you eat? ",
       "lable": "Press to remove the lable",
-      "add_lable": "Opens a dialog that lets you enter custom lables"
+      "add_lable": "Opens a dialog that lets you enter custom lables",
+      "ownPlace": "Own place",
+      "googlePlace": "Google Place",
+      "rating": "start rating",
+      "search": "search"
     },
     "Home": {
       "newEntry": "Add a new meal entry",

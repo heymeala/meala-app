@@ -57,7 +57,7 @@ const FeedbackModal = props => {
             <Button
               loading={loading}
               disabled={!message}
-              title={'Nachricht senden'}
+              title={t('Settings.sendMessage')}
               onPress={() => sendFeedback()}
             />
             <Button title={t('General.close')} onPress={() => setOpen(false)} />

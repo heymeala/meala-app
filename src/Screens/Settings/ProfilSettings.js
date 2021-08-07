@@ -7,6 +7,7 @@ import LocalizationContext from '../../../LanguageContext';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { useNavigation } from '@react-navigation/core';
 import { spacing } from '../../theme/styles';
+import { MMOLPERL } from '../../Common/Constants/units';
 
 const ProfilSettings = () => {
   const { settings, saveProfile } = useProfile();
@@ -25,6 +26,7 @@ const ProfilSettings = () => {
     setChecked(prevState => true);
     database.saveProfile(unit).then(() => saveProfile(unit));
   }
+
   useEffect(() => {
     if (Platform.OS === 'ios') {
       PushNotificationIOS.checkPermissions(({ alert, badge, sound }) => {
@@ -61,7 +63,7 @@ const ProfilSettings = () => {
         checkedIcon="dot-circle-o"
         uncheckedIcon="circle-o"
         checked={!checked}
-        onPress={() => switchToMmol(18.02)}
+        onPress={() => switchToMmol(MMOLPERL)}
       />
       <Text h3 style={{ textAlign: 'center', ...styles.text }}>
         {t('Settings.profile.example')} {Math.round(100 / settings.unit)}{' '}

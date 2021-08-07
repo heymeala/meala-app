@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { Button, FAB, makeStyles } from 'react-native-elements';
 import { database } from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
-import MealInputField from './EnterMealComponents/MealInputField';
-import RestaurantInputField from './EnterMealComponents/RestaurantInputField';
 import { uploadImageToServer } from './EnterMealComponents/imageUploadToServer';
 import LocalizationContext from '../../../LanguageContext';
 import { DatePickerOverlay } from './EnterMealComponents/DatePickerOverlay';
@@ -32,6 +30,9 @@ import { useUserSettings } from '../../hooks/useUserSettings';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 import { useExistingDataFromDB } from './hooks/useExistingFatSecretIds';
 import ReminderSlider from './EnterMealComponents/ReminderSlider';
+import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
+import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNameModal';
+import * as Keychain from 'react-native-keychain';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -44,9 +45,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [avatarSourceLibrary, setAvatarSourceLibrary] = useState(undefined);
   const [avatarSourceCamera, setAvatarSourceCamera] = useState(undefined);
 
-  const [restaurantName, setRestaurantName] = useState('');
-  const [restaurantId, setRestaurantId] = useState('');
-  const [mealTitle, setMealTitle] = useState('');
+  const [restaurantName, setRestaurantName] = useState(t('AddMeal.home'));
+  const [restaurantId, setRestaurantId] = useState(t('AddMeal.home'));
 
   const [note, setNote] = useState('');
   const [carbs, setCarbs] = useState(null);
@@ -59,8 +59,9 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [lng, setLng] = useState('');
 
   const [date, setDate] = useState(new Date());
+  const [mealTitle, setMealTitle] = useState(mealTypeByTime(date, t));
 
-  const [cMeals, setCMeals] = useState([]);
+  const [cMeals, setCMeals] = useState(null);
   const [mealIsFocused, setMealIsFocused] = useState(false);
 
   const [mealId, setMealId] = useState(uuid.v4());
@@ -78,7 +79,20 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [fatSecretData, setFatSecretData] = useState(null);
   const [existingFatSecretIds, setExistingFatSecretIds] = useState(null);
 
+  const [loadingOnSave, setLoadingOnSave] = useState(false);
   const [value, setValue] = useState(3);
+
+  const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
+  const defaultRestaurantName = restaurantName || t('AddMeal.home');
+  const defaultRestaurantId = restaurantId || t('AddMeal.home');
+  const hasFatSecretCredentials = Keychain.hasInternetCredentials(
+    'https://www.fatsecret.com/oauth/authorize',
+  ).then(result => result !== false);
+  const fatSecretButtonText = fatSecretData ?
+    t('AddMeal.fatSecretUserEntries.button') +
+    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+      ? ` (${fatSecretData.filter(data => data.checked).length})`
+      : '') :  t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
     if (scan === true) {
@@ -91,8 +105,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
       }
-      return () => {
-      };
+      return () => {};
     }, []),
   );
 
@@ -121,12 +134,11 @@ const EnterMeal = ({ route, navigation }, props) => {
           : t('AddMeal.AddMealTitle'),
       headerRight: () => {
         if (type.mode !== EDIT_MODE) {
-          return <HeaderRightIconGroup reset={reset} saveAll={saveAll} />;
+          return <HeaderRightIconGroup reset={reset} saveAll={validateTimeBeforeSave} />;
         }
       },
     });
-    return () => {
-    };
+    return () => {};
   }, [navigation, type]);
 
   useEffect(() => {
@@ -188,23 +200,45 @@ const EnterMeal = ({ route, navigation }, props) => {
         setIsLoadingcMeals(false);
       })
       .catch(error => {
-        setCMeals([]);
+        setCMeals(null);
         setIsLoadingcMeals(false);
       });
   };
 
+  function validateTimeBeforeSave() {
+    const currentTime = new Date().getTime() - 900000;
+    if (date.getTime() < currentTime) {
+      Alert.alert(t('AddMeal.timeAlertTitle'), t('AddMeal.timeAlertDescription'), [
+        {
+          text: t('General.cancel'),
+          onPress: () => {
+            console.log('Cancel Pressed');
+          },
+          style: 'cancel',
+        },
+        {
+          text: t('General.yesSave'),
+          onPress: () => {
+            console.log('OK Pressed');
+            saveAll();
+          },
+        },
+      ]);
+    } else {
+      saveAll();
+    }
+  }
+
   function saveAll() {
+    setLoadingOnSave(true);
+
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-        .filter(data => data.checked)
-        .map(data => {
-          return { foodEntryId: data.food_entry_id };
-        })
+          .filter(data => data.checked)
+          .map(data => {
+            return { foodEntryId: data.food_entry_id };
+          })
       : [];
-
-    const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
-    const defaultRestaurantName = restaurantName || t('AddMeal.home');
-    const defaultRestaurantId = restaurantId || t('AddMeal.home');
 
     if (type.mode !== EDIT_MODE) {
       reminderNotification(userMealId, mealId, t, defaultMealTitle, value);
@@ -280,12 +314,16 @@ const EnterMeal = ({ route, navigation }, props) => {
           });
           changeType({ mode: 'default', meal_id: null });
           //navigation.goBack();
+          setLoadingOnSave(false);
+
           navigation.navigate('meala');
         });
     }
   }
 
-  const handleInputMealChange = text => setMealTitle(text);
+  const handleInputMealChange = text => {
+    setMealTitle(text);
+  };
 
   const handleRestaurantPress = (restaurant, id, scopeInfo) => {
     setRestaurantName(restaurant);
@@ -295,7 +333,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     loadCommunityMeals(id);
     Keyboard.dismiss();
   };
-
+  //todo: real id?
   const handleRestaurantName = text => {
     setRestaurantName(text);
     setRestaurantId(text);
@@ -310,17 +348,17 @@ const EnterMeal = ({ route, navigation }, props) => {
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
     setMealId(id); // comes from database
-    setMealIsFocused(false);
-    Keyboard.dismiss();
+    // setMealIsFocused(false);
+    // Keyboard.dismiss();
   };
 
   function reset() {
     const newDate = new Date();
     setAvatarSourceLibrary(undefined);
     setAvatarSourceCamera(undefined);
-    setRestaurantName('');
-    setRestaurantId('');
-    setMealTitle('');
+    setRestaurantName(t('AddMeal.home'));
+    setRestaurantId(t('AddMeal.home'));
+    setMealTitle(mealTypeByTime(date, t));
     setNote('');
     setCarbs(null);
     setFoodPicture('');
@@ -328,7 +366,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     setNsTreatmentsUpload(null);
     setPredictions([]);
 
-    setCMeals([]);
+    setCMeals(null);
     setMealIsFocused(true);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());
@@ -400,7 +438,16 @@ const EnterMeal = ({ route, navigation }, props) => {
         />
 
         <DatePickerOverlay date={date} setDate={setDate} />
-        <RestaurantInputField
+        <SearchRestaurantModal
+          editMode={type.mode === EDIT_MODE}
+          handleRestaurantPress={handleRestaurantPress}
+          handleRestaurantName={handleRestaurantName}
+          lat={lat}
+          lng={lng}
+          gpsEnabled={gpsEnabled}
+          restaurantName={restaurantName}
+        />
+        {/*      <RestaurantInputField
           editMode={type.mode === EDIT_MODE}
           restaurantName={restaurantName}
           handleRestaurantPress={handleRestaurantPress}
@@ -408,43 +455,38 @@ const EnterMeal = ({ route, navigation }, props) => {
           lat={lat}
           lng={lng}
           gpsEnabled={gpsEnabled}
-        />
+        />*/}
 
         <View style={styles.spacing}>
-          {fatSecretData && (
+          {hasFatSecretCredentials && (
             <>
               <Button
+                disabled={!fatSecretData}
                 buttonStyle={styles.fatSecretButton}
-                title={
-                  t('AddMeal.fatSecretUserEntries.button') +
-                  (fatSecretData.filter(data => data.checked).length > 0
-                    ? ` (${fatSecretData.filter(data => data.checked).length})`
-                    : '')
-                }
+                title={fatSecretButtonText}
                 onPress={() => setVisible(true)}
               />
-
-              <FatSecretUserDataModal
-                fatSecretData={fatSecretData}
-                setFatSecretData={setFatSecretData}
-                visible={visible}
-                setVisible={setVisible}
-              />
+              {fatSecretData && (
+                <FatSecretUserDataModal
+                  fatSecretData={fatSecretData}
+                  setFatSecretData={setFatSecretData}
+                  visible={visible}
+                  setVisible={setVisible}
+                />
+              )}
             </>
           )}
         </View>
-        <MealInputField
+        <EnterMealNameModal
           MealInput={MealInput}
-          mealIsFocused={mealIsFocused}
           isLoadingcMeals={isLoadingcMeals}
           cMeals={cMeals}
           handleMealPress={handleMealPress}
-          handleMealInputFocus={handleMealInputFocus}
           handleInputMealChange={handleInputMealChange}
-          Gericht={mealTitle}
+          mealName={mealTitle}
           predictions={predictions}
-          handleMealInputBlur={handleMealInputBlur}
         />
+
         <HealthKitInputField carbs={carbs} setCarbs={setCarbs} />
 
         <NightScoutInputFields
@@ -453,15 +495,16 @@ const EnterMeal = ({ route, navigation }, props) => {
         />
         <NoteInputField notiz={note} setNotiz={setNote} />
 
-        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} />
+        <Tags tags={tags} handleTags={addTag} removeTag={removeTag} mode={type.mode} />
         <ReminderSlider value={value} setValue={setValue} />
       </ScrollView>
       <FAB
+        loading={loadingOnSave}
         title={t('AddMeal.save')}
-        onPress={() => saveAll()}
+        onPress={() => validateTimeBeforeSave()}
         size={'small'}
         placement={'right'}
-        buttonStyle={{ height: 40 }}
+        buttonStyle={{ height: 40, width: 150 }}
         icon={{ name: 'save', color: 'black' }}
       />
       {type.mode === EDIT_MODE || type.mode === COPY_MODE ? (
@@ -472,7 +515,6 @@ const EnterMeal = ({ route, navigation }, props) => {
           onPress={() => cancel()}
           size={'small'}
           placement={'left'}
-          icon={{ name: 'cancel', color: 'white' }}
         />
       ) : null}
     </KeyboardAvoidingView>
@@ -486,10 +528,13 @@ const useStyles = makeStyles((theme, props: Props) => ({
 
   spacing: {
     alignItems: 'flex-start',
-    paddingHorizontal: spacing.L,
-    marginBottom: spacing.M,
   },
-  fatSecretButton: { paddingHorizontal: spacing.L },
+  fatSecretButton: {
+    paddingHorizontal: theme.spacing.M,
+    marginHorizontal: spacing.M,
+    marginTop: theme.spacing.L,
+    marginBottom: theme.spacing.M,
+  },
   container: {
     flexGrow: 1,
     flexDirection: 'column',
