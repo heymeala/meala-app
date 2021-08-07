@@ -17,6 +17,7 @@ import MealQuiz from '../Screens/Quiz/MealQuiz';
 import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import Licenses from "../Screens/Settings/License/Licenses";
+import KingsHealthKitTest from "../Screens/Settings/HealthKit/KingsHealthKitTest";
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -61,7 +62,7 @@ function SettingsStack() {
       />
       <Stack.Screen
         name="HealthKitScreen"
-        component={HealthKitScreen}
+        component={KingsHealthKitTest}
         initialParams={{}}
         options={{
           title: t('Settings.healthKit.name'),
