@@ -3,8 +3,9 @@ import { ScrollView, View } from 'react-native';
 import LocalizationContext from '../../../../LanguageContext';
 import data from '../License/licenses.json';
 import { formatLicenses } from './getLicense';
-import { Avatar, Divider, ListItem, makeStyles, Text } from 'react-native-elements';
+import { Avatar, ListItem, makeStyles, Text } from 'react-native-elements';
 import openLink from '../../../Common/InAppBrowser';
+import ExportDatabase from '../ExportDatabase';
 
 const Licenses = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -13,6 +14,7 @@ const Licenses = props => {
   const formattedLicenseData = formatLicenses(licenses.current);
   return (
     <ScrollView>
+
       <Text h2 style={styles.root}>
         Animations
       </Text>
@@ -56,19 +58,21 @@ const Licenses = props => {
         Libraries
       </Text>
       {formattedLicenseData &&
-      formattedLicenseData.map((data, i) => (
-        <View key={i}>
-          <ListItem onPress={() => openLink(data.licenseUrl)}>
-            <Avatar rounded={true} source={{ uri: data.image }} />
-            <ListItem.Content>
-              <ListItem.Title h4>{data.name}</ListItem.Title>
-              <ListItem.Subtitle>
-                {data.version} {data.licenses} {data.username}
-              </ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        </View>
-      ))}
+        formattedLicenseData.map((data, i) => (
+          <View key={i}>
+            <ListItem onPress={() => openLink(data.licenseUrl)}>
+              <Avatar rounded={true} source={{ uri: data.image }} />
+              <ListItem.Content>
+                <ListItem.Title h4>{data.name}</ListItem.Title>
+                <ListItem.Subtitle>
+                  {data.version} {data.licenses} {data.username}
+                </ListItem.Subtitle>
+              </ListItem.Content>
+            </ListItem>
+          </View>
+        ))}
+      <ExportDatabase />
+
     </ScrollView>
   );
 };

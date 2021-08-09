@@ -10,6 +10,7 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { deleteImageFile } from "../../utils/deleteImageFile";
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -27,6 +28,7 @@ const MealList = props => {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
+    deleteImageFile(id);
     mealData(search);
   }
 

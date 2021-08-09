@@ -53,7 +53,6 @@ const SettingsFooter = () => {
           </View>
         </>
       )}
-      <ExportDatabase />
     </View>
   );
 };

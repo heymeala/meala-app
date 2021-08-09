@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { FAB, useTheme } from 'react-native-elements';
 import { database } from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
-import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
+import PushNotification from "react-native-push-notification";
+import { deleteImageFile } from "../../utils/deleteImageFile";
 
 const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);
@@ -32,8 +33,9 @@ const MealListInRestaurants = props => {
   );
 
   function deleteMeal(id) {
-    PushNotification.cancelLocalNotifications({ id: id });
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
+    deleteImageFile(id);
     navigation.goBack();
   }
 
@@ -47,7 +49,7 @@ const MealListInRestaurants = props => {
             <MealsListSwipeDelete
               navigation={navigation}
               mealDataSoftDelete={mealDataSoftDelete}
-              update={deleteMeal}
+              deleteMeal={deleteMeal}
               mealData={loadData}
             />
 

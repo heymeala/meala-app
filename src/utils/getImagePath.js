@@ -1,18 +1,19 @@
 import { Platform } from 'react-native';
 import RNFS from 'react-native-fs';
+import { IMAGEFOLDER } from '../Common/Constants/folder';
 
 const imageName = databasePath => {
   if (databasePath) {
     if (Platform.OS === 'android') {
-      return databasePath.split('/food_images').pop();
+      return databasePath.split(IMAGEFOLDER).pop();
     } else {
-      return databasePath.split('/food_images').pop();
+      return databasePath.split(IMAGEFOLDER).pop();
     }
   }
 };
 
 export const getImagePath = databasePath => {
-  const documentPath = RNFS.DocumentDirectoryPath + '/food_images';
+  const documentPath = RNFS.DocumentDirectoryPath + IMAGEFOLDER;
   const imageFileName = imageName(databasePath);
 
   if (Platform.OS === 'android' && databasePath) {
