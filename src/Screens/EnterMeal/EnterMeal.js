@@ -165,7 +165,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
     if (type.mode !== EDIT_MODE) {
       addTimeBasedTags(tags, setTags, date, t);
-      setMealTitle(mealTypeByTime(date, t))
+      const mealDefaultNames = [t('AddMeal.lunch'), t('AddMeal.dinner'), t('AddMeal.breakfast')];
+      if (mealDefaultNames.includes(mealTitle)) {
+        setMealTitle(mealTypeByTime(date, t));
+      }
     }
     getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
   }, [date]);
