@@ -91,7 +91,7 @@ const SearchRestaurantModal = props => {
           <Icon
             accessibilityLabel={
               item.type === 'local'
-                ? t('Accessibility.EnterMeal.search')
+                ? t('Accessibility.EnterMeal.ownEntry')
                 : t('Accessibility.EnterMeal.googlePlace')
             }
             size={14}
