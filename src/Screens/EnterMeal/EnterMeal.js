@@ -85,14 +85,13 @@ const EnterMeal = ({ route, navigation }, props) => {
   const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
   const defaultRestaurantName = restaurantName || t('AddMeal.home');
   const defaultRestaurantId = restaurantId || t('AddMeal.home');
-  const hasFatSecretCredentials = Keychain.hasInternetCredentials(
-    'https://www.fatsecret.com/oauth/authorize',
-  ).then(result => result !== false);
-  const fatSecretButtonText = fatSecretData ?
-    t('AddMeal.fatSecretUserEntries.button') +
-    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
-      ? ` (${fatSecretData.filter(data => data.checked).length})`
-      : '') :  t('AddMeal.fatSecretUserEntries.noData');
+  const [hasFatSecretCredentials, setFatSecretCredentials] = useState(false);
+  const fatSecretButtonText = fatSecretData
+    ? t('AddMeal.fatSecretUserEntries.button') +
+      (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+        ? ` (${fatSecretData.filter(data => data.checked).length})`
+        : '')
+    : t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
     if (scan === true) {
@@ -104,6 +103,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     React.useCallback(() => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
+        Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
+          console.log(result);
+          setFatSecretCredentials(result !== false);
+        });
       }
       return () => {};
     }, []),
@@ -458,7 +461,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         />*/}
 
         <View style={styles.spacing}>
-          {hasFatSecretCredentials && (
+          {hasFatSecretCredentials ? (
             <>
               <Button
                 disabled={!fatSecretData}
@@ -475,7 +478,7 @@ const EnterMeal = ({ route, navigation }, props) => {
                 />
               )}
             </>
-          )}
+          ) : null}
         </View>
         <EnterMealNameModal
           MealInput={MealInput}
@@ -533,7 +536,6 @@ const useStyles = makeStyles((theme, props: Props) => ({
     paddingHorizontal: theme.spacing.M,
     marginHorizontal: spacing.M,
     marginTop: theme.spacing.L,
-    marginBottom: theme.spacing.M,
   },
   container: {
     flexGrow: 1,

@@ -29,7 +29,7 @@ const MealNameListItem = props => {
               accessibilityLabel={
                 item.type === 'local'
                   ? t('Accessibility.EnterMeal.search')
-                  : t('Accessibility.EnterMeal.googlePlace')
+                  : t('Accessibility.EnterMeal.fatSecret')
               }
               size={14}
               name={item.type === 'local' ? 'eat' : 'server'}

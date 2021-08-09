@@ -6,7 +6,7 @@ import { makeStyles } from 'react-native-elements';
 import { imageDetectionClarifai } from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
-import { COPY_MODE, DEFAULT_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
+import { DEFAULT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
 
 const PictureSelector = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -21,12 +21,11 @@ const PictureSelector = props => {
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
   } = props;
+
   function handleImageLoadStates(response) {
-    setFoodPicture(
-      (prevState => Platform.OS === 'android') ? response.uri : 'data:image/jpeg;base64,' + response.base64,
-    );
-    setClarifaiImagebase(prevState => response.base64);
-    response.timestamp && setDate(prevState => new Date(response.timestamp));
+    setFoodPicture(Platform.OS === 'android' ? response.uri : 'data:image/jpeg;base64,' + response.base64);
+    setClarifaiImagebase(response.base64);
+    response.timestamp && setDate(new Date(response.timestamp));
     imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
   }
 

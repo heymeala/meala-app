@@ -56,7 +56,7 @@
       "searchPlaceHolder": "Wo isst du?",
       "search": "Suchen",
       "noSearchText": "Trage den Ort ein an dem Du isst, wenn du kein Ort einträgst bleibt er bei \"Zuhause\"",
-      "noSearchText2": "Suche außerdem nach dem Namen deines Lieblingsrestaurants oder dem Straßenname in dem sich das Restaurant befindet. Wenn du nicht in einem Restaurant bist, gebe dem Ort einen eigenen Namen. z.B.:",
+      "noSearchText2": "Suche außerdem nach dem Namen deines Lieblingsrestaurants. Wenn du nicht in einem Restaurant bist, gebe dem Ort einen eigenen Namen. z.B.:",
       "office": "Büro",
       "uni": "Uni",
       "school": "Schule",
@@ -69,7 +69,7 @@
       "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es deinen Eintrag noch nicht gibt kannst du einen eigenen anlegen.",
       "newMealName": "Neu erstellen",
       "userCarbGuess": "Anonymer Nutzer schätzte {{carbs}}g Kohlenhydrate",
-      "glyx": "Glykämischer Index: "
+      "glyx": "Glykämischer Index: ",
     },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",
@@ -436,6 +436,7 @@
       "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann",
       "ownPlace": "Eigner Ort",
       "googlePlace": "Ort von Google Maps",
+      "fatSecret": "FatSecret Daten",
       "rating": "Sterne Bewertung",
       "search": "Suchen"
     },

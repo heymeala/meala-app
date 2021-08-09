@@ -48,8 +48,8 @@ const SearchRestaurantModal = props => {
           id: item.place_id,
           name: item.name,
           type: 'GOOGLE',
-          lat: item.geometry.location.lat,
-          lng: item.geometry.location.lng,
+          lat: item.lat,
+          lng: item.long,
           address: item.formatted_address,
           rating: item.rating,
         };
