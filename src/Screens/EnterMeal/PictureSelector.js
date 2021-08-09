@@ -25,7 +25,9 @@ const PictureSelector = props => {
   } = props;
 
   function handleImageLoadStates(response) {
-    const documentPath = RNFS.DocumentDirectoryPath;
+    const documentPath = RNFS.DocumentDirectoryPath + '/food_images';
+    RNFS.mkdir(documentPath, { NSURLIsExcludedFromBackupKey: false }).then(response => console.log(response));
+
     const file_path =
       Platform.OS !== 'android'
         ? documentPath + '/' + userMealId + '_food.png'

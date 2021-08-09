@@ -5,6 +5,7 @@ import { makeStyles, SocialIcon, Text } from 'react-native-elements';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import Feedback from '../../Common/Feedback';
+import ExportDatabase from './ExportDatabase';
 
 const SettingsFooter = () => {
   const screenReaderEnabled = useScreenReader();
@@ -52,6 +53,7 @@ const SettingsFooter = () => {
           </View>
         </>
       )}
+      <ExportDatabase />
     </View>
   );
 };
