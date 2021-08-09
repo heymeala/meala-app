@@ -23,7 +23,7 @@ const PictureSelector = props => {
   } = props;
 
   function handleImageLoadStates(response) {
-    setFoodPicture(Platform.OS === 'android' ? response.uri : 'data:image/jpeg;base64,' + response.base64);
+    setFoodPicture(response.uri);
     setClarifaiImagebase(response.base64);
     response.timestamp && setDate(new Date(response.timestamp));
     imageDetectionClarifai(response.base64, setPredictions, locale, setTags);

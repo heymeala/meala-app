@@ -13,21 +13,15 @@ import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi'
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
-
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [blur, setBlur] = useState(false);
+
   useFocusEffect(
     React.useCallback(() => {
       mealData(search);
-    }, []),
+    }, [search]),
   );
-
-  const updateSearch = text => {
-    setSearch(text);
-    mealData(text);
-  };
 
   function deleteMeal(id) {
     //todo: cancel Notification on ios
@@ -66,12 +60,6 @@ const MealList = props => {
     });
   }
 
-  const handleBlur = () => {
-    if (search.length > 3) {
-      setBlur(true);
-    }
-  };
-
   return loading ? (
     <LoadingSpinner />
   ) : (
@@ -86,9 +74,8 @@ const MealList = props => {
           <SearchBar
             platform={Platform.OS}
             placeholder={t('Entries.SearchMeals')}
-            onChangeText={updateSearch}
+            onChangeText={text => setSearch(text)}
             value={search}
-            onBlur={handleBlur}
           />
         </>
       }
