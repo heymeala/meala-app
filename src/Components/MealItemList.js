@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions, Platform, View } from 'react-native';
 import { Avatar, Badge, Divider, ListItem, Text } from 'react-native-elements';
 import { gradientPercentageColor, textColor } from '../Common/generateColor';
 import moment from 'moment';
@@ -11,6 +11,8 @@ import { useScreenReader } from '../hooks/useScreenReaderEnabled';
 import AccessibleListItem from '../Screens/MealEntries/Accessability/AccessibleListItem';
 import { WAITING_TIME } from '../Common/Constants/waitingTime';
 import { badgeValue } from './badgeValue';
+import RNFS from 'react-native-fs';
+import { getImagePath } from "../utils/getImagePath";
 
 export const MealItemsList = React.forwardRef((props, ref) => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -81,6 +83,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
     }
   };
 
+
   return (
     <View style={{ height: 110 }} key={props.item.userMealId} ref={ref}>
       <ListItem
@@ -88,7 +91,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
         <Avatar
           rounded
           title={props.item.food[0]}
-          source={props.item.picture ? { uri: props.item.picture } : null}
+          source={props.item.picture ? { uri: getImagePath(props.item.picture) } : null}
           size={'large'}
           overlayContainerStyle={{ backgroundColor: '#f9de1c' }}
         />

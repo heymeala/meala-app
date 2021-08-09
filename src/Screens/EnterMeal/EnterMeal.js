@@ -432,6 +432,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
         <PictureSelector
+          userMealId={userMealId}
           setFoodPicture={setFoodPicture}
           setClarifaiImagebase={setBase64ImageData}
           setDate={setDate}

@@ -472,6 +472,8 @@ PODS:
     - Firebase/Messaging (= 8.1.1)
     - React-Core
     - RNFBApp
+  - RNFS (2.18.0):
+    - React
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNInAppBrowser (3.6.3):
@@ -570,6 +572,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
@@ -709,6 +712,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/auth"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNInAppBrowser:
@@ -807,6 +812,7 @@ SPEC CHECKSUMS:
   RNFBApp: 406bc9586c70ccf20504b4d3b54ac4341c98993f
   RNFBAuth: 638d012551135969cfd12d122def3ee40c05974d
   RNFBMessaging: 154dc7815e2b6c55941793630ffb3a55f03d77e6
+  RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNInAppBrowser: 5672feb84e731411f6911979c71649c240a90202
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5

@@ -7,6 +7,7 @@ import { imageDetectionClarifai } from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
 import { DEFAULT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
+import RNFS from 'react-native-fs';
 
 const PictureSelector = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -20,10 +21,20 @@ const PictureSelector = props => {
     setTags,
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
+    userMealId,
   } = props;
 
   function handleImageLoadStates(response) {
-    setFoodPicture(response.uri);
+    const documentPath = RNFS.DocumentDirectoryPath;
+    const file_path =
+      Platform.OS !== 'android'
+        ? documentPath + '/' + userMealId + '_food.png'
+        : documentPath + '/' + userMealId + '_food.png';
+
+    RNFS.writeFile(file_path, response.base64, 'base64').catch(error => {
+      console.log(error);
+    });
+    setFoodPicture(file_path);
     setClarifaiImagebase(response.base64);
     response.timestamp && setDate(new Date(response.timestamp));
     imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
