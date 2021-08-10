@@ -20,7 +20,9 @@ const ExportDatabase = props => {
   const targetPath =
     Platform.OS === 'android'
       ? RNFS.DownloadDirectoryPath + '/' + date + '_images.zip'
-      : RNFS.DocumentDirectoryPath + date + '_images.zip';
+      : RNFS.DocumentDirectoryPath + '/' + date + '_images.zip';
+
+  console.log(targetPath);
 
   function zipImages() {
     zip(imageFolder, targetPath)
