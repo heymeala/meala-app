@@ -346,17 +346,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantId(text);
   };
 
-  const handleMealInputFocus = () => {
-    setMealIsFocused(true);
-    scrollListReftop.current.scrollTo({ x: 0, y: 100, animated: true });
-  };
 
-  const handleMealInputBlur = () => setMealIsFocused(false);
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
     setMealId(id); // comes from database
-    // setMealIsFocused(false);
-    // Keyboard.dismiss();
   };
 
   function reset() {

@@ -18,8 +18,8 @@ export const getImagePath = databasePath => {
 
   if (Platform.OS === 'android' && databasePath) {
     const searchOldPathNames = databasePath.slice(0, 4); // image picker lib saved to cached folder - searching for old files in database
-    if (searchOldPathNames === 'file') {
-      return databasePath;
+    if (searchOldPathNames === 'file' || searchOldPathNames === 'cont') {
+      return databasePath; // return cached path
     } else {
       return 'file://' + documentPath + imageFileName;
     }
