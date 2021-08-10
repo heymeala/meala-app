@@ -22,7 +22,6 @@ const ExportDatabase = props => {
       ? RNFS.DownloadDirectoryPath + '/' + date + '_images.zip'
       : RNFS.DocumentDirectoryPath + '/' + date + '_images.zip';
 
-  console.log(targetPath);
 
   function zipImages() {
     zip(imageFolder, targetPath)
