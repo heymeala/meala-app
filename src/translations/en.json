@@ -437,6 +437,7 @@
       "lable": "Press to remove the lable",
       "add_lable": "Opens a dialog that lets you enter custom lables",
       "ownPlace": "Own place",
+      "ownEntry": "Found entry",
       "googlePlace": "Google Place",
       "rating": "start rating",
       "search": "search"

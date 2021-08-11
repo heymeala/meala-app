@@ -17,7 +17,7 @@ export const getLocalDatabaseRestaurants = text => {
 };
 
 export const fetchGoogleRestaurants = (searchString, lat, lng, setLoading) => {
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchString}&location=${lat},${lng}&radius=1000&types=food|restaurant|cafe|meal_takeaway|bar|bakery&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchString}&location=${lat},${lng}&radius=3000&type=food&key=${apiKey}`;
   console.log(url);
   if (searchString && searchString.length > 3) {
     setLoading(true);

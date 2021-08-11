@@ -5,13 +5,11 @@ import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
 
-let newDate = moment();
-let waitDate = newDate.subtract(3, 'hours');
+const hoursAgo = h => {
+  return new Date().getTime() - 1000 * 60 * 60 * h;
+};
 
 export async function nightscoutCall(date, id) {
-  const fromDateInput = date;
-  const tillDateInput = date;
-
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
   return database.getCgmData(id).then(cgm => {
     if (cgm === 'null' || cgm === null) {
@@ -20,14 +18,14 @@ export async function nightscoutCall(date, id) {
         .then(settings => {
           // newer Nightscout Version use moment and have a different datestring
           if (settings.nightscoutVersion >= 0.12) {
-            const tillDate = moment(tillDateInput).add(3, 'hours').toISOString();
-            const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').toISOString();
+            const tillDate = moment(date).add(3, 'hours').toISOString();
+            const fromDate = moment(date).subtract(SEA_MINUTES, 'minutes').toISOString();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
           } else {
-            const tillDate = moment(tillDateInput).add(3, 'hours').format();
-            const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').format();
+            const tillDate = moment(date).add(3, 'hours').format();
+            const fromDate = moment(date).subtract(SEA_MINUTES, 'minutes').format();
             const url = `${settings.nightscoutUrl}/api/v1/entries/sgv.json?count=80&find[dateString][$gte]=${fromDate}&find[dateString][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
             console.log(url);
             return url;
@@ -37,9 +35,12 @@ export async function nightscoutCall(date, id) {
         .then(response => response.json())
         .then(data => {
           // add data from nightscout  to offline realm database after 3hours
-          if (waitDate.valueOf() >= date.getTime()) {
+          //  const threeHoursAgo = new Date().getTime() - 1000 * 60 * 60 * 3;
+          const threeHoursAgo = hoursAgo(3)
+          if (threeHoursAgo >= date.getTime()) {
             database.editMealCgmData(data, id);
           }
+
           return data.reverse();
         });
     } else {
@@ -71,7 +72,9 @@ export function nightscoutTreatmens(date, userMealId) {
         .then(response => response.json())
         .then(treatmentsData => {
           //  add treatments data from nightscout  to offline realm database after 3hours
-          if (waitDate.valueOf() >= saveDate.getTime()) {
+          const threeHoursAgo = hoursAgo(3)
+
+          if (threeHoursAgo >= saveDate.getTime()) {
             const carbSum = calculateCarbs(treatmentsData);
             updateUserCarbsOnline(carbSum, userMealId);
             database.editMealTreatments(date, treatmentsData, carbSum, userMealId);

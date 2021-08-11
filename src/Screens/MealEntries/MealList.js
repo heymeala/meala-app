@@ -10,29 +10,32 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { deleteImageFile } from '../../utils/deleteImageFile';
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
-
   const [search, setSearch] = useState('');
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [blur, setBlur] = useState(false);
-  useFocusEffect(
-    React.useCallback(() => {
-      mealData(search);
-    }, []),
-  );
 
-  const updateSearch = text => {
-    setSearch(text);
-    mealData(text);
-  };
+  const searchOnFocus = React.useCallback(() => {
+    mealData(search);
+    console.log('search on focus', search);
+  }, [search]);
 
+  useFocusEffect(searchOnFocus);
+
+  /*
+  useEffect(() => {
+    mealData(search);
+    console.log('search on seatch text change', search);
+  }, [search]);
+*/
   function deleteMeal(id) {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
+    deleteImageFile(id);
     mealData(search);
   }
 
@@ -52,11 +55,13 @@ const MealList = props => {
 
           slicedMeals.map(data => {
             const nsSugarData = async () => {
-              console.log(data);
+              console.log("slicedmeals ",data);
               await nightscoutCall(data.date, data.userMealId);
               await nightscoutTreatmens(data.date, data.userMealId);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
+              console.log("updatedFilteredMeals ",data);
+
               setRestaurants(updatedFilteredMeals);
             };
             nsSugarData();
@@ -65,12 +70,6 @@ const MealList = props => {
       }
     });
   }
-
-  const handleBlur = () => {
-    if (search.length > 3) {
-      setBlur(true);
-    }
-  };
 
   return loading ? (
     <LoadingSpinner />
@@ -86,9 +85,8 @@ const MealList = props => {
           <SearchBar
             platform={Platform.OS}
             placeholder={t('Entries.SearchMeals')}
-            onChangeText={updateSearch}
+            onChangeText={text => setSearch(text)}
             value={search}
-            onBlur={handleBlur}
           />
         </>
       }

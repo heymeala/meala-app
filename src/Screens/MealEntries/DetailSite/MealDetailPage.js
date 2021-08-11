@@ -18,6 +18,7 @@ import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
+import { getImagePath } from "../../../utils/getImagePath";
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -91,7 +92,7 @@ const MealDetailsComponent = props => {
           {props.selectedFood.picture ? (
             <View style={styles.imageContainer}>
               <Image
-                source={props.selectedFood.picture ? { uri: props.selectedFood.picture } : null}
+                source={props.selectedFood.picture ? { uri: getImagePath(props.selectedFood.picture) } : null}
                 style={styles.image}
               />
             </View>

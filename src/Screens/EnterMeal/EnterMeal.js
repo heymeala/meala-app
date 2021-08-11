@@ -85,14 +85,13 @@ const EnterMeal = ({ route, navigation }, props) => {
   const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
   const defaultRestaurantName = restaurantName || t('AddMeal.home');
   const defaultRestaurantId = restaurantId || t('AddMeal.home');
-  const hasFatSecretCredentials = Keychain.hasInternetCredentials(
-    'https://www.fatsecret.com/oauth/authorize',
-  ).then(result => result !== false);
-  const fatSecretButtonText = fatSecretData ?
-    t('AddMeal.fatSecretUserEntries.button') +
-    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
-      ? ` (${fatSecretData.filter(data => data.checked).length})`
-      : '') :  t('AddMeal.fatSecretUserEntries.noData');
+  const [hasFatSecretCredentials, setFatSecretCredentials] = useState(false);
+  const fatSecretButtonText = fatSecretData
+    ? t('AddMeal.fatSecretUserEntries.button') +
+      (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+        ? ` (${fatSecretData.filter(data => data.checked).length})`
+        : '')
+    : t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
     if (scan === true) {
@@ -104,6 +103,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     React.useCallback(() => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
+        Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
+          console.log(result);
+          setFatSecretCredentials(result !== false);
+        });
       }
       return () => {};
     }, []),
@@ -162,6 +165,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     // add Breakfast | Lunch | Dinner to Tags and replace if Date updates
     if (type.mode !== EDIT_MODE) {
       addTimeBasedTags(tags, setTags, date, t);
+      const mealDefaultNames = [t('AddMeal.lunch'), t('AddMeal.dinner'), t('AddMeal.breakfast')];
+      if (mealDefaultNames.includes(mealTitle)) {
+        setMealTitle(mealTypeByTime(date, t));
+      }
     }
     getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
   }, [date]);
@@ -339,17 +346,10 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantId(text);
   };
 
-  const handleMealInputFocus = () => {
-    setMealIsFocused(true);
-    scrollListReftop.current.scrollTo({ x: 0, y: 100, animated: true });
-  };
 
-  const handleMealInputBlur = () => setMealIsFocused(false);
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
     setMealId(id); // comes from database
-    // setMealIsFocused(false);
-    // Keyboard.dismiss();
   };
 
   function reset() {
@@ -425,6 +425,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
         <PictureSelector
+          userMealId={userMealId}
           setFoodPicture={setFoodPicture}
           setClarifaiImagebase={setBase64ImageData}
           setDate={setDate}
@@ -458,7 +459,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         />*/}
 
         <View style={styles.spacing}>
-          {hasFatSecretCredentials && (
+          {hasFatSecretCredentials ? (
             <>
               <Button
                 disabled={!fatSecretData}
@@ -475,7 +476,7 @@ const EnterMeal = ({ route, navigation }, props) => {
                 />
               )}
             </>
-          )}
+          ) : null}
         </View>
         <EnterMealNameModal
           MealInput={MealInput}
@@ -533,7 +534,6 @@ const useStyles = makeStyles((theme, props: Props) => ({
     paddingHorizontal: theme.spacing.M,
     marginHorizontal: spacing.M,
     marginTop: theme.spacing.L,
-    marginBottom: theme.spacing.M,
   },
   container: {
     flexGrow: 1,
