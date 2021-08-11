@@ -1,22 +1,18 @@
 import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
 import { filterCoordinates, mapUnit } from './DetailSite/filterCoordinates';
-import AppleHealthKit from 'react-native-health';
 import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
-import { permissions } from './DetailSite/HealthKitPermissions';
 import { Platform } from 'react-native';
 import { database } from '../../Common/database_realm';
-import { MGPERDL, MMOLPERL } from "../../Common/Constants/units";
+import Healthkit, { HKQuantityTypeIdentifier, HKUnit } from '@kingstinct/react-native-healthkit';
+import { add } from '../../utils/reducer';
 
 export async function loadSugarData(
   mealData,
   userSettings,
   settings,
   setCoordinates,
-  //setDateStrings,
-  //setDates,
-  //setSugar,
   setCarbs,
   setInsulin,
   setTreatments,
@@ -49,17 +45,11 @@ export async function loadSugarData(
 
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
-    // const nsSugarSGV = nsSugarData.map(sugar => sugar.sgv);
-    //  const nsSugarDates = nsSugarData.map(data => data.date);
-    // const foodDataString = nsSugarData.map(data => data.dateString);
+
     const glucoseCoordinates = filterSVGDataByTime(nsSugarData);
     setCoordinates(glucoseCoordinates);
-    //setDateStrings(foodDataString);
-    // setDates(nsSugarDates);
-    // setSugar(nsSugarSGV);
 
     const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
-
     const calcCarbs = nsTreatmentData
       .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
       .map(data => data.carbs);
@@ -79,69 +69,69 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
 
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      /* Called after we receive a response from the system */
-      if (error) {
-        console.log('[ERROR] Cannot grant permissions!');
-      }
-      /* Can now read or write to HealthKit */
-      //   unit: settings.unit === 1 ? 'mgPerdL' : 'mmolPerL', // optional; default 'mmolPerL'
-      let options = {
-        startDate: fromDate, // required
-        endDate: tillDate, // optional; default now
-      };
-      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
-        /* Samples are now collected from HealthKit */
-        if (callbackError) {
-          console.log(callbackError);
-          return;
-        }
-        setCoordinates(
-          results.map(coordinates => {
-            console.log(coordinates.value);
-            return {
-              x: new Date(moment(coordinates.startDate).toISOString()),
-              y: coordinates.value * (settings.unit === 1 ? MMOLPERL : MGPERDL),
-            };
-          }),
-        );
-      });
+    const options = {
+      ascending: true,
+      from: moment(foodDate).subtract(SEA_MINUTES, 'minutes'),
+      to: moment(foodDate).add(3, 'hours'),
+    };
 
-      AppleHealthKit.getCarbohydratesSamples(options, (callbackError, results) => {
-        /* Samples are now collected from HealthKit */
-        if (callbackError) {
-          console.log(callbackError);
-          return;
-        }
-        setCarbs(results.map(data => data.value));
-        setCarbCoordinates(
-          results.map(coordinates => {
-            const kitCarbs = mapUnit(coordinates.value, settings);
-            return {
-              x: new Date(moment(coordinates.startDate).toISOString()),
-              y: kitCarbs,
-            };
-          }),
-        );
-      });
-
-      const majorVersionIOS = parseInt(Platform.Version, 10);
-      if (majorVersionIOS >= 13) {
-        console.log('ios >= 13');
-
-        let optionsSteps = {
-          date: new Date(foodDate).toISOString(), // optional; default now
-          includeManuallyAdded: true, // optional: default true
-        };
-        AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
-          if (err) {
-            console.log('err', err);
-            return;
-          }
-          results ? setStepsPerDay(results.value) : setStepsPerDay(null);
-        });
-      }
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
+      ...options,
+      unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,
+    }).then(results => {
+      setCoordinates(
+        results.map(coordinates => {
+          console.log(coordinates.quantity);
+          return {
+            x: new Date(moment(coordinates.startDate).toISOString()),
+            y: coordinates.quantity,
+          };
+        }),
+      );
     });
+
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(results => {
+      const calcInsulin = results.map(result => result.quantity); //
+      const treatments = results.map(result => {
+        return { insulin: result.quantity };
+      });
+      setTreatments(treatments);
+      const getInsulinCoordinates = results.map(result => {
+        return {
+          x: new Date(moment(result.startDate).toISOString()),
+          y: result.quantity,
+        };
+      });
+      setInsulin(calcInsulin);
+      setInsulinCoordinates(getInsulinCoordinates);
+      console.log('getInsulinCoordinates', getInsulinCoordinates);
+    });
+
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.dietaryCarbohydrates, options).then(results => {
+      setCarbs(results.map(data => data.quantity));
+      setCarbCoordinates(
+        results.map(coordinates => {
+          const kitCarbs = mapUnit(coordinates.quantity, settings);
+          return {
+            x: new Date(moment(coordinates.startDate).toISOString()),
+            y: kitCarbs,
+          };
+        }),
+      );
+      console.log(results);
+    });
+
+    const majorVersionIOS = parseInt(Platform.Version, 10);
+    if (majorVersionIOS >= 13) {
+      // todo: test on ios 10
+      Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
+        const stepQuantity = results.map(data => {
+          return data.quantity;
+        });
+        const totalStep = stepQuantity.reduce(add);
+        setStepsPerDay(totalStep);
+      });
+    }
     setLoading(false);
   } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
     const localCGMData = await database.getCgmData(id);
