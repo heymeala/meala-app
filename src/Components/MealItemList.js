@@ -68,7 +68,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
                 <View style={{ paddingTop: 5 }}>
                   <ProgressBar
                     color="#F9DE1C"
-                    progress={moment.duration(progressTime) / 100000 / 60 / 3}
+                    progress={moment.duration(progressTime) / 1000 / 60 / 60 / 3}
                     width={Dimensions.get('window').width / 1.6}
                   />
                 </View>

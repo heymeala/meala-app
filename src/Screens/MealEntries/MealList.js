@@ -10,7 +10,7 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
-import { deleteImageFile } from "../../utils/deleteImageFile";
+import { deleteImageFile } from '../../utils/deleteImageFile';
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -18,12 +18,19 @@ const MealList = props => {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      mealData(search);
-    }, [search]),
-  );
+  const searchOnFocus = React.useCallback(() => {
+    mealData(search);
+    console.log('search on focus', search);
+  }, [search]);
 
+  useFocusEffect(searchOnFocus);
+
+  /*
+  useEffect(() => {
+    mealData(search);
+    console.log('search on seatch text change', search);
+  }, [search]);
+*/
   function deleteMeal(id) {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
@@ -48,11 +55,13 @@ const MealList = props => {
 
           slicedMeals.map(data => {
             const nsSugarData = async () => {
-              console.log(data);
+              console.log("slicedmeals ",data);
               await nightscoutCall(data.date, data.userMealId);
               await nightscoutTreatmens(data.date, data.userMealId);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
+              console.log("updatedFilteredMeals ",data);
+
               setRestaurants(updatedFilteredMeals);
             };
             nsSugarData();
