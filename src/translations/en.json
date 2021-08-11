@@ -350,6 +350,7 @@
       "glucose": "Blood Glucose",
       "carbohydrates": "Carbohydrates",
       "heartRate": "Heart Rate",
+      "insulin": "Insulin",
       "steps": "Steps per day",
       "totalStepsToday": "Total steps {{steps}}",
       "totalGlucoseValues": "We found {{length}} glucose values within the last hours",

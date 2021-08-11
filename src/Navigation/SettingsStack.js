@@ -62,7 +62,7 @@ function SettingsStack() {
       />
       <Stack.Screen
         name="HealthKitScreen"
-        component={KingsHealthKitTest}
+        component={HealthKitScreen}
         initialParams={{}}
         options={{
           title: t('Settings.healthKit.name'),

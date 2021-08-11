@@ -1,21 +1,18 @@
 import { Platform } from 'react-native';
-import AppleHealthKit from 'react-native-health';
+import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
+import dayjs from 'dayjs';
 
 export function hkSteps(setStepSamples) {
   const majorVersionIOS = parseInt(Platform.Version, 10);
   if (majorVersionIOS >= 13) {
     console.log('ios >= 13');
 
-    let optionsSteps = {
-      date: new Date().toISOString(), // optional; default now
-      includeManuallyAdded: true, // optional: default true
+    const options = {
+      ascending: true,
+      from: dayjs().startOf('day').toDate(),
+      to: new Date(),
     };
-    AppleHealthKit.getStepCount(optionsSteps, (err, results) => {
-      if (err) {
-        console.log('err 2', err);
-        return;
-      }
-      results ? setStepSamples(results) : setStepSamples(null);
-    });
+
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result => setStepSamples(result));
   }
 }

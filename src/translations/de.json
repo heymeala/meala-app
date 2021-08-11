@@ -348,6 +348,7 @@
       "glucose": "Blutzucker",
       "carbohydrates": "Kohlenhydrate",
       "heartRate": "Herzfrequenz",
+      "insulin": "Insulin",
       "steps": "Schritte pro Tag",
       "totalStepsToday": "Du bist {{steps}} Schritte gelaufen",
       "totalGlucoseValues": "Es wurden mindestens {{length}} Blutzuckerwerte in den letzten Stunden gefunden. ",
