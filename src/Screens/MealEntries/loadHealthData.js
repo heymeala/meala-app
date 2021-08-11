@@ -81,7 +81,6 @@ export async function loadSugarData(
     }).then(results => {
       setCoordinates(
         results.map(coordinates => {
-          console.log(coordinates.quantity);
           return {
             x: new Date(moment(coordinates.startDate).toISOString()),
             y: coordinates.quantity,
@@ -97,9 +96,11 @@ export async function loadSugarData(
       });
       setTreatments(treatments);
       const getInsulinCoordinates = results.map(result => {
+        const mapInsulinToChart = mapUnit(result.quantity, settings);
+
         return {
           x: new Date(moment(result.startDate).toISOString()),
-          y: result.quantity,
+          y: mapInsulinToChart,
         };
       });
       setInsulin(calcInsulin);
@@ -128,7 +129,7 @@ export async function loadSugarData(
         const stepQuantity = results.map(data => {
           return data.quantity;
         });
-        const totalStep = stepQuantity.reduce(add);
+        const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null
         setStepsPerDay(totalStep);
       });
     }
