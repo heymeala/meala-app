@@ -15,7 +15,7 @@
     "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
-    "@kingstinct/react-native-healthkit": "^4.1.1",
+    "@kingstinct/react-native-healthkit": "github:tree3health/react-native-healthkit#chore/upgrade-RN-to-0.64.2",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "^3.0.8",
     "@react-native-community/geolocation": "^2.0.2",
