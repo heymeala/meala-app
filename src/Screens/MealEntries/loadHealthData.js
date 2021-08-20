@@ -8,7 +8,6 @@ import { database } from '../../Common/database_realm';
 import Healthkit, { HKQuantityTypeIdentifier, HKUnit } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
-import dayjs from 'dayjs';
 
 export async function loadSugarData(
   mealData,
@@ -126,16 +125,15 @@ export async function loadSugarData(
     });
 
     const majorVersionIOS = parseInt(Platform.Version, 10);
-    if (majorVersionIOS >= 13) {
-      // todo: test on ios 10
-      Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
-        const stepQuantity = results.map(data => {
-          return data.quantity;
-        });
-        const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
-        setStepsPerDay(totalStep);
+    // if (majorVersionIOS >= 13) { //
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
+      const stepQuantity = results.map(data => {
+        return data.quantity;
       });
-    }
+      const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
+      setStepsPerDay(totalStep);
+    });
+    //  }
 
     Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
       ascending: true,
