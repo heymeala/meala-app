@@ -18,7 +18,7 @@ import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
-import { getImagePath } from "../../../utils/getImagePath";
+import { getImagePath } from '../../../utils/getImagePath';
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -85,6 +85,13 @@ const MealDetailsComponent = props => {
             <Text style={styles.space}>
               {t('Settings.healthKit.totalStepsToday', {
                 steps: props.stepsPerDay,
+              })}
+            </Text>
+          )}
+          {props.sleepAnalysis && (
+            <Text style={styles.space}>
+              {t('Settings.healthKit.sleep', {
+                sleep: props.sleepAnalysis,
               })}
             </Text>
           )}

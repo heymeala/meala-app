@@ -7,6 +7,8 @@ import { Platform } from 'react-native';
 import { database } from '../../Common/database_realm';
 import Healthkit, { HKQuantityTypeIdentifier, HKUnit } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
+import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
+import dayjs from 'dayjs';
 
 export async function loadSugarData(
   mealData,
@@ -20,6 +22,7 @@ export async function loadSugarData(
   setInsulinCoordinates,
   setLoading,
   setStepsPerDay,
+  setSleepAnalysis,
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
@@ -129,10 +132,25 @@ export async function loadSugarData(
         const stepQuantity = results.map(data => {
           return data.quantity;
         });
-        const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null
+        const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
         setStepsPerDay(totalStep);
       });
     }
+
+    Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
+      ascending: true,
+      from: moment(foodDate).subtract(1, 'day'),
+      to: moment(foodDate).add(3, 'hours'),
+    }).then(result => {
+      const hours = result
+        .filter(data => data.value === 1)
+        .map(data => {
+          return moment(data.endDate).diff(moment(data.startDate), 'hours');
+        });
+      const sum = hours.length > 0 && hours.reduce(add);
+      setSleepAnalysis(sum);
+    });
+
     setLoading(false);
   } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
     const localCGMData = await database.getCgmData(id);

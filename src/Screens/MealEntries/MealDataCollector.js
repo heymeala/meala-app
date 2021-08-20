@@ -8,7 +8,6 @@ import { loadSugarData } from './loadHealthData';
 import { useRoute } from '@react-navigation/core';
 
 const MealDataCollector = props => {
-
   const [insulin, setInsulin] = useState([]);
   const [carbs, setCarbs] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
@@ -18,6 +17,7 @@ const MealDataCollector = props => {
   const [carbCoordinates, setCarbCoordinates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stepsPerDay, setStepsPerDay] = useState(null);
+  const [sleepAnalysis, setSleepAnalysis] = useState(null);
   const route = useRoute();
   const { userMealId } = route.params;
   const [restaurantName, setRestaurantName] = useState(null);
@@ -52,6 +52,7 @@ const MealDataCollector = props => {
         setInsulinCoordinates,
         setLoading,
         setStepsPerDay,
+        setSleepAnalysis,
       ); //TODO:: CLEANUP
     });
   }
@@ -71,6 +72,7 @@ const MealDataCollector = props => {
           loading={loading}
           stepsPerDay={stepsPerDay}
           reloadData={loadData}
+          sleepAnalysis={sleepAnalysis}
         />
       ) : (
         <LoadingSpinner />

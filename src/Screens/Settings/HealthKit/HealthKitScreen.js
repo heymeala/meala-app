@@ -13,6 +13,8 @@ import moment from 'moment';
 import analytics from '@react-native-firebase/analytics';
 import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import dayjs from 'dayjs';
+import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
+import { add } from '../../../utils/reducer';
 
 export default function HealthKitScreen() {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -23,6 +25,7 @@ export default function HealthKitScreen() {
   const [heartRateSamples, setHeartRateSamples] = useState([]);
   const [stepSamples, setStepSamples] = useState([]);
   const [insulinSamples, setInsulinSamples] = useState([]);
+  const [sleepAnalysis, setSleepAnalysis] = useState([]);
 
   const saveState = () => {
     analytics().logEvent('glucose_source', {
@@ -52,16 +55,29 @@ export default function HealthKitScreen() {
       setCarbSamples(result);
       console.log(result);
     });
+    Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
+      ascending: true,
+      from: dayjs().subtract(1, 'day').toDate(),
+      to: new Date(),
+    }).then(result => {
+      const hours = result
+        .filter(data => data.value === 1)
+        .map(data => {
+          return moment(data.endDate).diff(moment(data.startDate), 'hours');
+        });
+      const sum = hours.reduce(add);
+      setSleepAnalysis(result);
+    });
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.heartRate, options).then(setHeartRateSamples);
 
     const majorVersionIOS = parseInt(Platform.Version, 10);
-    if (majorVersionIOS >= 13) {
-      // todo: test on ios 10
-      Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result =>
-        setStepSamples(result),
-      );
-    }
+    // if (majorVersionIOS >= 13) {
+    // todo: test on ios 10
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result =>
+      setStepSamples(result),
+    );
+    // }
     saveState();
   };
 
@@ -73,6 +89,7 @@ export default function HealthKitScreen() {
         HKQuantityTypeIdentifier.insulinDelivery,
         HKQuantityTypeIdentifier.dietaryCarbohydrates,
         HKQuantityTypeIdentifier.stepCount,
+        HKCategoryTypeIdentifier.sleepAnalysis,
       ],
       [],
     ).then(r => setAuthStatus(!r));
@@ -128,6 +145,10 @@ export default function HealthKitScreen() {
                 <PermissionListItem
                   title={t('Settings.healthKit.insulin')}
                   permission={insulinSamples && insulinSamples.length > 0}
+                />
+                <PermissionListItem
+                  title={t('Settings.healthKit.sleepAnalysis')}
+                  permission={sleepAnalysis && sleepAnalysis.length > 0}
                 />
               </View>
             </View>
