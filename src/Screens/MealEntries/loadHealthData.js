@@ -5,9 +5,11 @@ import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
 import { Platform } from 'react-native';
 import { database } from '../../Common/database_realm';
-import Healthkit, { HKQuantityTypeIdentifier, HKUnit } from '@kingstinct/react-native-healthkit';
+import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
+import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitGlucose';
+import { filterSVGDataByTime } from './convertCGMData';
 
 export async function loadSugarData(
   mealData,
@@ -29,26 +31,10 @@ export async function loadSugarData(
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
 
-  function filterSVGDataByTime(glucoseData) {
-    return glucoseData
-      .filter(data => {
-        const start = new Date(fromDate).getTime();
-        const end = new Date(tillDate).getTime();
-        return data.date > start && data.date < end;
-      })
-      .map(data => {
-        const glucoseValueDate = new Date(data.date);
-        return {
-          x: glucoseValueDate,
-          y: data.sgv / settings.unit,
-        };
-      });
-  }
-
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
 
-    const glucoseCoordinates = filterSVGDataByTime(nsSugarData);
+    const glucoseCoordinates = filterSVGDataByTime(nsSugarData, fromDate, tillDate, settings);
     setCoordinates(glucoseCoordinates);
 
     const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
@@ -77,7 +63,9 @@ export async function loadSugarData(
       to: moment(foodDate).add(3, 'hours'),
     };
 
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
+    await saveAndGetHealthKitGlucose(foodDate, settings, setCoordinates, id, fromDate, tillDate, settings);
+
+    /*    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
       ...options,
       unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,
     }).then(results => {
@@ -89,7 +77,7 @@ export async function loadSugarData(
           };
         }),
       );
-    });
+    });*/
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(results => {
       const calcInsulin = results.map(result => result.quantity); //
@@ -154,7 +142,7 @@ export async function loadSugarData(
     const localCGMData = await database.getCgmData(id);
     if (localCGMData && localCGMData.length > 0) {
       const jsonLocalCGMData = JSON.parse(localCGMData);
-      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData);
+      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData, fromDate, tillDate, settings);
       setCoordinates(glucoseCoordinates);
     }
     setLoading(false);

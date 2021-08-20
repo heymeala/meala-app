@@ -4,10 +4,9 @@ import { database } from './database_realm';
 import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
+import { hoursAgo } from "../utils/hoursAgo";
 
-const hoursAgo = h => {
-  return new Date().getTime() - 1000 * 60 * 60 * h;
-};
+
 
 export async function nightscoutCall(date, id) {
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
