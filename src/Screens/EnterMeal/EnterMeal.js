@@ -203,6 +203,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   const offset = Platform.OS === 'android' ? -200 : 64;
 
   const loadCommunityMeals = id => {
+    console.log('Search C MEals');
     fetch(COMMUNITY_MEALS_URL + id)
       .then(response => response.json())
       .then(data => {
@@ -337,7 +338,9 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantId(id);
     setScope(scopeInfo);
     setMealIsFocused(true);
+    console.log(scopeInfo);
     loadCommunityMeals(id);
+
     Keyboard.dismiss();
   };
   //todo: real id?
