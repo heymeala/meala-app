@@ -20,8 +20,8 @@ const MealListInRestaurants = props => {
   const { theme } = useTheme();
 
   async function loadData(value) {
-    const meals = await database.getRestaurantById(restaurant_id);
-    const filteredMeals = meals.food.filter(data => data.isDeleted === false);
+    const restaurant = await database.getRestaurantById(restaurant_id);
+    const filteredMeals = restaurant.food.filter(data => data.isDeleted === false).reverse();
     setMealDataSoftDelete(filteredMeals);
     setLoading(false);
   }

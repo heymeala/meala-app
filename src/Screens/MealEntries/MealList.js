@@ -15,22 +15,15 @@ import { deleteImageFile } from '../../utils/deleteImageFile';
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
   const [search, setSearch] = useState('');
-  const [restaurants, setRestaurants] = useState([]);
+  const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const searchOnFocus = React.useCallback(() => {
     mealData(search);
-    console.log('search on focus', search);
   }, [search]);
 
   useFocusEffect(searchOnFocus);
 
-  /*
-  useEffect(() => {
-    mealData(search);
-    console.log('search on seatch text change', search);
-  }, [search]);
-*/
   function deleteMeal(id) {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
@@ -40,29 +33,23 @@ const MealList = props => {
   }
 
   async function mealData(foodName) {
-    const meals = await database.fetchMealWithName(foodName);
-    const filteredMeals = meals.filter(data => data.isDeleted === false);
-    setRestaurants(filteredMeals);
+    const mealsByName = await database.fetchMealWithName(foodName);
+    const filteredMeals = mealsByName.filter(data => data.isDeleted === false);
+    setMeals(filteredMeals);
     setLoading(false);
     database.getGlucoseSource().then(data => {
       if (data === NIGHTSCOUT) {
         const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
         const slicedMeals = notLoadedEntries.slice(0, 2);
-        // console.log('notLoadedEntries', notLoadedEntries);
-        //  console.log('slicedMeals', slicedMeals);
-        if (slicedMeals && slicedMeals.length > 0) {
-          console.log('2', slicedMeals);
 
+        if (slicedMeals && slicedMeals.length > 0) {
           slicedMeals.map(data => {
             const nsSugarData = async () => {
-              console.log("slicedmeals ",data);
               await nightscoutCall(data.date, data.userMealId);
               await nightscoutTreatmens(data.date, data.userMealId);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
-              console.log("updatedFilteredMeals ",data);
-
-              setRestaurants(updatedFilteredMeals);
+              setMeals(updatedFilteredMeals);
             };
             nsSugarData();
           });
@@ -75,7 +62,7 @@ const MealList = props => {
     <LoadingSpinner />
   ) : (
     <MealsListSwipeDelete
-      mealDataSoftDelete={restaurants}
+      mealDataSoftDelete={meals}
       deleteMeal={deleteMeal}
       mealData={mealData}
       value={search}

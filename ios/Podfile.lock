@@ -447,8 +447,6 @@ PODS:
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNAppleHealthKit (1.7.0):
-    - React
   - RNCClipboard (1.5.1):
     - React-Core
   - RNCMaskedView (0.1.11):
@@ -573,7 +571,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RealmJS (from `../node_modules/realm`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
-  - RNAppleHealthKit (from `../node_modules/react-native-health`)
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
@@ -707,8 +704,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/realm"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
-  RNAppleHealthKit:
-    :path: "../node_modules/react-native-health"
   RNCClipboard:
     :path: "../node_modules/@react-native-community/clipboard"
   RNCMaskedView:
@@ -820,7 +815,6 @@ SPEC CHECKSUMS:
   ReactCommon: cfe2b7fd20e0dbd2d1185cd7d8f99633fbc5ff05
   RealmJS: c8645e0d65b676780f7e6c393d327527a2eb15e8
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNAppleHealthKit: 60a6beefdd89a75811e9a8873a5e24f351dee681
   RNCClipboard: 5e299c6df8e0c98f3d7416b86ae563d3a9f768a3
   RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6
   RNCPushNotificationIOS: 9b79f69199e9c721fcb2d9f1d99d0510f2e2356c

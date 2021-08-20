@@ -88,9 +88,9 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [hasFatSecretCredentials, setFatSecretCredentials] = useState(false);
   const fatSecretButtonText = fatSecretData
     ? t('AddMeal.fatSecretUserEntries.button') +
-      (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
-        ? ` (${fatSecretData.filter(data => data.checked).length})`
-        : '')
+    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+      ? ` (${fatSecretData.filter(data => data.checked).length})`
+      : '')
     : t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
@@ -103,12 +103,14 @@ const EnterMeal = ({ route, navigation }, props) => {
     React.useCallback(() => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
-        Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
-          console.log(result);
-          setFatSecretCredentials(result !== false);
-        });
       }
-      return () => {};
+      Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
+        console.log(result);
+        setFatSecretCredentials(result !== false);
+      });
+
+      return () => {
+      };
     }, []),
   );
 
@@ -133,15 +135,16 @@ const EnterMeal = ({ route, navigation }, props) => {
         type.mode === EDIT_MODE
           ? t('AddMeal.edit')
           : type.mode === COPY_MODE
-          ? t('AddMeal.copy')
-          : t('AddMeal.AddMealTitle'),
+            ? t('AddMeal.copy')
+            : t('AddMeal.AddMealTitle'),
       headerRight: () => {
         if (type.mode !== EDIT_MODE) {
           return <HeaderRightIconGroup reset={reset} saveAll={validateTimeBeforeSave} />;
         }
       },
     });
-    return () => {};
+    return () => {
+    };
   }, [navigation, type]);
 
   useEffect(() => {
@@ -241,10 +244,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-          .filter(data => data.checked)
-          .map(data => {
-            return { foodEntryId: data.food_entry_id };
-          })
+        .filter(data => data.checked)
+        .map(data => {
+          return { foodEntryId: data.food_entry_id };
+        })
       : [];
 
     if (type.mode !== EDIT_MODE) {
@@ -265,6 +268,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           tags,
         )
         .then(() => {
+          setLoadingOnSave(false);
           reset();
           navigation.setParams({
             meal_id: null,
@@ -308,21 +312,17 @@ const EnterMeal = ({ route, navigation }, props) => {
           fatSecretUserIds,
         )
         .then(() => uploadImageToServer(restaurantData))
-        .then(() =>
+        .then(() => {
+          setLoadingOnSave(false);
           analytics().logEvent('Save_Restaurant', {
             Meal: defaultMealTitle,
             Restaurant: defaultRestaurantName,
-          }),
-        )
-        .then(() => {
+          });
           reset();
           navigation.setParams({
             meal_id: null,
           });
           changeType({ mode: 'default', meal_id: null });
-          //navigation.goBack();
-          setLoadingOnSave(false);
-
           navigation.navigate('meala');
         });
     }
@@ -345,7 +345,6 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantName(text);
     setRestaurantId(text);
   };
-
 
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
