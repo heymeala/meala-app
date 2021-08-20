@@ -15,7 +15,7 @@
     "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
-    "@kingstinct/react-native-healthkit": "github:tree3health/react-native-healthkit#chore/upgrade-RN-to-0.64.2",
+    "@kingstinct/react-native-healthkit": "github:kevinroehl/react-native-healthkit#fix/remove-combine",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "^3.0.8",
     "@react-native-community/geolocation": "^2.0.2",
@@ -53,7 +53,6 @@
     "react-native-elements": "^3.4.2",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.9.0",
-    "react-native-health": "^1.10.0",
     "react-native-image-picker": "^3.1.4",
     "react-native-inappbrowser-reborn": "^3.4.0",
     "react-native-keychain": "^6.2.0",
