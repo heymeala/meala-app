@@ -6,7 +6,10 @@ import { database } from '../../Common/database_realm';
 import uuid from 'react-native-uuid';
 import { filterSVGDataByTime } from './convertCGMData';
 
-export async function saveAndGetHealthKitGlucose(foodDate, settings, setCoordinates, id, fromDate, tillDate) {
+export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
+  const tillDate = moment(foodDate).add(3, 'hours').toISOString();
+  const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+
   const options = {
     ascending: true,
     from: moment(foodDate).subtract(SEA_MINUTES, 'minutes'),
@@ -21,14 +24,13 @@ export async function saveAndGetHealthKitGlucose(foodDate, settings, setCoordina
       ...options,
       unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,
     }).then(results => {
-      setCoordinates(
-        results.map(coordinates => {
-          return {
-            x: new Date(moment(coordinates.startDate).toISOString()),
-            y: coordinates.quantity,
-          };
-        }),
-      );
+      const glucoseCoordinates = results.map(coordinates => {
+        return {
+          x: new Date(moment(coordinates.startDate).toISOString()),
+          y: coordinates.quantity,
+        };
+      });
+
       if (threeHoursAgo > mealTime) {
         const data = results.map(data => {
           return {
@@ -42,10 +44,10 @@ export async function saveAndGetHealthKitGlucose(foodDate, settings, setCoordina
         });
         database.editMealCgmData(data, id);
       }
+      return glucoseCoordinates;
     });
   } else {
     const parsedCgm = JSON.parse(cgmData);
-    const glucoseCoordinates = filterSVGDataByTime(parsedCgm, fromDate, tillDate, settings);
-    setCoordinates(glucoseCoordinates);
+    return filterSVGDataByTime(parsedCgm, fromDate, tillDate, settings);
   }
 }

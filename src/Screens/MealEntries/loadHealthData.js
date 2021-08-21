@@ -63,8 +63,13 @@ export async function loadSugarData(
       to: moment(foodDate).add(3, 'hours'),
     };
 
-    await saveAndGetHealthKitGlucose(foodDate, settings, setCoordinates, id, fromDate, tillDate, settings);
-
+    const coordinates = await saveAndGetHealthKitGlucose(
+      foodDate,
+      settings,
+      id,
+      settings,
+    );
+    setCoordinates(coordinates);
     /*    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
       ...options,
       unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,

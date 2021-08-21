@@ -8,15 +8,18 @@ import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
-import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
+import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
 import { deleteImageFile } from '../../utils/deleteImageFile';
+import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitGlucose';
+import { useProfile } from '../../hooks/useProfile';
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
   const [search, setSearch] = useState('');
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { settings } = useProfile();
 
   const searchOnFocus = React.useCallback(() => {
     mealData(search);
@@ -52,6 +55,20 @@ const MealList = props => {
               setMeals(updatedFilteredMeals);
             };
             nsSugarData();
+          });
+        }
+      } else if (data === HEALTHKIT) {
+        const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
+        const slicedMeals = notLoadedEntries.slice(0, 2);
+        if (slicedMeals && slicedMeals.length > 0) {
+          slicedMeals.map(data => {
+            const healthkitData = async () => {
+              await saveAndGetHealthKitGlucose(data.date, settings, data.userMealId);
+              const updatedMeals = await database.fetchMealWithName(foodName);
+              const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
+              setMeals(updatedFilteredMeals);
+            };
+            healthkitData();
           });
         }
       }
