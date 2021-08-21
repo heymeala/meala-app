@@ -18,9 +18,9 @@ export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
   const cgmData = await database.getCgmData(id);
   console.log(cgmData);
   const mealTime = foodDate.getTime();
-  const threeHoursAgo = hoursAgo(3);
+  const sixHoursAgo = hoursAgo(6); // dexcom saves glucose data 3h later
   if (cgmData === 'null' || cgmData === null) {
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
+    return Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
       ...options,
       unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,
     }).then(results => {
@@ -31,8 +31,8 @@ export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
         };
       });
 
-      if (threeHoursAgo > mealTime) {
-        const data = results.map(data => {
+      if (sixHoursAgo > mealTime) {
+        const formatGlucoseData = results.map(data => {
           return {
             _id: uuid.v4(),
             device: 'healthkit-Import',
@@ -42,8 +42,9 @@ export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
             type: 'sgv',
           };
         });
-        database.editMealCgmData(data, id);
+        database.editMealCgmData(formatGlucoseData, id);
       }
+
       return glucoseCoordinates;
     });
   } else {

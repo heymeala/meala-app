@@ -63,26 +63,10 @@ export async function loadSugarData(
       to: moment(foodDate).add(3, 'hours'),
     };
 
-    const coordinates = await saveAndGetHealthKitGlucose(
-      foodDate,
-      settings,
-      id,
-      settings,
-    );
-    setCoordinates(coordinates);
-    /*    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, {
-      ...options,
-      unit: settings.unit === 1 ? HKUnit.GlucoseMgPerDl : HKUnit.GlucoseMmolPerL,
-    }).then(results => {
-      setCoordinates(
-        results.map(coordinates => {
-          return {
-            x: new Date(moment(coordinates.startDate).toISOString()),
-            y: coordinates.quantity,
-          };
-        }),
-      );
-    });*/
+    saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then(data => {
+      console.log('coordinates', data);
+      setCoordinates(data);
+    });
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(results => {
       const calcInsulin = results.map(result => result.quantity); //

@@ -104,10 +104,10 @@ function GeneralChartView(props) {
               tickFormat={
                 locale === 'de'
                   ? x =>
-                      new Date(x).getHours() +
-                      ':' +
-                      (new Date(x).getMinutes() < 10 ? '0' : '') +
-                      new Date(x).getMinutes()
+                    new Date(x).getHours() +
+                    ':' +
+                    (new Date(x).getMinutes() < 10 ? '0' : '') +
+                    new Date(x).getMinutes()
                   : null
               }
             />
@@ -115,7 +115,7 @@ function GeneralChartView(props) {
             <VictoryAxis dependentAxis tickFormat={y => y} />
 
             <VictoryGroup>
-              {props.coordinates.length >= 3 && (
+              {props.coordinates && props.coordinates.length >= 3 && (
                 <VictoryScatter
                   style={{
                     data: {
@@ -123,8 +123,8 @@ function GeneralChartView(props) {
                         datum.y > 160 / settings.unit
                           ? '#ffd420'
                           : datum.y < 70 / settings.unit
-                          ? '#ac000a'
-                          : '#000',
+                            ? '#ac000a'
+                            : '#000',
                     },
                   }}
                   interpolation="natural"
@@ -156,7 +156,7 @@ function GeneralChartView(props) {
                   data={props.insulinCoordinates}
                 />
               )}
-              {props.carbCoordinates.length > 0 && (
+              {props.coordinates && props.carbCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={1}
                   style={{
