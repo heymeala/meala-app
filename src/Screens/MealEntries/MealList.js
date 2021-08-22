@@ -11,7 +11,7 @@ import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
 import { deleteImageFile } from '../../utils/deleteImageFile';
-import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitGlucose';
+import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitData';
 import { useProfile } from '../../hooks/useProfile';
 
 const MealList = props => {

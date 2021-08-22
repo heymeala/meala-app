@@ -1,14 +1,13 @@
 import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
-import { filterCoordinates, mapUnit } from './DetailSite/filterCoordinates';
+import { filterCoordinates } from './DetailSite/filterCoordinates';
 import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
-import { Platform } from 'react-native';
 import { database } from '../../Common/database_realm';
 import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
-import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitGlucose';
+import { saveAndGetHealthKitGlucose, saveAndGetHealthKitTreatments } from './saveAndGetHealthKitData';
 import { filterSVGDataByTime } from './convertCGMData';
 
 export async function loadSugarData(
@@ -68,41 +67,23 @@ export async function loadSugarData(
       setCoordinates(data);
     });
 
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(results => {
-      const calcInsulin = results.map(result => result.quantity); //
-      const treatments = results.map(result => {
-        return { insulin: result.quantity };
-      });
-      setTreatments(treatments);
-      const getInsulinCoordinates = results.map(result => {
-        const mapInsulinToChart = mapUnit(result.quantity, settings);
+    saveAndGetHealthKitTreatments(foodDate, settings, id).then(results => {
+      const calcCarbs = results
+        .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+        .map(data => data.carbs);
 
-        return {
-          x: new Date(moment(result.startDate).toISOString()),
-          y: mapInsulinToChart,
-        };
-      });
+      const calcInsulin = results
+        .filter(data => (data.isSMB ? data.isSMB === false : data))
+        .map(insulin => insulin.insulin);
+      const getCarbCoordinates = filterCoordinates(results, 'carbs', settings);
+      const getInsulinCoordinates = filterCoordinates(results, 'insulin', settings);
+      setCarbs(calcCarbs);
       setInsulin(calcInsulin);
+      setTreatments(results);
+      setCarbCoordinates(getCarbCoordinates);
       setInsulinCoordinates(getInsulinCoordinates);
-      console.log('getInsulinCoordinates', getInsulinCoordinates);
     });
 
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.dietaryCarbohydrates, options).then(results => {
-      setCarbs(results.map(data => data.quantity));
-      setCarbCoordinates(
-        results.map(coordinates => {
-          const kitCarbs = mapUnit(coordinates.quantity, settings);
-          return {
-            x: new Date(moment(coordinates.startDate).toISOString()),
-            y: kitCarbs,
-          };
-        }),
-      );
-      console.log(results);
-    });
-
-    const majorVersionIOS = parseInt(Platform.Version, 10);
-    // if (majorVersionIOS >= 13) { //
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
       const stepQuantity = results.map(data => {
         return data.quantity;
@@ -110,7 +91,6 @@ export async function loadSugarData(
       const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
       setStepsPerDay(totalStep);
     });
-    //  }
 
     Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
       ascending: true,
