@@ -7,6 +7,7 @@ import uuid from 'react-native-uuid';
 import { filterSVGDataByTime } from './convertCGMData';
 import { calculateCarbs } from '../../Common/calculateCarbs';
 import { updateUserCarbsOnline } from '../../Common/updateUserCarbsOnline';
+import { Platform } from 'react-native';
 
 export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
@@ -65,21 +66,23 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
   const databaseTreatments = await database.getTreatmentsData(foodDate, id);
 
   if (!databaseTreatments) {
-    const insulinData = await Healthkit.queryQuantitySamples(
-      HKQuantityTypeIdentifier.insulinDelivery,
-      options,
-    );
+    const majorVersionIOS = parseInt(Platform.Version, 10);
 
-    const formattedInsulinData = insulinData.map(result => {
-      return {
-        _id: result.uuid,
-        eventType: 'insulinDelivery - HealthKit Source - ' + result.sourceRevision.source.name,
-        insulin: result.quantity,
-        carbs: null,
-        created_at: result.startDate,
-        date: result.startDate.getTime(),
-      };
-    });
+    const insulinData =
+      majorVersionIOS >= 13 &&
+      (await Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options));
+    const formattedInsulinData =
+      insulinData &&
+      insulinData.map(result => {
+        return {
+          _id: result.uuid,
+          eventType: 'insulinDelivery - HealthKit Source - ' + result.sourceRevision.source.name,
+          insulin: result.quantity,
+          carbs: null,
+          created_at: result.startDate,
+          date: result.startDate.getTime(),
+        };
+      });
 
     const carbohydrates = await Healthkit.queryQuantitySamples(
       HKQuantityTypeIdentifier.dietaryCarbohydrates,
