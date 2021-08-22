@@ -53,6 +53,7 @@
     "react-native-elements": "^3.4.2",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.9.0",
+    "react-native-google-fit": "^0.17.0",
     "react-native-image-picker": "^3.1.4",
     "react-native-inappbrowser-reborn": "^3.4.0",
     "react-native-keychain": "^6.2.0",

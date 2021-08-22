@@ -14,7 +14,6 @@ import analytics from '@react-native-firebase/analytics';
 import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import dayjs from 'dayjs';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
-import { add } from '../../../utils/reducer';
 
 export default function HealthKitScreen() {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -65,7 +64,7 @@ export default function HealthKitScreen() {
         .map(data => {
           return moment(data.endDate).diff(moment(data.startDate), 'hours');
         });
-      const sum = hours.reduce(add);
+      //const sum = hours.reduce(add);
       setSleepAnalysis(result);
     });
 
@@ -91,7 +90,7 @@ export default function HealthKitScreen() {
         HKQuantityTypeIdentifier.stepCount,
         HKCategoryTypeIdentifier.sleepAnalysis,
       ],
-      [],
+      [HKQuantityTypeIdentifier.dietaryCarbohydrates, HKQuantityTypeIdentifier.insulinDelivery],
     ).then(r => setAuthStatus(!r));
   };
   useEffect(() => {

@@ -33,6 +33,7 @@ import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
 import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNameModal';
 import * as Keychain from 'react-native-keychain';
+import HealthKitAddInsulin from "./HealthKitAddInsulin";
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -450,15 +451,6 @@ const EnterMeal = ({ route, navigation }, props) => {
           gpsEnabled={gpsEnabled}
           restaurantName={restaurantName}
         />
-        {/*      <RestaurantInputField
-          editMode={type.mode === EDIT_MODE}
-          restaurantName={restaurantName}
-          handleRestaurantPress={handleRestaurantPress}
-          handleRestaurantName={handleRestaurantName}
-          lat={lat}
-          lng={lng}
-          gpsEnabled={gpsEnabled}
-        />*/}
 
         <View style={styles.spacing}>
           {hasFatSecretCredentials ? (
@@ -490,8 +482,8 @@ const EnterMeal = ({ route, navigation }, props) => {
           predictions={predictions}
         />
 
-        <HealthKitInputField carbs={carbs} setCarbs={setCarbs} />
-
+        <HealthKitInputField date={date} />
+        <HealthKitAddInsulin date={date} />
         <NightScoutInputFields
           nsTreatmentsUpload={nsTreatmentsUpload}
           setNsTreatmentsUpload={setNsTreatmentsUpload}

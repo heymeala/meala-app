@@ -18,6 +18,7 @@ import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import Licenses from "../Screens/Settings/License/Licenses";
 import KingsHealthKitTest from "../Screens/Settings/HealthKit/KingsHealthKitTest";
+import GoogleFitSettings from "../Screens/Settings/GoogleFitSettings";
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -76,6 +77,16 @@ function SettingsStack() {
         component={FatSecretSettings}
         options={{
           title: 'FatSecret',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="GoogleFit"
+        component={GoogleFitSettings}
+        options={{
+          title: 'Google Fit',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
