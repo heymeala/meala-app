@@ -68,20 +68,26 @@ export async function loadSugarData(
     });
 
     saveAndGetHealthKitTreatments(foodDate, settings, id).then(results => {
-      const calcCarbs = results
-        .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
-        .map(data => data.carbs);
+      if (results) {
+        const calcCarbs = results
+          .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+          .map(data => data.carbs);
 
-      const calcInsulin = results
-        .filter(data => (data.isSMB ? data.isSMB === false : data))
-        .map(insulin => insulin.insulin);
-      const getCarbCoordinates = filterCoordinates(results, 'carbs', settings);
-      const getInsulinCoordinates = filterCoordinates(results, 'insulin', settings);
-      setCarbs(calcCarbs);
-      setInsulin(calcInsulin);
-      setTreatments(results);
-      setCarbCoordinates(getCarbCoordinates);
-      setInsulinCoordinates(getInsulinCoordinates);
+        console.log(calcCarbs);
+
+        const calcInsulin = results
+          .filter(data => (data.isSMB ? data.isSMB === false : data))
+          .map(insulin => insulin.insulin);
+        const getCarbCoordinates = filterCoordinates(results, 'carbs', settings);
+        const getInsulinCoordinates = filterCoordinates(results, 'insulin', settings);
+
+        console.log('getCarbCoordinates', getCarbCoordinates);
+        setCarbs(calcCarbs);
+        setInsulin(calcInsulin);
+        setTreatments(results);
+        setCarbCoordinates(getCarbCoordinates);
+        setInsulinCoordinates(getInsulinCoordinates);
+      }
     });
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {

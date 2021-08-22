@@ -22,7 +22,7 @@ function GeneralChartView(props) {
   const window = Dimensions.get('window');
   const { theme } = useTheme();
   const { userSettings } = useUserSettings();
-
+  console.log(props);
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
@@ -104,10 +104,10 @@ function GeneralChartView(props) {
               tickFormat={
                 locale === 'de'
                   ? x =>
-                    new Date(x).getHours() +
-                    ':' +
-                    (new Date(x).getMinutes() < 10 ? '0' : '') +
-                    new Date(x).getMinutes()
+                      new Date(x).getHours() +
+                      ':' +
+                      (new Date(x).getMinutes() < 10 ? '0' : '') +
+                      new Date(x).getMinutes()
                   : null
               }
             />
@@ -123,8 +123,8 @@ function GeneralChartView(props) {
                         datum.y > 160 / settings.unit
                           ? '#ffd420'
                           : datum.y < 70 / settings.unit
-                            ? '#ac000a'
-                            : '#000',
+                          ? '#ac000a'
+                          : '#000',
                     },
                   }}
                   interpolation="natural"
@@ -143,7 +143,7 @@ function GeneralChartView(props) {
                   },
                 ]}
               />
-              {props.insulinCoordinates !== null && (
+              {props.insulinCoordinates && props.insulinCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={5}
                   style={{

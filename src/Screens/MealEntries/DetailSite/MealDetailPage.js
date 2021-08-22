@@ -14,7 +14,7 @@ import FatSecretNutritionInfo from './FatSecretNutritionInfo';
 import EditSpeedDialGroup from './EditSpeedDailGroup';
 import { carbSum, getDuration, getInsulinInfo, getSEA } from './InsulinCarbSum';
 import { useUserSettings } from '../../../hooks/useUserSettings';
-import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
+import { DEFAULT, HEALTHKIT, NIGHTSCOUT } from "../../Settings/glucoseSourceConstants";
 import { useNavigation } from '@react-navigation/core';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
@@ -75,13 +75,14 @@ const MealDetailsComponent = props => {
           coordinates={props.coordinates}
         />
         <View>
-          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
-            <ListItem containerStyle={styles.list}>
-              <Icon name={'timelapse'} />
-              <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
-            </ListItem>
-          )}
-          {props.stepsPerDay !== null && (
+          {(userSettings.glucoseSource === NIGHTSCOUT || userSettings.glucoseSource === HEALTHKIT) &&
+            insulinSumme && (
+              <ListItem containerStyle={styles.list}>
+                <Icon name={'timelapse'} />
+                <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
+              </ListItem>
+            )}
+          {props.stepsPerDay && (
             <Text style={styles.space}>
               {t('Settings.healthKit.totalStepsToday', {
                 steps: props.stepsPerDay,

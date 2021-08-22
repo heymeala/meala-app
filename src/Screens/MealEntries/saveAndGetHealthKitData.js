@@ -5,6 +5,8 @@ import { hoursAgo } from '../../utils/hoursAgo';
 import { database } from '../../Common/database_realm';
 import uuid from 'react-native-uuid';
 import { filterSVGDataByTime } from './convertCGMData';
+import { calculateCarbs } from '../../Common/calculateCarbs';
+import { updateUserCarbsOnline } from '../../Common/updateUserCarbsOnline';
 
 export async function saveAndGetHealthKitGlucose(foodDate, settings, id) {
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
@@ -75,7 +77,7 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
     const formattedInsulinData = insulinData.map(result => {
       return {
         _id: result.uuid,
-        eventType: 'insulinDelivery - HealthKit Source: ' + result.sourceRevision.source.name,
+        eventType: 'insulinDelivery - HealthKit Source - ' + result.sourceRevision.source.name,
         insulin: result.quantity,
         carbs: null,
         created_at: result.startDate,
@@ -98,16 +100,17 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
       };
     });
 
-    const threeHoursAgo = hoursAgo(3);
+    const mergedLists = [...(formattedCarbohydrates || []), ...(formattedInsulinData || [])];
+    console.log('mergedLists', mergedLists);
 
-    /*    if (threeHoursAgo >= foodDate.getTime()) {
-          const carbSum = calculateCarbs(treatmentsData);
-          updateUserCarbsOnline(carbSum, userMealId); /// meallist load?
-          database.editMealTreatments(date, treatmentsData, carbSum, userMealId);
-        }*/
+    const threeHoursAgo = hoursAgo(6);
 
-    const mergedLists = [...(formattedInsulinData || []), ...(formattedCarbohydrates || [])];
-    console.log("mergedLists", mergedLists);
+    if (threeHoursAgo >= foodDate.getTime()) {
+      const carbSum = calculateCarbs(mergedLists);
+      updateUserCarbsOnline(carbSum, id);
+      await database.editMealTreatments(foodDate, mergedLists, carbSum, id);
+    }
+
     return mergedLists;
   } else {
     return JSON.parse(databaseTreatments);
