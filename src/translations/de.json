@@ -352,7 +352,7 @@
       "sleepAnalysis": "Schlaf",
       "steps": "Schritte pro Tag",
       "totalStepsToday": "Du bist {{steps}} Schritte gelaufen",
-      "sleep": "{{sleep}} geschlafen",
+      "sleep": "{{sleep}} Stunden geschlafen",
       "totalGlucoseValues": "Es wurden mindestens {{length}} Blutzuckerwerte in den letzten Stunden gefunden. ",
       "healthKitActivated": "Health Kit ist aktiviert",
       "activateHealthKit": "Health Kit aktivieren",
