@@ -132,7 +132,7 @@ android {
         applicationId "com.heymeala"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 66
+        versionCode 67
         versionName "1.3.0"
        missingDimensionStrategy 'react-native-camera', 'general'
        multiDexEnabled true
@@ -208,9 +208,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules##
-    implementation 'com.google.android.gms:play-services-fitness:20.0.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
-    implementation "com.google.android.gms:play-services-base:+"
+   // implementation 'com.google.android.gms:play-services-fitness:20.0.0'
+  //  implementation 'com.google.android.gms:play-services-auth:19.0.0'
+  //  implementation "com.google.android.gms:play-services-base:+"
 
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
 
