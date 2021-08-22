@@ -22,7 +22,6 @@ function GeneralChartView(props) {
   const window = Dimensions.get('window');
   const { theme } = useTheme();
   const { userSettings } = useUserSettings();
-  console.log(props);
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
