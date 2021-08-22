@@ -63,11 +63,7 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
   };
 
   const databaseTreatments = await database.getTreatmentsData(foodDate, id);
-  console.log('databaseTreatments', databaseTreatments);
-  /*
-  {"_id":"6121f71e28ef180004f3fcd5","eventType":"Bolus Wizard","insulin":5.79,"carbs":35,"created_at":"2021-08-22T07:05:01Z","date":1629615901514,"isSMB":false,"pumpId":1598371977408,
-  "glucose":94,"glucoseType":"Manual",
-   */
+
   if (!databaseTreatments) {
     const insulinData = await Healthkit.queryQuantitySamples(
       HKQuantityTypeIdentifier.insulinDelivery,
@@ -101,8 +97,6 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
     });
 
     const mergedLists = [...(formattedCarbohydrates || []), ...(formattedInsulinData || [])];
-    console.log('mergedLists', mergedLists);
-
     const threeHoursAgo = hoursAgo(6);
 
     if (threeHoursAgo >= foodDate.getTime()) {

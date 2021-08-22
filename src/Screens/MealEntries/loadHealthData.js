@@ -63,7 +63,6 @@ export async function loadSugarData(
     };
 
     saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then(data => {
-      console.log('coordinates', data);
       setCoordinates(data);
     });
 
@@ -73,15 +72,12 @@ export async function loadSugarData(
           .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
           .map(data => data.carbs);
 
-        console.log(calcCarbs);
-
         const calcInsulin = results
           .filter(data => (data.isSMB ? data.isSMB === false : data))
           .map(insulin => insulin.insulin);
         const getCarbCoordinates = filterCoordinates(results, 'carbs', settings);
         const getInsulinCoordinates = filterCoordinates(results, 'insulin', settings);
 
-        console.log('getCarbCoordinates', getCarbCoordinates);
         setCarbs(calcCarbs);
         setInsulin(calcInsulin);
         setTreatments(results);
