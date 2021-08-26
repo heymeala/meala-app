@@ -76,6 +76,7 @@ const HealthKitAddInsulin = props => {
         />
         {props.healthKitData.insulin &&
         props.healthKitData.insulin.minutes &&
+        props.healthKitData.insulin.value &&
         props.healthKitData.insulin.value !== '0' ? (
           <Text style={{ alignSelf: 'center' }}>
             {props.healthKitData.insulin.minutes >= 0
