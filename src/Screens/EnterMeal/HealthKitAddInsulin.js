@@ -3,7 +3,7 @@ import { Button, makeStyles, Slider, Text, useTheme } from 'react-native-element
 import LocalizationContext from '../../../LanguageContext';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { HEALTHKIT } from '../Settings/glucoseSourceConstants';
-import { TextInput, View } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 import OutLineButton from '../../Common/OutLineButton';
 import Modal from 'react-native-modal';
 import moment from 'moment';
@@ -50,8 +50,9 @@ const HealthKitAddInsulin = props => {
     setMinutes(defaultMinutes);
     setDate(formateDate(defaultMinutes));
   }, [props.healthKitData]);
+  const majorVersionIOS = parseInt(Platform.Version, 10);
 
-  return userSettings.glucoseSource === HEALTHKIT ? (
+  return userSettings.glucoseSource === HEALTHKIT && majorVersionIOS >= 13 ? (
     <View style={styles.container}>
       <View style={styles.buttonWrapper}>
         <Button
@@ -170,7 +171,7 @@ const useStyles = makeStyles(theme => ({
   modalView: {
     margin: theme.spacing.S,
     backgroundColor: 'white',
-    height: '70%',
+    height: '90%',
     borderRadius: 20,
     padding: theme.spacing.S,
     shadowColor: '#000',
@@ -202,5 +203,5 @@ const useStyles = makeStyles(theme => ({
   },
   textContainer: { alignItems: 'center' },
   buttonWrapper: { margin: theme.spacing.S, flexDirection: 'row' },
-  hint:{marginHorizontal:theme.spacing.S}
+  hint: { marginHorizontal: theme.spacing.S }
 }));
