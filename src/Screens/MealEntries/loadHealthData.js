@@ -9,6 +9,7 @@ import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
 import { saveAndGetHealthKitGlucose, saveAndGetHealthKitTreatments } from './saveAndGetHealthKitData';
 import { filterSVGDataByTime } from './convertCGMData';
+import { Platform } from 'react-native';
 
 export async function loadSugarData(
   mealData,
@@ -29,6 +30,34 @@ export async function loadSugarData(
 
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+  if (Platform.OS === 'ios') {
+    const options = {
+      ascending: true,
+      from: moment(foodDate).subtract(SEA_MINUTES, 'minutes'),
+      to: moment(foodDate).add(3, 'hours'),
+    };
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
+      const stepQuantity = results.map(data => {
+        return data.quantity;
+      });
+      const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
+      setStepsPerDay(totalStep);
+    });
+
+    Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
+      ascending: true,
+      from: moment(foodDate).subtract(1, 'day'),
+      to: moment(foodDate).add(3, 'hours'),
+    }).then(result => {
+      const hours = result
+        .filter(data => data.value === 1)
+        .map(data => {
+          return moment(data.endDate).diff(moment(data.startDate), 'hours');
+        });
+      const sum = hours.length > 0 && hours.reduce(add);
+      setSleepAnalysis(sum);
+    });
+  }
 
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
     const nsSugarData = await nightscoutCall(foodDate, id);
@@ -56,11 +85,7 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
 
-    const options = {
-      ascending: true,
-      from: moment(foodDate).subtract(SEA_MINUTES, 'minutes'),
-      to: moment(foodDate).add(3, 'hours'),
-    };
+
 
     saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then(data => {
       setCoordinates(data);
@@ -84,28 +109,6 @@ export async function loadSugarData(
         setCarbCoordinates(getCarbCoordinates);
         setInsulinCoordinates(getInsulinCoordinates);
       }
-    });
-
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
-      const stepQuantity = results.map(data => {
-        return data.quantity;
-      });
-      const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
-      setStepsPerDay(totalStep);
-    });
-
-    Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
-      ascending: true,
-      from: moment(foodDate).subtract(1, 'day'),
-      to: moment(foodDate).add(3, 'hours'),
-    }).then(result => {
-      const hours = result
-        .filter(data => data.value === 1)
-        .map(data => {
-          return moment(data.endDate).diff(moment(data.startDate), 'hours');
-        });
-      const sum = hours.length > 0 && hours.reduce(add);
-      setSleepAnalysis(sum);
     });
 
     setLoading(false);
