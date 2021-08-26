@@ -15,19 +15,22 @@ const HealthKitCarbohydrateField = props => {
   const showAlert = () =>
     Alert.prompt(
       'Add Carbs to HealthKit',
-      'Wenn du keine andere App nutzt um Kohlenhydrate in HealthKit zu speichern, tage hier die Anzahl an Kohlenhydrate für dein Gericht ein',
+      t('AddMeal.healthKit.hint'),
       [
         {
-          text: 'Cancel',
+          text: t('General.cancel'),
           style: 'destructive',
         },
         {
-          text: 'Save to HealthKit',
+          text: t('General.add'),
           style: 'default',
-          onPress: g =>
-            props.setHealthKitData(prevState => {
-              return { carbs: g, insulin: { ...prevState.insulin } };
-            }),
+          onPress: g => {
+            if (!isNaN(g)) {
+              props.setHealthKitData(prevState => {
+                return { carbs: g, insulin: { ...prevState.insulin } };
+              });
+            }
+          },
         },
       ],
       'plain-text',
@@ -56,7 +59,7 @@ export default HealthKitCarbohydrateField;
 const useStyles = makeStyles(theme => ({
   container: {
     alignSelf: 'flex-start',
-    marginLeft: theme.spacing.S,
+    marginLeft: theme.spacing.M,
     marginBottom: theme.spacing.S,
   },
   centeredView: {

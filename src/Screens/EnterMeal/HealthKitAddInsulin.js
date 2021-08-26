@@ -26,8 +26,12 @@ const HealthKitAddInsulin = props => {
   const [open, setOpen] = useState(false);
   const [minutes, setMinutes] = useState(defaultMinutes || null);
   const buttonTitle = `${
-    props.healthKitData.insulin.value ? props.healthKitData.insulin.value + ' Units of' : ''
-  } Insulin `;
+    props.healthKitData.insulin &&
+    props.healthKitData.insulin.value &&
+    props.healthKitData.insulin.value !== '0'
+      ? props.healthKitData.insulin.value + t('AddMeal.healthKit.unitsOf')
+      : ''
+  } ${t('AddMeal.healthKit.insulin')} `;
 
   function formateDate(n) {
     const calcDate = moment(props.date).add(n, 'minutes');
@@ -42,7 +46,6 @@ const HealthKitAddInsulin = props => {
   }, [minutes]);
 
   useEffect(() => {
-    console.log('Update Add HealthKIT', props.healthKitData);
     setValue(defaultValue);
     setMinutes(defaultMinutes);
     setDate(formateDate(defaultMinutes));
@@ -52,9 +55,17 @@ const HealthKitAddInsulin = props => {
     <View style={styles.container}>
       <View style={styles.buttonWrapper}>
         <Button
-          type={props.healthKitData.insulin && props.healthKitData.insulin.value ? 'solid' : 'outline'}
+          type={
+            props.healthKitData.insulin &&
+            props.healthKitData.insulin.value &&
+            props.healthKitData.insulin.value !== '0'
+              ? 'solid'
+              : 'outline'
+          }
           buttonStyle={
-            props.healthKitData.insulin && props.healthKitData.insulin.value
+            props.healthKitData.insulin &&
+            props.healthKitData.insulin.value &&
+            props.healthKitData.insulin.value !== '0'
               ? { paddingHorizontal: 20, backgroundColor: '#ffd420' }
               : { paddingHorizontal: 20, backgroundColor: 'transparent' }
           }
@@ -63,10 +74,13 @@ const HealthKitAddInsulin = props => {
             setOpen(true);
           }}
         />
-        {props.healthKitData.insulin && props.healthKitData.insulin.minutes !== null ? (
+        {props.healthKitData.insulin &&
+        props.healthKitData.insulin.minutes &&
+        props.healthKitData.insulin.value !== '0' ? (
           <Text style={{ alignSelf: 'center' }}>
-            {props.healthKitData.insulin.minutes >= 0 ? ' nach ' : ' vor '}
-            {Math.abs(props.healthKitData.insulin.minutes)} minutes
+            {props.healthKitData.insulin.minutes >= 0
+              ? t('AddMeal.healthKit.after', { minutes: props.healthKitData.insulin.minutes })
+              : t('AddMeal.healthKit.before', { minutes: Math.abs(props.healthKitData.insulin.minutes) })}
           </Text>
         ) : null}
       </View>
@@ -86,7 +100,9 @@ const HealthKitAddInsulin = props => {
                 {date.date} {date.timeString}
               </Text>
               <Text h2>
-                {minutes > 0 ? minutes + ' minutes after meal' : Math.abs(minutes) + ' minutes before meal'}
+                {minutes > 0
+                  ? minutes + t('AddMeal.healthKit.minAfter')
+                  : Math.abs(minutes) + t('AddMeal.healthKit.minBefore')}
               </Text>
             </View>
             <Slider
@@ -105,25 +121,27 @@ const HealthKitAddInsulin = props => {
                 clearButtonMode={'unless-editing'}
                 style={styles.input}
                 returnKeyType={'done'}
-                placeholder={'Insulin Einheiten'}
+                placeholder={t('AddMeal.healthKit.insulinUnits')}
                 returnKeyLabel={'done'}
                 value={value}
                 keyboardType={'numeric'}
                 onChangeText={num => setValue(num)}
               />
             </View>
-            <Text>Füge nur Daten zum HealthKit hinzu, wenn du ke</Text>
+            <Text style={styles.hint}>{t('AddMeal.healthKit.hint')}</Text>
             <View style={{ flexGrow: 1 }} />
 
             <Button
-              title={'Save'}
+              title={t('General.add')}
               onPress={() => {
-                props.setHealthKitData(prevState => {
-                  return {
-                    carbs: prevState.carbs,
-                    insulin: { date: date.time, value: value, minutes: minutes },
-                  };
-                });
+                if (value !== '0' && !isNaN(value)) {
+                  props.setHealthKitData(prevState => {
+                    return {
+                      carbs: prevState.carbs,
+                      insulin: { date: date.time, value: value, minutes: minutes },
+                    };
+                  });
+                }
                 setOpen(false);
               }}
             />
@@ -173,6 +191,7 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 30,
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: theme.spacing.M,
   },
   date: { marginVertical: theme.spacing.M },
   input: {
@@ -182,4 +201,5 @@ const useStyles = makeStyles(theme => ({
   },
   textContainer: { alignItems: 'center' },
   buttonWrapper: { margin: theme.spacing.S, flexDirection: 'row' },
+  hint:{marginHorizontal:theme.spacing.S}
 }));

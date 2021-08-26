@@ -69,7 +69,7 @@
       "noSearchText": "Suche nach Gerichten, Snacks oder Lebensmitteln. Wenn es deinen Eintrag noch nicht gibt kannst du einen eigenen anlegen.",
       "newMealName": "Neu erstellen",
       "userCarbGuess": "Anonymer Nutzer schätzte {{carbs}}g Kohlenhydrate",
-      "glyx": "Glykämischer Index: ",
+      "glyx": "Glykämischer Index: "
     },
     "fatSecretUserEntries": {
       "title": "Was hast Du gegessen?",
@@ -112,6 +112,16 @@
       "subtitle": "Durchsuche die Datenbank nach ähnlichen Lebensmitteln",
       "searchPlaceholder": "z.B. brauner Reis, Big Mac, Orange",
       "noResults": "Wir haben leider keine Einträge mit dieser Bezeichnung gefunden. Überprüfe Deine Internetverbindung oder versuche es mit einer anderen Beschreibung"
+    },
+    "healthKit": {
+      "insulin": "Insulin",
+      "unitsOf": " Einheiten",
+      "after": " in {{minutes}} Minuten ",
+      "before": " vor  {{minutes}} Minuten",
+      "minAfter": " Minuten nach der Mahlzeit",
+      "minBefore": " Minuten vor der Mahlzeit",
+      "insulinUnits": "Insulin Einheiten",
+      "hint": "Füge nur Daten zum HealthKit hinzu, wenn du keine anderen Apps nutzt die Daten ins HealthKit speichern"
     }
   },
   "Entries": {
@@ -285,6 +295,7 @@
     "meal_quiz": " Mahlzeiten-Quiz",
     "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
     "community": {
+      "communityQuiz": "Community Quiz",
       "title": "Wähle eine Quiz-Kategorie",
       "next": "weiter",
       "well_done": "Sehr gut weiter so.",
@@ -294,6 +305,7 @@
       "back": "zur Übersicht",
       "share": "Teile deine Punktzahl",
       "outOf": "von",
+      "totalScore": "Gesamtpunktzahl",
       "shareMessage": "Hey, ich habe das meala Quiz entdeckt und bereits  {{score}} Punkte. Wie viel schaffst du? Die App findest du hier: https://heymeala.com/de",
       "answered": "Du hast alle verfügbaren Fragen zu diesem Thema beantwortet. Wir erweitern das Quiz jedoch ständig, sodass es bald weitere Fragen gibt. Wenn Du selber ein paar Fragen zum Community Quiz hinzufügen möchtest, schreibe uns gerne per Insta oder E-Mail."
     }
@@ -402,6 +414,7 @@
     "Date": "Datum",
     "Meal": "Mahlzeit",
     "Save": "Speichern",
+    "add": "Hinzufügen",
     "Accept": "Akzeptieren",
     "enableGps": "Bitte aktiviere GPS, um Restaurants in der Nähe zu suchen.",
     "Cancel": "Abbrechen",
