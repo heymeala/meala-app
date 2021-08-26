@@ -65,8 +65,8 @@ const HealthKitAddInsulin = props => {
         />
         {props.healthKitData.insulin && props.healthKitData.insulin.minutes !== null ? (
           <Text style={{ alignSelf: 'center' }}>
-            {props.healthKitData.insulin.minutes >= 0 ? '+ ' : '-'}
-            {props.healthKitData.insulin.minutes} minutes
+            {props.healthKitData.insulin.minutes >= 0 ? ' nach ' : ' vor '}
+            {Math.abs(props.healthKitData.insulin.minutes)} minutes
           </Text>
         ) : null}
       </View>
