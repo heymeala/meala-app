@@ -1,10 +1,9 @@
 import React from 'react';
-import { makeStyles, useTheme } from 'react-native-elements';
+import { Button, makeStyles, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { HEALTHKIT } from '../Settings/glucoseSourceConstants';
 import { Alert, View } from 'react-native';
-import OutLineButton from '../../Common/OutLineButton';
 
 const HealthKitCarbohydrateField = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -38,8 +37,13 @@ const HealthKitCarbohydrateField = props => {
 
   return userSettings.glucoseSource === HEALTHKIT ? (
     <View style={styles.container}>
-      <OutLineButton
-        buttonStyle={{ paddingHorizontal: 20 }}
+      <Button
+        type={props.healthKitData.carbs ? 'solid' : 'outline'}
+        buttonStyle={
+          props.healthKitData.carbs
+            ? { paddingHorizontal: 20, backgroundColor: '#ffd420' }
+            : { paddingHorizontal: 20, backgroundColor: 'transparent' }
+        }
         title={buttonTitle}
         onPress={() => showAlert()}
       />

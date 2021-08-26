@@ -63,6 +63,12 @@ const HealthKitAddInsulin = props => {
             setOpen(true);
           }}
         />
+        {props.healthKitData.insulin && props.healthKitData.insulin.minutes !== null ? (
+          <Text style={{ alignSelf: 'center' }}>
+            {props.healthKitData.insulin.minutes >= 0 ? '+ ' : '-'}
+            {props.healthKitData.insulin.minutes} minutes
+          </Text>
+        ) : null}
       </View>
 
       <Modal
@@ -75,12 +81,14 @@ const HealthKitAddInsulin = props => {
         onAccessibilityEscape={() => setOpen(false)}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.date}>
-              {date.date} {date.timeString}
-            </Text>
-            <Text h2>
-              {minutes > 0 ? minutes + ' minutes after meal' : Math.abs(minutes) + ' minutes before meal'}
-            </Text>
+            <View style={styles.textContainer}>
+              <Text style={styles.date}>
+                {date.date} {date.timeString}
+              </Text>
+              <Text h2>
+                {minutes > 0 ? minutes + ' minutes after meal' : Math.abs(minutes) + ' minutes before meal'}
+              </Text>
+            </View>
             <Slider
               step={1}
               minimumValue={-60}
@@ -104,6 +112,7 @@ const HealthKitAddInsulin = props => {
                 onChangeText={num => setValue(num)}
               />
             </View>
+            <Text>Füge nur Daten zum HealthKit hinzu, wenn du ke</Text>
             <View style={{ flexGrow: 1 }} />
 
             <Button
@@ -171,5 +180,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 20,
     flex: 1,
   },
-  buttonWrapper: { margin: theme.spacing.S },
+  textContainer: { alignItems: 'center' },
+  buttonWrapper: { margin: theme.spacing.S, flexDirection: 'row' },
 }));
