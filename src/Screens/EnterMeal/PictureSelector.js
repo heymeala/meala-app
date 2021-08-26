@@ -48,6 +48,9 @@ const PictureSelector = props => {
       {
         mediaType: 'photo',
         includeBase64: true,
+        maxHeight: 800,
+        maxWidth: 800,
+        quality: 0.7,
       },
       response => {
         if (response.didCancel) {
@@ -98,7 +101,7 @@ const PictureSelector = props => {
         includeBase64: true,
         maxHeight: 800,
         maxWidth: 800,
-        quality: 0.6,
+        quality: 0.7,
         //  saveToPhotos:true,
       },
       response => {

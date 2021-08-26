@@ -45,10 +45,13 @@ export default function HealthKitScreen() {
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, options).then(setGlucoseSamples);
 
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(result => {
-      setInsulinSamples(result);
-      console.log(result);
-    });
+    const majorVersionIOS = parseInt(Platform.Version, 10);
+    if (majorVersionIOS >= 13) {
+      Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(result => {
+        setInsulinSamples(result);
+        console.log(result);
+      });
+    }
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.dietaryCarbohydrates, options).then(result => {
       setCarbSamples(result);
@@ -70,7 +73,6 @@ export default function HealthKitScreen() {
 
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.heartRate, options).then(setHeartRateSamples);
 
-    const majorVersionIOS = parseInt(Platform.Version, 10);
     // if (majorVersionIOS >= 13) {
     // todo: test on ios 10
     Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result =>

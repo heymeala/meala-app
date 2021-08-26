@@ -137,24 +137,19 @@ const useStyles = makeStyles((theme, props: Props) => ({
   date: {
     fontFamily: 'SecularOne-Regular',
     textAlign: 'center',
-    fontSize: 28,
+    fontSize: 24,
     lineHeight: 35,
     marginBottom: -5,
-    // color: theme.colors.primary,
   },
   time: {
     fontFamily: 'SecularOne-Regular',
     fontSize: 18,
     textAlign: 'left',
-
-    //color: theme.colors.primary,
   },
   month: {
     fontFamily: 'SecularOne-Regular',
     fontSize: 14,
     lineHeight: 16,
-
-    //color: theme.colors.primary,
   },
   subtitle: { fontSize: 12 },
   overlay: {

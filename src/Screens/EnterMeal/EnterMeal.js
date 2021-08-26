@@ -22,7 +22,7 @@ import { reminderNotification } from './ReminderNotification';
 import HeaderRightIconGroup from './HeaderRightIconGroup';
 import { uploadToNightScout } from './uploadToNightScout';
 import NightScoutInputFields from './NightScoutTreatmentsInputFields';
-import HealthKitInputField from './HealthKitInputField';
+import HealthKitCarbohydrateField from './HealthKitCarbohydrateField';
 import NoteInputField from './NoteInputField';
 import { spacing } from '../../theme/styles';
 import uuid from 'react-native-uuid';
@@ -33,7 +33,8 @@ import ReminderSlider from './EnterMealComponents/ReminderSlider';
 import SearchRestaurantModal from './EnterMealComponents/SearchRestaurantModal';
 import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNameModal';
 import * as Keychain from 'react-native-keychain';
-import HealthKitAddInsulin from "./HealthKitAddInsulin";
+import HealthKitAddInsulin from './HealthKitAddInsulin';
+import { saveCarbohydratesToHealthKit, saveInsulinToHealthKit } from '../../hooks/saveToHealthKit';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -82,16 +83,17 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const [loadingOnSave, setLoadingOnSave] = useState(false);
   const [value, setValue] = useState(3);
-
+  const defaultHealthKitValues = { carbs: null, insulin: { date: null, value: null, minutes: null } };
+  const [healthKitData, setHealthKitData] = useState(defaultHealthKitValues);
   const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
   const defaultRestaurantName = restaurantName || t('AddMeal.home');
   const defaultRestaurantId = restaurantId || t('AddMeal.home');
   const [hasFatSecretCredentials, setFatSecretCredentials] = useState(false);
   const fatSecretButtonText = fatSecretData
     ? t('AddMeal.fatSecretUserEntries.button') +
-    (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
-      ? ` (${fatSecretData.filter(data => data.checked).length})`
-      : '')
+      (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
+        ? ` (${fatSecretData.filter(data => data.checked).length})`
+        : '')
     : t('AddMeal.fatSecretUserEntries.noData');
 
   React.useEffect(() => {
@@ -110,8 +112,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         setFatSecretCredentials(result !== false);
       });
 
-      return () => {
-      };
+      return () => {};
     }, []),
   );
 
@@ -136,16 +137,15 @@ const EnterMeal = ({ route, navigation }, props) => {
         type.mode === EDIT_MODE
           ? t('AddMeal.edit')
           : type.mode === COPY_MODE
-            ? t('AddMeal.copy')
-            : t('AddMeal.AddMealTitle'),
+          ? t('AddMeal.copy')
+          : t('AddMeal.AddMealTitle'),
       headerRight: () => {
         if (type.mode !== EDIT_MODE) {
           return <HeaderRightIconGroup reset={reset} saveAll={validateTimeBeforeSave} />;
         }
       },
     });
-    return () => {
-    };
+    return () => {};
   }, [navigation, type]);
 
   useEffect(() => {
@@ -175,6 +175,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       }
     }
     getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
+    setHealthKitData({ carbs: healthKitData.carbs, insulin: { ...defaultHealthKitValues.insulin } });
   }, [date]);
 
   useFocusEffect(
@@ -246,10 +247,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-        .filter(data => data.checked)
-        .map(data => {
-          return { foodEntryId: data.food_entry_id };
-        })
+          .filter(data => data.checked)
+          .map(data => {
+            return { foodEntryId: data.food_entry_id };
+          })
       : [];
 
     if (type.mode !== EDIT_MODE) {
@@ -295,6 +296,13 @@ const EnterMeal = ({ route, navigation }, props) => {
         predictions,
         date,
       };
+
+      if (healthKitData.insulin.value && Platform.OS === 'ios') {
+        saveInsulinToHealthKit(healthKitData.insulin.value, healthKitData.insulin.date);
+      }
+      if (healthKitData.carbs && Platform.OS === 'ios') {
+        saveCarbohydratesToHealthKit(healthKitData.carbs, date);
+      }
 
       database
         .saveRestaurant(
@@ -357,6 +365,7 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   function reset() {
     const newDate = new Date();
+    setHealthKitData(defaultHealthKitValues);
     setAvatarSourceLibrary(undefined);
     setAvatarSourceCamera(undefined);
     setRestaurantName(t('AddMeal.home'));
@@ -482,8 +491,12 @@ const EnterMeal = ({ route, navigation }, props) => {
           predictions={predictions}
         />
 
-        <HealthKitInputField date={date} />
-        <HealthKitAddInsulin date={date} />
+        <HealthKitCarbohydrateField
+          date={date}
+          setHealthKitData={setHealthKitData}
+          healthKitData={healthKitData}
+        />
+        <HealthKitAddInsulin date={date} healthKitData={healthKitData} setHealthKitData={setHealthKitData} />
         <NightScoutInputFields
           nsTreatmentsUpload={nsTreatmentsUpload}
           setNsTreatmentsUpload={setNsTreatmentsUpload}
@@ -519,10 +532,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
-  wrapper: { flexGrow: 1, height: '100%' },
+  wrapper: { flexGrow: 1, height: "100%" },
 
   spacing: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
   },
   fatSecretButton: {
     paddingHorizontal: theme.spacing.M,
@@ -531,8 +544,8 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   container: {
     flexGrow: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   cancelButton: {
     height: 40,

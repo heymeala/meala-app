@@ -257,6 +257,7 @@ const useStyles = makeStyles(theme => ({
     //flex: 1,
     // height:300,
     justifyContent: 'center',
+
   },
   modalView: {
     margin: theme.spacing.S,
