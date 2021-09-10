@@ -1,10 +1,9 @@
-import { Dimensions, Linking, View } from 'react-native';
-import { Button, FAB, makeStyles, Text } from 'react-native-elements';
+import { Dimensions, View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import { spacing } from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
-import NoResultsText from './NoResultsText';
 import SearchRecipes from '../../Recipes/SearchRecipes';
 import { useNavigation } from '@react-navigation/core';
 
@@ -37,7 +36,6 @@ export const EmptyListHome = props => {
           autoPlay
           loop
         />
-
       </View>
     );
   }
@@ -45,7 +43,9 @@ export const EmptyListHome = props => {
 
 const useStyles = makeStyles((theme, dimensions) => ({
   image: { width: dimensions.width, height: 950 },
-  animation: { width: dimensions.width, alignSelf: 'center' },
+  animation: {
+    width: dimensions.width, alignSelf: 'center', marginBottom: 75,
+  },
 
   wrapper: {
     flex: 1,
