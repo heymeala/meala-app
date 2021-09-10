@@ -160,6 +160,12 @@
         "description": "Du suchst nach einem genauen Tag? Dann bist Du hier richtig. Tipp: Wenn Du FatSecret benutzt, verbinde Deinen Account und Deine Einträge aus der anderen App werden hier angezeigt."
       }
     },
+    "searchRecipes": {
+      "noRecipes": "Leider keine Mahlzeiten aus der Community gefunden.",
+      "noEntry": "  Du hast noch keinen Eintrag mit dem Namen ",
+      "but": ", aber Du kannst nach ähnliches Mahlzeiten aus der Community suchen",
+      "showRecipe": "Rezept anzeigen"
+    },
     "community": "Eine App für die Community",
     "noSearchResult": "Du hast keine Mahlzeit mit dem Namen ",
     "noSearchResultPlaces": "Du hast keine Orte mit dem Namen ",
@@ -413,6 +419,7 @@
   "General": {
     "Date": "Datum",
     "Meal": "Mahlzeit",
+    "search": "Suchen",
     "Save": "Speichern",
     "add": "Hinzufügen",
     "Accept": "Akzeptieren",

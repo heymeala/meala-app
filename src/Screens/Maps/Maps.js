@@ -59,8 +59,8 @@ const Maps = props => {
           <MapView style={styles.map} initialRegion={region}>
             {ownRestaurants &&
               ownRestaurants
-                .filter(data => {
-                  return data.lat != null && data.long != null;
+                .filter(item => {
+                  return item.lat != null && item.long != null;
                 })
                 .map((restaurant, index) => {
                   return (

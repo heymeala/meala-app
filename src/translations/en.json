@@ -161,6 +161,13 @@
         "description": "You are looking for an exact day? Then you are right here. Tip: If you use FatSecret connect your account and your entries from the other app will be displayed here."
       }
     },
+    "searchRecipes": {
+      "noRecipes": "Sorry, no meals found from the community.",
+      "noEntry": "You do not have an entry with the name ",
+      "but": " , but you can search for similar meals from the community",
+      "showRecipe": "Show recipe"
+
+    },
     "community": "An app for the community",
     "noSearchResult": "You have no meal with the name ",
     "noSearchResultPlaces": "You have no places with the name ",
@@ -417,6 +424,7 @@
     "Meal": "Meal",
     "Save": "Save",
     "add": "Add",
+    "search": "Search",
     "Accept": "Accept",
     "enableGps": "Please enable GPS to search Restaurants nearby",
     "Cancel": "Cancel",
