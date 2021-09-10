@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Button, makeStyles, Text } from 'react-native-elements';
+import { Button, Icon, makeStyles, Text } from 'react-native-elements';
 import { deviceWidth } from '../../../utils/deviceHeight';
 import HTML from 'react-native-render-html';
 import openLink from '../../../Common/InAppBrowser';
 import LocalizationContext from '../../../../LanguageContext';
 import { CALENDAR_URL } from '@env';
 import FadeInView from '../../../Common/FadeInView';
+import moment from 'moment';
 
 const News = props => {
-  const { t } = React.useContext(LocalizationContext);
+  const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const [calendarEvents, setCalendarEvents] = useState(null);
   const [showNews, setShowNews] = useState(false);
   useEffect(() => {
-    const url = CALENDAR_URL + 'de&start_date=2021-09-01';
+    const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+    const language = locale === 'de' ? 'de' : 'en';
+    const url = CALENDAR_URL + language + '&start_date=' + startOfMonth;
     console.log(url);
     fetch(url)
       .then(response => response.json())
@@ -38,7 +41,7 @@ const News = props => {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: '#21276f',
+          backgroundColor: 'rgba(219,219,219,0.87)',
           paddingVertical: 2,
         }}>
         {/*      {!showNews ? (
@@ -71,12 +74,16 @@ const News = props => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
-                <Text h3 h3Style={{ fontSize: 17 }}>
-                  {events.title}
-                </Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <Icon name="newspaper-outline" style={{ paddingRight: 10 }} type="ionicon" size={25} />
+                  <Text h3 h3Style={{ fontSize: 17 }}>
+                    {events.title}
+                  </Text>
+                </View>
                 {!showNews && (
                   <Button
-                    title={'lesen'}
+                    title={t('General.read')}
+                    containerStyle={{ borderRadius: 50 }}
                     buttonStyle={{ backgroundColor: 'transparent', padding: 2 }}
                     onPress={() => setShowNews(true)}
                   />
@@ -97,17 +104,16 @@ const News = props => {
                     justifyContent: 'space-between',
                   }}>
                   <Button
-                    title={'schließen'}
-                    type={'outline'}
-                    containerStyle={{ width: '40%', margin: 5 }}
+                    title={t('General.close')}
+                    containerStyle={{ width: '40%', margin: 5, borderRadius: 50 }}
                     buttonStyle={{ paddingHorizontal: 18, backgroundColor: 'transparent' }}
                     onPress={() => setShowNews(false)}
                   />
 
                   <Button
-                    title={'mehr'}
-                    containerStyle={{ width: '40%', margin: 5 }}
-                    onPress={() => openLink(events.url)}
+                    title={t('General.more')}
+                    containerStyle={{ width: '40%', margin: 5, borderRadius: 50 }}
+                    onPress={() => openLink(events.website ? events.website : events.url)}
                   />
                 </View>
               )}
