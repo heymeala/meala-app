@@ -14,7 +14,6 @@ import { CALENDAR_URL } from '@env';
 import HTML from 'react-native-render-html';
 import openLink from '../../Common/InAppBrowser';
 import { deviceWidth } from '../../utils/deviceHeight';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -70,36 +69,38 @@ const MealSearchController = () => {
   const SegmentedController = function () {
     return (
       <View style={styles.container}>
-        {calendarEvents &&
-          (!showNews ? (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:"center", height:60 }}>
-              <Icon name="newspaper-outline" style={{ paddingRight: 10 }} type="ionicon" size={25} />
-              <Button
-                buttonStyle={{ backgroundColor: 'transparent' }}
-                title={'Show news'}
-                onPress={() => setShowNews(true)}
-              />
-            </View>
-          ) : (
-            <ScrollView horizontal contentContainerStyle={{ flexDirection: 'row' }}>
-              {calendarEvents.map((events, i) => (
-                <View
-                  key={i}
-                  style={{
-                    padding: 8,
-                    backgroundColor: '#ffd420',
-                    width: deviceWidth - 50,
-                    borderRadius: 10,
-                    marginVertical: 8,
-                    marginHorizontal: 8,
-                    height: 200,
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text h2>{events.title}</Text>
-                  {events.excerpt ? <HTML source={{ html: events.excerpt }} /> : null}
+        {calendarEvents && (
+          <ScrollView horizontal contentContainerStyle={{ flexDirection: 'row' }}>
+            {calendarEvents.map((events, i) => (
+              <View
+                key={i}
+                style={{
+                  padding: 8,
+                  backgroundColor: '#f5f5f5',
+                  width: deviceWidth - 80,
+                  borderRadius: 10,
+                  marginVertical: 8,
+                  marginHorizontal: 8,
+                  height: showNews ? 200 : 50,
+                  justifyContent: 'space-between',
+                }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Text h3 h3Style={{ fontSize: 17 }}>
+                    {events.title}
+                  </Text>
+                  {!showNews && (
+                    <Button
+                      title={'lesen'}
+                      buttonStyle={{ backgroundColor: 'transparent' }}
+                      onPress={() => setShowNews(true)}
+                    />
+                  )}
+                </View>
+                {events.excerpt && showNews ? <HTML source={{ html: events.excerpt }} /> : null}
+                {showNews && (
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Button
-                      title={'Später'}
+                      title={'schließen'}
                       type={'outline'}
                       containerStyle={{ width: '40%', margin: 5 }}
                       buttonStyle={{ paddingHorizontal: 18, backgroundColor: 'transparent' }}
@@ -107,16 +108,16 @@ const MealSearchController = () => {
                     />
 
                     <Button
-                      title={'Mehr'}
+                      title={'mehr'}
                       containerStyle={{ width: '40%', margin: 5 }}
-                      buttonStyle={{ backgroundColor: '#fff' }}
                       onPress={() => openLink(events.url)}
                     />
                   </View>
-                </View>
-              ))}
-            </ScrollView>
-          ))}
+                )}
+              </View>
+            ))}
+          </ScrollView>
+        )}
         <SegmentedControlTab
           values={[t('Entries.Meals'), t('Entries.Places'), t('Entries.Date')]}
           accessibilityLabels={[
