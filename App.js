@@ -5,9 +5,7 @@ import { registerCustomIconType, ThemeProvider } from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
-import AppBottomNavigationStack from './src/Navigation/AppBottomNavigator';
 import analytics from '@react-native-firebase/analytics';
-import OnboardingScreen from './src/Screens/OnboardingScreen';
 import { database } from './src/Common/database_realm';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { enableScreens } from 'react-native-screens';
@@ -19,6 +17,7 @@ import Icon from './src/CustomMealaFont';
 import { UserSettingsProvider } from './src/hooks/useUserSettings';
 import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
 import { KnowledgeProvider } from './src/hooks/useKnowledge';
+import TopStack from './src/Navigation/TopStack';
 
 enableScreens();
 
@@ -81,7 +80,10 @@ const App = props => {
       <NavigationContainer
         // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
-        onReady={() => (routeNameRef.current = navigationRef.current.getCurrentRoute().name)}
+        onReady={() => {
+          console.log('nabigator route', navigationRef.current.getCurrentRoute());
+          routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+        }}
         onStateChange={() => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
@@ -105,16 +107,7 @@ const App = props => {
                 <EnterMealTypeProvider>
                   <KnowledgeProvider>
                     <View style={{ flex: 1 }}>
-                      {/*
-                <StatusBar barStyle={'dark-content'} />
-                */}
-                      <Stack.Navigator
-                        screenOptions={{
-                          headerShown: false,
-                        }}>
-                        {onboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
-                        <Stack.Screen name="Home" component={AppBottomNavigationStack} />
-                      </Stack.Navigator>
+                      <TopStack onboardin={onboarding} />
                     </View>
                   </KnowledgeProvider>
                 </EnterMealTypeProvider>

@@ -28,17 +28,21 @@ AppRegistry.registerComponent(appName, () => {
       console.log('ON NOTIFICATION:', notification);
 
       if (notification.data.screen && !notification.foreground && notification.userInteraction) {
-        RootNavigation.navigate(notification.data.screen);
         if (notification.data.message) {
-          Alert.alert('', notification.data.message);
+          Alert.alert('', notification.data.message, [
+            {
+              text: 'Ok',
+              onPress: () => RootNavigation.navigate(notification.data.screen),
+            },
+          ]);
         }
-      }
 
-      if (notification.data.screen === 'EnterMealStack' && notification.userInteraction) {
-        RootNavigation.navigate('Home', {
-          screen: 'MealDataCollector',
-          params: { userMealId: notification.data.userMealId },
-        });
+        if (notification.data.screen === 'EnterMealStack' && notification.userInteraction) {
+          RootNavigation.navigate('Home', {
+            screen: 'MealDataCollector',
+            params: { userMealId: notification.data.userMealId },
+          });
+        }
       }
 
       // process the notification

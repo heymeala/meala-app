@@ -36,7 +36,7 @@ const MealSearchController = () => {
   };
 
   useEffect(() => {
-    //  getFcmToken();
+      getFcmToken();
 
     let isMounted = true;
 

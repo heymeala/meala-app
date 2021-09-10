@@ -8,10 +8,13 @@ import LocalizationContext from '../../../../LanguageContext';
 import { CALENDAR_URL } from '@env';
 import FadeInView from '../../../Common/FadeInView';
 import moment from 'moment';
+import { useNavigation } from '@react-navigation/core';
 
 const News = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
+  const navigation = useNavigation();
+
   const [calendarEvents, setCalendarEvents] = useState(null);
   const [showNews, setShowNews] = useState(false);
   useEffect(() => {
@@ -119,6 +122,9 @@ const News = props => {
               )}
             </TouchableOpacity>
           ))}
+          <View style={{ justifyContent: 'center' }}>
+            <Button title={'see all'} onPress={() => navigation.navigate('NewsScreen')} />
+          </View>
         </ScrollView>
         {/*)}*/}
       </FadeInView>
