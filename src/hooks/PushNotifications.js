@@ -3,8 +3,9 @@ import { Alert } from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import * as RootNavigation from '../Navigation/RootNavigation';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import LocalizationContext from '../../LanguageContext';
 
-const PushNotifications = props => {
+const PushNotifications = t => {
   useEffect(() => {
     // Must be outside of any component LifeCycle (such as `componentDidMount`).
     PushNotification.configure({
@@ -21,13 +22,9 @@ const PushNotifications = props => {
           console.log(notification.data.screen);
           RootNavigation.navigate(notification.data.screen);
           if (notification.data.message) {
-            Alert.alert('', notification.data.message, [
+            Alert.alert(notification.data.title ? notification.data.title : '', notification.data.message, [
               {
-                text: 'später',
-              },
-              {
-                text: 'Ok',
-                onPress: () => RootNavigation.navigate(notification.data.screen),
+                text: t('General.okay'),
               },
             ]);
           }
@@ -94,4 +91,3 @@ const PushNotifications = props => {
   }, []);
 };
 export default PushNotifications;
-

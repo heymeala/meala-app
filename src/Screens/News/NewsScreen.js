@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from 'react-native-elements';
+import { Linking, Platform, SafeAreaView, ScrollView, Share, TouchableOpacity, View } from 'react-native';
+import { Button, Icon, Image, makeStyles, Text } from 'react-native-elements';
 import HTML from 'react-native-render-html';
 import { CALENDAR_URL } from '@env';
 import moment from 'moment';
 import LocalizationContext from '../../../LanguageContext';
-import FadeInView from '../../Common/FadeInView';
 import openLink from '../../Common/InAppBrowser';
-import LoadingSpinner from "../../Common/LoadingSpinner";
+import LoadingSpinner from '../../Common/LoadingSpinner';
 
-const NewsScreen = ({navigation}, props) => {
+const NewsScreen = ({ navigation }, props) => {
   const { t, locale } = React.useContext(LocalizationContext);
 
   const styles = useStyles();
@@ -33,69 +32,151 @@ const NewsScreen = ({navigation}, props) => {
       });
   }, []);
 
+  const onShare = async (url, title) => {
+    try {
+      const result = await Share.share(
+        Platform.OS === 'ios'
+          ? {
+              url: url,
+            }
+          : {
+              message: title + ' – ' + url + '?utm_source=meala',
+            },
+      );
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      //  alert(error.message);
+    }
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Text h1>News</Text>
-      {calendarEvents ? (
-        <View
-          style={{
-            backgroundColor: 'rgba(219,219,219,0.87)',
-            paddingVertical: 2,
-          }}>
-          {/*      {!showNews ? (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ alignItems: 'center', margin: 6 }}>
+        <Text h1>{t('News.title')}</Text>
+      </View>
+
+      <ScrollView contentContainerStyle={{}}>
+        {calendarEvents ? (
+          <View
+            style={{
+              backgroundColor: 'rgba(255,255,255,0.87)',
+              paddingVertical: 2,
+              marginBottom: 20,
+            }}>
+            {/*      {!showNews ? (
           <FAB placement={'right'} onPress={() => setShowNews(true)} title={'news'} />
         ) : (*/}
-          <ScrollView
-            contentContainerStyle={{
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}>
+
             {calendarEvents.map((events, i) => (
               <View
                 key={i}
                 style={{
                   padding: 8,
-                  backgroundColor: '#f7f7f7',
+                  backgroundColor: '#ffffff',
                   borderRadius: 10,
                   marginVertical: 8,
                   justifyContent: 'space-between',
                   marginHorizontal: 14,
+                  elevation: 5,
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
                 }}>
+                {events.image && (
+                  <TouchableOpacity onPress={() => openLink(events.website ? events.website : events.url)}>
+                    <Image
+                      style={{
+                        height: 220,
+                        width: '100%',
+                        borderTopLeftRadius: 5,
+                        borderTopRightRadius: 5,
+                        marginBottom: 8,
+                      }}
+                      source={{ uri: events.image.sizes.medium.url }}
+                    />
+                  </TouchableOpacity>
+                )}
+
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                   }}>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flexDirection: 'row', marginBottom: 6 }}>
                     <Icon name="newspaper-outline" style={{ paddingRight: 10 }} type="ionicon" size={25} />
                     <Text h3 h3Style={{ fontSize: 17 }}>
                       {events.title}
                     </Text>
                   </View>
                 </View>
-                {events.excerpt ? (
+                {events.description ? (
                   <HTML
                     tagsStyles={{
                       p: { color: 'black', fontSize: 16 },
                     }}
-                    source={{ html: events.excerpt }}
+                    source={{ html: events.description }}
                   />
                 ) : null}
-
-                <View style={{}}>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <TouchableOpacity style={{marginHorizontal:8}} onPress={() => onShare(events.url, events.title)}>
+                    <Icon name={'ios-share'} />
+                  </TouchableOpacity>
                   <Button
                     title={t('General.more')}
-                    containerStyle={{ margin: 5, borderRadius: 50 }}
+                    icon={
+                      <Icon name={'ios-earth-sharp'} type={'ionicon'} containerStyle={{ marginRight: 8 }} />
+                    }
+                    containerStyle={{ margin: 12, borderRadius: 50 }}
+                    buttonStyle={{ paddingHorizontal: 18 }}
                     onPress={() => openLink(events.website ? events.website : events.url)}
                   />
                 </View>
               </View>
             ))}
-          </ScrollView>
-        </View>
-      ): <LoadingSpinner/>}
-      <View style={{ margin: 8, position: 'absolute', bottom: 0, right: 0, left: 0 }}>
+          </View>
+        ) : (
+          <LoadingSpinner />
+        )}
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderRadius: 20,
+            width: 40,
+            height: 40,
+            alignSelf: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderColor: '#264F9F',
+          }}
+          onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
+          <Icon name={'mail'} color={'#264F9F'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Linking.openURL('mailto:mail@heymeala.com')}
+          style={{ marginBottom: 70, paddingTop: 10, padding: 12, backgroundColor: '#ffffff' }}>
+          <Text>{t('News.addEvent')}</Text>
+        </TouchableOpacity>
+      </ScrollView>
+
+      <View style={{ alignItems: 'center', margin: 8, position: 'absolute', bottom: 0, right: 0, left: 0 }}>
         <Button title={t('General.close')} onPress={() => navigation.navigate('Home')} />
       </View>
     </SafeAreaView>

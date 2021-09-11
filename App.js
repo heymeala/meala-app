@@ -43,7 +43,7 @@ const App = props => {
     [locale],
   );
 
-  PushNotifications();
+
 
   useEffect(() => {
     registerCustomIconType('meala', Icon);
@@ -54,6 +54,8 @@ const App = props => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
     };
   }, []);
+  const t = localizationContext.t;
+  PushNotifications(t);
 
   const showOnboardingFirst = screenReaderEnabled ? 1 : 2;
   const showOnboardingLast = screenReaderEnabled ? 1 : 8;

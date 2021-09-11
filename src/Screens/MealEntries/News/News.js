@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from 'react-native-elements';
+import { Button, Icon, makeStyles, Text } from "react-native-elements";
 import { deviceWidth } from '../../../utils/deviceHeight';
 import HTML from 'react-native-render-html';
 import openLink from '../../../Common/InAppBrowser';
@@ -9,23 +9,21 @@ import { CALENDAR_URL } from '@env';
 import FadeInView from '../../../Common/FadeInView';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/core';
+import { smallDevice } from '../../../Common/Constants/devices';
 
 const News = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const navigation = useNavigation();
-
   const [calendarEvents, setCalendarEvents] = useState(null);
   const [showNews, setShowNews] = useState(false);
   useEffect(() => {
     const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
     const language = locale === 'de' ? 'de' : 'en';
-    const url = CALENDAR_URL + language + '&start_date=' + startOfMonth;
-    console.log(url);
+    const url = CALENDAR_URL + language + '&start_date=' + startOfMonth + '&per_page=3';
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         if (data && data.events.length > 0) {
           const eventData = data.events;
           //   const isBetweenDates = moment().isBetween(eventData.start_date, eventData.end_date);
@@ -68,6 +66,14 @@ const News = props => {
                 marginVertical: 8,
                 justifyContent: 'space-between',
                 marginHorizontal: 4,
+                elevation: 2,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 2.84,
               }}
               disabled={showNews}
               onPress={() => setShowNews(true)}>
@@ -77,13 +83,13 @@ const News = props => {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Icon name="newspaper-outline" style={{ paddingRight: 10 }} type="ionicon" size={25} />
-                  <Text h3 h3Style={{ fontSize: 17 }}>
+                  <Text h3 h3Style={{ fontSize: deviceWidth > smallDevice ? 17 : 15 }}>
                     {events.title}
                   </Text>
                 </View>
-                {!showNews && (
+                {!showNews && deviceWidth > smallDevice && (
                   <Button
                     title={t('General.read')}
                     containerStyle={{ borderRadius: 50 }}
@@ -95,7 +101,7 @@ const News = props => {
               {events.excerpt && showNews ? (
                 <HTML
                   tagsStyles={{
-                    p: { color: 'black', fontSize: 16 },
+                    p: { color: 'black', fontSize: deviceWidth > smallDevice ? 16 : 14 },
                   }}
                   source={{ html: events.excerpt }}
                 />
@@ -109,13 +115,13 @@ const News = props => {
                   <Button
                     title={t('General.close')}
                     containerStyle={{ width: '40%', margin: 5, borderRadius: 50 }}
-                    buttonStyle={{ paddingHorizontal: 18, backgroundColor: 'transparent' }}
+                    buttonStyle={{ paddingHorizontal: 4, backgroundColor: 'transparent' }}
                     onPress={() => setShowNews(false)}
                   />
 
                   <Button
                     title={t('General.more')}
-                    containerStyle={{ width: '40%', margin: 5, borderRadius: 50 }}
+                    containerStyle={{ width: '35%', margin: 4, borderRadius: 50 }}
                     onPress={() => openLink(events.website ? events.website : events.url)}
                   />
                 </View>
@@ -123,7 +129,7 @@ const News = props => {
             </TouchableOpacity>
           ))}
           <View style={{ justifyContent: 'center' }}>
-            <Button title={'see all'} onPress={() => navigation.navigate('NewsScreen')} />
+            <Button title={t('News.seeAll')} onPress={() => navigation.navigate('NewsScreen')} />
           </View>
         </ScrollView>
         {/*)}*/}
