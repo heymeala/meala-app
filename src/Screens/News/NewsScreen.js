@@ -9,7 +9,7 @@ import FadeInView from '../../Common/FadeInView';
 import openLink from '../../Common/InAppBrowser';
 import LoadingSpinner from "../../Common/LoadingSpinner";
 
-const NewsScreen = ( props) => {
+const NewsScreen = ({navigation}, props) => {
   const { t, locale } = React.useContext(LocalizationContext);
 
   const styles = useStyles();
@@ -96,7 +96,7 @@ const NewsScreen = ( props) => {
         </View>
       ): <LoadingSpinner/>}
       <View style={{ margin: 8, position: 'absolute', bottom: 0, right: 0, left: 0 }}>
-      {/*  <Button title={t('General.close')} onPress={() => navigation.navigate('Home')} />*/}
+        <Button title={t('General.close')} onPress={() => navigation.navigate('Home')} />
       </View>
     </SafeAreaView>
   );

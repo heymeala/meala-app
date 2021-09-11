@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { registerCustomIconType, ThemeProvider } from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
@@ -7,7 +7,6 @@ import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
 import analytics from '@react-native-firebase/analytics';
 import { database } from './src/Common/database_realm';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { enableScreens } from 'react-native-screens';
 import { navigationRef } from './src/Navigation/RootNavigation';
 import { ProfileProvider } from './src/hooks/useProfile';
@@ -18,6 +17,7 @@ import { UserSettingsProvider } from './src/hooks/useUserSettings';
 import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
 import { KnowledgeProvider } from './src/hooks/useKnowledge';
 import TopStack from './src/Navigation/TopStack';
+import PushNotifications from './src/hooks/PushNotifications';
 
 enableScreens();
 
@@ -34,7 +34,6 @@ const App = props => {
     }),
     [locale],
   );
-  const colorScheme = useColorScheme();
 
   const handleLocalizationChange = useCallback(
     newLocale => {
@@ -43,6 +42,8 @@ const App = props => {
     },
     [locale],
   );
+
+  PushNotifications();
 
   useEffect(() => {
     registerCustomIconType('meala', Icon);
@@ -67,7 +68,6 @@ const App = props => {
       );
   }, []);
 
-  const Stack = createNativeStackNavigator();
   if (onboarding === undefined) {
     return (
       <View>
@@ -97,10 +97,7 @@ const App = props => {
           // Save the current route name for later comparison
           routeNameRef.current = currentRouteName;
         }}>
-        <ThemeProvider
-          theme={theme}
-          //useDark={colorScheme === 'dark'}
-        >
+        <ThemeProvider theme={theme}>
           <ProfileProvider>
             <UserSettingsProvider>
               <ScreenReaderProvider>

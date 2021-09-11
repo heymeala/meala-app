@@ -5,20 +5,21 @@ import NewsScreen from '../Screens/News/NewsScreen';
 import AppBottomNavigationStack from './AppBottomNavigator';
 import OnboardingScreen from '../Screens/OnboardingScreen';
 
-function TopStack(props) {
+const TopStack = props => {
   const { t } = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
+  const { onboarding } = props;
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      {props.onboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
+      {onboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
 
       <Stack.Screen name="Home" component={AppBottomNavigationStack} />
       <Stack.Screen name="NewsScreen" component={NewsScreen} />
     </Stack.Navigator>
   );
-}
+};
 
 export default TopStack;
