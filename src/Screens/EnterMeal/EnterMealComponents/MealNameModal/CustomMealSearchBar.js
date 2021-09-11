@@ -62,12 +62,9 @@ const CustomMealSearchBar = props => {
           .then(data => {
             //setServingListVisible(false);
             // setNutritionData(false);
-            console.log(data);
             if (data && data.foods && data.foods.food) {
               setFatSecretList(data.foods.food);
-              console.log(data.foods.food);
               setLoading(false);
-
               return data.foods.food;
             } else {
               setLoading(false);
@@ -128,7 +125,6 @@ const CustomMealSearchBar = props => {
         communityMeals
           .filter(item => item.meal.includes(text))
           .map(item => {
-            console.log(item);
             return {
               id: item.meal_id,
               name: item.meal,
@@ -177,7 +173,6 @@ const CustomMealSearchBar = props => {
             type: 'glyx',
           };
         });
-      console.log(glyxList);
       let createMealName = [
         {
           id: text,
@@ -185,12 +180,27 @@ const CustomMealSearchBar = props => {
           type: 'local',
         },
       ];
-      console.log(createFatSecretMealsList);
+
+      const ownMealsDivider = [
+        {
+          id: 'ownMealDivider',
+          name: 'Eigene Mahlzeiten',
+          type: 'divider',
+        },
+      ];
+      const CommunityMealDivider = [
+        {
+          id: 'communityMealDivider',
+          name: 'Meal entries from the Community',
+          type: 'divider',
+        },
+      ];
+
       const mergeLists = (newName, glyxList, localList, fatSecretDataList, communityMealsList) => {
         return [
           ...(textLength ? newName || [] : []),
           ...(communityMealsList || []),
-          ...(localList || []),
+          ...(communityMealsList === null || communityMealsList.length === 0 ? localList || [] : []),
           ...(glyxList || []),
           ...(fatSecretDataList || []),
         ];

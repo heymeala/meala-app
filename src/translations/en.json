@@ -113,6 +113,16 @@
       "subtitle": "Compare similar  ingredients and meals",
       "searchPlaceholder": "z.B. brown rice, Big Mac, orange juice",
       "noResults": "No results - Check your internet connection, search for an alternative and in englisch"
+    },
+    "healthKit": {
+      "insulin": "Insulin",
+      "unitsOf": " units",
+      "after": " in {{minutes}} minutes ",
+      "before": " {{minutes}} minutes ago ",
+      "minAfter": " minutes after meal",
+      "minBefore": " minutes before meal",
+      "insulinUnits": "insulin units",
+      "hint": "Only add data to HealthKit if you don't use any other apps that save data to HealthKit"
     }
   },
   "Entries": {
@@ -150,6 +160,13 @@
         "title": "A very special day",
         "description": "You are looking for an exact day? Then you are right here. Tip: If you use FatSecret connect your account and your entries from the other app will be displayed here."
       }
+    },
+    "searchRecipes": {
+      "noRecipes": "Sorry, no meals found from the community.",
+      "noEntry": "You do not have an entry with the name ",
+      "but": " , but you can search for similar meals from the community",
+      "showRecipe": "Show recipe"
+
     },
     "community": "An app for the community",
     "noSearchResult": "You have no meal with the name ",
@@ -203,6 +220,11 @@
       "errorMessage": "Something is wrong. Did you upload a Libre daily chart? Try again",
       "loading": "Complex image analysis \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB"
     }
+  },
+  "News": {
+    "title": "News",
+    "seeAll": "see all",
+    "addEvent": "Are you planning a community event or have interesting news? Feel free to email us at mail@heymeala.com"
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -287,6 +309,7 @@
     "meal_quiz": "Meal-Quiz",
     "meal_quiz_desc": "Guess carbs, fat, protein, oder fpu from meals",
     "community": {
+      "communityQuiz": "Community Quiz",
       "title": "Choose a Quiz Category",
       "next": "next",
       "well_done": "Well done, lets move on.",
@@ -296,6 +319,7 @@
       "back": "back to overview",
       "share": "Share your score",
       "outOf": "out of",
+      "totalScore": "Total score",
       "shareMessage": "Hey, I discovered the meala quiz and already got {{score}} points. Challenge your knowledge - You can find the app at https://heymeala.com/en",
       "answered": "You have answered all available questions on this topic. However, we are constantly expanding the quiz so there will be more questions soon. If you'd like to add some questions of your own to the community quiz, feel free to Insta or email us."
     }
@@ -350,8 +374,11 @@
       "glucose": "Blood Glucose",
       "carbohydrates": "Carbohydrates",
       "heartRate": "Heart Rate",
+      "insulin": "Insulin",
       "steps": "Steps per day",
+      "sleepAnalysis": "Sleep",
       "totalStepsToday": "Total steps {{steps}}",
+      "sleep": "You slept {{sleep}} hours",
       "totalGlucoseValues": "We found {{length}} glucose values within the last hours",
       "healthKitActivated": "HealthKit is active",
       "activateHealthKit": "Activate HealthKit",
@@ -401,6 +428,8 @@
     "Date": "Date",
     "Meal": "Meal",
     "Save": "Save",
+    "add": "Add",
+    "search": "Search",
     "Accept": "Accept",
     "enableGps": "Please enable GPS to search Restaurants nearby",
     "Cancel": "Cancel",
@@ -413,6 +442,9 @@
     "cancel": "Cancel",
     "reset": "Reset",
     "close": "Close",
+    "more": "more",
+    "read": "read",
+    "okay": "Okay",
     "yesSave": "Yes, save",
     "back": "back",
     "activate": "Activate",
@@ -437,6 +469,7 @@
       "lable": "Press to remove the lable",
       "add_lable": "Opens a dialog that lets you enter custom lables",
       "ownPlace": "Own place",
+      "ownEntry": "Found entry",
       "googlePlace": "Google Place",
       "rating": "start rating",
       "search": "search"

@@ -1,13 +1,12 @@
 export function calculateCarbs(treatmentdata) {
-  let CarbArray = [0];
+  let carbArray = [0];
   const add = (a, b) => a + b;
-
+console.log(treatmentdata)
   treatmentdata.map(treatments => {
     if (treatments.carbs) {
-      CarbArray.push(parseFloat(treatments.carbs.toFixed(2)));
+      carbArray.push(parseFloat(treatments.carbs.toFixed(2)));
     }
   });
-
-  const CarbSumme = CarbArray.reduce(add);
-  return CarbSumme;
+  console.log(carbArray.reduce(add))
+  return carbArray.reduce(add);
 }

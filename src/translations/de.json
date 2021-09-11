@@ -56,7 +56,7 @@
       "searchPlaceHolder": "Wo isst du?",
       "search": "Suchen",
       "noSearchText": "Trage den Ort ein an dem Du isst, wenn du kein Ort einträgst bleibt er bei \"Zuhause\"",
-      "noSearchText2": "Suche außerdem nach dem Namen deines Lieblingsrestaurants oder dem Straßenname in dem sich das Restaurant befindet. Wenn du nicht in einem Restaurant bist, gebe dem Ort einen eigenen Namen. z.B.:",
+      "noSearchText2": "Suche außerdem nach dem Namen deines Lieblingsrestaurants. Wenn du nicht in einem Restaurant bist, gebe dem Ort einen eigenen Namen. z.B.:",
       "office": "Büro",
       "uni": "Uni",
       "school": "Schule",
@@ -112,6 +112,16 @@
       "subtitle": "Durchsuche die Datenbank nach ähnlichen Lebensmitteln",
       "searchPlaceholder": "z.B. brauner Reis, Big Mac, Orange",
       "noResults": "Wir haben leider keine Einträge mit dieser Bezeichnung gefunden. Überprüfe Deine Internetverbindung oder versuche es mit einer anderen Beschreibung"
+    },
+    "healthKit": {
+      "insulin": "Insulin",
+      "unitsOf": " Einheiten",
+      "after": " in {{minutes}} Minuten ",
+      "before": " vor  {{minutes}} Minuten",
+      "minAfter": " Minuten nach der Mahlzeit",
+      "minBefore": " Minuten vor der Mahlzeit",
+      "insulinUnits": "Insulin Einheiten",
+      "hint": "Füge nur Daten zum HealthKit hinzu, wenn du keine anderen Apps nutzt die Daten ins HealthKit speichern"
     }
   },
   "Entries": {
@@ -149,6 +159,12 @@
         "title": "Ein ganz besonderer Tag",
         "description": "Du suchst nach einem genauen Tag? Dann bist Du hier richtig. Tipp: Wenn Du FatSecret benutzt, verbinde Deinen Account und Deine Einträge aus der anderen App werden hier angezeigt."
       }
+    },
+    "searchRecipes": {
+      "noRecipes": "Leider keine Mahlzeiten aus der Community gefunden.",
+      "noEntry": "  Du hast noch keinen Eintrag mit dem Namen ",
+      "but": ", aber Du kannst nach ähnliches Mahlzeiten aus der Community suchen",
+      "showRecipe": "Rezept anzeigen"
     },
     "community": "Eine App für die Community",
     "noSearchResult": "Du hast keine Mahlzeit mit dem Namen ",
@@ -202,6 +218,12 @@
       "errorMessage": "Da ist etwas nicht richtig. Hast du ein Libre-Tagesdiagramm hochgeladen? Versuche es noch einmal",
       "loading": "Komplexe Datenanalyse \uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDCBB bitte warte kurz"
     }
+  },
+  "News": {
+    "title": "Aktuelles & Events",
+    "seeAll": "Alle News",
+
+    "addEvent": "Planst du ein Community Event oder hast interessante Neuigkeiten? Schreib uns gerne eine E-Mail an mail@heymeala.com"
   },
   "GI": {
     "BottomBarTitle": "GI",
@@ -285,6 +307,7 @@
     "meal_quiz": " Mahlzeiten-Quiz",
     "meal_quiz_desc": "Schätze Kohlenhydrate, Fett, Protein oder FPE von Mahlzeiten",
     "community": {
+      "communityQuiz": "Community Quiz",
       "title": "Wähle eine Quiz-Kategorie",
       "next": "weiter",
       "well_done": "Sehr gut weiter so.",
@@ -294,6 +317,7 @@
       "back": "zur Übersicht",
       "share": "Teile deine Punktzahl",
       "outOf": "von",
+      "totalScore": "Gesamtpunktzahl",
       "shareMessage": "Hey, ich habe das meala Quiz entdeckt und bereits  {{score}} Punkte. Wie viel schaffst du? Die App findest du hier: https://heymeala.com/de",
       "answered": "Du hast alle verfügbaren Fragen zu diesem Thema beantwortet. Wir erweitern das Quiz jedoch ständig, sodass es bald weitere Fragen gibt. Wenn Du selber ein paar Fragen zum Community Quiz hinzufügen möchtest, schreibe uns gerne per Insta oder E-Mail."
     }
@@ -348,8 +372,11 @@
       "glucose": "Blutzucker",
       "carbohydrates": "Kohlenhydrate",
       "heartRate": "Herzfrequenz",
+      "insulin": "Insulin",
+      "sleepAnalysis": "Schlaf",
       "steps": "Schritte pro Tag",
       "totalStepsToday": "Du bist {{steps}} Schritte gelaufen",
+      "sleep": "{{sleep}} Stunden geschlafen",
       "totalGlucoseValues": "Es wurden mindestens {{length}} Blutzuckerwerte in den letzten Stunden gefunden. ",
       "healthKitActivated": "Health Kit ist aktiviert",
       "activateHealthKit": "Health Kit aktivieren",
@@ -398,7 +425,9 @@
   "General": {
     "Date": "Datum",
     "Meal": "Mahlzeit",
+    "search": "Suchen",
     "Save": "Speichern",
+    "add": "Hinzufügen",
     "Accept": "Akzeptieren",
     "enableGps": "Bitte aktiviere GPS, um Restaurants in der Nähe zu suchen.",
     "Cancel": "Abbrechen",
@@ -412,6 +441,9 @@
     "yesSave": "Ja, speichen",
     "reset": "Zurücksetzen",
     "close": "Schließen",
+    "more": "mehr",
+    "read": "lesen",
+    "okay": "Okay",
     "back": "zurück",
     "activate": "Aktivieren",
     "deactivate": "Deaktivieren"
@@ -435,7 +467,9 @@
       "lable": "Drücken um dieses Markierung zu entfernen",
       "add_lable": "Es öffnet sich ein Dialog, in dem eine Markierung hinzugefügt werden kann",
       "ownPlace": "Eigner Ort",
+      "ownEntry": "Gefundener Eintrag",
       "googlePlace": "Ort von Google Maps",
+      "fatSecret": "FatSecret Daten",
       "rating": "Sterne Bewertung",
       "search": "Suchen"
     },

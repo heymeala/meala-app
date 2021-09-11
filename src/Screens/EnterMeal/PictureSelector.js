@@ -6,7 +6,9 @@ import { makeStyles } from 'react-native-elements';
 import { imageDetectionClarifai } from './imageDetectionClarifai';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../Common/PermissionAlert';
-import { COPY_MODE, DEFAULT_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
+import { DEFAULT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
+import RNFS from 'react-native-fs';
+import { IMAGEFOLDER } from '../../Common/Constants/folder';
 
 const PictureSelector = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -20,13 +22,24 @@ const PictureSelector = props => {
     setTags,
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
+    userMealId,
   } = props;
+
   function handleImageLoadStates(response) {
-    setFoodPicture(
-      (prevState => Platform.OS === 'android') ? response.uri : 'data:image/jpeg;base64,' + response.base64,
-    );
-    setClarifaiImagebase(prevState => response.base64);
-    response.timestamp && setDate(prevState => new Date(response.timestamp));
+    const isAndroid = Platform.OS === 'android';
+    const mkDirOption = isAndroid ? null : { NSURLIsExcludedFromBackupKey: false };
+
+    const documentPath = RNFS.DocumentDirectoryPath + IMAGEFOLDER;
+    RNFS.mkdir(documentPath, mkDirOption).then(response => console.log(response));
+
+    const file_path = documentPath + '/' + userMealId + '_food.png';
+
+    RNFS.writeFile(file_path, response.base64, 'base64').catch(error => {
+      console.log(error);
+    });
+    setFoodPicture(file_path);
+    setClarifaiImagebase(response.base64);
+    response.timestamp && setDate(new Date(response.timestamp));
     imageDetectionClarifai(response.base64, setPredictions, locale, setTags);
   }
 
@@ -35,6 +48,9 @@ const PictureSelector = props => {
       {
         mediaType: 'photo',
         includeBase64: true,
+        maxHeight: 800,
+        maxWidth: 800,
+        quality: 0.7,
       },
       response => {
         if (response.didCancel) {
@@ -85,7 +101,7 @@ const PictureSelector = props => {
         includeBase64: true,
         maxHeight: 800,
         maxWidth: 800,
-        quality: 0.6,
+        quality: 0.7,
         //  saveToPhotos:true,
       },
       response => {
@@ -138,8 +154,8 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: 20,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
 }));

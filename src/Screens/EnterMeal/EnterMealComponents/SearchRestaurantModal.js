@@ -20,13 +20,14 @@ const SearchRestaurantModal = props => {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef();
   const [autoFocus, setAutoFocus] = useState(false);
+  const [googleRestaurantList, setGoogleRestaurantList] = useState();
   //useAutoFocus(autoFocus, inputRef);
 
   const searchForRestaurants = async (text, googleSearch) => {
     setSearchText(text);
     const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
     const googleRestaurants =
-      googleSearch && (await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading));
+      text && text.length > 3 ? await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading) : null;
 
     const createLocalRestaurantList =
       localDatabaseRestaurants &&
@@ -41,19 +42,20 @@ const SearchRestaurantModal = props => {
           rating: null,
         };
       });
-    const createGoogleRestaurantList =
+    setGoogleRestaurantList(
       googleRestaurants &&
-      googleRestaurants.map(item => {
-        return {
-          id: item.place_id,
-          name: item.name,
-          type: 'GOOGLE',
-          lat: item.geometry.location.lat,
-          lng: item.geometry.location.lng,
-          address: item.formatted_address,
-          rating: item.rating,
-        };
-      });
+        googleRestaurants.map(item => {
+          return {
+            id: item.place_id,
+            name: item.name,
+            type: 'GOOGLE',
+            lat: item.lat,
+            lng: item.long,
+            address: item.formatted_address,
+            rating: item.rating,
+          };
+        }),
+    );
 
     let createRestaurant = [
       {
@@ -67,13 +69,22 @@ const SearchRestaurantModal = props => {
       },
     ];
 
-    const mergeLists = (newName, localList, googleList) => {
-      return [...((text && text.length > 0 && newName) || []), ...(localList || []), ...(googleList || [])];
+    const googleDividerItem = [{ id: 'googleDivider', name: 'Google Places', type: 'divider' }];
+    const localDividerItem = [{ id: 'localDivider', name: 'Eigene Orte', type: 'divider' }];
+
+    const mergeLists = (newName, localList, googleList, googleDivider, localDividerItem) => {
+      return [
+        ...((text && text.length > 0 && newName) || []),
+        ...(localList || []),
+        ...(googleList || []),
+      ];
     };
     const restaurantsList = mergeLists(
       createRestaurant,
       createLocalRestaurantList,
-      createGoogleRestaurantList,
+      googleRestaurantList,
+      googleDividerItem,
+      localDividerItem,
     );
     console.log('list', restaurantsList);
     setRestaurants(restaurantsList);
@@ -82,23 +93,28 @@ const SearchRestaurantModal = props => {
   const FlatListItem = ({ item, index }) => (
     <TouchableOpacity
       accessibilityRole={'button'}
+      disabled={item.type === 'divider'}
       onPress={() => {
         props.handleRestaurantPress(item.name, item.id, item.type);
         setOpen(false);
       }}>
-      <ListItem bottomDivider>
+      <ListItem
+        containerStyle={item.type === 'divider' ? { backgroundColor: '#e2e2e2' } : null}
+        bottomDivider>
         <View>
-          <Icon
-            accessibilityLabel={
-              item.type === 'local'
-                ? t('Accessibility.EnterMeal.search')
-                : t('Accessibility.EnterMeal.googlePlace')
-            }
-            size={14}
-            name={item.type === 'local' ? 'eat' : 'logo-google'}
-            type={item.type === 'local' ? 'meala' : 'ionicon'}
-          />
-          {item.rating ? (
+          {item.type !== 'divider' ? (
+            <Icon
+              accessibilityLabel={
+                item.type === 'local'
+                  ? t('Accessibility.EnterMeal.ownEntry')
+                  : t('Accessibility.EnterMeal.googlePlace')
+              }
+              size={14}
+              name={item.type === 'local' ? 'eat' : 'logo-google'}
+              type={item.type === 'local' ? 'meala' : 'ionicon'}
+            />
+          ) : null}
+          {item.rating && item.type !== 'divider' ? (
             <Text
               accessibilityLabel={item.rating + t('Accessibility.EnterMeal.rating')}
               style={{ fontSize: 10 }}>
@@ -241,6 +257,7 @@ const useStyles = makeStyles(theme => ({
     //flex: 1,
     // height:300,
     justifyContent: 'center',
+
   },
   modalView: {
     margin: theme.spacing.S,

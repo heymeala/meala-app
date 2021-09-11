@@ -16,7 +16,8 @@ import TidePool from '../Screens/Settings/TidePool';
 import MealQuiz from '../Screens/Quiz/MealQuiz';
 import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
-import Licenses from "../Screens/Settings/License/Licenses";
+import Licenses from '../Screens/Settings/License/Licenses';
+import GoogleFitSettings from '../Screens/Settings/GoogleFitSettings';
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -33,9 +34,9 @@ function SettingsStack() {
           headerStyle:
             Platform.OS !== 'android' && Platform.Version >= 13
               ? {
-                backgroundColor: 'transparent',
-                blurEffect: 'light',
-              }
+                  backgroundColor: 'transparent',
+                  blurEffect: 'light',
+                }
               : { backgroundColor: 'white' },
 
           title: t('Settings.SettingsTitle'),
@@ -75,6 +76,16 @@ function SettingsStack() {
         component={FatSecretSettings}
         options={{
           title: 'FatSecret',
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="GoogleFit"
+        component={GoogleFitSettings}
+        options={{
+          title: 'Google Fit',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },

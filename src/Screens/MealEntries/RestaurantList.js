@@ -86,6 +86,7 @@ const RestaurantList = props => {
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
+
       ListEmptyComponent={<EmptyListPlaces value={search} navigation={navigation} />}
     />
   );

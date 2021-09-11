@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
-import { Icon, Image, ListItem, makeStyles, Text } from 'react-native-elements';
+import { Icon, Image, ListItem, makeStyles } from 'react-native-elements';
 import moment from 'moment';
 import 'moment/locale/de';
 import LocalizationContext from '../../../../LanguageContext';
@@ -14,10 +14,11 @@ import FatSecretNutritionInfo from './FatSecretNutritionInfo';
 import EditSpeedDialGroup from './EditSpeedDailGroup';
 import { carbSum, getDuration, getInsulinInfo, getSEA } from './InsulinCarbSum';
 import { useUserSettings } from '../../../hooks/useUserSettings';
-import { DEFAULT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
+import { DEFAULT, HEALTHKIT, NIGHTSCOUT } from '../../Settings/glucoseSourceConstants';
 import { useNavigation } from '@react-navigation/core';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
+import { getImagePath } from '../../../utils/getImagePath';
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -74,24 +75,38 @@ const MealDetailsComponent = props => {
           coordinates={props.coordinates}
         />
         <View>
-          {userSettings.glucoseSource === NIGHTSCOUT && insulinSumme && (
+          {(userSettings.glucoseSource === NIGHTSCOUT || userSettings.glucoseSource === HEALTHKIT) &&
+          insulinSumme && (
             <ListItem containerStyle={styles.list}>
               <Icon name={'timelapse'} />
               <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
             </ListItem>
           )}
-          {props.stepsPerDay !== null && (
-            <Text style={styles.space}>
-              {t('Settings.healthKit.totalStepsToday', {
-                steps: props.stepsPerDay,
-              })}
-            </Text>
+          {props.stepsPerDay && (
+            <ListItem containerStyle={styles.list}>
+              <Icon name={'directions-run'} />
+              <ListItem.Title style={styles.text}>
+                {t('Settings.healthKit.totalStepsToday', {
+                  steps: props.stepsPerDay,
+                })}
+              </ListItem.Title>
+            </ListItem>
+          )}
+          {props.sleepAnalysis && (
+            <ListItem containerStyle={styles.list}>
+              <Icon name={'bedtime'} />
+              <ListItem.Title style={styles.text}>
+                {t('Settings.healthKit.sleep', {
+                  sleep: props.sleepAnalysis,
+                })}
+              </ListItem.Title>
+            </ListItem>
           )}
 
           {props.selectedFood.picture ? (
             <View style={styles.imageContainer}>
               <Image
-                source={props.selectedFood.picture ? { uri: props.selectedFood.picture } : null}
+                source={props.selectedFood.picture ? { uri: getImagePath(props.selectedFood.picture) } : null}
                 style={styles.image}
               />
             </View>
@@ -129,7 +144,8 @@ const useStyles = makeStyles((theme, dimension) => ({
   },
   space: { paddingBottom: theme.spacing.S, paddingLeft: theme.spacing.L },
   list: {
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.grey5,
+    marginBottom: theme.spacing.S,
   },
   text: { fontFamily: 'SecularOne-Regular', fontSize: 13, maxWidth: '90%' },
 }));

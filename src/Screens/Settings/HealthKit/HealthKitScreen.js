@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import AppleHealthKit from 'react-native-health';
 import PermissionListItem from './PermissionListItem';
 import { Button, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,9 +10,10 @@ import { spacing } from '../../../theme/styles';
 import { useUserSettings } from '../../../hooks/useUserSettings';
 import { HEALTHKIT } from '../glucoseSourceConstants';
 import moment from 'moment';
-import { permissions } from '../../MealEntries/DetailSite/HealthKitPermissions';
-import { hkSteps } from './steps';
 import analytics from '@react-native-firebase/analytics';
+import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
+import dayjs from 'dayjs';
+import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
 
 export default function HealthKitScreen() {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -22,7 +22,9 @@ export default function HealthKitScreen() {
   const [glucoseSamples, setGlucoseSamples] = useState([]);
   const [carbSamples, setCarbSamples] = useState([]);
   const [heartRateSamples, setHeartRateSamples] = useState([]);
-  const [stepSamples, setStepSamples] = useState();
+  const [stepSamples, setStepSamples] = useState([]);
+  const [insulinSamples, setInsulinSamples] = useState([]);
+  const [sleepAnalysis, setSleepAnalysis] = useState([]);
 
   const saveState = () => {
     analytics().logEvent('glucose_source', {
@@ -30,73 +32,72 @@ export default function HealthKitScreen() {
     });
     saveUserSettings({ ...userSettings, glucoseSource: HEALTHKIT });
   };
+
   const getPermission = () => {
+    getAuthAccess();
     const fromDate = moment().subtract(20, 'days').toISOString();
     const tillDate = moment().toISOString();
-    AppleHealthKit.initHealthKit(permissions, (error: string) => {
-      /* Called after we receive a response from the system */
-      console.log('Get Permission');
+    const options = {
+      ascending: true,
+      from: dayjs().startOf('day').toDate(),
+      to: new Date(),
+    };
 
-      if (error) {
-        console.log('[ERROR] Cannot grant permissions!');
-      }
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.bloodGlucose, options).then(setGlucoseSamples);
 
-      let options = {
-        startDate: fromDate, // required
-        endDate: tillDate, // optional; default now
-      };
-      AppleHealthKit.getBloodGlucoseSamples(options, (callbackError, results) => {
-        /* Samples are now collected from HealthKit */
-        setGlucoseSamples(results);
-
-        if (callbackError) {
-          console.log(callbackError);
-          return;
-        }
+    const majorVersionIOS = parseInt(Platform.Version, 10);
+    if (majorVersionIOS >= 13) {
+      Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options).then(result => {
+        setInsulinSamples(result);
+        console.log(result);
       });
-      AppleHealthKit.getCarbohydratesSamples(options, (callbackError, results) => {
-        /* Samples are now collected from HealthKit */
-        setCarbSamples(results);
+    }
 
-        if (callbackError) {
-          console.log(callbackError);
-          return;
-        }
-      });
-      AppleHealthKit.getHeartRateSamples(options, (callbackError, results) => {
-        /* Samples are now collected from HealthKit */
-        setHeartRateSamples(results);
-
-        if (callbackError) {
-          console.log(callbackError);
-          return;
-        }
-      });
-
-      hkSteps(setStepSamples);
-
-      getAuthAccess();
-      saveState();
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.dietaryCarbohydrates, options).then(result => {
+      setCarbSamples(result);
+      console.log(result);
     });
+    Healthkit.queryCategorySamples(HKCategoryTypeIdentifier.sleepAnalysis, {
+      ascending: true,
+      from: dayjs().subtract(1, 'day').toDate(),
+      to: new Date(),
+    }).then(result => {
+      const hours = result
+        .filter(data => data.value === 1)
+        .map(data => {
+          return moment(data.endDate).diff(moment(data.startDate), 'hours');
+        });
+      //const sum = hours.reduce(add);
+      setSleepAnalysis(result);
+    });
+
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.heartRate, options).then(setHeartRateSamples);
+
+    // if (majorVersionIOS >= 13) {
+    // todo: test on ios 10
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result =>
+      setStepSamples(result),
+    );
+    // }
+    saveState();
   };
 
   const getAuthAccess = () => {
-    AppleHealthKit.getAuthStatus(permissions, (err, result) => {
-      if (err) {
-        console.error(err);
-      }
-      setAuthStatus(false);
-    });
+    Healthkit.requestAuthorization(
+      [
+        HKQuantityTypeIdentifier.heartRate,
+        HKQuantityTypeIdentifier.bloodGlucose,
+        HKQuantityTypeIdentifier.insulinDelivery,
+        HKQuantityTypeIdentifier.dietaryCarbohydrates,
+        HKQuantityTypeIdentifier.stepCount,
+        HKCategoryTypeIdentifier.sleepAnalysis,
+      ],
+      [HKQuantityTypeIdentifier.dietaryCarbohydrates, HKQuantityTypeIdentifier.insulinDelivery],
+    ).then(r => setAuthStatus(!r));
   };
   useEffect(() => {
     if (userSettings.glucoseSource === HEALTHKIT) {
-      AppleHealthKit.initHealthKit(permissions, (error: string) => {
-        if (error) {
-          console.log('[ERROR] Cannot grant permissions!');
-        }
-        //    getAuthAccess();
-        getPermission();
-      });
+      getPermission();
     }
   }, []);
 
@@ -140,7 +141,15 @@ export default function HealthKitScreen() {
                 />
                 <PermissionListItem
                   title={t('Settings.healthKit.steps')}
-                  permission={stepSamples && stepSamples.value > 0}
+                  permission={stepSamples && stepSamples.length > 0}
+                />
+                <PermissionListItem
+                  title={t('Settings.healthKit.insulin')}
+                  permission={insulinSamples && insulinSamples.length > 0}
+                />
+                <PermissionListItem
+                  title={t('Settings.healthKit.sleepAnalysis')}
+                  permission={sleepAnalysis && sleepAnalysis.length > 0}
                 />
               </View>
             </View>

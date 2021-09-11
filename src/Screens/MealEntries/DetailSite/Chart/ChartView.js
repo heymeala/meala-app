@@ -22,7 +22,6 @@ function GeneralChartView(props) {
   const window = Dimensions.get('window');
   const { theme } = useTheme();
   const { userSettings } = useUserSettings();
-
   const CustomLabel = props => (
     <G x={props.x} y={props.y}>
       <View
@@ -115,7 +114,7 @@ function GeneralChartView(props) {
             <VictoryAxis dependentAxis tickFormat={y => y} />
 
             <VictoryGroup>
-              {props.coordinates.length >= 3 && (
+              {props.coordinates && props.coordinates.length >= 3 && (
                 <VictoryScatter
                   style={{
                     data: {
@@ -143,7 +142,7 @@ function GeneralChartView(props) {
                   },
                 ]}
               />
-              {props.insulinCoordinates !== null && (
+              {props.insulinCoordinates && props.insulinCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={5}
                   style={{
@@ -156,7 +155,7 @@ function GeneralChartView(props) {
                   data={props.insulinCoordinates}
                 />
               )}
-              {props.carbCoordinates.length > 0 && (
+              {props.coordinates && props.carbCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={1}
                   style={{

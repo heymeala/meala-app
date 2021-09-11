@@ -20,7 +20,7 @@ const RecipesList = props => {
         <NutritionDetails data={item.recipe_nutrition} />
       </>
 
-      <Button title="Rezept anzeigen" onPress={() => recipeDetails(item.recipe_id)} />
+      <Button title={t('Entries.searchRecipes.showRecipe')} onPress={() => recipeDetails(item.recipe_id)} />
     </Card>
   );
 };

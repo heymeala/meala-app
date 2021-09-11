@@ -1,15 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { registerCustomIconType, ThemeProvider } from 'react-native-elements';
 import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
-import AppBottomNavigationStack from './src/Navigation/AppBottomNavigator';
 import analytics from '@react-native-firebase/analytics';
-import OnboardingScreen from './src/Screens/OnboardingScreen';
 import { database } from './src/Common/database_realm';
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import { enableScreens } from 'react-native-screens';
 import { navigationRef } from './src/Navigation/RootNavigation';
 import { ProfileProvider } from './src/hooks/useProfile';
@@ -19,6 +16,8 @@ import Icon from './src/CustomMealaFont';
 import { UserSettingsProvider } from './src/hooks/useUserSettings';
 import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
 import { KnowledgeProvider } from './src/hooks/useKnowledge';
+import TopStack from './src/Navigation/TopStack';
+import PushNotifications from './src/hooks/PushNotifications';
 
 enableScreens();
 
@@ -35,7 +34,6 @@ const App = props => {
     }),
     [locale],
   );
-  const colorScheme = useColorScheme();
 
   const handleLocalizationChange = useCallback(
     newLocale => {
@@ -44,6 +42,8 @@ const App = props => {
     },
     [locale],
   );
+
+
 
   useEffect(() => {
     registerCustomIconType('meala', Icon);
@@ -54,6 +54,8 @@ const App = props => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
     };
   }, []);
+  const t = localizationContext.t;
+  PushNotifications(t);
 
   const showOnboardingFirst = screenReaderEnabled ? 1 : 2;
   const showOnboardingLast = screenReaderEnabled ? 1 : 8;
@@ -68,7 +70,6 @@ const App = props => {
       );
   }, []);
 
-  const Stack = createNativeStackNavigator();
   if (onboarding === undefined) {
     return (
       <View>
@@ -81,7 +82,10 @@ const App = props => {
       <NavigationContainer
         // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
-        onReady={() => (routeNameRef.current = navigationRef.current.getCurrentRoute().name)}
+        onReady={() => {
+          console.log('nabigator route', navigationRef.current.getCurrentRoute());
+          routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+        }}
         onStateChange={() => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
@@ -95,26 +99,14 @@ const App = props => {
           // Save the current route name for later comparison
           routeNameRef.current = currentRouteName;
         }}>
-        <ThemeProvider
-          theme={theme}
-          //useDark={colorScheme === 'dark'}
-        >
+        <ThemeProvider theme={theme}>
           <ProfileProvider>
             <UserSettingsProvider>
               <ScreenReaderProvider>
                 <EnterMealTypeProvider>
                   <KnowledgeProvider>
                     <View style={{ flex: 1 }}>
-                      {/*
-                <StatusBar barStyle={'dark-content'} />
-                */}
-                      <Stack.Navigator
-                        screenOptions={{
-                          headerShown: false,
-                        }}>
-                        {onboarding && <Stack.Screen name="Onboarding" component={OnboardingScreen} />}
-                        <Stack.Screen name="Home" component={AppBottomNavigationStack} />
-                      </Stack.Navigator>
+                      <TopStack onboardin={onboarding} />
                     </View>
                   </KnowledgeProvider>
                 </EnterMealTypeProvider>

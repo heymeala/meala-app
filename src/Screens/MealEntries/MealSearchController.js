@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
 import { database } from '../../Common/database_realm';
-import { makeStyles } from 'react-native-elements';
+import { FAB, makeStyles } from "react-native-elements";
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import DateList from './DateList';
 import MealList from './MealList';
@@ -11,12 +11,12 @@ import FirstOpenDialog from '../FirstOpenDialog';
 import RestaurantList from './RestaurantList';
 import messaging from '@react-native-firebase/messaging';
 
+import News from './News/News';
+
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-
   const mealsByName = 0;
   const mealsByPlaces = 1;
   const mealsByDate = 2;
@@ -36,9 +36,7 @@ const MealSearchController = () => {
   };
 
   useEffect(() => {
-    /*
-    getFcmToken();
-*/
+      getFcmToken();
 
     let isMounted = true;
 
@@ -46,12 +44,13 @@ const MealSearchController = () => {
       database.deleteMeal();
       database.deleteRestaurant();
     }
+
     return () => {
       isMounted = false;
     };
   }, []);
 
-  const SegmentedController = function () {
+  const SegmentedController = function() {
     return (
       <View style={styles.container}>
         <SegmentedControlTab
@@ -78,7 +77,9 @@ const MealSearchController = () => {
     return (
       <>
         <FirstOpenDialog />
+
         <MealList controlBar={<SegmentedController />} />
+        <News />
       </>
     );
   } else if (selectedIndex === mealsByPlaces) {

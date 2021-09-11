@@ -8,75 +8,78 @@ import LocalizationContext from '../../../LanguageContext';
 import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
-import { NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
+import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
 import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { deleteImageFile } from '../../utils/deleteImageFile';
+import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitData';
+import { useProfile } from '../../hooks/useProfile';
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
-
   const [search, setSearch] = useState('');
-  const [restaurants, setRestaurants] = useState([]);
+  const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [blur, setBlur] = useState(false);
-  useFocusEffect(
-    React.useCallback(() => {
-      mealData(search);
-    }, []),
-  );
+  const { settings } = useProfile();
 
-  const updateSearch = text => {
-    setSearch(text);
-    mealData(text);
-  };
+  const searchOnFocus = React.useCallback(() => {
+    mealData(search);
+  }, [search]);
+
+  useFocusEffect(searchOnFocus);
 
   function deleteMeal(id) {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
+    deleteImageFile(id);
     mealData(search);
   }
 
   async function mealData(foodName) {
-    const meals = await database.fetchMealWithName(foodName);
-    const filteredMeals = meals.filter(data => data.isDeleted === false);
-    setRestaurants(filteredMeals);
+    const mealsByName = await database.fetchMealWithName(foodName);
+    const filteredMeals = mealsByName.filter(data => data.isDeleted === false);
+    setMeals(filteredMeals);
     setLoading(false);
     database.getGlucoseSource().then(data => {
       if (data === NIGHTSCOUT) {
         const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
         const slicedMeals = notLoadedEntries.slice(0, 2);
-        // console.log('notLoadedEntries', notLoadedEntries);
-        //  console.log('slicedMeals', slicedMeals);
-        if (slicedMeals && slicedMeals.length > 0) {
-          console.log('2', slicedMeals);
 
+        if (slicedMeals && slicedMeals.length > 0) {
           slicedMeals.map(data => {
             const nsSugarData = async () => {
-              console.log(data);
               await nightscoutCall(data.date, data.userMealId);
               await nightscoutTreatmens(data.date, data.userMealId);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
-              setRestaurants(updatedFilteredMeals);
+              setMeals(updatedFilteredMeals);
             };
             nsSugarData();
+          });
+        }
+      } else if (data === HEALTHKIT) {
+        const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
+        const slicedMeals = notLoadedEntries.slice(0, 2);
+        if (slicedMeals && slicedMeals.length > 0) {
+          slicedMeals.map(data => {
+            const healthkitData = async () => {
+              await saveAndGetHealthKitGlucose(data.date, settings, data.userMealId);
+              const updatedMeals = await database.fetchMealWithName(foodName);
+              const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
+              setMeals(updatedFilteredMeals);
+            };
+            healthkitData();
           });
         }
       }
     });
   }
 
-  const handleBlur = () => {
-    if (search.length > 3) {
-      setBlur(true);
-    }
-  };
-
   return loading ? (
     <LoadingSpinner />
   ) : (
     <MealsListSwipeDelete
-      mealDataSoftDelete={restaurants}
+      mealDataSoftDelete={meals}
       deleteMeal={deleteMeal}
       mealData={mealData}
       value={search}
@@ -86,9 +89,8 @@ const MealList = props => {
           <SearchBar
             platform={Platform.OS}
             placeholder={t('Entries.SearchMeals')}
-            onChangeText={updateSearch}
+            onChangeText={text => setSearch(text)}
             value={search}
-            onBlur={handleBlur}
           />
         </>
       }

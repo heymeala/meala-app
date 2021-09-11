@@ -130,8 +130,8 @@ const QuizCategories = props => {
         })}
       {totalScore.score > 0 && (
         <View style={styles.button}>
-          <Text h4>Community Quiz </Text>
-          <Text h4>Gesamtpunktzahl</Text>
+          <Text h4>{t('Quiz.community.communityQuiz')} </Text>
+          <Text h4>{t('Quiz.community.totalScore')}</Text>
           <Text h1 h1Style={styles.score}>
             {totalScore.score} {t('Quiz.community.outOf')} {totalScore.tries}
           </Text>

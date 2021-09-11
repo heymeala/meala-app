@@ -5,6 +5,9 @@ import { useNavigation } from '@react-navigation/core';
 import { database } from '../../../Common/database_realm';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';
 import analytics from '@react-native-firebase/analytics';
+import { deleteImageFile } from '../../../utils/deleteImageFile';
+import { Platform } from 'react-native';
+import PushNotification from 'react-native-push-notification';
 
 const EditSpeedDialGroup = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -15,7 +18,9 @@ const EditSpeedDialGroup = props => {
   const { changeType } = useEnterMealType();
 
   function softDeleteMeal(id) {
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
     database.deleteMealSoft(id);
+    deleteImageFile(id);
     navigation.goBack();
   }
 

@@ -70,18 +70,18 @@ recipe_description: "A great pasta substitute."
           </>
         ) : noRecipeResults ? (
           <View style={styles.container}>
-            <Text h3>Leider keine Mahlzeiten aus der Community gefunden.</Text>
+            <Text h3>{t('Entries.searchRecipes.noRecipes')}</Text>
           </View>
         ) : (
           <View style={styles.container}>
             <Text h3 style={styles.text}>
-              Du hast noch keinen Eintrag mit dem Namen{' '}
+              {t('Entries.searchRecipes.noEntry')}
               <Text h3 style={styles.bold}>
                 {props.search}
               </Text>
-              , aber Du kannst nach ähnliches Mahlzeiten aus der Community suchen
+              {t('Entries.searchRecipes.but')}
             </Text>
-            <Button title={'Suchen'} onPress={() => searchForRecipes()} />
+            <Button title={t('General.search')} onPress={() => searchForRecipes()} />
           </View>
         )}
       </View>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { Alert, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import { authorize } from 'react-native-app-auth';
 import { DEXCOM_ID, DEXCOM_SECRET } from '@env';
 import SaveButton from '../../Common/SaveButton';
@@ -8,8 +8,9 @@ import LocalizationContext from '../../../LanguageContext';
 import BlueButton from '../../Common/BlueButton';
 import moment from 'moment';
 import * as Keychain from 'react-native-keychain';
-const axios = require('axios').default;
 import qs from 'qs';
+
+const axios = require('axios').default;
 
 const Dexcom = () => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -89,41 +90,51 @@ const Dexcom = () => {
 
   function axiosAuthorizer() {
     try {
-      authorize(config).then(authState => {
-        const data = {
-          client_id: config.clientId,
-          client_secret: config.clientSecret,
-          code: authState.authorizationCode,
-          grant_type: 'authorization_code',
-          redirect_uri: config.redirectUrl,
-        };
-        const options = {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-            'cache-control': 'no-cache',
-          },
-          data: qs.stringify(data),
-          url: `https://${apiUrl}.dexcom.com/v2/oauth2/token`,
-          withCredentials: true,
-        };
+      authorize(config)
+        .then(authState => {
+          const data = {
+            client_id: config.clientId,
+            client_secret: config.clientSecret,
+            code: authState.authorizationCode,
+            grant_type: 'authorization_code',
+            redirect_uri: config.redirectUrl,
+          };
+          const options = {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded',
+              'cache-control': 'no-cache',
+            },
+            data: qs.stringify(data),
+            url: `https://${apiUrl}.dexcom.com/v2/oauth2/token`,
+            withCredentials: true,
+          };
 
-        if (authState.authorizationCode) {
-          axios(options)
-            .then(function (response) {
-              setAccessToken(response.data.access_token);
-              setRefreshToken(response.data.refresh_token);
-              setHasLoggedInOnce(true);
-              saveAccessToken(response.data.access_token, response.data.refresh_token);
-            })
-            .catch(function (error) {
-              console.log('Auth Error', error);
-            });
-        } else {
-          console.log('no code');
-        }
-      });
+          if (authState.authorizationCode) {
+            axios(options)
+              .then(function (response) {
+                setAccessToken(response.data.access_token);
+                setRefreshToken(response.data.refresh_token);
+                setHasLoggedInOnce(true);
+                saveAccessToken(response.data.access_token, response.data.refresh_token);
+              })
+              .catch(function (error) {
+                console.log('Auth Error', error);
+                Alert.alert('Error', error);
+              });
+          } else {
+            Alert.alert('Error');
+
+            console.log('no code');
+          }
+        })
+        .catch(error => {
+          console.log('message', error.message);
+          Alert.alert('Error', error.message);
+        });
     } catch (e) {
+      Alert.alert('Error', JSON.stringify(e));
+
       console.log(e);
     }
   }
@@ -155,6 +166,8 @@ const Dexcom = () => {
                 try {
                   saveAccessToken(response.data.access_token, response.data.refresh_token);
                 } catch (e) {
+                  Alert.alert('Save KEy', JSON.stringify(e));
+
                   console.log('Keychain Error');
                 }
                 // 2) Change Authorization header
@@ -165,14 +178,19 @@ const Dexcom = () => {
                     setDataRange(response.data);
                   })
                   .catch(function (error) {
+                    Alert.alert('Error Data Request', JSON.stringify(error));
+
                     console.log('Data Range 2', error);
                   });
               } else {
+                Alert.alert('Status 200');
+
                 console.log('No status 200');
               }
             })
-            .catch(function (error) {
-              console.log('reFresh Error', error);
+            .catch(function (error2) {
+              console.log('reFresh Error', error2);
+              Alert.alert('Error On ReFresh', JSON.stringify(error2));
             });
         }
       });
@@ -208,24 +226,31 @@ const Dexcom = () => {
                 try {
                   saveAccessToken(response.data.access_token, response.data.refresh_token);
                 } catch (e) {
+                  Alert.alert('Keychain Err', JSON.stringify(e));
+
                   console.log('Keychain Error');
                 }
                 // 2) Change Authorization header
                 originalRequest.headers['Authorization'] = 'Bearer ' + response.data.access_token;
                 // 3) return originalRequest object with Axios.
                 axios(originalRequest)
-                  .then(function (response) {
-                    setCGM(response.data);
+                  .then(function (response2) {
+                    setCGM(response2.data);
                   })
-                  .catch(function (error) {
-                    console.log('Data Range 2', error);
+                  .catch(function (error2) {
+                    Alert.alert('Data Range 2', JSON.stringify(error2));
+
+                    console.log('Data Range 2', error2);
                   });
               } else {
                 console.log('No status 200');
+                Alert.alert('Status 200');
               }
             })
-            .catch(function (error) {
-              console.log('reFresh Error', error);
+            .catch(function (error3) {
+              Alert.alert('reFresh Error', JSON.stringify(error3));
+
+              console.log('reFresh Error', error3);
             });
         }
       });

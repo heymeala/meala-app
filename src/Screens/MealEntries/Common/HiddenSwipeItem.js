@@ -29,9 +29,7 @@ const HiddenSwipeItem = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.backRightBtn}
-        onPress={() => {
-          deleteMeal(rowData.item.userMealId);
-        }}>
+        onPress={() => deleteMeal(rowData.item.userMealId)}>
         <View key={rowData.item.userMealId}>
           <Icon name={'trash-outline'} type={'ionicon'} color={'#fff'} />
         </View>
