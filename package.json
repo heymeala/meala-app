@@ -15,7 +15,7 @@
     "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
-    "@kingstinct/react-native-healthkit": "github:kevinroehl/react-native-healthkit#fix/remove-combine",
+    "@kingstinct/react-native-healthkit": "^4.1.1",
     "@react-native-community/clipboard": "^1.5.1",
     "@react-native-community/datetimepicker": "^3.0.8",
     "@react-native-community/geolocation": "^2.0.2",
@@ -37,8 +37,8 @@
     "i18n-js": "^3.5.1",
     "lodash": "^4.17.15",
     "lodash.memoize": "^4.1.2",
-    "lottie-ios": "^3.1.8",
-    "lottie-react-native": "^4.0.2",
+    "lottie-ios": "^3.2.3",
+    "lottie-react-native": "^5.0.1",
     "moment": "^2.24.0",
     "qs": "^6.9.6",
     "query-string": "^6.13.8",
@@ -75,7 +75,7 @@
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "7.1.0",
     "react-native-zip-archive": "^6.0.3",
-    "realm": "6.1.0",
+    "realm": "10.13.0",
     "rn-fetch-blob": "^0.12.0",
     "victory-native": "^35.3.3"
   },
