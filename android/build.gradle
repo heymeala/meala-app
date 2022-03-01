@@ -12,7 +12,8 @@ buildscript {
           androidMapsUtilsVersion = "+0.5"
       androidXAnnotation = "1.1.0"
           androidXBrowser = "1.0.0"
-    }
+     authVersion = "18.0.0"
+        fitnessVersion = "20.0.0"    }
     repositories {
         google()
         jcenter()
