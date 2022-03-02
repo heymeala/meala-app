@@ -6,6 +6,7 @@ import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import Feedback from '../../Common/Feedback';
 import ExportDatabase from './ExportDatabase';
+import {Logout} from "../../Logout";
 
 const SettingsFooter = () => {
   const screenReaderEnabled = useScreenReader();
@@ -51,6 +52,7 @@ const SettingsFooter = () => {
               type="twitter"
             />
           </View>
+          <Logout/>
         </>
       )}
     </View>

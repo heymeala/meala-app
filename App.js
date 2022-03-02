@@ -18,6 +18,7 @@ import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
 import { KnowledgeProvider } from './src/hooks/useKnowledge';
 import TopStack from './src/Navigation/TopStack';
 import PushNotifications from './src/hooks/PushNotifications';
+import {AuthProvider} from './src/hooks/AuthProvider';
 
 enableScreens();
 
@@ -79,6 +80,7 @@ const App = props => {
   }
   return (
     <LocalizationContext.Provider value={localizationContext}>
+      <AuthProvider>
       <NavigationContainer
         // theme={colorScheme === 'dark' ? DarkTheme : theme}
         ref={navigationRef}
@@ -115,6 +117,7 @@ const App = props => {
           </ProfileProvider>
         </ThemeProvider>
       </NavigationContainer>
+      </AuthProvider>
     </LocalizationContext.Provider>
   );
 };
