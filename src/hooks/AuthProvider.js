@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
     if (!user) {
       return;
     }
-
+    // todo: multiple projects?
     // The current user always has their own project, so we don't need
     // to wait for the user object to load before displaying that project.
     const myProject = { name: 'My Project', partition: `project=${user.id}` };
