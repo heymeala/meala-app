@@ -5,6 +5,7 @@ import NewsScreen from "../Screens/News/NewsScreen";
 import AppBottomNavigationStack from "./AppBottomNavigator";
 import OnboardingScreen from "../Screens/OnboardingScreen";
 import { WelcomeView } from "../Screens/WelcomeView";
+import { RealmProvider } from "../hooks/RealmProvider";
 
 const TopStack = (props) => {
   const { t } = React.useContext(LocalizationContext);
@@ -18,8 +19,16 @@ const TopStack = (props) => {
     >
       <Stack.Screen name="Welcome View" component={WelcomeView} />
 
+      <Stack.Screen name="Home">
+        {(props) => {
+          return (
+            <RealmProvider >
+              <AppBottomNavigationStack />
+            </RealmProvider>
+          );
+        }}
+      </Stack.Screen>
 
-      <Stack.Screen name="Home" component={AppBottomNavigationStack} />
       <Stack.Screen name="NewsScreen" component={NewsScreen} />
     </Stack.Navigator>
   );

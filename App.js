@@ -1,28 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { registerCustomIconType, ThemeProvider } from 'react-native-elements';
-import * as RNLocalize from 'react-native-localize';
-import * as i18n from './i18n';
-import LocalizationContext from './LanguageContext';
-import analytics from '@react-native-firebase/analytics';
-import { database } from './src/Common/database_realm';
-import { enableScreens } from 'react-native-screens';
-import { navigationRef } from './src/Navigation/RootNavigation';
-import { ProfileProvider } from './src/hooks/useProfile';
-import { ScreenReaderProvider, useScreenReader } from './src/hooks/useScreenReaderEnabled';
-import { theme } from './src/theme/theme';
-import Icon from './src/CustomMealaFont';
-import { UserSettingsProvider } from './src/hooks/useUserSettings';
-import { EnterMealTypeProvider } from './src/hooks/useEnterMealState';
-import { KnowledgeProvider } from './src/hooks/useKnowledge';
-import TopStack from './src/Navigation/TopStack';
-import PushNotifications from './src/hooks/PushNotifications';
-import {AuthProvider} from './src/hooks/AuthProvider';
+import React, { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { registerCustomIconType, ThemeProvider } from "react-native-elements";
+import * as RNLocalize from "react-native-localize";
+import * as i18n from "./i18n";
+import LocalizationContext from "./LanguageContext";
+import analytics from "@react-native-firebase/analytics";
+import { database } from "./src/Common/database_realm";
+import { enableScreens } from "react-native-screens";
+import { navigationRef } from "./src/Navigation/RootNavigation";
+import { ProfileProvider } from "./src/hooks/useProfile";
+import {
+  ScreenReaderProvider,
+  useScreenReader,
+} from "./src/hooks/useScreenReaderEnabled";
+import { theme } from "./src/theme/theme";
+import Icon from "./src/CustomMealaFont";
+import { UserSettingsProvider } from "./src/hooks/useUserSettings";
+import { EnterMealTypeProvider } from "./src/hooks/useEnterMealState";
+import { KnowledgeProvider } from "./src/hooks/useKnowledge";
+import TopStack from "./src/Navigation/TopStack";
+import PushNotifications from "./src/hooks/PushNotifications";
+import { AuthProvider } from "./src/hooks/AuthProvider";
+import { RealmProvider } from "./src/hooks/RealmProvider";
 
 enableScreens();
 
-const App = props => {
+const App = (props) => {
   const routeNameRef = React.useRef();
   const [locale, setLocale] = React.useState(i18n.DEFAULT_LANGUAGE);
   const [onboarding, setOnboarding] = useState(undefined);
@@ -33,26 +37,24 @@ const App = props => {
       locale,
       setLocale,
     }),
-    [locale],
+    [locale]
   );
 
   const handleLocalizationChange = useCallback(
-    newLocale => {
+    (newLocale) => {
       const newSetLocale = i18n.setI18nConfig(newLocale);
       setLocale(newSetLocale);
     },
-    [locale],
+    [locale]
   );
 
-
-
   useEffect(() => {
-    registerCustomIconType('meala', Icon);
+    registerCustomIconType("meala", Icon);
 
     handleLocalizationChange();
-    RNLocalize.addEventListener('change', handleLocalizationChange);
+    RNLocalize.addEventListener("change", handleLocalizationChange);
     return () => {
-      RNLocalize.removeEventListener('change', handleLocalizationChange);
+      RNLocalize.removeEventListener("change", handleLocalizationChange);
     };
   }, []);
   const t = localizationContext.t;
@@ -64,10 +66,11 @@ const App = props => {
   useEffect(() => {
     database
       .saveOnbording()
-      .then(onboardingState =>
-        onboardingState > showOnboardingFirst && onboardingState !== showOnboardingLast
+      .then((onboardingState) =>
+        onboardingState > showOnboardingFirst &&
+        onboardingState !== showOnboardingLast
           ? setOnboarding(false)
-          : setOnboarding(true),
+          : setOnboarding(true)
       );
   }, []);
 
@@ -81,42 +84,48 @@ const App = props => {
   return (
     <LocalizationContext.Provider value={localizationContext}>
       <AuthProvider>
-      <NavigationContainer
-        // theme={colorScheme === 'dark' ? DarkTheme : theme}
-        ref={navigationRef}
-        onReady={() => {
-          console.log('nabigator route', navigationRef.current.getCurrentRoute());
-          routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-        }}
-        onStateChange={() => {
-          const previousRouteName = routeNameRef.current;
-          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+          <NavigationContainer
+            // theme={colorScheme === 'dark' ? DarkTheme : theme}
+            ref={navigationRef}
+            onReady={() => {
+              console.log(
+                "nabigator route",
+                navigationRef.current.getCurrentRoute()
+              );
+              routeNameRef.current =
+                navigationRef.current.getCurrentRoute().name;
+            }}
+            onStateChange={() => {
+              const previousRouteName = routeNameRef.current;
+              const currentRouteName =
+                navigationRef.current.getCurrentRoute().name;
 
-          if (previousRouteName !== currentRouteName) {
-            analytics().logScreenView({
-              screen_name: currentRouteName,
-              screen_class: currentRouteName,
-            });
-          }
-          // Save the current route name for later comparison
-          routeNameRef.current = currentRouteName;
-        }}>
-        <ThemeProvider theme={theme}>
-          <ProfileProvider>
-            <UserSettingsProvider>
-              <ScreenReaderProvider>
-                <EnterMealTypeProvider>
-                  <KnowledgeProvider>
-                    <View style={{ flex: 1 }}>
-                      <TopStack onboardin={onboarding} />
-                    </View>
-                  </KnowledgeProvider>
-                </EnterMealTypeProvider>
-              </ScreenReaderProvider>
-            </UserSettingsProvider>
-          </ProfileProvider>
-        </ThemeProvider>
-      </NavigationContainer>
+              if (previousRouteName !== currentRouteName) {
+                analytics().logScreenView({
+                  screen_name: currentRouteName,
+                  screen_class: currentRouteName,
+                });
+              }
+              // Save the current route name for later comparison
+              routeNameRef.current = currentRouteName;
+            }}
+          >
+            <ThemeProvider theme={theme}>
+              <ProfileProvider>
+                <UserSettingsProvider>
+                  <ScreenReaderProvider>
+                    <EnterMealTypeProvider>
+                      <KnowledgeProvider>
+                        <View style={{ flex: 1 }}>
+                          <TopStack onboardin={onboarding} />
+                        </View>
+                      </KnowledgeProvider>
+                    </EnterMealTypeProvider>
+                  </ScreenReaderProvider>
+                </UserSettingsProvider>
+              </ProfileProvider>
+            </ThemeProvider>
+          </NavigationContainer>
       </AuthProvider>
     </LocalizationContext.Provider>
   );

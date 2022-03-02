@@ -17,7 +17,16 @@ export function WelcomeView({ navigation,  }) {
   const screenReaderEnabled = useScreenReader();
   const showOnboardingFirst = screenReaderEnabled ? 1 : 2;
   const showOnboardingLast = screenReaderEnabled ? 1 : 8;
+
+  console.log(user)
   useEffect(() => {
+    // If there is a user logged in, go to the Projects page.
+    if (user != null) {
+      navigation.navigate('Home');
+    }
+  }, [user]);
+
+/*  useEffect(() => {
     database
         .saveOnbording()
         .then(onboardingState =>
@@ -25,14 +34,7 @@ export function WelcomeView({ navigation,  }) {
                 ? setOnboarding(false)
                 : setOnboarding(true),
         );
-  }, []);
-
-  useEffect(() => {
-    // If there is a user logged in, go to the Projects page.
-    if (user != null) {
-      navigation.navigate('Home');
-    }
-  }, [user]);
+  }, []);*/
 
   // The onPressSignIn method calls AuthProvider.signIn with the
   // email/password in state.
@@ -79,9 +81,9 @@ export function WelcomeView({ navigation,  }) {
       <Button onPress={onPressSignUp} title="Sign Up" />
     </SafeAreaView>
 
-  {onboarding && (
+{/*  {onboarding && (
       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-  )}
+  )}*/}
       </>
   );
 }

@@ -8,6 +8,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { useNavigation } from '@react-navigation/core';
 import { spacing } from '../../theme/styles';
 import { MMOLPERL } from '../../Common/Constants/units';
+import {useRealm} from "../../hooks/RealmProvider";
 
 const ProfilSettings = () => {
   const { settings, saveProfile } = useProfile();
@@ -16,10 +17,11 @@ const ProfilSettings = () => {
   const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const styles = useStyles();
-
+    const {saveProfile2 } = useRealm()
   function switchToMmol(unit) {
     setChecked(prevState => false);
     database.saveProfile(unit).then(() => saveProfile(unit));
+    saveProfile2(unit)
   }
 
   function switchToMgdL(unit) {

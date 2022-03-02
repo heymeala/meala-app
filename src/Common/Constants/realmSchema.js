@@ -1,9 +1,9 @@
 export const MealSchema = {
   name: 'Meal',
-  primaryKey: 'userMealId',
+  primaryKey: '_id',
 
   properties: {
-    id: 'string',
+    _id2: 'string',
     food: 'string',
     picture: 'string',
     carbs: 'float?',
@@ -19,7 +19,7 @@ export const MealSchema = {
       property: 'food',
     },
     isDeleted: 'bool',
-    userMealId: 'string',
+    _id: 'string',
     fatSecretUserFoodEntryIds: {
       type: 'list',
       objectType: 'FatSecretFoodEntryIds',
@@ -29,22 +29,28 @@ export const MealSchema = {
 
 export const tagsSchema = {
   name: 'Tags',
+  primaryKey: '_id',
+
   properties: {
+    _id: 'string',
     tagEn: 'string?',
   },
 };
 export const FatSecretFoodEntryIdsSchema = {
   name: 'FatSecretFoodEntryIds',
+  primaryKey: '_id',
+
   properties: {
+    _id: 'string',
     foodEntryId: 'string?',
   },
 };
 
 export const CommunityQuiz = {
   name: 'CommunityQuiz',
-  primaryKey: 'id',
+  primaryKey: '_id',
   properties: {
-    id: 'string',
+    _id: 'string',
     date: 'date',
     questionId: 'string',
     tries: 'int',
@@ -56,9 +62,9 @@ export const CommunityQuiz = {
 
 export const RestaurantSchema = {
   name: 'Restaurant',
-  primaryKey: 'id',
+  primaryKey: '_id',
   properties: {
-    id: 'string',
+    _id: 'string',
     food: { type: 'list', objectType: 'Meal' },
     restaurant_name: 'string',
     address: 'string',
@@ -72,9 +78,9 @@ export const RestaurantSchema = {
 
 export const SettingsSchemaV3 = {
   name: 'Settings',
-  primaryKey: 'id',
+  primaryKey: '_id',
   properties: {
-    id: 'string',
+    _id: 'string',
     nightscoutUrl: 'string?',
     nightscoutStatus: 'string?',
     nightscoutVersion: 'string?',
@@ -86,9 +92,9 @@ export const SettingsSchemaV3 = {
 
 export const ProfileSchema = {
   name: 'Profile',
-  primaryKey: 'id',
+  primaryKey: '_id',
   properties: {
-    id: 'int',
+    _id: 'int',
     onboarding: 'int',
     name: 'string?',
     type: 'string?',

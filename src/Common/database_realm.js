@@ -9,12 +9,15 @@ import {
   tagsSchema,
 } from './Constants/realmSchema';
 import uuid from 'react-native-uuid';
+import {useAuth} from "../hooks/AuthProvider";
 
 const Realm = require('realm');
 // Define your models and their properties
 
+
 export const database = {
-  _open: Realm.open({
+
+    _open: Realm.open({
     schema: [
       RestaurantSchema,
       MealSchema,
@@ -109,7 +112,7 @@ export const database = {
           let restaurantEntry = realm.create(
             'Restaurant',
             {
-              id: restaurantId,
+              _id: restaurantId,
               restaurant_name: restaurantName,
               address: '',
               lat: latitude,
@@ -131,7 +134,7 @@ export const database = {
             restaurantId: restaurantId,
             treatmentsData: null,
             isDeleted: false,
-            id: mealId,
+            _id: mealId,
             userMealId: userMealId,
             carbs: carbs ? parseFloat(carbs) : null,
             tags: tags,
@@ -293,7 +296,7 @@ export const database = {
         realm.create(
           'Settings',
           {
-            id: 'nightscoutUrl',
+            _id: 'nightscoutUrl',
             nightscoutUrl: nightScoutUrl,
             nightscoutStatus: nightscoutStatus,
             nightscoutVersion: nightscoutVersion,
@@ -314,7 +317,7 @@ export const database = {
           realm.create(
             'Settings',
             {
-              id: 'glucoseSource',
+              _id: 'glucoseSource',
               glucoseSource: glucoseSource.toString(),
               nightscoutUrl: null,
               nightscoutStatus: null,
@@ -358,7 +361,7 @@ export const database = {
         realm.create(
           'Profile',
           {
-            id: 1,
+            _id: 1,
             unit: unit,
           },
           true,
@@ -369,7 +372,7 @@ export const database = {
   },
   saveOnbording: () => {
     return database._open.then(realm => {
-      let onboardingState = realm.objects('Profile').filtered('id = "1"');
+      let onboardingState = realm.objects('Profile').filtered('_id = "1"');
       let counter = 0;
       onboardingState.length === 0 ? (counter = 1) : (counter = onboardingState[0].onboarding + 1);
 
@@ -377,7 +380,7 @@ export const database = {
         realm.create(
           'Profile',
           {
-            id: 1,
+            _id: 1,
             onboarding: counter,
           },
           true,
@@ -480,7 +483,7 @@ export const database = {
         realm.create(
           'Restaurant',
           {
-            id: id,
+            _id: id,
             isDeleted: true,
           },
           true,
@@ -527,7 +530,7 @@ export const database = {
         realm.create(
           'CommunityQuiz',
           {
-            id: uuid.v4().toString(),
+            _id: uuid.v4().toString(),
             date: new Date(),
             categoryId: categoryId,
             questionId: questionId.toString(),
