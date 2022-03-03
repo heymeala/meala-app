@@ -17,11 +17,11 @@ const ProfilSettings = () => {
   const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const styles = useStyles();
-    const {saveProfile2 } = useRealm()
+    const {createTask } = useRealm()
   function switchToMmol(unit) {
     setChecked(prevState => false);
     database.saveProfile(unit).then(() => saveProfile(unit));
-    saveProfile2(unit)
+    createTask("My First Task")
   }
 
   function switchToMgdL(unit) {

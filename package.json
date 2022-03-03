@@ -29,6 +29,7 @@
     "@react-navigation/stack": "^5.14.9",
     "axios": "^0.21.1",
     "babel-core": "^6.26.3",
+    "bson": "^4.6.1",
     "buffer": "^5.6.0",
     "clarifai": "^2.9.1",
     "core-util-is": "^1.0.2",

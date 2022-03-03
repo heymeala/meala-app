@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Badge, Icon, ListItem, makeStyles } from 'react-native-elements';
 import LocalizationContext from '../../../LanguageContext';
 
-const CategoryListItem = props => {
+const CategoryListItem = (props) => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
   const { setQuizType, quizServings, title, subtitle, badge } = props;
@@ -23,4 +23,4 @@ const CategoryListItem = props => {
 
 export default CategoryListItem;
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles((theme) => ({}));
