@@ -53,19 +53,14 @@ const RealmProvider = ({ children, projectPartition }) => {
     Realm.open(config).then((projectRealm) => {
       realmRef.current = projectRealm;
 
-      const syncTasks = projectRealm.objects('Task');
+/*      const syncTasks = projectRealm.objects('Task');
       let sortedTasks = syncTasks.sorted('name');
       setTasks([...sortedTasks]);
       sortedTasks.addListener(() => {
         setTasks([...sortedTasks]);
-      });
+      });*/
 
-      const syncImages = projectRealm.objects('Images');
-      let sortedImages = syncImages.sorted('name');
-      setImages([...sortedImages]);
-      sortedImages.addListener(() => {
-        setImages([...sortedImages]);
-      });
+
     });
 
     return () => {
@@ -145,7 +140,9 @@ const RealmProvider = ({ children, projectPartition }) => {
       };
 
       restaurantEntry.food.push(projectRealm.create('Meal', newMeal, true));
+
     });
+      return "success"
   };
   const editRestaurantAndMeal = (
     mealTitle,
@@ -228,7 +225,7 @@ const RealmProvider = ({ children, projectPartition }) => {
     const meals = projectRealm
       .objects('Meal')
       .filtered(
-        `isDeleted == false && food LIKE[c] '*${food}*' || tags.tagEn Like[c]  '*${food}*' SORT(date DESC) LIMIT(25) `
+        `isDeleted == false && food LIKE[c] '*${food}*' SORT(date DESC) LIMIT(25) `
       );
     return meals.sorted('date', true);
   };

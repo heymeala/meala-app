@@ -36,7 +36,7 @@ import * as Keychain from 'react-native-keychain';
 import HealthKitAddInsulin from './HealthKitAddInsulin';
 import { saveCarbohydratesToHealthKit, saveInsulinToHealthKit } from '../../hooks/saveToHealthKit';
 import { useRealm } from '../../hooks/RealmProvider';
-import {ObjectId} from "bson";
+import { ObjectId } from 'bson';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -261,7 +261,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       ? fatSecretData
           .filter((data) => data.checked)
           .map((data) => {
-            return {_id: new ObjectId() ,foodEntryId: data.food_entry_id };
+            return { _id: new ObjectId(), foodEntryId: data.food_entry_id };
           })
       : [];
 
@@ -327,9 +327,21 @@ const EnterMeal = ({ route, navigation }, props) => {
         mealId,
         userMealId,
         scope,
-        date,
-      )
-
+        date
+      );
+      uploadImageToServer(restaurantData).then(() => {
+        setLoadingOnSave(false);
+        analytics().logEvent('Save_Restaurant', {
+          Meal: defaultMealTitle,
+          Restaurant: defaultRestaurantName,
+        });
+        reset();
+        navigation.setParams({
+          meal_id: null,
+        });
+        changeType({ mode: 'default', meal_id: null });
+        navigation.navigate('meala');
+      });
     }
   }
 

@@ -13,6 +13,7 @@ import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi'
 import { deleteImageFile } from '../../utils/deleteImageFile';
 import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitData';
 import { useProfile } from '../../hooks/useProfile';
+import {useRealm} from "../../hooks/RealmProvider";
 
 const MealList = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -20,6 +21,7 @@ const MealList = props => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const { settings } = useProfile();
+  const { fetchMealWithName,deleteMealSoft ,getGlucoseSource} = useRealm();
 
   const searchOnFocus = React.useCallback(() => {
     mealData(search);
@@ -30,17 +32,18 @@ const MealList = props => {
   function deleteMeal(id) {
     //todo: cancel Notification on ios
     Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
-    database.deleteMealSoft(id);
+    deleteMealSoft(id);
     deleteImageFile(id);
     mealData(search);
   }
 
   async function mealData(foodName) {
-    const mealsByName = await database.fetchMealWithName(foodName);
+    const mealsByName = await fetchMealWithName(foodName);
+    console.log("mealsByName", mealsByName)
     const filteredMeals = mealsByName.filter(data => data.isDeleted === false);
     setMeals(filteredMeals);
     setLoading(false);
-    database.getGlucoseSource().then(data => {
+    getGlucoseSource().then(data => {
       if (data === NIGHTSCOUT) {
         const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
         const slicedMeals = notLoadedEntries.slice(0, 2);
@@ -50,7 +53,7 @@ const MealList = props => {
             const nsSugarData = async () => {
               await nightscoutCall(data.date, data.userMealId);
               await nightscoutTreatmens(data.date, data.userMealId);
-              const updatedMeals = await database.fetchMealWithName(foodName);
+              const updatedMeals = await fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
               setMeals(updatedFilteredMeals);
             };
@@ -64,7 +67,7 @@ const MealList = props => {
           slicedMeals.map(data => {
             const healthkitData = async () => {
               await saveAndGetHealthKitGlucose(data.date, settings, data.userMealId);
-              const updatedMeals = await database.fetchMealWithName(foodName);
+              const updatedMeals = await fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
               setMeals(updatedFilteredMeals);
             };

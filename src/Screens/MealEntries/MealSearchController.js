@@ -12,6 +12,7 @@ import RestaurantList from './RestaurantList';
 import messaging from '@react-native-firebase/messaging';
 
 import News from './News/News';
+import {useRealm} from "../../hooks/RealmProvider";
 
 const MealSearchController = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -20,6 +21,7 @@ const MealSearchController = () => {
   const mealsByName = 0;
   const mealsByPlaces = 1;
   const mealsByDate = 2;
+  const { deleteMeal,deleteRestaurant } = useRealm();
 
   const handleIndexChange = index => {
     setSelectedIndex(index);
@@ -41,8 +43,8 @@ const MealSearchController = () => {
     let isMounted = true;
 
     if (isMounted) {
-      database.deleteMeal();
-      database.deleteRestaurant();
+    //  deleteMeal();
+     // deleteRestaurant();
     }
 
     return () => {

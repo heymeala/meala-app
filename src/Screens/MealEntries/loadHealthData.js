@@ -7,7 +7,10 @@ import { database } from '../../Common/database_realm';
 import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
-import { saveAndGetHealthKitGlucose, saveAndGetHealthKitTreatments } from './saveAndGetHealthKitData';
+import {
+  saveAndGetHealthKitGlucose,
+  saveAndGetHealthKitTreatments,
+} from './saveAndGetHealthKitData';
 import { filterSVGDataByTime } from './convertCGMData';
 import { Platform } from 'react-native';
 
@@ -24,6 +27,11 @@ export async function loadSugarData(
   setLoading,
   setStepsPerDay,
   setSleepAnalysis,
+  getCgmData,
+  getSettings,
+  editMealCgmData,
+  getTreatmentsData,
+  editMealTreatments
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
@@ -36,8 +44,8 @@ export async function loadSugarData(
       from: moment(foodDate).subtract(SEA_MINUTES, 'minutes'),
       to: moment(foodDate).add(3, 'hours'),
     };
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(results => {
-      const stepQuantity = results.map(data => {
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then((results) => {
+      const stepQuantity = results.map((data) => {
         return data.quantity;
       });
       const totalStep = stepQuantity.length > 0 ? stepQuantity.reduce(add) : null;
@@ -48,10 +56,10 @@ export async function loadSugarData(
       ascending: true,
       from: moment(foodDate).subtract(1, 'day'),
       to: moment(foodDate).add(3, 'hours'),
-    }).then(result => {
+    }).then((result) => {
       const hours = result
-        .filter(data => data.value === 1)
-        .map(data => {
+        .filter((data) => data.value === 1)
+        .map((data) => {
           return moment(data.endDate).diff(moment(data.startDate), 'hours');
         });
       const sum = hours.length > 0 && hours.reduce(add);
@@ -60,19 +68,27 @@ export async function loadSugarData(
   }
 
   if (userSettings && userSettings.glucoseSource === NIGHTSCOUT) {
-    const nsSugarData = await nightscoutCall(foodDate, id);
+    const nsSugarData = await nightscoutCall(
+      foodDate,
+      id,
+      getCgmData,
+      getSettings,
+      editMealCgmData,
+
+    );
 
     const glucoseCoordinates = filterSVGDataByTime(nsSugarData, fromDate, tillDate, settings);
     setCoordinates(glucoseCoordinates);
 
-    const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
+    const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId, getSettings,   getTreatmentsData,
+        editMealTreatments);
     const calcCarbs = nsTreatmentData
-      .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
-      .map(data => data.carbs);
+      .filter((data) => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+      .map((data) => data.carbs);
 
     const calcInsulin = nsTreatmentData
-      .filter(data => (data.isSMB ? data.isSMB === false : data))
-      .map(insulin => insulin.insulin);
+      .filter((data) => (data.isSMB ? data.isSMB === false : data))
+      .map((insulin) => insulin.insulin);
     const getCarbCoordinates = filterCoordinates(nsTreatmentData, 'carbs', settings);
     const getInsulinCoordinates = filterCoordinates(nsTreatmentData, 'insulin', settings);
     setCarbs(calcCarbs);
@@ -85,21 +101,19 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
 
-
-
-    saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then(data => {
+    saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then((data) => {
       setCoordinates(data);
     });
 
-    saveAndGetHealthKitTreatments(foodDate, settings, id).then(results => {
+    saveAndGetHealthKitTreatments(foodDate, settings, id).then((results) => {
       if (results) {
         const calcCarbs = results
-          .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
-          .map(data => data.carbs);
+          .filter((data) => (data.carbs > 0 ? parseFloat(data.carbs) : null))
+          .map((data) => data.carbs);
 
         const calcInsulin = results
-          .filter(data => (data.isSMB ? data.isSMB === false : data))
-          .map(insulin => insulin.insulin);
+          .filter((data) => (data.isSMB ? data.isSMB === false : data))
+          .map((insulin) => insulin.insulin);
         const getCarbCoordinates = filterCoordinates(results, 'carbs', settings);
         const getInsulinCoordinates = filterCoordinates(results, 'insulin', settings);
 
@@ -116,7 +130,12 @@ export async function loadSugarData(
     const localCGMData = await database.getCgmData(id);
     if (localCGMData && localCGMData.length > 0) {
       const jsonLocalCGMData = JSON.parse(localCGMData);
-      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData, fromDate, tillDate, settings);
+      const glucoseCoordinates = filterSVGDataByTime(
+        jsonLocalCGMData,
+        fromDate,
+        tillDate,
+        settings
+      );
       setCoordinates(glucoseCoordinates);
     }
     setLoading(false);

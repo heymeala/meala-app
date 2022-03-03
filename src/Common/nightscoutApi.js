@@ -8,12 +8,11 @@ import { hoursAgo } from "../utils/hoursAgo";
 
 
 
-export async function nightscoutCall(date, id) {
+export async function nightscoutCall(date, id,getCgmData,getSettings,editMealCgmData,getTreatmentsData,editMealTreatments) {
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
-  return database.getCgmData(id).then(cgm => {
+  return getCgmData(id).then(cgm => {
     if (cgm === 'null' || cgm === null) {
-      return database
-        .getSettings()
+      return getSettings()
         .then(settings => {
           // newer Nightscout Version use moment and have a different datestring
           if (settings.nightscoutVersion >= 0.12) {
@@ -37,7 +36,7 @@ export async function nightscoutCall(date, id) {
           //  const threeHoursAgo = new Date().getTime() - 1000 * 60 * 60 * 3;
           const threeHoursAgo = hoursAgo(3)
           if (threeHoursAgo >= date.getTime()) {
-            database.editMealCgmData(data, id);
+            editMealCgmData(data, id);
           }
 
           return data.reverse();
@@ -50,18 +49,18 @@ export async function nightscoutCall(date, id) {
   });
 }
 
-export function nightscoutTreatmens(date, userMealId) {
+export function nightscoutTreatmens(date, userMealId,  getSettings,  getTreatmentsData,
+                                    editMealTreatments) {
   const saveDate = date;
   const fromDateInput = date;
   const tillDateInput = date;
 
-  return database.getTreatmentsData(date, userMealId).then(treatments => {
+  return getTreatmentsData(date, userMealId).then(treatments => {
     const tillDate = moment(tillDateInput).add(2, 'hours').toISOString();
     const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').toISOString();
 
     if (treatments === null) {
-      return database
-        .getSettings()
+      return getSettings()
         .then(settings => {
           const url = `${settings.nightscoutUrl}/api/v1/treatments?find[created_at][$gte]=${fromDate}&find[created_at][$lte]=${tillDate}&token=${settings.nightscoutToken}`;
           console.log(url);
