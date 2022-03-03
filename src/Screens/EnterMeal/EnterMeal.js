@@ -35,6 +35,8 @@ import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNam
 import * as Keychain from 'react-native-keychain';
 import HealthKitAddInsulin from './HealthKitAddInsulin';
 import { saveCarbohydratesToHealthKit, saveInsulinToHealthKit } from '../../hooks/saveToHealthKit';
+import { useRealm } from '../../hooks/RealmProvider';
+import {ObjectId} from "bson";
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -83,7 +85,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const [loadingOnSave, setLoadingOnSave] = useState(false);
   const [value, setValue] = useState(3);
-  const defaultHealthKitValues = { carbs: null, insulin: { date: null, value: null, minutes: null } };
+  const defaultHealthKitValues = {
+    carbs: null,
+    insulin: { date: null, value: null, minutes: null },
+  };
   const [healthKitData, setHealthKitData] = useState(defaultHealthKitValues);
   const defaultMealTitle = mealTitle.trim() || mealTypeByTime(date, t);
   const defaultRestaurantName = restaurantName || t('AddMeal.home');
@@ -91,14 +96,16 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [hasFatSecretCredentials, setFatSecretCredentials] = useState(false);
   const fatSecretButtonText = fatSecretData
     ? t('AddMeal.fatSecretUserEntries.button') +
-      (fatSecretData && fatSecretData.filter(data => data.checked).length > 0
-        ? ` (${fatSecretData.filter(data => data.checked).length})`
+      (fatSecretData && fatSecretData.filter((data) => data.checked).length > 0
+        ? ` (${fatSecretData.filter((data) => data.checked).length})`
         : '')
     : t('AddMeal.fatSecretUserEntries.noData');
 
+  const { saveRestaurant } = useRealm();
+
   React.useEffect(() => {
     if (scan === true) {
-      setIsScannerVisible(prevState => true);
+      setIsScannerVisible((prevState) => true);
     }
   }, [scan]);
 
@@ -107,13 +114,15 @@ const EnterMeal = ({ route, navigation }, props) => {
       if (type.mode !== EDIT_MODE) {
         setDate(new Date());
       }
-      Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(result => {
-        console.log(result);
-        setFatSecretCredentials(result !== false);
-      });
+      Keychain.hasInternetCredentials('https://www.fatsecret.com/oauth/authorize').then(
+        (result) => {
+          console.log(result);
+          setFatSecretCredentials(result !== false);
+        }
+      );
 
       return () => {};
-    }, []),
+    }, [])
   );
 
   useExistingDataFromDB(
@@ -128,7 +137,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     setFoodPicture,
     setAvatarSourceCamera,
     setNote,
-    setRestaurantName,
+    setRestaurantName
   );
 
   React.useLayoutEffect(() => {
@@ -150,8 +159,8 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   useEffect(() => {
     if (id) {
-      setRestaurantId(prevState => id);
-      database.getRestaurantName(id).then(name => setRestaurantName(name));
+      setRestaurantId((prevState) => id);
+      database.getRestaurantName(id).then((name) => setRestaurantName(name));
     }
   }, [id]);
 
@@ -159,7 +168,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   useEffect(() => {
     auth()
       .signInAnonymously()
-      .then(data => {
+      .then((data) => {
         //  console.log(data.user.uid)
         setUser_id(data.user.uid);
       });
@@ -175,13 +184,16 @@ const EnterMeal = ({ route, navigation }, props) => {
       }
     }
     getExistingFatSecretProfileData(date, existingFatSecretIds, setFatSecretData);
-    setHealthKitData({ carbs: healthKitData.carbs, insulin: { ...defaultHealthKitValues.insulin } });
+    setHealthKitData({
+      carbs: healthKitData.carbs,
+      insulin: { ...defaultHealthKitValues.insulin },
+    });
   }, [date]);
 
   useFocusEffect(
     React.useCallback(() => {
       checkGps(setLng, setLat, setGpsEnabled);
-    }, [gpsEnabled]),
+    }, [gpsEnabled])
   );
 
   function cancel() {
@@ -193,9 +205,9 @@ const EnterMeal = ({ route, navigation }, props) => {
     navigation.goBack();
   }
 
-  const handleScannerFood = data => {
-    setRestaurantName(prevState => t('General.various'));
-    setRestaurantId(prevState => t('General.various'));
+  const handleScannerFood = (data) => {
+    setRestaurantName((prevState) => t('General.various'));
+    setRestaurantId((prevState) => t('General.various'));
     setNote(data.note ? data.note : null);
     setMealId(uuid.v4());
     setUserMealId(uuid.v4());
@@ -204,15 +216,15 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const offset = Platform.OS === 'android' ? -200 : 64;
 
-  const loadCommunityMeals = id => {
+  const loadCommunityMeals = (id) => {
     console.log('Search C MEals');
     fetch(COMMUNITY_MEALS_URL + id)
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         setCMeals(data);
         setIsLoadingcMeals(false);
       })
-      .catch(error => {
+      .catch((error) => {
         setCMeals(null);
         setIsLoadingcMeals(false);
       });
@@ -247,9 +259,9 @@ const EnterMeal = ({ route, navigation }, props) => {
 
     const fatSecretUserIds = fatSecretData
       ? fatSecretData
-          .filter(data => data.checked)
-          .map(data => {
-            return { foodEntryId: data.food_entry_id };
+          .filter((data) => data.checked)
+          .map((data) => {
+            return {_id: new ObjectId() ,foodEntryId: data.food_entry_id };
           })
       : [];
 
@@ -268,7 +280,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           userMealId,
           date,
           fatSecretUserIds,
-          tags,
+          tags
         )
         .then(() => {
           setLoadingOnSave(false);
@@ -304,41 +316,24 @@ const EnterMeal = ({ route, navigation }, props) => {
         saveCarbohydratesToHealthKit(healthKitData.carbs, date);
       }
 
-      database
-        .saveRestaurant(
-          defaultRestaurantName,
-          defaultRestaurantId,
-          defaultMealTitle,
-          foodPicture,
-          note,
-          lat,
-          lng,
-          mealId,
-          userMealId,
-          scope,
-          carbs,
-          tags,
-          date,
-          fatSecretUserIds,
-        )
-        .then(() => uploadImageToServer(restaurantData))
-        .then(() => {
-          setLoadingOnSave(false);
-          analytics().logEvent('Save_Restaurant', {
-            Meal: defaultMealTitle,
-            Restaurant: defaultRestaurantName,
-          });
-          reset();
-          navigation.setParams({
-            meal_id: null,
-          });
-          changeType({ mode: 'default', meal_id: null });
-          navigation.navigate('meala');
-        });
+      saveRestaurant(
+        defaultRestaurantName,
+        defaultRestaurantId,
+        defaultMealTitle,
+        foodPicture,
+        note,
+        lat,
+        lng,
+        mealId,
+        userMealId,
+        scope,
+        date,
+      )
+
     }
   }
 
-  const handleInputMealChange = text => {
+  const handleInputMealChange = (text) => {
     setMealTitle(text);
   };
 
@@ -353,7 +348,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     Keyboard.dismiss();
   };
   //todo: real id?
-  const handleRestaurantName = text => {
+  const handleRestaurantName = (text) => {
     setRestaurantName(text);
     setRestaurantId(text);
   };
@@ -395,7 +390,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   }
 
   function addTag(newTag) {
-    setTags(prevArray => [
+    setTags((prevArray) => [
       ...prevArray,
       {
         id: uuid.v4(),
@@ -406,8 +401,8 @@ const EnterMeal = ({ route, navigation }, props) => {
   }
 
   function removeTag(id) {
-    setTags(prevArray =>
-      prevArray.map(data => {
+    setTags((prevArray) =>
+      prevArray.map((data) => {
         if (data.id === id) {
           return {
             id: data.id,
@@ -419,23 +414,32 @@ const EnterMeal = ({ route, navigation }, props) => {
             ...data,
           };
         }
-      }),
+      })
     );
   }
 
   const [visible, setVisible] = useState(false);
 
   return isScannerVisible ? (
-    <ScanScreen toggleScanner={() => setIsScannerVisible(false)} handleScannerFood={handleScannerFood} />
+    <ScanScreen
+      toggleScanner={() => setIsScannerVisible(false)}
+      handleScannerFood={handleScannerFood}
+    />
   ) : (
-    <KeyboardAvoidingView style={styles.wrapper} behavior="padding" enabled keyboardVerticalOffset={offset}>
+    <KeyboardAvoidingView
+      style={styles.wrapper}
+      behavior="padding"
+      enabled
+      keyboardVerticalOffset={offset}
+    >
       <ScrollView
         bounces={false}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
         ref={scrollListReftop}
         scrollToOverflowEnabled={true}
-        contentContainerStyle={styles.container}>
+        contentContainerStyle={styles.container}
+      >
         <PictureSelector
           userMealId={userMealId}
           setFoodPicture={setFoodPicture}
@@ -496,7 +500,11 @@ const EnterMeal = ({ route, navigation }, props) => {
           setHealthKitData={setHealthKitData}
           healthKitData={healthKitData}
         />
-        <HealthKitAddInsulin date={date} healthKitData={healthKitData} setHealthKitData={setHealthKitData} />
+        <HealthKitAddInsulin
+          date={date}
+          healthKitData={healthKitData}
+          setHealthKitData={setHealthKitData}
+        />
         <NightScoutInputFields
           nsTreatmentsUpload={nsTreatmentsUpload}
           setNsTreatmentsUpload={setNsTreatmentsUpload}
@@ -532,10 +540,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
-  wrapper: { flexGrow: 1, height: "100%" },
+  wrapper: { flexGrow: 1, height: '100%' },
 
   spacing: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   fatSecretButton: {
     paddingHorizontal: theme.spacing.M,
@@ -544,8 +552,8 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   container: {
     flexGrow: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cancelButton: {
     height: 40,

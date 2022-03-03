@@ -20,12 +20,11 @@ const RealmProvider = ({ children, projectPartition }) => {
   const [tasks, setTasks] = useState([]);
   const [images, setImages] = useState([]);
   const { user, projectData } = useAuth();
-  console.log('user', user);
   // Use a Ref to store the realm rather than the state because it is not
   // directly rendered, so updating it should not trigger a re-render as using
   // state would.
   const realmRef = useRef(null);
-  console.log('projectData', projectData);
+  console.log('projectData', projectData[0].partition);
   useEffect(() => {
     // Enables offline-first: opens a local realm immediately without waiting
     // for the download of a synchronized realm to be completed.
@@ -45,7 +44,7 @@ const RealmProvider = ({ children, projectPartition }) => {
       ],
       sync: {
         user: user,
-        partitionValue: 'projectData[0].partition',
+        partitionValue:  projectData[0].partition,
         newRealmFileBehavior: OpenRealmBehaviorConfiguration,
         existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
       },
@@ -90,8 +89,7 @@ const RealmProvider = ({ children, projectPartition }) => {
           _id: new ObjectId(),
           name: task,
           status: 'joo',
-        },
-        true
+        }
       );
     });
   };
@@ -107,18 +105,10 @@ const RealmProvider = ({ children, projectPartition }) => {
     mealId,
     userMealId,
     scope,
-    carbs,
-    predictions,
     date,
-    fatSecretUserFoodEntryIds
   ) => {
     const projectRealm = realmRef.current;
 
-    const tags = predictions
-      .filter((data) => data.active === true)
-      .map((prediction) => {
-        return { tagEn: prediction.name };
-      });
 
     const latitude = lat ? parseFloat(lat) : null;
     const longitude = lng ? parseFloat(lng) : null;
@@ -127,7 +117,7 @@ const RealmProvider = ({ children, projectPartition }) => {
       let restaurantEntry = projectRealm.create(
         'Restaurant',
         {
-          id: restaurantId,
+          _id: new ObjectId(),
           restaurant_name: restaurantName,
           address: '',
           lat: latitude,
@@ -143,17 +133,15 @@ const RealmProvider = ({ children, projectPartition }) => {
         food: mealTitle,
         picture: picId,
         date: date,
-        tag: tags,
         note: note,
         cgmData: null,
         restaurantId: restaurantId,
         treatmentsData: null,
         isDeleted: false,
-        id: mealId,
+        _id: new ObjectId(),
         userMealId: userMealId,
-        carbs: carbs ? parseFloat(carbs) : null,
-        tags: tags,
-        fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
+
+
       };
 
       restaurantEntry.food.push(projectRealm.create('Meal', newMeal, true));
@@ -171,7 +159,7 @@ const RealmProvider = ({ children, projectPartition }) => {
   ) => {
     const projectRealm = realmRef.current;
 
-    const tags = predictions
+    const tags = predictions && predictions
       .filter((data) => data.active === true)
       .map((prediction) => {
         return { tagEn: prediction.name };

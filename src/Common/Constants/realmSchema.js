@@ -13,12 +13,10 @@ export const MealSchema = {
   primaryKey: '_id',
 
   properties: {
-    _id2: 'string',
+    userMealId: 'string',
     food: 'string',
     picture: 'string',
-    carbs: 'float?',
     date: 'date',
-    tags: { type: 'list', objectType: 'Tags' },
     note: 'string',
     cgmData: 'string?',
     treatmentsData: 'string?',
@@ -29,11 +27,8 @@ export const MealSchema = {
       property: 'food',
     },
     isDeleted: 'bool',
-    _id: 'string',
-    fatSecretUserFoodEntryIds: {
-      type: 'list',
-      objectType: 'FatSecretFoodEntryIds',
-    },
+    _id: 'objectId',
+
   },
 };
 
@@ -42,7 +37,7 @@ export const tagsSchema = {
   primaryKey: '_id',
 
   properties: {
-    _id: 'string',
+    _id: 'objectId',
     tagEn: 'string?',
   },
 };
@@ -51,7 +46,7 @@ export const FatSecretFoodEntryIdsSchema = {
   primaryKey: '_id',
 
   properties: {
-    _id: 'string',
+    _id: 'objectId',
     foodEntryId: 'string?',
   },
 };
@@ -74,7 +69,7 @@ export const RestaurantSchema = {
   name: 'Restaurant',
   primaryKey: '_id',
   properties: {
-    _id: 'string',
+    _id: 'objectId',
     food: { type: 'list', objectType: 'Meal' },
     restaurant_name: 'string',
     address: 'string',
