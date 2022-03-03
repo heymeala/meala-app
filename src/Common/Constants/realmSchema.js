@@ -72,6 +72,7 @@ export const RestaurantSchema = {
     _id: 'objectId',
     food: { type: 'list', objectType: 'Meal' },
     restaurant_name: 'string',
+    restaurantId: 'string',
     address: 'string',
     lat: 'float?',
     long: 'float?',

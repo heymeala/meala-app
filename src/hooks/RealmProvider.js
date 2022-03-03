@@ -44,7 +44,7 @@ const RealmProvider = ({ children, projectPartition }) => {
       ],
       sync: {
         user: user,
-        partitionValue:  projectData[0].partition,
+        partitionValue: projectData[0].partition,
         newRealmFileBehavior: OpenRealmBehaviorConfiguration,
         existingRealmFileBehavior: OpenRealmBehaviorConfiguration,
       },
@@ -53,14 +53,12 @@ const RealmProvider = ({ children, projectPartition }) => {
     Realm.open(config).then((projectRealm) => {
       realmRef.current = projectRealm;
 
-/*      const syncTasks = projectRealm.objects('Task');
-      let sortedTasks = syncTasks.sorted('name');
-      setTasks([...sortedTasks]);
-      sortedTasks.addListener(() => {
-        setTasks([...sortedTasks]);
-      });*/
-
-
+      /*      const syncTasks = projectRealm.objects('Task');
+                        let sortedTasks = syncTasks.sorted('name');
+                        setTasks([...sortedTasks]);
+                        sortedTasks.addListener(() => {
+                          setTasks([...sortedTasks]);
+                        });*/
     });
 
     return () => {
@@ -78,14 +76,11 @@ const RealmProvider = ({ children, projectPartition }) => {
     const projectRealm = realmRef.current;
 
     projectRealm.write(() => {
-      projectRealm.create(
-        'Task',
-        {
-          _id: new ObjectId(),
-          name: task,
-          status: 'joo',
-        }
-      );
+      projectRealm.create('Task', {
+        _id: new ObjectId(),
+        name: task,
+        status: 'joo',
+      });
     });
   };
 
@@ -100,10 +95,9 @@ const RealmProvider = ({ children, projectPartition }) => {
     mealId,
     userMealId,
     scope,
-    date,
+    date
   ) => {
     const projectRealm = realmRef.current;
-
 
     const latitude = lat ? parseFloat(lat) : null;
     const longitude = lng ? parseFloat(lng) : null;
@@ -113,6 +107,7 @@ const RealmProvider = ({ children, projectPartition }) => {
         'Restaurant',
         {
           _id: new ObjectId(),
+          restaurantId: restaurantId,
           restaurant_name: restaurantName,
           address: '',
           lat: latitude,
@@ -135,14 +130,11 @@ const RealmProvider = ({ children, projectPartition }) => {
         isDeleted: false,
         _id: new ObjectId(),
         userMealId: userMealId,
-
-
       };
 
       restaurantEntry.food.push(projectRealm.create('Meal', newMeal, true));
-
     });
-      return "success"
+    return 'success';
   };
   const editRestaurantAndMeal = (
     mealTitle,
@@ -156,11 +148,13 @@ const RealmProvider = ({ children, projectPartition }) => {
   ) => {
     const projectRealm = realmRef.current;
 
-    const tags = predictions && predictions
-      .filter((data) => data.active === true)
-      .map((prediction) => {
-        return { tagEn: prediction.name };
-      });
+    const tags =
+      predictions &&
+      predictions
+        .filter((data) => data.active === true)
+        .map((prediction) => {
+          return { tagEn: prediction.name };
+        });
     projectRealm.write(() => {
       projectRealm.create(
         'Meal',
@@ -224,9 +218,7 @@ const RealmProvider = ({ children, projectPartition }) => {
 
     const meals = projectRealm
       .objects('Meal')
-      .filtered(
-        `isDeleted == false && food LIKE[c] '*${food}*' SORT(date DESC) LIMIT(25) `
-      );
+      .filtered(`isDeleted == false && food LIKE[c] '*${food}*' SORT(date DESC) LIMIT(25) `);
     return meals.sorted('date', true);
   };
 
@@ -241,7 +233,7 @@ const RealmProvider = ({ children, projectPartition }) => {
 
     const restaurantName = projectRealm
       .objects('Restaurant')
-      .filtered(`isDeleted == false && id LIKE[c] '*${restaurantId}*'`)[0];
+      .filtered(`isDeleted == false && restaurantId LIKE[c] '*${restaurantId}*'`)[0];
     return restaurantName.restaurant_name;
   };
   const saveSettings = (

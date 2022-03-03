@@ -101,7 +101,7 @@ const EnterMeal = ({ route, navigation }, props) => {
         : '')
     : t('AddMeal.fatSecretUserEntries.noData');
 
-  const { saveRestaurant } = useRealm();
+  const { saveRestaurant,editRestaurantAndMeal,getRestaurantName } = useRealm();
 
   React.useEffect(() => {
     if (scan === true) {
@@ -160,7 +160,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   useEffect(() => {
     if (id) {
       setRestaurantId((prevState) => id);
-      database.getRestaurantName(id).then((name) => setRestaurantName(name));
+      getRestaurantName(id).then((name) => setRestaurantName(name));
     }
   }, [id]);
 
@@ -271,8 +271,7 @@ const EnterMeal = ({ route, navigation }, props) => {
     }
 
     if (type.mode === EDIT_MODE) {
-      database
-        .editRestaurantAndMeal(
+      editRestaurantAndMeal(
           defaultMealTitle,
           foodPicture,
           note,

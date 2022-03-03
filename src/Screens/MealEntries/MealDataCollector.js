@@ -47,29 +47,29 @@ const MealDataCollector = (props) => {
   }, [userMealId, settings, userSettings]);
 
   function loadData() {
-    fetchMealbyId(userMealId).then((mealData) => {
-      getRestaurantName(mealData.restaurantId).then((name) => setRestaurantName(name));
-      setSelectedFood((prevState) => mealData);
-      loadSugarData(
-        mealData,
-        userSettings,
-        settings,
-        setCoordinates,
-        setCarbs,
-        setInsulin,
-        setTreatments,
-        setCarbCoordinates,
-        setInsulinCoordinates,
-        setLoading,
-        setStepsPerDay,
-        setSleepAnalysis,
-        getCgmData,
-        getSettings,
-        editMealCgmData,
-        getTreatmentsData,
-        editMealTreatments
-      ); //TODO:: CLEANUP
-    });
+    const mealData = fetchMealbyId(userMealId);
+    const name = getRestaurantName(mealData.restaurantId);
+    setRestaurantName(name);
+    setSelectedFood((prevState) => mealData);
+    loadSugarData(
+      mealData,
+      userSettings,
+      settings,
+      setCoordinates,
+      setCarbs,
+      setInsulin,
+      setTreatments,
+      setCarbCoordinates,
+      setInsulinCoordinates,
+      setLoading,
+      setStepsPerDay,
+      setSleepAnalysis,
+      getCgmData,
+      getSettings,
+      editMealCgmData,
+      getTreatmentsData,
+      editMealTreatments
+    ); //TODO:: CLEANUP
   }
 
   return (
