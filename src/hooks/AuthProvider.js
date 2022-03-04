@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
     // to wait for the user object to load before displaying that project.
     const myProject = { name: 'My Project', partition: `project=${user.id}` };
     setProjectData([myProject]);
-
     const config = {
       sync: {
         user,

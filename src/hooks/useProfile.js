@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from './ProfileContext';
-import { database } from '../Common/database_realm';
+import {useRealm} from "./RealmProvider";
 
 //todo: get range from nightscout
 const defaultSettings = {
@@ -11,13 +11,13 @@ const defaultSettings = {
 
 export const ProfileProvider = ({ children, settings }) => {
   const [currentSettings, setCurrentSettings] = useState(settings || defaultSettings);
-
+  const {getProfile } = useRealm()
   const saveProfile = unit => {
-    setCurrentSettings({ unit });
+   // setCurrentSettings({ unit });
   };
-
+/*
   useEffect(() => {
-    database.getProfile().then(data => {
+    getProfile() != null && getProfile().then(data => {
       if (data[0]) {
         setCurrentSettings({
           unit: data[0].unit || defaultSettings.unit,
@@ -26,7 +26,7 @@ export const ProfileProvider = ({ children, settings }) => {
         });
       }
     });
-  }, []);
+  }, []);*/
 
   return (
     <ProfileContext.Provider value={{ settings: currentSettings, saveProfile }}>

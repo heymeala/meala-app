@@ -100,7 +100,8 @@ export const ProfileSchema = {
   name: 'Profile',
   primaryKey: '_id',
   properties: {
-    _id: 'int',
+    //_id: 'objectId',
+    _id: 'int', // todo: naming
     onboarding: 'int',
     name: 'string?',
     type: 'string?',

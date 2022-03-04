@@ -3,9 +3,9 @@ import { Image, Linking, Platform, StyleSheet, TouchableOpacity, View } from 're
 import React, { useRef, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { database } from '../../../Common/database_realm';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
+import {useRealm} from "../../../hooks/RealmProvider";
 
 const RestaurantInputField = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -20,6 +20,7 @@ const RestaurantInputField = props => {
   const [googlePlaces, setGooglePlaces] = useState([]);
   const [googlePlacesFiltered, setGooglePlacesFiltered] = useState([]);
   const [token, setToken] = useState(null);
+  const {fetchRestaurantsWithFilterLimit } = useRealm()
 
   const screenReaderEnabled = useScreenReader();
   const RestaurantInput = useRef();
@@ -28,7 +29,7 @@ const RestaurantInputField = props => {
 
   function getAllRestaurants(text) {
     if (text.length > 0) {
-      return database.fetchRestaurantsWithFilterLimit(text).then(allRestaurant => {
+      return fetchRestaurantsWithFilterLimit(text).then(allRestaurant => {
         if (allRestaurant.length > 0) {
           const allRestaurantsIsDeleted = allRestaurant.filter(
             restaurants => restaurants.isDeleted === false,

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { Button, FAB, makeStyles } from 'react-native-elements';
-import { database } from '../../Common/database_realm';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';

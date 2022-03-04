@@ -1,18 +1,20 @@
 import { Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { database } from '../Common/database_realm';
 import { makeStyles } from 'react-native-elements';
 import { spacing } from '../theme/styles';
+import {useRealm} from "../hooks/RealmProvider";
 
 var _ = require('lodash');
 
 const MealTags = props => {
   const [tags, setTags] = useState(undefined);
   const styles = useStyles();
+    const {getTags} = useRealm()
+
 
   useEffect(() => {
     let isMounted = true;
-    database.getTags().then(items => {
+    getTags().then(items => {
       if (isMounted) {
         setTags(items);
       }

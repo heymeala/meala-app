@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
-import {View, Text, TextInput, Button, Alert, SafeAreaView} from 'react-native';
-import {useAuth} from '../hooks/AuthProvider';
-import OnboardingScreen from "./OnboardingScreen";
-import {createNativeStackNavigator} from "react-native-screens/native-stack";
-import {database} from "../Common/database_realm";
-import {useScreenReader} from "../hooks/useScreenReaderEnabled";
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Button, Alert, SafeAreaView } from 'react-native';
+import { useAuth } from '../hooks/AuthProvider';
+import OnboardingScreen from './OnboardingScreen';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { useScreenReader } from '../hooks/useScreenReaderEnabled';
 
-
-export function WelcomeView({ navigation,  }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { user, signUp, signIn } = useAuth();
+export function WelcomeView({ navigation }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { user, signUp, signIn, projectData } = useAuth();
   const Stack = createNativeStackNavigator();
 
   const [onboarding, setOnboarding] = useState(undefined);
@@ -18,28 +16,28 @@ export function WelcomeView({ navigation,  }) {
   const showOnboardingFirst = screenReaderEnabled ? 1 : 2;
   const showOnboardingLast = screenReaderEnabled ? 1 : 8;
 
-  console.log(user)
   useEffect(() => {
     // If there is a user logged in, go to the Projects page.
-    if (user != null) {
+
+    if (user !== null  ) {
       navigation.navigate('Home');
     }
   }, [user]);
 
-/*  useEffect(() => {
-    database
-        .saveOnbording()
-        .then(onboardingState =>
-            onboardingState > showOnboardingFirst && onboardingState !== showOnboardingLast
-                ? setOnboarding(false)
-                : setOnboarding(true),
-        );
-  }, []);*/
+  /*  useEffect(() => {
+          database
+              .saveOnbording()
+              .then(onboardingState =>
+                  onboardingState > showOnboardingFirst && onboardingState !== showOnboardingLast
+                      ? setOnboarding(false)
+                      : setOnboarding(true),
+              );
+        }, []);*/
 
   // The onPressSignIn method calls AuthProvider.signIn with the
   // email/password in state.
   const onPressSignIn = async () => {
-    console.log("Press sign in");
+    console.log('Press sign in');
     try {
       await signIn(email, password);
     } catch (error) {
@@ -58,32 +56,33 @@ export function WelcomeView({ navigation,  }) {
     }
   };
 
-  return (<>
-    <SafeAreaView>
-      <Text>Signup or Signin:</Text>
-      <View >
-        <TextInput
-          onChangeText={setEmail}
-          value={email}
-          placeholder="email"
-          autoCapitalize="none"
-        />
-      </View>
-      <View >
-        <TextInput
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          placeholder="password"
-          secureTextEntry
-        />
-      </View>
-      <Button onPress={onPressSignIn} title="Sign In" />
-      <Button onPress={onPressSignUp} title="Sign Up" />
-    </SafeAreaView>
+  return (
+    <>
+      <SafeAreaView>
+        <Text>Signup or Signin:</Text>
+        <View>
+          <TextInput
+            onChangeText={setEmail}
+            value={email}
+            placeholder="email"
+            autoCapitalize="none"
+          />
+        </View>
+        <View>
+          <TextInput
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            placeholder="password"
+            secureTextEntry
+          />
+        </View>
+        <Button onPress={onPressSignIn} title="Sign In" />
+        <Button onPress={onPressSignUp} title="Sign Up" />
+      </SafeAreaView>
 
-{/*  {onboarding && (
+      {/*  {onboarding && (
       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
   )}*/}
-      </>
+    </>
   );
 }

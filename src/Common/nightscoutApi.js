@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { database } from './database_realm';
 import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
@@ -75,7 +74,7 @@ export function nightscoutTreatmens(date, userMealId,  getSettings,  getTreatmen
           if (threeHoursAgo >= saveDate.getTime()) {
             const carbSum = calculateCarbs(treatmentsData);
             updateUserCarbsOnline(carbSum, userMealId);
-            database.editMealTreatments(date, treatmentsData, carbSum, userMealId);
+            editMealTreatments(date, treatmentsData, carbSum, userMealId);
           }
           return treatmentsData.reverse();
         });

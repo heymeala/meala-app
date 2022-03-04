@@ -294,14 +294,15 @@ const RealmProvider = ({ children, projectPartition }) => {
     const profile = projectRealm.objects('Profile');
     return profile;
   };
-  const saveProfile2 = (unit) => {
+  const saveProfileRealm = (unit) => {
     const projectRealm = realmRef.current;
 
     projectRealm.write(() => {
       projectRealm.create(
         'Profile',
         {
-          _id: 1,
+          _id: new ObjectId(1),
+            id: 1,
           unit: unit,
         },
         true
@@ -312,7 +313,7 @@ const RealmProvider = ({ children, projectPartition }) => {
     const projectRealm = realmRef.current;
 
     projectRealm.then((realm) => {
-      let onboardingState = projectRealm.objects('Profile').filtered('_id = "1"');
+      let onboardingState = projectRealm.objects('Profile').filtered('id = "1"');
       let counter = 0;
       onboardingState.length === 0 ? (counter = 1) : (counter = onboardingState[0].onboarding + 1);
 
@@ -320,7 +321,8 @@ const RealmProvider = ({ children, projectPartition }) => {
         realm.create(
           'Profile',
           {
-            _id: 1,
+              _id: new ObjectId(1),
+            id: 1,
             onboarding: counter,
           },
           true
@@ -333,7 +335,7 @@ const RealmProvider = ({ children, projectPartition }) => {
   const getOnboarding = () => {
     const projectRealm = realmRef.current;
 
-    let onboardingState = projectRealm.objects('Profile').filtered('_id = "1"');
+    let onboardingState = projectRealm.objects('Profile').filtered('id = "1"');
     return onboardingState[0].onboarding;
   };
   const getGlucoseSource = () => {
@@ -493,7 +495,7 @@ const RealmProvider = ({ children, projectPartition }) => {
         saveGlucoseSource,
         getSettings,
         getProfile,
-        saveProfile2,
+          saveProfileRealm,
         saveOnbording,
         getOnboarding,
         getGlucoseSource,
@@ -522,7 +524,7 @@ const RealmProvider = ({ children, projectPartition }) => {
 const useRealm = () => {
   const realm = useContext(RealmContext);
   if (realm == null) {
-    throw new Error('useTasks() called outside of a TasksProvider?'); // an alert is not placed because this is an error for the developer not the user
+    throw new Error('useRealm() called outside of a TasksProvider?'); // an alert is not placed because this is an error for the developer not the user
   }
   return realm;
 };

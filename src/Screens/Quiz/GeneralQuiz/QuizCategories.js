@@ -8,6 +8,7 @@ import { database } from '../../../Common/database_realm';
 import { calculateScore } from '../calculateScore';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
 import analytics from '@react-native-firebase/analytics';
+import {useRealm} from "../../../hooks/RealmProvider";
 
 const QuizCategories = props => {
   const styles = useStyles();
@@ -17,6 +18,8 @@ const QuizCategories = props => {
   const [totalScore, setTotalScore] = useState(null);
   const { theme } = useTheme();
   const navigation = useNavigation();
+  const {getCommunityQuizAnswers,deleteCommunityQuizAnswers } = useRealm()
+
 
   React.useEffect(() => {
     CommunityQuiz();
@@ -59,7 +62,7 @@ const QuizCategories = props => {
   };
 
   const CommunityQuiz = async () => {
-    const localQuizData = await database.getCommunityQuizAnswers();
+    const localQuizData = await getCommunityQuizAnswers();
     const remoteQuizData = await quizCategoriesApi(locale);
 
     const tries = localQuizData.map(data => data.tries);
@@ -144,7 +147,7 @@ const QuizCategories = props => {
             buttonStyle={{ backgroundColor: 'transparent' }}
             title={t('Quiz.community.reset')}
             onPress={() => {
-              database.deleteCommunityQuizAnswers();
+              deleteCommunityQuizAnswers();
               navigation.goBack();
             }}
           />

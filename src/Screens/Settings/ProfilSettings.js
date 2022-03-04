@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Linking, Platform, TouchableOpacity, View } from 'react-native';
 import { CheckBox, makeStyles, Text } from 'react-native-elements';
 import { useProfile } from '../../hooks/useProfile';
-import { database } from '../../Common/database_realm';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { useNavigation } from '@react-navigation/core';
 import { spacing } from '../../theme/styles';
 import { MMOLPERL } from '../../Common/Constants/units';
-import {useRealm} from "../../hooks/RealmProvider";
+import { useRealm } from '../../hooks/RealmProvider';
 
 const ProfilSettings = () => {
   const { settings, saveProfile } = useProfile();
@@ -17,16 +16,17 @@ const ProfilSettings = () => {
   const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
   const styles = useStyles();
-    const {createTask } = useRealm()
+  const { createTask, saveProfileRealm } = useRealm();
+
   function switchToMmol(unit) {
-    setChecked(prevState => false);
-    database.saveProfile(unit).then(() => saveProfile(unit));
-    createTask("My First Task")
+    setChecked((prevState) => false);
+   // saveProfileRealm(unit).then(() => saveProfile(unit));
+    createTask('My First Task');
   }
 
   function switchToMgdL(unit) {
-    setChecked(prevState => true);
-    database.saveProfile(unit).then(() => saveProfile(unit));
+    setChecked((prevState) => true);
+   // saveProfileRealm(unit).then(() => saveProfile(unit));
   }
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const ProfilSettings = () => {
   );
 };
 export default ProfilSettings;
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   container: { flex: 1, padding: 24 },
   headline: {},
   checkBoxText: { flex: 1, flexGrow: 1 },

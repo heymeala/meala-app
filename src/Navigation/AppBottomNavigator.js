@@ -10,6 +10,7 @@ import QuizStack from './QuizStack';
 import EnterMealStack from './EnterMealStack';
 import Maps from '../Screens/Maps/Maps';
 import { useScreenReader } from '../hooks/useScreenReaderEnabled';
+import {useAuth} from "../hooks/AuthProvider";
 
 const AppBottomNavigationStack = () => {
   const Tab = createBottomTabNavigator();
@@ -17,7 +18,6 @@ const AppBottomNavigationStack = () => {
   const { theme } = useTheme();
   const { type } = useEnterMealType();
   const screenReaderEnabled = useScreenReader();
-
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -30,7 +30,7 @@ const AppBottomNavigationStack = () => {
 
       }}>
       <Tab.Screen
-        name="Home"
+        name="meal"
         component={SugarStack}
         options={({ navigation }) => {
           return {

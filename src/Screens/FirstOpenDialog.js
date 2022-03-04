@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
 import { FAB, makeStyles, Text } from 'react-native-elements';
-import { database } from '../Common/database_realm';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
 import { DEVICE_HEIGHT } from '../utils/deviceHeight';
 import LottieView from 'lottie-react-native';
 import ListItemWithIcon from './MealEntries/Common/ListItemWithIcon';
 import { spacing } from '../theme/styles';
+import {useRealm} from "../hooks/RealmProvider";
 
 const FirstOpenDialog = props => {
   const { t } = React.useContext(LocalizationContext);
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
   const [open, setOpen] = useState(false);
+  const {getOnboarding,saveOnbording } = useRealm()
 
   useEffect(() => {
     const load = async () => {
-      const firstOpen = await database.getOnboarding();
+      const firstOpen = await getOnboarding();
       if (firstOpen === 1) {
         setOpen(true);
       }
@@ -27,7 +28,7 @@ const FirstOpenDialog = props => {
 
   function acceptDialog() {
     setOpen(false);
-    database.saveOnbording();
+    saveOnbording();
   }
 
   return (

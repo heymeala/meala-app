@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { database } from '../Common/database_realm';
 import { defaultUserSettings, UserSettingsContext } from './UserSettingsContext';
 import { DEFAULT, HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Screens/Settings/glucoseSourceConstants';
+import {useRealm} from "./RealmProvider";
 
 export const UserSettingsProvider = ({ children, userSettings }) => {
   const [settings, setSettings] = useState(userSettings || defaultUserSettings);
+  const {getGlucoseSource,getSettings,saveGlucoseSource,saveSettings } = useRealm()
 
   const saveUserSettings = data => {
     setSettings(data);
-    database.saveGlucoseSource(data.glucoseSource);
-    database.saveSettings(
+    saveGlucoseSource(data.glucoseSource);
+    saveSettings(
       data.nightscoutUrl,
       data.nightscoutStatus,
       data.nightscoutVersion,
@@ -20,8 +21,8 @@ export const UserSettingsProvider = ({ children, userSettings }) => {
 
   useEffect(() => {
     const profileSettings = async () => {
-      const settingsData = (await database.getSettings()).toJSON();
-      const glucoseSource = await database.getGlucoseSource();
+      const settingsData = (await getSettings()).toJSON();
+      const glucoseSource = await getGlucoseSource();
       if (settingsData && glucoseSource === LIBRETWOAPP) {
         setSettings({ ...settingsData, glucoseSource: LIBRETWOAPP });
       } else if ((settingsData && glucoseSource === '2') || (settingsData && glucoseSource === NIGHTSCOUT)) {

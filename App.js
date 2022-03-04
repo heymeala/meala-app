@@ -111,8 +111,6 @@ const App = (props) => {
             }}
           >
             <ThemeProvider theme={theme}>
-              <ProfileProvider>
-                <UserSettingsProvider>
                   <ScreenReaderProvider>
                     <EnterMealTypeProvider>
                       <KnowledgeProvider>
@@ -122,8 +120,6 @@ const App = (props) => {
                       </KnowledgeProvider>
                     </EnterMealTypeProvider>
                   </ScreenReaderProvider>
-                </UserSettingsProvider>
-              </ProfileProvider>
             </ThemeProvider>
           </NavigationContainer>
       </AuthProvider>
