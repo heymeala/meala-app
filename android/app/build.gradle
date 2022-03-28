@@ -1,7 +1,4 @@
 apply plugin: "com.android.application"
-
-import com.android.build.OutputFile
-
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -139,7 +136,6 @@ android {
         manifestPlaceholders = [
                 appAuthRedirectScheme: 'com.heymeala.app.oauth'
         ]
-
     }
     splits {
         abi {
