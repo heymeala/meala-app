@@ -29,10 +29,8 @@ Secrets.tar
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
-gradle.properties
 local.properties
 *.iml
 
