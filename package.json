@@ -7,9 +7,8 @@
     "android": "npx react-native  run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "start:dev": "APP_ENV=dev npx react-native start",
-    "start:ios": "APP_ENV=dev npx react-native run-ios",
-    "start:android": "APP_ENV=dev npx react-native run-android",
+    "dev:android": "npx react-native run-android --appIdSuffix dev",
+    "dev:ios": "npm run ios",
     "test": "jest",
     "lint": "eslint .",
     "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
