@@ -8,6 +8,7 @@ import { database } from '../../Common/database_realm';
 import InfoModal from './InfoModal';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { makeStyles } from 'react-native-elements';
+import { checkAPI } from '../../utils/checkAPI';
 
 const Maps = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -43,6 +44,7 @@ const Maps = props => {
       setOwnRestaurants(data);
     });
 
+    checkAPI('COMMUNITY_RESTAURANTS', COMMUNITY_RESTAURANTS);
     fetch(COMMUNITY_RESTAURANTS)
       .then(response => response.json())
       .then(data => {

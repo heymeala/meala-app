@@ -1,6 +1,7 @@
 import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
 import { Platform } from 'react-native';
 import { database } from '../../../Common/database_realm';
+import { checkAPI } from '../../../utils/checkAPI';
 
 const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 
@@ -18,12 +19,8 @@ export const getLocalDatabaseRestaurants = text => {
 
 export const fetchGoogleRestaurants = (searchString, lat, lng, setLoading) => {
   //frage so richtig? er hat api als global.
-  console.log('fetchGoogleRestaurants');
-  if (apiKey === undefined || apiKey.length === 0) {
-    throw new Error(
-      'GOOGLE_API_KEY_IOS or/and GOOGLE_API_KEY_ANDROID is undefined. Define a Key in your .env file',
-    );
-  }
+  checkAPI('apiKey', apiKey);
+
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchString}&location=${lat},${lng}&radius=3000&type=food&key=${apiKey}`;
   console.log(url);
 

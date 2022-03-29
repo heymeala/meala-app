@@ -2,6 +2,7 @@ import hmacsha1 from 'hmacsha1';
 import React from 'react';
 import Keychain from 'react-native-keychain';
 import { FATSECRET_CONSUMER_KEY, FATSECRET_CONSUMER_SECRET } from '@env';
+import { checkAPI } from '../../utils/checkAPI';
 
 const queryString = require('query-string');
 
@@ -15,6 +16,8 @@ const OAUTH_SIGNATURE_METHOD = 'HMAC-SHA1';
 
 function getOauthParameters() {
   const timestamp = Math.round(new Date().getTime() / 1000);
+  checkAPI('FATSECRET_CONSUMER_KEY', FATSECRET_CONSUMER_KEY);
+
   return [
     ['oauth_consumer_key', FATSECRET_CONSUMER_KEY].join('='),
     ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
@@ -25,6 +28,7 @@ function getOauthParameters() {
 }
 
 export function signRequest(baseUrl, queryParams, secret, httpMethod = 'GET') {
+  checkAPI('FATSECRET_CONSUMER_SECRET', FATSECRET_CONSUMER_SECRET);
   const signatureKey = secret ? `${FATSECRET_CONSUMER_SECRET}&${secret}` : `${FATSECRET_CONSUMER_SECRET}&`;
   const signatureBaseString = [
     httpMethod,
@@ -124,7 +128,7 @@ export async function getOauthUrl() {
 
 function getOauthAccessToken(token, code) {
   const timestamp = Math.round(new Date().getTime() / 1000);
-
+  checkAPI('FATSECRET_CONSUMER_KEY', FATSECRET_CONSUMER_KEY);
   return [
     ['oauth_token', token].join('='),
     ['oauth_nonce', `${timestamp}${Math.floor(Math.random() * 1000000)}`].join('='),
@@ -155,7 +159,7 @@ export function getAccessToken(token, secret, code) {
 
 function getFoodByDateParams(token) {
   const timestamp = Math.round(new Date().getTime() / 1000);
-
+  checkAPI('FATSECRET_CONSUMER_KEY', FATSECRET_CONSUMER_KEY);
   return [
     ['oauth_consumer_key', FATSECRET_CONSUMER_KEY].join('='),
     ['oauth_signature_method', OAUTH_SIGNATURE_METHOD].join('='),

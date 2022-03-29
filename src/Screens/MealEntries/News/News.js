@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from "react-native-elements";
+import { Button, Icon, makeStyles, Text } from 'react-native-elements';
 import { deviceWidth } from '../../../utils/deviceHeight';
 import HTML from 'react-native-render-html';
 import openLink from '../../../Common/InAppBrowser';
@@ -10,6 +10,7 @@ import FadeInView from '../../../Common/FadeInView';
 import moment from 'moment';
 import { useNavigation } from '@react-navigation/core';
 import { smallDevice } from '../../../Common/Constants/devices';
+import { checkAPI } from '../../../utils/checkAPI';
 
 const News = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -20,6 +21,7 @@ const News = props => {
   useEffect(() => {
     const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
     const language = locale === 'de' ? 'de' : 'en';
+    checkAPI('CALENDAR_URL', CALENDAR_URL);
     const url = CALENDAR_URL + language + '&start_date=' + startOfMonth + '&per_page=3';
     fetch(url)
       .then(response => response.json())

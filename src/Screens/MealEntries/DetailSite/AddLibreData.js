@@ -13,6 +13,7 @@ import { database } from '../../../Common/database_realm';
 import moment from 'moment';
 import libre_de from '../../../assets/libre/libre_tagesdiagram.png';
 import libre_en from '../../../assets/libre/libre_daily_graph.png';
+import { checkAPI } from '../../../utils/checkAPI';
 
 const AddLibreData = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -68,6 +69,7 @@ const AddLibreData = props => {
 
   function uploadImage() {
     setLoading(true);
+    checkAPI('IMAGECONVERTER_API', IMAGECONVERTER_API);
     RNFetchBlob.fetch(
       'POST',
       IMAGECONVERTER_API,
