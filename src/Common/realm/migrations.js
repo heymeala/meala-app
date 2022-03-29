@@ -45,21 +45,19 @@ export const migrate = (oldRealm, newRealm) => {
     for (let i = 0; i < oldMeals.length; i++) {
       glucoseEntries.push(...convertNightscoutToGlucoseEntry(oldMeals[i].cgmData));
 
-      newMeals._id = ObjectId();
-      newMeals.groupId = oldMeals[i].id;
+      newMeals[i]._id = ObjectId();
+      newMeals[i].groupId = oldMeals[i].id;
       delete newMeals[i].id;
       delete newMeals[i].userMealId;
       delete newMeals[i].cgmData;
     }
 
     // write glucose entries into new schema, removing duplicates
-    newRealm.write(() => {
-      _(glucoseEntries)
-        .uniqBy(it => it._id)
-        .forEach(it => {
-          newRealm.create('GlucoseEntry', it);
-        });
-    });
+    _(glucoseEntries)
+      .uniqBy(it => it._id)
+      .forEach(it => {
+        newRealm.create('GlucoseEntry', it);
+      });
   }
 };
 
