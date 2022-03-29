@@ -17,8 +17,16 @@ export const getLocalDatabaseRestaurants = text => {
 };
 
 export const fetchGoogleRestaurants = (searchString, lat, lng, setLoading) => {
+  //frage so richtig? er hat api als global.
+  console.log('fetchGoogleRestaurants');
+  if (apiKey === undefined || apiKey.length === 0) {
+    throw new Error(
+      'GOOGLE_API_KEY_IOS or/and GOOGLE_API_KEY_ANDROID is undefined. Define a Key in your .env file',
+    );
+  }
   const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${searchString}&location=${lat},${lng}&radius=3000&type=food&key=${apiKey}`;
   console.log(url);
+
   if (searchString && searchString.length > 3) {
     setLoading(true);
     return fetch(url)
@@ -34,6 +42,7 @@ export const fetchGoogleRestaurants = (searchString, lat, lng, setLoading) => {
       });
   }
 };
+
 const loadMoreRestaurants = token => {
   const url =
     'https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=' + token + '&key=' + apiKey;

@@ -1,9 +1,11 @@
 import React from 'react';
 import { getCurrentPosition } from './geolocation';
-import { GOOGLE_API_KEY_IOS, GOOGLE_API_KEY_ANDROID } from '@env';
+import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
 import { Platform } from 'react-native';
+
 export default function getPlaces() {
   const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
+
   getCurrentPosition()
     .then(position =>
       fetch(

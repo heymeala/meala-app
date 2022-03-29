@@ -24,70 +24,71 @@ const SearchRestaurantModal = props => {
   //useAutoFocus(autoFocus, inputRef);
 
   const searchForRestaurants = async (text, googleSearch) => {
-    setSearchText(text);
-    const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
-    const googleRestaurants =
-      text && text.length > 3 ? await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading) : null;
+    try {
+      setSearchText(text);
+      const localDatabaseRestaurants = await getLocalDatabaseRestaurants(text);
 
-    const createLocalRestaurantList =
-      localDatabaseRestaurants &&
-      localDatabaseRestaurants.map(item => {
-        return {
-          id: item.id,
-          name: item.restaurant_name,
-          type: item.scope || 'local',
-          lat: item.lat,
-          lng: item.long,
-          address: item.address,
-          rating: null,
-        };
-      });
-    setGoogleRestaurantList(
-      googleRestaurants &&
-        googleRestaurants.map(item => {
+      const googleRestaurants =
+        text && text.length > 3 ? await fetchGoogleRestaurants(text, props.lat, props.lng, setLoading) : null;
+
+      const createLocalRestaurantList =
+        localDatabaseRestaurants &&
+        localDatabaseRestaurants.map(item => {
           return {
-            id: item.place_id,
-            name: item.name,
-            type: 'GOOGLE',
+            id: item.id,
+            name: item.restaurant_name,
+            type: item.scope || 'local',
             lat: item.lat,
             lng: item.long,
-            address: item.formatted_address,
-            rating: item.rating,
+            address: item.address,
+            rating: null,
           };
-        }),
-    );
+        });
+      setGoogleRestaurantList(
+        googleRestaurants &&
+          googleRestaurants.map(item => {
+            return {
+              id: item.place_id,
+              name: item.name,
+              type: 'GOOGLE',
+              lat: item.lat,
+              lng: item.long,
+              address: item.formatted_address,
+              rating: item.rating,
+            };
+          }),
+      );
 
-    let createRestaurant = [
-      {
-        id: text,
-        name: text,
-        type: 'local',
-        lat: props.lat,
-        lng: props.lng,
-        address: '',
-        rating: '',
-      },
-    ];
-
-    const googleDividerItem = [{ id: 'googleDivider', name: 'Google Places', type: 'divider' }];
-    const localDividerItem = [{ id: 'localDivider', name: 'Eigene Orte', type: 'divider' }];
-
-    const mergeLists = (newName, localList, googleList, googleDivider, localDividerItem) => {
-      return [
-        ...((text && text.length > 0 && newName) || []),
-        ...(localList || []),
-        ...(googleList || []),
+      let createRestaurant = [
+        {
+          id: text,
+          name: text,
+          type: 'local',
+          lat: props.lat,
+          lng: props.lng,
+          address: '',
+          rating: '',
+        },
       ];
-    };
-    const restaurantsList = mergeLists(
-      createRestaurant,
-      createLocalRestaurantList,
-      googleRestaurantList,
-      googleDividerItem,
-      localDividerItem,
-    );
-    console.log('list', restaurantsList);
-    setRestaurants(restaurantsList);
+
+      const googleDividerItem = [{ id: 'googleDivider', name: 'Google Places', type: 'divider' }];
+      const localDividerItem = [{ id: 'localDivider', name: 'Eigene Orte', type: 'divider' }];
+
+      const mergeLists = (newName, localList, googleList, googleDivider, localDividerItem) => {
+        return [...((text && text.length > 0 && newName) || []), ...(localList || []), ...(googleList || [])];
+      };
+      const restaurantsList = mergeLists(
+        createRestaurant,
+        createLocalRestaurantList,
+        googleRestaurantList,
+        googleDividerItem,
+        localDividerItem,
+      );
+      console.log('list', restaurantsList);
+      setRestaurants(restaurantsList);
+    } catch (err) {
+      console.error('Problems while searchForRestaurants', err);
+    }
   };
 
   const FlatListItem = ({ item, index }) => (
@@ -257,7 +258,6 @@ const useStyles = makeStyles(theme => ({
     //flex: 1,
     // height:300,
     justifyContent: 'center',
-
   },
   modalView: {
     margin: theme.spacing.S,
