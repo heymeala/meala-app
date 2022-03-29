@@ -1,1 +1,1 @@
-export const smallDevice = 320
+export const smallDevice = 320;

@@ -176,9 +176,9 @@ const FatSecretQuiz = props => {
   return recipeDetails !== null ? (
     <>
       <View style={styles.container}>
-          <Text accessibilityRole={'header'} h2 h2Style={styles.text}>
-            {question.current}
-          </Text>
+        <Text accessibilityRole={'header'} h2 h2Style={styles.text}>
+          {question.current}
+        </Text>
         <Image
           style={styles.image}
           source={{

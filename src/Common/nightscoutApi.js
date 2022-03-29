@@ -4,9 +4,7 @@ import { database } from './database_realm';
 import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
-import { hoursAgo } from "../utils/hoursAgo";
-
-
+import { hoursAgo } from '../utils/hoursAgo';
 
 export async function nightscoutCall(date, id) {
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
@@ -35,7 +33,7 @@ export async function nightscoutCall(date, id) {
         .then(data => {
           // add data from nightscout  to offline realm database after 3hours
           //  const threeHoursAgo = new Date().getTime() - 1000 * 60 * 60 * 3;
-          const threeHoursAgo = hoursAgo(3)
+          const threeHoursAgo = hoursAgo(3);
           if (threeHoursAgo >= date.getTime()) {
             database.editMealCgmData(data, id);
           }
@@ -71,7 +69,7 @@ export function nightscoutTreatmens(date, userMealId) {
         .then(response => response.json())
         .then(treatmentsData => {
           //  add treatments data from nightscout  to offline realm database after 3hours
-          const threeHoursAgo = hoursAgo(3)
+          const threeHoursAgo = hoursAgo(3);
 
           if (threeHoursAgo >= saveDate.getTime()) {
             const carbSum = calculateCarbs(treatmentsData);

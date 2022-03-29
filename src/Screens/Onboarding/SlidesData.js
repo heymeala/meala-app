@@ -11,8 +11,7 @@ export const enSlides = [
   {
     key: 2,
     title: 'Time in Range',
-    text:
-      'Check if your BE factors are correct. Your sugar should be back in the target range within three hours after your meal. \n',
+    text: 'Check if your BE factors are correct. Your sugar should be back in the target range within three hours after your meal. \n',
     //image: require('../../assets/onboarding/2.png'),
     animation: timeinrange,
     backgroundColor: '#fff',
@@ -20,16 +19,14 @@ export const enSlides = [
   {
     key: 3,
     title: 'Reminder',
-    text:
-      "The results of your meal are not available for three hours. You'll get a notification when our analysis is done",
+    text: "The results of your meal are not available for three hours. You'll get a notification when our analysis is done",
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },
   {
     key: 4,
     title: 'Disclaimer',
-    text:
-      'meala must not be used to make medical decisions. It is a research tool only and is provided as is without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Schuld the program prove defective, you assume the cost of all necessary servicing, repair or correction.',
+    text: 'meala must not be used to make medical decisions. It is a research tool only and is provided as is without warranty of any kind, either expressed or implied, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose. The entire risk as to the quality and performance of the program is with you. Schuld the program prove defective, you assume the cost of all necessary servicing, repair or correction.',
     backgroundColor: '#ff605a',
   },
 ];
@@ -38,8 +35,7 @@ export const deSlides = [
   {
     key: 1,
     title: 'Mahlzeiten finden',
-    text:
-      'Finde Mahlzeiten basierend auf Deinem Standort und lerne von Deinen eigenen und den Erfahrungen Anderer.\n\n',
+    text: 'Finde Mahlzeiten basierend auf Deinem Standort und lerne von Deinen eigenen und den Erfahrungen Anderer.\n\n',
     image: require('../../assets/onboarding/1.png'),
 
     backgroundColor: '#fff',
@@ -47,8 +43,7 @@ export const deSlides = [
   {
     key: 2,
     title: 'Zeit im Zielbereich',
-    text:
-      'Überprüfe, ob Deine BE-Faktoren stimmen. Dein Zucker sollte spätestens drei Stunden nach der Mahlzeit wieder im Zielbereich sein.\n ',
+    text: 'Überprüfe, ob Deine BE-Faktoren stimmen. Dein Zucker sollte spätestens drei Stunden nach der Mahlzeit wieder im Zielbereich sein.\n ',
     animation: timeinrange,
 
     backgroundColor: '#fff',
@@ -56,8 +51,7 @@ export const deSlides = [
   {
     key: 3,
     title: 'Erinnerung',
-    text:
-      'Die Ergebnisse Deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung, wenn meala mit der Analyse fertig ist',
+    text: 'Die Ergebnisse Deiner Mahlzeit sind erst nach drei Stunden vorhanden. Du erhältst eine Erinnerung, wenn meala mit der Analyse fertig ist',
     image: require('../../assets/onboarding/3.png'),
     backgroundColor: '#fff',
   },

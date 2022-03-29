@@ -532,10 +532,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
-  wrapper: { flexGrow: 1, height: "100%" },
+  wrapper: { flexGrow: 1, height: '100%' },
 
   spacing: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   fatSecretButton: {
     paddingHorizontal: theme.spacing.M,
@@ -544,8 +544,8 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   container: {
     flexGrow: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cancelButton: {
     height: 40,

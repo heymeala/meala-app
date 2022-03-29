@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, useWindowDimensions, View } from "react-native";
+import { ScrollView, useWindowDimensions, View } from 'react-native';
 import { makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useKnowledge } from '../../../hooks/useKnowledge';

@@ -136,7 +136,9 @@ const NewsScreen = ({ navigation }, props) => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                  <TouchableOpacity style={{marginHorizontal:8}} onPress={() => onShare(events.url, events.title)}>
+                  <TouchableOpacity
+                    style={{ marginHorizontal: 8 }}
+                    onPress={() => onShare(events.url, events.title)}>
                     <Icon name={'ios-share'} />
                   </TouchableOpacity>
                   <Button

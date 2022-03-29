@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
 import { database } from '../../Common/database_realm';
-import { FAB, makeStyles } from "react-native-elements";
+import { FAB, makeStyles } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import DateList from './DateList';
 import MealList from './MealList';
@@ -36,7 +36,7 @@ const MealSearchController = () => {
   };
 
   useEffect(() => {
-      getFcmToken();
+    getFcmToken();
 
     let isMounted = true;
 
@@ -50,7 +50,7 @@ const MealSearchController = () => {
     };
   }, []);
 
-  const SegmentedController = function() {
+  const SegmentedController = function () {
     return (
       <View style={styles.container}>
         <SegmentedControlTab

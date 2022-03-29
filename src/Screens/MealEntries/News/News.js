@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import { Button, Icon, makeStyles, Text } from "react-native-elements";
+import { Button, Icon, makeStyles, Text } from 'react-native-elements';
 import { deviceWidth } from '../../../utils/deviceHeight';
 import HTML from 'react-native-render-html';
 import openLink from '../../../Common/InAppBrowser';

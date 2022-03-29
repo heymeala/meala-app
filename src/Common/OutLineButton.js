@@ -20,7 +20,7 @@ const OutLineButton = props => {
 export default OutLineButton;
 
 const useStyles = makeStyles(theme => ({
-  wrapper:{margin:theme.spacing.S},
-  buttonContainer: { borderRadius: 50, },
-  button: { backgroundColor: 'transparent',  },
+  wrapper: { margin: theme.spacing.S },
+  buttonContainer: { borderRadius: 50 },
+  button: { backgroundColor: 'transparent' },
 }));

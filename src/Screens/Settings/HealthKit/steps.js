@@ -13,6 +13,8 @@ export function hkSteps(setStepSamples) {
       to: new Date(),
     };
 
-    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result => setStepSamples(result));
+    Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.stepCount, options).then(result =>
+      setStepSamples(result),
+    );
   }
 }

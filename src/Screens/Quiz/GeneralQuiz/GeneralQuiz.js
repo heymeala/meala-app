@@ -214,12 +214,7 @@ const GeneralQuiz = props => {
   }
   if (showAnswerInformation) {
     if (quizData.current) {
-      return (
-        <RightAnswerInfo
-          infoText={quizData.current[step].acf.info}
-          nextQuestion={nextQuestion}
-        />
-      );
+      return <RightAnswerInfo infoText={quizData.current[step].acf.info} nextQuestion={nextQuestion} />;
     } else {
       return <LoadingSpinner />;
     }
