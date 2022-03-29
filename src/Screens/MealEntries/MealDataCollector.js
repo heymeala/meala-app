@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MealDetailsComponent from './DetailSite/MealDetailPage';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import { useProfile } from '../../hooks/useProfile';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { useUserSettings } from '../../hooks/useUserSettings';
@@ -19,14 +19,14 @@ const MealDataCollector = props => {
   const [stepsPerDay, setStepsPerDay] = useState(null);
   const [sleepAnalysis, setSleepAnalysis] = useState(null);
   const route = useRoute();
-  const { userMealId } = route.params;
+  const { mealId } = route.params;
   const [restaurantName, setRestaurantName] = useState(null);
   const { settings } = useProfile();
   const { userSettings } = useUserSettings();
 
   useEffect(() => {
     let isMounted = true;
-    if (userMealId) {
+    if (mealId) {
       if (isMounted) {
         loadData();
       }
@@ -34,12 +34,12 @@ const MealDataCollector = props => {
     return () => {
       isMounted = false;
     };
-  }, [userMealId, settings, userSettings]);
+  }, [mealId, settings, userSettings]);
 
   function loadData() {
-    database.fetchMealbyId(userMealId).then(mealData => {
+    database.fetchMealById(mealId).then(mealData => {
       database.getRestaurantName(mealData.restaurantId).then(name => setRestaurantName(name));
-      setSelectedFood(prevState => mealData);
+      setSelectedFood(mealData);
       loadSugarData(
         mealData,
         userSettings,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
 import { FAB, makeStyles, Text } from 'react-native-elements';
-import { database } from '../Common/database_realm';
+import { database } from '../Common/realm/database';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../LanguageContext';
 import { DEVICE_HEIGHT } from '../utils/deviceHeight';

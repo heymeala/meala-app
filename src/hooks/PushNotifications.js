@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Alert } from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import * as RootNavigation from '../Navigation/RootNavigation';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import LocalizationContext from '../../LanguageContext';
 
 const PushNotifications = t => {
   useEffect(() => {
@@ -32,7 +31,7 @@ const PushNotifications = t => {
           if (notification.data.screen === 'EnterMealStack' && notification.userInteraction) {
             RootNavigation.navigate('Home', {
               screen: 'MealDataCollector',
-              params: { userMealId: notification.data.userMealId },
+              params: { mealId: notification.data.mealId },
             });
           }
         }

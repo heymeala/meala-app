@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Divider, Text } from 'react-native-elements';
 import React from 'react';
 
-export const ExistingRestaurants = () => {
+export const ExistingRestaurants = props => {
   this.state.Restaurant !== '' ? (
     !this.state.isLoadingDatabase ? (
       props.placesFiltered != null ? (

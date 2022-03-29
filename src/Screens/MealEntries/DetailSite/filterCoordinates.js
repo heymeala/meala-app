@@ -1,5 +1,4 @@
 import { MAX_CHART_VALUE, MIN_CHART_VALUE } from './Chart/chartConstant';
-import { useUserSettings } from '../../../hooks/useUserSettings';
 
 export function mapUnit(value, settings) {
   return settings.unit === 1

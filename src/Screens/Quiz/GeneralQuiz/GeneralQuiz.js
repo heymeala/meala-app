@@ -13,7 +13,7 @@ import RightAnswerInfo from './RightAnswerInfo';
 import { playFinishQuizSound, playRightAnswerSound, playWrongAnswerSound } from '../GameSounds';
 import GeneralQuizFinish from './GeneralQuizFinish';
 import { useRoute } from '@react-navigation/core';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 import { calculateScore } from '../calculateScore';
 import SettingsFooter from '../../Settings/Footer';
 

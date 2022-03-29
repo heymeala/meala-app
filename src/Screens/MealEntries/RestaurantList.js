@@ -5,7 +5,7 @@ import { EmptyListPlaces } from './Common/EmtyListPlaces';
 import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import { useFocusEffect, useNavigation } from '@react-navigation/core';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 
 const RestaurantList = props => {

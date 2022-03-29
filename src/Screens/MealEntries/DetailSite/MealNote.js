@@ -1,5 +1,4 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
 import { Card, makeStyles, Text } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { Card, makeStyles, Text } from 'react-native-elements';
 import PoweredByFatSecret from '../../../Common/fatsecret/PoweredByFatSecret';
 import LocalizationContext from '../../../../LanguageContext';

@@ -1,6 +1,12 @@
 import RNFetchBlob from 'rn-fetch-blob';
-import { COMMUNITY_UPDATE_URL, COMMUNITY_MEALS_TOKEN } from '@env';
-export function updateUserCarbsOnline(carbs, userMealId) {
+import { COMMUNITY_MEALS_TOKEN, COMMUNITY_UPDATE_URL } from '@env';
+
+/**
+ *
+ * @param carbs
+ * @param id _id of the Meal
+ */
+export function updateUserCarbsOnline(carbs, id) {
   RNFetchBlob.fetch(
     'POST',
     COMMUNITY_UPDATE_URL,
@@ -10,7 +16,7 @@ export function updateUserCarbsOnline(carbs, userMealId) {
     },
     [
       { name: 'carbs', data: carbs.toString() },
-      { name: 'userMealId', data: userMealId },
+      { name: 'userMealId', data: id },
     ],
   )
     .then(resp => {

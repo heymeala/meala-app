@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ProfileContext } from './ProfileContext';
-import { database } from '../Common/database_realm';
+import { database } from '../Common/realm/database';
 
 //todo: get range from nightscout
 const defaultSettings = {

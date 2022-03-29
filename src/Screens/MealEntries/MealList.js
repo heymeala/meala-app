@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import { SearchBar } from 'react-native-elements';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import { useFocusEffect } from '@react-navigation/core';
@@ -9,7 +9,7 @@ import PushNotification from 'react-native-push-notification';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { mealsWithoutCgmData } from './mealsWithoutCgmData';
 import { HEALTHKIT, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
-import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { nightscoutCall, nightscoutTreatments } from '../../Common/nightscoutApi';
 import { deleteImageFile } from '../../utils/deleteImageFile';
 import { saveAndGetHealthKitGlucose } from './saveAndGetHealthKitData';
 import { useProfile } from '../../hooks/useProfile';
@@ -29,7 +29,7 @@ const MealList = props => {
 
   function deleteMeal(id) {
     //todo: cancel Notification on ios
-    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ mealId: id }) : null;
     database.deleteMealSoft(id);
     deleteImageFile(id);
     mealData(search);
@@ -40,16 +40,16 @@ const MealList = props => {
     const filteredMeals = mealsByName.filter(data => data.isDeleted === false);
     setMeals(filteredMeals);
     setLoading(false);
-    database.getGlucoseSource().then(data => {
-      if (data === NIGHTSCOUT) {
+    database.getGlucoseSource().then(source => {
+      if (source === NIGHTSCOUT) {
         const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
         const slicedMeals = notLoadedEntries.slice(0, 2);
 
         if (slicedMeals && slicedMeals.length > 0) {
           slicedMeals.map(data => {
             const nsSugarData = async () => {
-              await nightscoutCall(data.date, data.userMealId);
-              await nightscoutTreatmens(data.date, data.userMealId);
+              await nightscoutCall(data.date, data._id);
+              await nightscoutTreatments(data.date, data._id);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
               setMeals(updatedFilteredMeals);
@@ -57,13 +57,13 @@ const MealList = props => {
             nsSugarData();
           });
         }
-      } else if (data === HEALTHKIT) {
+      } else if (source === HEALTHKIT) {
         const notLoadedEntries = mealsWithoutCgmData(filteredMeals);
         const slicedMeals = notLoadedEntries.slice(0, 2);
         if (slicedMeals && slicedMeals.length > 0) {
           slicedMeals.map(data => {
             const healthkitData = async () => {
-              await saveAndGetHealthKitGlucose(data.date, settings, data.userMealId);
+              await saveAndGetHealthKitGlucose(data.date, settings, data._id);
               const updatedMeals = await database.fetchMealWithName(foodName);
               const updatedFilteredMeals = updatedMeals.filter(data => data.isDeleted === false);
               setMeals(updatedFilteredMeals);

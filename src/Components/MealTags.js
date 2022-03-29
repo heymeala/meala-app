@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { database } from '../Common/database_realm';
+import { database } from '../Common/realm/database';
 import { makeStyles } from 'react-native-elements';
 import { spacing } from '../theme/styles';
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { database } from '../Common/database_realm';
+import { database } from '../Common/realm/database';
 import { defaultUserSettings, UserSettingsContext } from './UserSettingsContext';
 import { DEFAULT, HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Screens/Settings/glucoseSourceConstants';
 

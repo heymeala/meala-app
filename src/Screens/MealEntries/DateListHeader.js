@@ -4,7 +4,7 @@ import { makeStyles } from 'react-native-elements';
 import ReactNativeCalendarStrip from 'react-native-calendar-strip';
 import LocalizationContext from '../../../LanguageContext';
 import moment from 'moment';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 
 const DateListHeader = props => {
   const { t } = React.useContext(LocalizationContext);

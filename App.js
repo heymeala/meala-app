@@ -6,7 +6,7 @@ import * as RNLocalize from 'react-native-localize';
 import * as i18n from './i18n';
 import LocalizationContext from './LanguageContext';
 import analytics from '@react-native-firebase/analytics';
-import { database } from './src/Common/database_realm';
+import { database } from './src/Common/realm/database';
 import { enableScreens } from 'react-native-screens';
 import { navigationRef } from './src/Navigation/RootNavigation';
 import { ProfileProvider } from './src/hooks/useProfile';
@@ -42,8 +42,6 @@ const App = props => {
     },
     [locale],
   );
-
-
 
   useEffect(() => {
     registerCustomIconType('meala', Icon);

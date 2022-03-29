@@ -22,7 +22,7 @@ const PictureSelector = props => {
     setTags,
     setAvatarSourceCamera,
     setAvatarSourceLibrary,
-    userMealId,
+    mealId,
   } = props;
 
   function handleImageLoadStates(response) {
@@ -32,7 +32,7 @@ const PictureSelector = props => {
     const documentPath = RNFS.DocumentDirectoryPath + IMAGEFOLDER;
     RNFS.mkdir(documentPath, mkDirOption).then(response => console.log(response));
 
-    const file_path = documentPath + '/' + userMealId + '_food.png';
+    const file_path = documentPath + '/' + mealId + '_food.png';
 
     RNFS.writeFile(file_path, response.base64, 'base64').catch(error => {
       console.log(error);

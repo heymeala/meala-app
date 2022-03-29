@@ -22,12 +22,12 @@ export const uploadImageToServer = async props => {
         { name: 'restaurant_id', data: props.restaurantId },
         { name: 'address', data: '' },
         { name: 'meal', data: props.mealTitle },
-        { name: 'meal_id', data: props.mealId },
+        { name: 'meal_id', data: props.groupId },
         { name: 'lat', data: String(props.lat) },
         { name: 'lng', data: String(props.lng) },
         { name: 'food_tags', data: JSON.stringify(props.predictions) },
         { name: 'user_id', data: props.user_id },
-        { name: 'userMealId', data: props.userMealId },
+        { name: 'userMealId', data: props.mealId },
       ],
     )
       .then(resp => {

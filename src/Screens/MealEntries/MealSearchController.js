@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import LocalizationContext from '../../../LanguageContext';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import { FAB, makeStyles } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 import DateList from './DateList';

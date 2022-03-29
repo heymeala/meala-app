@@ -12,7 +12,7 @@ function EnterMealStack() {
     <Stack.Navigator>
       <Stack.Screen
         name="EnterMeal"
-        initialParams={{ mealid: null, type: null }}
+        initialParams={{ mealId: null, type: null }}
         component={EnterMeal}
         options={({ navigation, route }) => ({
           title: t('AddMeal.AddMealTitle'),

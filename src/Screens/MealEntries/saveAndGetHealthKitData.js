@@ -2,7 +2,7 @@ import moment from 'moment';
 import Healthkit, { HKQuantityTypeIdentifier, HKUnit } from '@kingstinct/react-native-healthkit/src/index';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
 import { hoursAgo } from '../../utils/hoursAgo';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import uuid from 'react-native-uuid';
 import { filterSVGDataByTime } from './convertCGMData';
 import { calculateCarbs } from '../../Common/calculateCarbs';

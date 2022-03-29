@@ -4,7 +4,7 @@ import { Badge, Button, ListItem, makeStyles, Text, useTheme } from 'react-nativ
 import LocalizationContext from '../../../../LanguageContext';
 import { quizCategoriesApi } from '../generalQuizApi';
 import { useNavigation } from '@react-navigation/core';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 import { calculateScore } from '../calculateScore';
 import LoadingSpinner from '../../../Common/LoadingSpinner';
 import analytics from '@react-native-firebase/analytics';

@@ -1,14 +1,16 @@
-import React from 'react';
 import {
-  CommunityQuiz,
+  CommunityQuizSchema,
   FatSecretFoodEntryIdsSchema,
+  GlucoseEntrySchema,
   MealSchema,
   ProfileSchema,
   RestaurantSchema,
   SettingsSchemaV3,
-  tagsSchema,
-} from './Constants/realmSchema';
+  TagsSchema,
+} from './schema';
 import uuid from 'react-native-uuid';
+import { migrate } from './migrations';
+import { ObjectId } from 'bson';
 
 const Realm = require('realm');
 // Define your models and their properties
@@ -19,48 +21,14 @@ export const database = {
       RestaurantSchema,
       MealSchema,
       SettingsSchemaV3,
-      tagsSchema,
+      TagsSchema,
       ProfileSchema,
       FatSecretFoodEntryIdsSchema,
-      CommunityQuiz,
+      CommunityQuizSchema,
+      GlucoseEntrySchema,
     ],
-
-    schemaVersion: 40,
-    migration: (oldRealm, newRealm) => {
-      if (oldRealm.schemaVersion < 32) {
-        const oldObjects = oldRealm.objects('Settings');
-        const newObjects = newRealm.objects('Settings');
-        for (let i = 0; i < oldObjects.length; i++) {
-          newObjects[i].nightscoutToken = null;
-        }
-      }
-
-      if (oldRealm.schemaVersion < 34) {
-        const oldObjects = oldRealm.objects('Profile');
-        const newObjects = newRealm.objects('Profile');
-        for (let i = 0; i < oldObjects.length; i++) {
-          newObjects[i].unit = 1;
-          newObjects[i].targetLow = 70;
-          newObjects[i].targetHigh = 160;
-        }
-      }
-
-      if (oldRealm.schemaVersion < 36) {
-        const oldObjects = oldRealm.objects('Meal');
-        const newObjects = newRealm.objects('Meal');
-        for (let i = 0; i < oldObjects.length; i++) {
-          newObjects[i].fatSecretUserFoodEntryIds = [];
-        }
-      }
-
-      if (oldRealm.schemaVersion < 37) {
-        const oldObjects = oldRealm.objects('Settings');
-        const newObjects = newRealm.objects('Settings');
-        for (let i = 0; i < oldObjects.length; i++) {
-          newObjects[i].nightscoutTreatmentsUpload = false;
-        }
-      }
-    },
+    schemaVersion: 44,
+    migration: migrate,
   }),
 
   saveRestaurant: (
@@ -71,8 +39,8 @@ export const database = {
     note,
     lat,
     lng,
-    mealId,
-    userMealId,
+    groupId,
+    id,
     scope,
     carbs,
     predictions,
@@ -95,8 +63,8 @@ export const database = {
       note,
       lat,
       ' lng' + lng,
-      mealId,
-      'userMealId  ' + userMealId,
+      'groupId ' + groupId,
+      '_id ' + id,
       scope,
       'carbs  ' + carbs,
       predictions,
@@ -114,25 +82,22 @@ export const database = {
               address: '',
               lat: latitude,
               long: longitude,
-              restaurantNote: 'notiz',
               isDeleted: false,
               scope: scope,
             },
             true,
           );
 
-          var newMeal = {
+          const newMeal = {
+            _id: id,
+            groupId,
             food: mealTitle,
             picture: picId,
             date: date,
-            tag: tags,
             note: note,
-            cgmData: null,
             restaurantId: restaurantId,
             treatmentsData: null,
             isDeleted: false,
-            id: mealId,
-            userMealId: userMealId,
             carbs: carbs ? parseFloat(carbs) : null,
             tags: tags,
             fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
@@ -149,8 +114,8 @@ export const database = {
     mealTitle,
     picId,
     note,
-    mealId,
-    userMealId,
+    groupId,
+    id,
     date,
     fatSecretUserFoodEntryIds,
     predictions,
@@ -166,13 +131,13 @@ export const database = {
           realm.create(
             'Meal',
             {
+              _id: id,
+              groupId,
               food: mealTitle,
               picture: picId,
               date: date,
-              tag: tags,
               note: note,
               treatmentsData: null,
-              userMealId: userMealId,
               tags: tags,
               fatSecretUserFoodEntryIds: fatSecretUserFoodEntryIds || null,
             },
@@ -222,7 +187,7 @@ export const database = {
         console.log(error);
       });
   },
-  fetchMealWithDateTime: (startDate, endDate) => {
+  fetchMealsWithDateTime: (startDate, endDate) => {
     return database._open
       .then(realm => {
         const meals = realm
@@ -259,11 +224,10 @@ export const database = {
       });
   },
 
-  fetchMealbyId: id => {
+  fetchMealById: id => {
     return database._open
       .then(realm => {
-        const meals = realm.objects('Meal').filtered('userMealId = $0', id);
-        return meals[0];
+        return realm.objectForPrimaryKey('Meal', id);
       })
       .catch(error => {
         console.log(error);
@@ -415,8 +379,8 @@ export const database = {
   getCgmData: id => {
     return database._open
       .then(realm => {
-        const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
-        return Meal[0].cgmData;
+        // ToDo: Fetch data from GlucoseEntries
+        return [];
       })
       .catch(error => {
         console.log(error);
@@ -425,8 +389,8 @@ export const database = {
   getTreatmentsData: (date, id) => {
     return database._open
       .then(realm => {
-        const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
-        return Meal[0].treatmentsData;
+        const Meal = realm.objectForPrimaryKey('Meal', id);
+        return Meal.treatmentsData;
       })
       .catch(error => {
         console.log(error);
@@ -465,7 +429,7 @@ export const database = {
         realm.create(
           'Meal',
           {
-            userMealId: id,
+            _id: id,
             isDeleted: true,
           },
           true,
@@ -488,31 +452,30 @@ export const database = {
       });
     });
   },
-  editMealCgmData: (cgmData, id) => {
+  editMealCgmData: cgmData => {
     return database._open.then(realm => {
-      //  let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {
-        realm.create(
-          'Meal',
-          {
-            userMealId: id,
-            cgmData: JSON.stringify(cgmData),
-          },
-          true,
-        );
+        cgmData.forEach(it => {
+          realm.create('GlucoseEntry', {
+            _id: ObjectId(),
+            sourceId: it._id,
+            dataSource: 'NightScout',
+            device: it.device,
+            date: new Date(it.dateString),
+            glucoseValue: it.sgv,
+          });
+        });
         console.log('REALM DATABASE - editMealCGM');
       });
     });
   },
   editMealTreatments: (date, treatmentsData, carbSum, id) => {
     return database._open.then(realm => {
-      // console.log(date + 'date Treatements in realm')
-      // let Meal = realm.objects('Meal').filtered('date = $0', date);
       realm.write(() => {
         realm.create(
           'Meal',
           {
-            userMealId: id,
+            _id: id,
             carbs: carbSum,
             treatmentsData: JSON.stringify(treatmentsData),
           },

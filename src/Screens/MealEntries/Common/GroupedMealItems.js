@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import LocalizationContext from '../../../../LanguageContext';
-import { Icon, ListItem, makeStyles, Tooltip, useTheme, Text } from 'react-native-elements';
-import { spacing } from '../../../theme/styles';
-import NutritionDetailItem from '../NutritionDetailItem';
+import { Icon, ListItem, makeStyles, Text, Tooltip, useTheme } from 'react-native-elements';
 import NutritionDetails from './NutritionDetails';
 
 const GroupedMealItems = props => {

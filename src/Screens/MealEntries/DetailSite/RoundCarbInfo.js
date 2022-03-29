@@ -1,13 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { makeStyles, Text } from 'react-native-elements';
-import LocalizationContext from '../../../../LanguageContext';
-import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const RoundCarbInfo = props => {
-  const { t } = React.useContext(LocalizationContext);
-
   const styles = useStyles();
   const { value, unit, infoText } = props;
 

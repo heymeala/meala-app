@@ -68,12 +68,7 @@ const MealDetailsComponent = props => {
         ) : (
           <NoGraphData />
         )}
-        <AddLibreData
-          date={foodDatumMoment}
-          userMealId={props.selectedFood.userMealId}
-          reloadData={props.reloadData}
-          coordinates={props.coordinates}
-        />
+        <AddLibreData date={foodDatumMoment} reloadData={props.reloadData} coordinates={props.coordinates} />
         <View>
           {(userSettings.glucoseSource === NIGHTSCOUT || userSettings.glucoseSource === HEALTHKIT) &&
             insulinSumme && (

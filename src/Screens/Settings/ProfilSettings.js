@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Linking, Platform, TouchableOpacity, View } from 'react-native';
 import { CheckBox, makeStyles, Text } from 'react-native-elements';
 import { useProfile } from '../../hooks/useProfile';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import LocalizationContext from '../../../LanguageContext';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import { useNavigation } from '@react-navigation/core';

@@ -21,6 +21,7 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   const [tir, setTir] = useState(null);
 
   useEffect(() => {
+    // ToDo: Fetch glucose values
     if (props.item.cgmData) {
       const parsedData = JSON.parse(props.item.cgmData);
       const timeInRange = analyseTimeInRange(parsedData, props.item.date); // string with tir description and calculation
@@ -54,14 +55,14 @@ export const MealItemsList = React.forwardRef((props, ref) => {
                   <Text style={{ paddingTop: 8 }}>
                     {locale === 'de'
                       ? 'Vor ' +
-                        moment.duration(progressTime).hours() +
-                        ' Stunden und ' +
-                        moment.duration(progressTime).minutes() +
-                        ' Minuten. '
+                      moment.duration(progressTime).hours() +
+                      ' Stunden und ' +
+                      moment.duration(progressTime).minutes() +
+                      ' Minuten. '
                       : moment.duration(progressTime).hours() +
-                        ' hours and ' +
-                        moment.duration(progressTime).minutes() +
-                        ' minutes ago '}
+                      ' hours and ' +
+                      moment.duration(progressTime).minutes() +
+                      ' minutes ago '}
                   </Text>
                 </View>
 
@@ -83,9 +84,8 @@ export const MealItemsList = React.forwardRef((props, ref) => {
   };
 
   return (
-    <View style={{ height: 110 }} key={props.item.userMealId} ref={ref}>
-      <ListItem
-        onPress={() => navigation.navigate('MealDataCollector', { userMealId: props.item.userMealId })}>
+    <View style={{ height: 110 }} key={props.item._id} ref={ref}>
+      <ListItem onPress={() => navigation.navigate('MealDataCollector', { mealId: props.item._id })}>
         <Avatar
           rounded
           title={props.item.food[0]}

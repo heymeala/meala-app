@@ -1,6 +1,6 @@
 import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
 import { Platform } from 'react-native';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 
 const apiKey = Platform.OS === 'ios' ? GOOGLE_API_KEY_IOS : GOOGLE_API_KEY_ANDROID;
 

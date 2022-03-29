@@ -7,7 +7,6 @@ import LocalizationContext from '../../../LanguageContext';
 const NoteInputField = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-  const screenReaderEnabled = useScreenReader();
   const { notiz, setNotiz } = props;
   return (
     <Input

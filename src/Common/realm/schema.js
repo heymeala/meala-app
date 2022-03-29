@@ -1,25 +1,19 @@
 export const MealSchema = {
   name: 'Meal',
-  primaryKey: 'userMealId',
+  primaryKey: '_id',
 
   properties: {
-    id: 'string',
-    food: 'string',
-    picture: 'string',
-    carbs: 'float?',
+    _id: 'objectId', // unique id
+    groupId: 'string', // same for the same food at same place
+    food: 'string', //
+    picture: 'string', //
+    carbs: 'float?', //
     date: 'date',
     tags: { type: 'list', objectType: 'Tags' },
     note: 'string',
-    cgmData: 'string?',
     treatmentsData: 'string?',
     restaurantId: 'string?',
-    restaurants: {
-      type: 'linkingObjects',
-      objectType: 'Restaurant',
-      property: 'food',
-    },
-    isDeleted: 'bool',
-    userMealId: 'string',
+    isDeleted: 'bool', //
     fatSecretUserFoodEntryIds: {
       type: 'list',
       objectType: 'FatSecretFoodEntryIds',
@@ -27,12 +21,25 @@ export const MealSchema = {
   },
 };
 
-export const tagsSchema = {
+export const GlucoseEntrySchema = {
+  name: 'GlucoseEntry',
+  properties: {
+    _id: 'objectId',
+    sourceId: 'string?', // original id in the source
+    dataSource: 'string', // NightScout, HealthKit etc.
+    device: 'string?', // the CGM Device Name
+    date: 'date',
+    glucoseValue: 'float',
+  },
+};
+
+export const TagsSchema = {
   name: 'Tags',
   properties: {
     tagEn: 'string?',
   },
 };
+
 export const FatSecretFoodEntryIdsSchema = {
   name: 'FatSecretFoodEntryIds',
   properties: {
@@ -40,7 +47,7 @@ export const FatSecretFoodEntryIdsSchema = {
   },
 };
 
-export const CommunityQuiz = {
+export const CommunityQuizSchema = {
   name: 'CommunityQuiz',
   primaryKey: 'id',
   properties: {

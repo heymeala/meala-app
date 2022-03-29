@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import moment from 'moment';
-import LocalizationContext from '../../../LanguageContext';
 import * as Keychain from 'react-native-keychain';
 import { getFoodByDateFromUser } from '../../Common/fatsecret/fatsecretApi';
 import FatSecretDateData from './FatSecretDateData';
@@ -13,25 +12,24 @@ import { MealItemsList } from '../../Components/MealItemList';
 import DateListHeader from './DateListHeader';
 
 const DateList = props => {
-  const { t, locale } = React.useContext(LocalizationContext);
   const navigation = useNavigation();
 
-  const [restaurants, setRestaurants] = useState(undefined);
+  const [meals, setMeals] = useState(undefined);
   const today = moment();
   const [fatSecretData, setFatSecretData] = useState();
   const [chosenDateStart, setChosenDateStart] = useState(today);
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
+    loadMeals(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
     return () => {
       // cleanup code codes here
     };
   }, [chosenDateStart]);
 
-  function showRestaurants(startDate, endDate) {
-    database.fetchMealWithDateTime(startDate, endDate).then(allRestaurant => {
-      setRestaurants(allRestaurant);
+  function loadMeals(startDate, endDate) {
+    database.fetchMealsWithDateTime(startDate, endDate).then(meals => {
+      setMeals(meals);
       setLoading(false);
     });
   }
@@ -67,7 +65,7 @@ const DateList = props => {
         }
       });
 
-      showRestaurants(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
+      loadMeals(chosenDateStart.startOf('day').toDate(), chosenDateStart.endOf('day').toDate());
       return () => {
         isMounted = false;
       };
@@ -92,7 +90,7 @@ const DateList = props => {
       }
       ListFooterComponentStyle={{ height: '100%' }}
       ListFooterComponent={fatSecretData && <FatSecretDateData fatSecretData={fatSecretData} />}
-      data={restaurants}
+      data={meals}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
       ListEmptyComponent={!fatSecretData && <EmptyListDate navigation={navigation} />}

@@ -1,5 +1,4 @@
 import hmacsha1 from 'hmacsha1';
-import React from 'react';
 import Keychain from 'react-native-keychain';
 import { FATSECRET_CONSUMER_KEY, FATSECRET_CONSUMER_SECRET } from '@env';
 

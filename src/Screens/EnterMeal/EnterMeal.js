@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { Button, FAB, makeStyles } from 'react-native-elements';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
 import analytics from '@react-native-firebase/analytics';
@@ -24,7 +24,6 @@ import { uploadToNightScout } from './uploadToNightScout';
 import NightScoutInputFields from './NightScoutTreatmentsInputFields';
 import HealthKitCarbohydrateField from './HealthKitCarbohydrateField';
 import NoteInputField from './NoteInputField';
-import { spacing } from '../../theme/styles';
 import uuid from 'react-native-uuid';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../hooks/useEnterMealState';
@@ -35,9 +34,10 @@ import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNam
 import * as Keychain from 'react-native-keychain';
 import HealthKitAddInsulin from './HealthKitAddInsulin';
 import { saveCarbohydratesToHealthKit, saveInsulinToHealthKit } from '../../hooks/saveToHealthKit';
+import { ObjectId } from 'bson';
 
 const EnterMeal = ({ route, navigation }, props) => {
-  const { meal_id, id, scan } = route.params;
+  const { mealId: mealIdParam, id: restaurantIdParam, scan } = route.params;
   const { t, locale } = React.useContext(LocalizationContext);
   moment.locale(locale);
   const styles = useStyles(props);
@@ -64,17 +64,16 @@ const EnterMeal = ({ route, navigation }, props) => {
   const [mealTitle, setMealTitle] = useState(mealTypeByTime(date, t));
 
   const [cMeals, setCMeals] = useState(null);
-  const [mealIsFocused, setMealIsFocused] = useState(false);
 
-  const [mealId, setMealId] = useState(uuid.v4());
-  const [userMealId, setUserMealId] = useState(uuid.v4());
+  const [mealId, setMealId] = useState(ObjectId());
+  const [groupId, setGroupId] = useState(ObjectId());
 
   const [scope, setScope] = useState('');
 
   const [isLoadingcMeals, setIsLoadingcMeals] = useState(true);
 
   const [isScannerVisible, setIsScannerVisible] = useState(false);
-  const scrollListReftop = useRef();
+  const scrollListRefTop = useRef();
   const MealInput = useRef();
   const [gpsEnabled, setGpsEnabled] = useState(true);
   const [tags, setTags] = useState([]);
@@ -117,13 +116,13 @@ const EnterMeal = ({ route, navigation }, props) => {
   );
 
   useExistingDataFromDB(
-    meal_id,
+    mealIdParam,
     setTags,
     setExistingFatSecretIds,
     setMealTitle,
-    setUserMealId,
-    setRestaurantId,
     setMealId,
+    setRestaurantId,
+    setGroupId,
     setDate,
     setFoodPicture,
     setAvatarSourceCamera,
@@ -149,11 +148,11 @@ const EnterMeal = ({ route, navigation }, props) => {
   }, [navigation, type]);
 
   useEffect(() => {
-    if (id) {
-      setRestaurantId(prevState => id);
-      database.getRestaurantName(id).then(name => setRestaurantName(name));
+    if (restaurantIdParam) {
+      setRestaurantId(restaurantIdParam);
+      database.getRestaurantName(restaurantIdParam).then(name => setRestaurantName(name));
     }
-  }, [id]);
+  }, [restaurantIdParam]);
 
   //todo: move to app
   useEffect(() => {
@@ -187,7 +186,7 @@ const EnterMeal = ({ route, navigation }, props) => {
   function cancel() {
     reset();
     navigation.setParams({
-      meal_id: null,
+      mealId: null,
     });
     changeType({ mode: 'default', meal_id: null });
     navigation.goBack();
@@ -197,8 +196,8 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantName(prevState => t('General.various'));
     setRestaurantId(prevState => t('General.various'));
     setNote(data.note ? data.note : null);
+    setGroupId(uuid.v4());
     setMealId(uuid.v4());
-    setUserMealId(uuid.v4());
     setMealTitle(data.meal);
   };
 
@@ -254,7 +253,7 @@ const EnterMeal = ({ route, navigation }, props) => {
       : [];
 
     if (type.mode !== EDIT_MODE) {
-      reminderNotification(userMealId, mealId, t, defaultMealTitle, value);
+      reminderNotification(mealId, t, defaultMealTitle, value);
       uploadToNightScout(nsTreatmentsUpload, note, userSettings, date);
     }
 
@@ -264,8 +263,8 @@ const EnterMeal = ({ route, navigation }, props) => {
           defaultMealTitle,
           foodPicture,
           note,
+          groupId,
           mealId,
-          userMealId,
           date,
           fatSecretUserIds,
           tags,
@@ -274,7 +273,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           setLoadingOnSave(false);
           reset();
           navigation.setParams({
-            meal_id: null,
+            mealId: null,
           });
           changeType({ mode: 'default', meal_id: null });
           navigation.navigate('meala');
@@ -289,8 +288,8 @@ const EnterMeal = ({ route, navigation }, props) => {
         picId: foodPicture,
         lat,
         lng,
+        groupId,
         mealId,
-        userMealId,
         scope,
         carbs,
         predictions,
@@ -313,8 +312,8 @@ const EnterMeal = ({ route, navigation }, props) => {
           note,
           lat,
           lng,
+          groupId,
           mealId,
-          userMealId,
           scope,
           carbs,
           tags,
@@ -330,7 +329,7 @@ const EnterMeal = ({ route, navigation }, props) => {
           });
           reset();
           navigation.setParams({
-            meal_id: null,
+            mealId: null,
           });
           changeType({ mode: 'default', meal_id: null });
           navigation.navigate('meala');
@@ -346,7 +345,6 @@ const EnterMeal = ({ route, navigation }, props) => {
     setRestaurantName(restaurant);
     setRestaurantId(id);
     setScope(scopeInfo);
-    setMealIsFocused(true);
     console.log(scopeInfo);
     loadCommunityMeals(id);
 
@@ -360,7 +358,7 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const handleMealPress = (meal, id) => {
     setMealTitle(meal);
-    setMealId(id); // comes from database
+    setGroupId(id); // comes from database
   };
 
   function reset() {
@@ -379,16 +377,11 @@ const EnterMeal = ({ route, navigation }, props) => {
     setPredictions([]);
 
     setCMeals(null);
-    setMealIsFocused(true);
-    setMealId(uuid.v4());
-    setUserMealId(uuid.v4());
+    setGroupId(ObjectId());
+    setMealId(ObjectId());
     setScope('');
 
     setIsLoadingcMeals(true);
-    const newMealID = uuid.v4();
-    const newuserMealId = uuid.v4();
-    setMealId(newMealID);
-    setUserMealId(newuserMealId);
     setDate(newDate);
 
     setTags([]);
@@ -433,11 +426,11 @@ const EnterMeal = ({ route, navigation }, props) => {
         bounces={false}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
-        ref={scrollListReftop}
+        ref={scrollListRefTop}
         scrollToOverflowEnabled={true}
         contentContainerStyle={styles.container}>
         <PictureSelector
-          userMealId={userMealId}
+          mealId={mealId}
           setFoodPicture={setFoodPicture}
           setClarifaiImagebase={setBase64ImageData}
           setDate={setDate}
@@ -539,7 +532,7 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   fatSecretButton: {
     paddingHorizontal: theme.spacing.M,
-    marginHorizontal: spacing.M,
+    marginHorizontal: theme.spacing.M,
     marginTop: theme.spacing.L,
   },
   container: {

@@ -1,6 +1,4 @@
 import AppleHealthKit from 'react-native-health';
-import moment from 'moment';
-import { SEA_MINUTES } from './Chart/chartConstant';
 
 export const permissions = {
   permissions: {

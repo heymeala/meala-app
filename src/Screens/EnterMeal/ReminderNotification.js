@@ -1,6 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 
-export function reminderNotification(userMealId, mealId, t, defaultMealTitle, seconds) {
+export function reminderNotification(mealId, t, defaultMealTitle, seconds) {
   PushNotification.localNotificationSchedule({
     date: new Date(Date.now() + seconds * 60 * 61 * 1000), // in 3 hours
     /* Android Only Properties */
@@ -21,6 +21,6 @@ export function reminderNotification(userMealId, mealId, t, defaultMealTitle, se
     message: t('AddMeal.notificationAfterMeal', {
       mealTitle: defaultMealTitle,
     }), // (required)
-    userInfo: { stack: 'Home', screen: 'EnterMealStack', userMealId: userMealId }, // (optional) default: {} (using null throws a JSON value '<null>' error)
+    userInfo: { stack: 'Home', screen: 'EnterMealStack', mealId }, // (optional) default: {} (using null throws a JSON value '<null>' error)
   });
 }

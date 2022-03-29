@@ -1,9 +1,9 @@
 import { HEALTHKIT, LIBRETWOAPP, NIGHTSCOUT } from '../Settings/glucoseSourceConstants';
-import { nightscoutCall, nightscoutTreatmens } from '../../Common/nightscoutApi';
+import { nightscoutCall, nightscoutTreatments } from '../../Common/nightscoutApi';
 import { filterCoordinates } from './DetailSite/filterCoordinates';
 import moment from 'moment';
 import { SEA_MINUTES } from './DetailSite/Chart/chartConstant';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import Healthkit, { HKQuantityTypeIdentifier } from '@kingstinct/react-native-healthkit';
 import { add } from '../../utils/reducer';
 import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src/native-types';
@@ -26,7 +26,7 @@ export async function loadSugarData(
   setSleepAnalysis,
 ) {
   const foodDate = new Date(mealData.date);
-  const id = mealData.userMealId;
+  const id = mealData._id;
 
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
@@ -65,7 +65,7 @@ export async function loadSugarData(
     const glucoseCoordinates = filterSVGDataByTime(nsSugarData, fromDate, tillDate, settings);
     setCoordinates(glucoseCoordinates);
 
-    const nsTreatmentData = await nightscoutTreatmens(foodDate, mealData.userMealId);
+    const nsTreatmentData = await nightscoutTreatments(foodDate, id);
     const calcCarbs = nsTreatmentData
       .filter(data => (data.carbs > 0 ? parseFloat(data.carbs) : null))
       .map(data => data.carbs);
@@ -113,8 +113,7 @@ export async function loadSugarData(
   } else if (userSettings && userSettings.glucoseSource === LIBRETWOAPP) {
     const localCGMData = await database.getCgmData(id);
     if (localCGMData && localCGMData.length > 0) {
-      const jsonLocalCGMData = JSON.parse(localCGMData);
-      const glucoseCoordinates = filterSVGDataByTime(jsonLocalCGMData, fromDate, tillDate, settings);
+      const glucoseCoordinates = filterSVGDataByTime(localCGMData, fromDate, tillDate, settings);
       setCoordinates(glucoseCoordinates);
     }
     setLoading(false);

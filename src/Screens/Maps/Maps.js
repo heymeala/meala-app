@@ -4,7 +4,7 @@ import LocalizationContext from '../../../LanguageContext';
 import { View } from 'react-native';
 import { getCurrentPosition } from '../../Common/geolocation';
 import { COMMUNITY_RESTAURANTS } from '@env';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import InfoModal from './InfoModal';
 import LoadingSpinner from '../../Common/LoadingSpinner';
 import { makeStyles } from 'react-native-elements';

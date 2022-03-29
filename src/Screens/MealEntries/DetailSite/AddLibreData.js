@@ -8,11 +8,11 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { IMAGECONVERTER_API } from '@env';
 import * as ImagePicker from 'react-native-image-picker';
 import PermissionAlert from '../../../Common/PermissionAlert';
-import uuid from 'react-native-uuid';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 import moment from 'moment';
 import libre_de from '../../../assets/libre/libre_tagesdiagram.png';
 import libre_en from '../../../assets/libre/libre_daily_graph.png';
+import { ObjectId } from 'bson';
 
 const AddLibreData = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -36,12 +36,12 @@ const AddLibreData = props => {
     d.setHours(0, 0, x * 3600, 0);
 
     return {
-      _id: uuid.v4(),
-      device: 'meala-Libre-Import',
-      date: d.getTime(),
-      dateString: d.toISOString(),
-      sgv: y,
-      type: 'sgv',
+      _id: ObjectId(),
+      sourceId: null,
+      dataSource: 'Freestyle-Libre',
+      device: null,
+      date: d,
+      glucoseValue: y,
     };
   };
 
@@ -89,7 +89,7 @@ const AddLibreData = props => {
         setErrorMessage(false);
         console.log(result);
         const chartData = result.map(getTimeLine);
-        database.editMealCgmData(chartData, props.userMealId);
+        database.editMealCgmData(chartData);
         setLoading(false);
         setIsVisible(false);
         props.reloadData();
@@ -137,9 +137,6 @@ const AddLibreData = props => {
             title={t('General.close')}
           />
           <ScrollView contentContainerStyle={styles.container}>
-            {/*
-            <Text h2>{t('Entries.libre.title')}</Text>
-*/}
             <View style={styles.instructionContainer}>
               <Text h3 h3Style={styles.steps}>
                 1.

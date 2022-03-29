@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { FAB, useTheme } from 'react-native-elements';
-import { database } from '../../Common/database_realm';
+import { database } from '../../Common/realm/database';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
@@ -33,7 +33,7 @@ const MealListInRestaurants = props => {
   );
 
   function deleteMeal(id) {
-    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ mealId: id }) : null; //
     database.deleteMealSoft(id);
     deleteImageFile(id);
     navigation.goBack();

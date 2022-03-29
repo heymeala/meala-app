@@ -1,11 +1,11 @@
-import React from 'react';
 import moment from 'moment';
-import { database } from './database_realm';
+import { database } from './realm/database';
 import { calculateCarbs } from './calculateCarbs';
 import { updateUserCarbsOnline } from './updateUserCarbsOnline';
 import { SEA_MINUTES } from '../Screens/MealEntries/DetailSite/Chart/chartConstant';
 import { hoursAgo } from '../utils/hoursAgo';
 
+// ToDo: HD rework
 export async function nightscoutCall(date, id) {
   //todo: generalize cgm and nutrition data to use all data sources like dexcom, healthkit tidepool, libre etc.
   return database.getCgmData(id).then(cgm => {
@@ -31,29 +31,27 @@ export async function nightscoutCall(date, id) {
         .then(url => fetch(url))
         .then(response => response.json())
         .then(data => {
-          // add data from nightscout  to offline realm database after 3hours
-          //  const threeHoursAgo = new Date().getTime() - 1000 * 60 * 60 * 3;
+          // add data from nightscout to offline realm database after 3hours
           const threeHoursAgo = hoursAgo(3);
           if (threeHoursAgo >= date.getTime()) {
-            database.editMealCgmData(data, id);
+            database.editMealCgmData(data);
           }
 
           return data.reverse();
         });
     } else {
       // use data from realm database (Offline usage)
-      const jsonCgm = JSON.parse(cgm);
-      return jsonCgm;
+      return cgm;
     }
   });
 }
 
-export function nightscoutTreatmens(date, userMealId) {
+export function nightscoutTreatments(date, mealId) {
   const saveDate = date;
   const fromDateInput = date;
   const tillDateInput = date;
 
-  return database.getTreatmentsData(date, userMealId).then(treatments => {
+  return database.getTreatmentsData(date, mealId).then(treatments => {
     const tillDate = moment(tillDateInput).add(2, 'hours').toISOString();
     const fromDate = moment(fromDateInput).subtract(SEA_MINUTES, 'minutes').toISOString();
 
@@ -73,8 +71,8 @@ export function nightscoutTreatmens(date, userMealId) {
 
           if (threeHoursAgo >= saveDate.getTime()) {
             const carbSum = calculateCarbs(treatmentsData);
-            updateUserCarbsOnline(carbSum, userMealId);
-            database.editMealTreatments(date, treatmentsData, carbSum, userMealId);
+            updateUserCarbsOnline(carbSum, mealId);
+            database.editMealTreatments(date, treatmentsData, carbSum, mealId);
           }
           return treatmentsData.reverse();
         });

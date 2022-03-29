@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Image, makeStyles, Text } from 'react-native-elements';
 import RoundInsulinInfoItem from './RoundInsulinInfoItem';
 import AccessibleFoodInfoText from '../Accessability/AccessibleFoodInfoText';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LocalizationContext from '../../../../LanguageContext';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import RoundCarbInfo from './RoundCarbInfo';

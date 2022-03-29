@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, SpeedDial } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { useNavigation } from '@react-navigation/core';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 import { COPY_MODE, EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';
 import analytics from '@react-native-firebase/analytics';
 import { deleteImageFile } from '../../../utils/deleteImageFile';
@@ -18,7 +18,7 @@ const EditSpeedDialGroup = props => {
   const { changeType } = useEnterMealType();
 
   function softDeleteMeal(id) {
-    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ userMealId: id }) : null; //
+    Platform.OS !== 'ios' ? PushNotification.cancelLocalNotifications({ mealId: id }) : null; //
     database.deleteMealSoft(id);
     deleteImageFile(id);
     navigation.goBack();
@@ -42,11 +42,11 @@ const EditSpeedDialGroup = props => {
           analytics().logEvent('edit_meal', {
             type: EDIT_MODE,
           });
-          changeType({ mode: EDIT_MODE, meal_id: selectedFood.userMealId });
+          changeType({ mode: EDIT_MODE, meal_id: selectedFood._id });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              meal_id: selectedFood.userMealId, // userMealId == primarykey
+              mealId: selectedFood._id, // _id == primarykey
             },
           });
         }}
@@ -59,11 +59,11 @@ const EditSpeedDialGroup = props => {
           analytics().logEvent('edit_meal', {
             type: COPY_MODE,
           });
-          changeType({ mode: COPY_MODE, meal_id: selectedFood.userMealId });
+          changeType({ mode: COPY_MODE, meal_id: selectedFood._id });
           navigation.navigate('EnterMealStack', {
             screen: 'EnterMeal',
             params: {
-              meal_id: selectedFood.userMealId,
+              mealId: selectedFood._id,
               type: COPY_MODE,
             },
           });
@@ -78,7 +78,7 @@ const EditSpeedDialGroup = props => {
           analytics().logEvent('edit_meal', {
             type: 'delete',
           });
-          softDeleteMeal(selectedFood.userMealId);
+          softDeleteMeal(selectedFood._id);
         }}
       />
     </SpeedDial>

@@ -4,7 +4,7 @@ import { Button, Icon, makeStyles, Text } from 'react-native-elements';
 import FadeInView from '../../../../Common/FadeInView';
 import LocalizationContext from '../../../../../LanguageContext';
 import useAutoFocus from '../../../../hooks/useAutoFocus';
-import { database } from '../../../../Common/database_realm';
+import { database } from '../../../../Common/realm/database';
 import { removeDuplicates } from '../../../../utils/removeDuplicates';
 import PredictionCips from '../../FatSecretSearch/PredictionCips';
 import { translate } from '../../../../Common/translate';

@@ -3,7 +3,7 @@ import { Image, Linking, Platform, StyleSheet, TouchableOpacity, View } from 're
 import React, { useRef, useState } from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { database } from '../../../Common/database_realm';
+import { database } from '../../../Common/realm/database';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import { GOOGLE_API_KEY_ANDROID, GOOGLE_API_KEY_IOS } from '@env';
 

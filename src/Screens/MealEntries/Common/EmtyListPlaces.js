@@ -1,17 +1,15 @@
-import { Dimensions, Linking, View } from 'react-native';
-import { FAB, makeStyles, Text } from 'react-native-elements';
+import { Dimensions, View } from 'react-native';
+import { makeStyles, Text } from 'react-native-elements';
 import React from 'react';
 import LocalizationContext from '../../../../LanguageContext';
 import { spacing } from '../../../theme/styles';
 import LottieView from 'lottie-react-native';
 import NoResultsText from './NoResultsText';
-import { useNavigation } from '@react-navigation/core';
 
 export const EmptyListPlaces = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const dimensions = Dimensions.get('window');
   const styles = useStyles(dimensions);
-  const navigation = useNavigation();
 
   if (props.value.length > 0) {
     return <NoResultsText text={t('Entries.noSearchResultPlaces')} value={props.value} />;
