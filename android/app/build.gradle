@@ -147,11 +147,16 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
-                storeFile file(MYAPP_UPLOAD_STORE_FILE)
-                storePassword MYAPP_UPLOAD_STORE_PASSWORD
-                keyAlias MYAPP_UPLOAD_KEY_ALIAS
-                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            def propsFile = rootProject.file('keystore.properties')
+            def configName = 'release'
+
+            if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
+                def props = new Properties()
+                props.load(new FileInputStream(propsFile))
+                storeFile file(props['MYAPP_UPLOAD_STORE_FILE'])
+                storePassword props['MYAPP_UPLOAD_STORE_PASSWORD']
+                keyAlias props['MYAPP_UPLOAD_KEY_ALIAS']
+                keyPassword props['MYAPP_UPLOAD_KEY_PASSWORD']
             }
         }
         debug {

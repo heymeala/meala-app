@@ -4,11 +4,9 @@
   "private": true,
   "scripts": {
     "update_licenses": "npm-license-crawler -onlyDirectDependencies -json src/Screens/Settings/License/licenses.json",
-    "android": "npx react-native  run-android",
+    "android": "npx react-native run-android --appIdSuffix=dev",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "dev:android": "npx react-native run-android --appIdSuffix dev",
-    "dev:ios": "npm run ios",
     "test": "jest",
     "lint": "eslint .",
     "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
