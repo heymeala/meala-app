@@ -88,4 +88,4 @@ Solution:
 [More](https://stackoverflow.com/questions/69312343/build-error-domain-com-apple-coresimulator-simerror-code-405)
 
 ## Contact us
-If you have any questions, please feel free to contact us. kr[at]lumind-solutions.com
+If you have any questions, please feel free to contact us. mail[at]heymeala.com
