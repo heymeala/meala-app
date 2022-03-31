@@ -31,7 +31,7 @@ const KnowledgeList = props => {
       ) : (
         <LoadingSpinner />
       )}
-     {/* <View style={styles.notification}>
+      {/* <View style={styles.notification}>
         <Button
           style={styles.button}
           title={'Subscribe to new articles'}
@@ -61,5 +61,5 @@ export default KnowledgeList;
 const useStyles = makeStyles(theme => ({
   root: { padding: theme.spacing.M },
   notification: { padding: theme.spacing.M },
-  button: { padding: theme.spacing.S }
+  button: { padding: theme.spacing.S },
 }));

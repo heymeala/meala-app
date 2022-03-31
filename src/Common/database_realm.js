@@ -412,7 +412,7 @@ export const database = {
       });
   },
 
-  getCgmData: (id) => {
+  getCgmData: id => {
     return database._open
       .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
@@ -459,7 +459,7 @@ export const database = {
     });
   },
   deleteMealSoft: id => {
-    console.log(id)
+    console.log(id);
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(

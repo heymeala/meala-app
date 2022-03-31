@@ -27,7 +27,6 @@ const AppBottomNavigationStack = () => {
         style: {
           backgroundColor: '#f2f5fb', // TabBar background
         },
-
       }}>
       <Tab.Screen
         name="Home"

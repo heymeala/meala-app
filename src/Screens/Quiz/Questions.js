@@ -6,8 +6,6 @@ import LocalizationContext from '../../../LanguageContext';
 import { shuffle } from '../../utils/shuffel';
 import { fatSecretRecipesDE, fatSecretRecipesEN } from './fatSecretIds';
 
-
-
 const Questions = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const styles = useStyles();

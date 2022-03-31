@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { add } from "../../../utils/reducer";
+import { add } from '../../../utils/reducer';
 
 export function getDuration(treatmentsData, foodDatumMoment) {
   if (treatmentsData) {
@@ -24,7 +24,6 @@ export function getDuration(treatmentsData, foodDatumMoment) {
     return null;
   }
 }
-
 
 // remove smb – settings in android aps
 export function getInsulinInfo(treatments) {

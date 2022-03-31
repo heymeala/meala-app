@@ -49,15 +49,14 @@ export default LottieHomeAnimation;
 const useStyles = makeStyles((theme, dimensions) => ({
   animation: {
     width: dimensions.width,
-    marginBottom:70,
-
+    marginBottom: 70,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     height: 150,
     alignItems: 'center',
-    marginBottom:70,
+    marginBottom: 70,
   },
   text: { padding: spacing.M },
 }));

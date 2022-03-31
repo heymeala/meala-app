@@ -85,8 +85,6 @@ export async function loadSugarData(
     setTreatments(null);
     setInsulinCoordinates(null);
 
-
-
     saveAndGetHealthKitGlucose(foodDate, settings, id, settings).then(data => {
       setCoordinates(data);
     });

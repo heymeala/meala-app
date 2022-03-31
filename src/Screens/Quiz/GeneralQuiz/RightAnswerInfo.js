@@ -28,9 +28,7 @@ const RightAnswerInfo = props => {
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.htmlContainer}>
         <View ref={refAnswer} accessible={true} focusable={true} accessibilityRole={'header'}>
-          <Text h2 >
-            {t('Quiz.infoScreenTitle')}
-          </Text>
+          <Text h2>{t('Quiz.infoScreenTitle')}</Text>
         </View>
         <FadeInView>
           {infoText ? (

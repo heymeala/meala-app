@@ -7,7 +7,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import LocalizationContext from '../../../../LanguageContext';
 import { useScreenReader } from '../../../hooks/useScreenReaderEnabled';
 import RoundCarbInfo from './RoundCarbInfo';
-import { getImagePath } from "../../../utils/getImagePath";
+import { getImagePath } from '../../../utils/getImagePath';
 
 const CircleGroup = props => {
   const { t } = React.useContext(LocalizationContext);

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { FAB, useTheme } from 'react-native-elements';
 import { database } from '../../Common/database_realm';
 import MealsListSwipeDelete from './Common/MealsListSwipeDelete';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/core';
 import LocalizationContext from '../../../LanguageContext';
 import LoadingSpinner from '../../Common/LoadingSpinner';
-import PushNotification from "react-native-push-notification";
-import { deleteImageFile } from "../../utils/deleteImageFile";
+import PushNotification from 'react-native-push-notification';
+import { deleteImageFile } from '../../utils/deleteImageFile';
 
 const MealListInRestaurants = props => {
   const [mealDataSoftDelete, setMealDataSoftDelete] = useState([]);

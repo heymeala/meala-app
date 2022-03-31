@@ -5,7 +5,7 @@ export async function deleteImageFile(id) {
   const imagePath = RNFS.DocumentDirectoryPath + IMAGEFOLDER + '/' + id + '_food.png';
   console.log(imagePath);
   const imagePathExists = await RNFS.exists(imagePath);
-  console.log(imagePathExists)
+  console.log(imagePathExists);
   if (imagePathExists) {
     RNFS.unlink(imagePath)
       .then(() => {
