@@ -5,7 +5,6 @@ import { checkAPI } from '../../../utils/checkAPI';
 export const uploadImageToServer = async props => {
   //todo: integrate new database
   checkAPI('COMMUNITY_CREATE_MEAL_URL', COMMUNITY_CREATE_MEAL_URL);
-  checkAPI('COMMUNITY_MEALS_TOKEN', COMMUNITY_MEALS_TOKEN);
   if (props.base64ImageData !== '' && props.scope === 'GOOGLE') {
     RNFetchBlob.fetch(
       'POST',

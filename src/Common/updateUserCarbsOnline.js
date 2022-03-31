@@ -3,7 +3,6 @@ import { COMMUNITY_UPDATE_URL, COMMUNITY_MEALS_TOKEN } from '@env';
 import { checkAPI } from '../utils/checkAPI';
 export function updateUserCarbsOnline(carbs, userMealId) {
   checkAPI('COMMUNITY_UPDATE_URL', COMMUNITY_UPDATE_URL);
-  checkAPI('COMMUNITY_MEALS_TOKEN', COMMUNITY_MEALS_TOKEN);
 
   RNFetchBlob.fetch(
     'POST',

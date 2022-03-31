@@ -6,6 +6,8 @@
 4. `npm run ios` to start the packager and run the app in the iOS simulator
 5. `npm run android` to start the packager and run the app in the Android device/emulator
 
+## It's a project with a lot of integrations - so feel free to contact us to get this project started –> [heymeala](https://heymeala.com)
+
 ## Important Environment Variables - Development Keys
 You can start the Project without all environment variables in the .env file. But you will see Errors while navigating through the
 app. To remove the errors please insert your own keys.
@@ -61,10 +63,21 @@ Create a file `local.properties` if necessary in ./android folder and insert the
 MAPS_API_KEY=hereyourgooglemapkey
 ```
 
+### 3. Firebase Setup
+This project is running with Firebase. Contact us for the google service files
+#### iOS
+Add the GoogleServices-Info.plist file to your /ios folder
+
+#### Andoird
+This project includes two Firebase projects. One for release and one for development.
+Add the "google-services.json" files to /android/src/debug and /android/src/release
 
 ## Release 
 ####Keystore Properties for Android
-Create a file `debug.keystore` in android/app/ and insert:
+This is only needed if you want to build an Android Release Build. 
+Create a file `keystore.properties` in android/app/ and add your release keystore details:
+
+
 ```
 MYAPP_UPLOAD_STORE_FILE=
 MYAPP_UPLOAD_KEY_ALIAS=
@@ -73,19 +86,9 @@ MYAPP_UPLOAD_KEY_PASSWORD=
 ```
 
 ## Troubleshooting
-###Signing - XCode
-Please contact us for instructions.
-
-###Errors
-
-Failed to launch the app on simulator, An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
-Unable to lookup in current state: Shutdown
-
-Solution:
-- Delete Xcode cache
-- Delete Project Build and indexes
-- Path:>about this Mac>Storage>Manage>Developer
-[More](https://stackoverflow.com/questions/69312343/build-error-domain-com-apple-coresimulator-simerror-code-405)
+###iOS Signing with XCode
+This App uses remote push notifications. You need the right profiles within Apple developer certificates.
+Please contact us if you need help.
 
 ## Contact us
 If you have any questions, please feel free to contact us. mail[at]heymeala.com

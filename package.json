@@ -10,8 +10,7 @@
     "test": "jest",
     "lint": "eslint .",
     "cleanmetro": "npm start -- --reset-cache",
-    "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
-    "html": "depcruise   --config .dependency-cruiser.js src  --collapse 20  --include-only \"^src\" -v -T dot src | dot -T svg | depcruise-wrap-stream-in-html > dependency-graph.html"
+    "build:ios": "react-native bundle --entry-file='index.ios.js' --bundle-output='./ios/meala/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
     "@kingstinct/react-native-healthkit": "^4.1.1",
@@ -88,7 +87,6 @@
     "all-contributors-cli": "^6.20.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.0.6",
-    "dependency-cruiser": "^11.4.1",
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
