@@ -25,7 +25,7 @@ export const database = {
       CommunityQuiz,
     ],
 
-    schemaVersion: 40,
+    schemaVersion: 43,
     migration: (oldRealm, newRealm) => {
       if (oldRealm.schemaVersion < 32) {
         const oldObjects = oldRealm.objects('Settings');

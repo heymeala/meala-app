@@ -18,6 +18,7 @@ import Knowledge from '../Screens/Settings/Knowledge/Knowledge';
 import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import Licenses from '../Screens/Settings/License/Licenses';
 import GoogleFitSettings from '../Screens/Settings/GoogleFitSettings';
+import Fitbit from '../Screens/Settings/fitbit/Fitbit';
 
 function SettingsStack() {
   const { t } = React.useContext(LocalizationContext);
@@ -105,6 +106,17 @@ function SettingsStack() {
       <Stack.Screen
         name="Dexcom"
         component={Dexcom}
+        initialParams={{}}
+        options={{
+          title: t('Settings.Dexcom.name'),
+          headerTitleStyle: {
+            fontFamily: 'SecularOne-Regular',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Fitbit"
+        component={Fitbit}
         initialParams={{}}
         options={{
           title: t('Settings.Dexcom.name'),

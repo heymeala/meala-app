@@ -68,6 +68,12 @@ const SettingsOverview = props => {
           iconType: 'meala',
           link: 'Dexcom',
         },
+        {
+          name: 'Fitbit',
+          icon: 'dexcom',
+          iconType: 'meala',
+          link: 'Fitbit',
+        },
       ],
     },
     {
