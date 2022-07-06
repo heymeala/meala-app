@@ -11,9 +11,6 @@ import Keychain from 'react-native-keychain';
 const Fitbit = () => {
   const { t, locale } = React.useContext(LocalizationContext);
   moment.locale(locale);
-  const [accessToken, setAccessToken] = useState();
-  const [refreshToken, setRefreshToken] = useState();
-
   const axiosApiInstance = axios.create();
 
   // Log in to get an authentication token
@@ -39,18 +36,12 @@ const Fitbit = () => {
     },
   };
 
-  useEffect(() => {
-    getTokens(); // load tokens from keychain
-  }, []);
-
   async function getTokens() {
     try {
       // Retrieve the credentials
       const credentials = await Keychain.getInternetCredentials('https://api.fitbit.com/oauth2/token');
       if (credentials) {
         console.log('Credentials successfully loaded for user ' + credentials.server);
-        setAccessToken(credentials.username);
-        setRefreshToken(credentials.password);
         return credentials;
       } else {
         console.log('No credentials stored');
@@ -68,8 +59,6 @@ const Fitbit = () => {
   const fitbitOAuth = () => {
     authorize(config).then(response => {
       console.log(response);
-      setAccessToken(response.accessToken);
-      setRefreshToken(response.refreshToken);
       saveAccessToken(response.accessToken, response.refreshToken);
     });
   };
@@ -102,8 +91,9 @@ const Fitbit = () => {
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         console.log('refresh', 'refresh');
+        const credentials = await getTokens();
         const access_token = await refresh(config, {
-          refreshToken: refreshToken,
+          refreshToken: credentials.password,
         });
         axios.defaults.headers.common.Authorization = 'Bearer ' + access_token;
         return axiosApiInstance(originalRequest);
@@ -123,8 +113,9 @@ const Fitbit = () => {
   };
 
   const revokeToken = async () => {
+    const credentials = await getTokens();
     const result = await revoke(config, {
-      tokenToRevoke: accessToken,
+      tokenToRevoke: credentials.username,
       sendClientId: true,
       includeBasicAuth: true,
     });
