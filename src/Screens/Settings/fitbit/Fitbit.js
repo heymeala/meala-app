@@ -40,7 +40,7 @@ const Fitbit = () => {
   };
 
   useEffect(() => {
-    getTokens().then(e => console.log(e));
+    getTokens(); // load tokens from keychain
   }, []);
 
   async function getTokens() {
@@ -51,6 +51,7 @@ const Fitbit = () => {
         console.log('Credentials successfully loaded for user ' + credentials.server);
         setAccessToken(credentials.username);
         setRefreshToken(credentials.password);
+        return credentials;
       } else {
         console.log('No credentials stored');
       }
@@ -59,8 +60,8 @@ const Fitbit = () => {
     }
   }
 
-  async function saveAccessToken(access, refresh) {
-    await Keychain.setInternetCredentials('https://api.fitbit.com/oauth2/token', access, refresh);
+  async function saveAccessToken(access_Token, refresh_Token) {
+    await Keychain.setInternetCredentials('https://api.fitbit.com/oauth2/token', access_Token, refresh_Token);
     await getTokens();
   }
 
@@ -75,16 +76,15 @@ const Fitbit = () => {
 
   // Request interceptor for API calls
   axiosApiInstance.interceptors.request.use(
-    async config => {
-      //const value = await redisClient.get(rediskey);
-      //  const keys = JSON.parse(value);
-
-      config.headers = {
-        Authorization: `Bearer ${accessToken}`,
+    async interceptorConfig => {
+      // load tokens from keychain ???
+      const credentials = await getTokens();
+      interceptorConfig.headers = {
+        Authorization: `Bearer ${credentials.username}`,
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       };
-      return config;
+      return interceptorConfig;
     },
     error => {
       Promise.reject(error);
@@ -114,10 +114,6 @@ const Fitbit = () => {
 
   const getAPIInfo = url => {
     const options = {
-      /* method: 'GET',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },*/
       url: url,
     };
 

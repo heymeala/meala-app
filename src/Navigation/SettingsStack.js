@@ -119,7 +119,7 @@ function SettingsStack() {
         component={Fitbit}
         initialParams={{}}
         options={{
-          title: t('Settings.Dexcom.name'),
+          title: 'Fitbit User Account',
           headerTitleStyle: {
             fontFamily: 'SecularOne-Regular',
           },
