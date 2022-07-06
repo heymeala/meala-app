@@ -10,6 +10,8 @@ import { HKCategoryTypeIdentifier } from '@kingstinct/react-native-healthkit/src
 import { saveAndGetHealthKitGlucose, saveAndGetHealthKitTreatments } from './saveAndGetHealthKitData';
 import { filterSVGDataByTime } from './convertCGMData';
 import { Platform } from 'react-native';
+import { useEffect } from 'react';
+import { getAPIInfo } from '../Settings/fitbit/fitbitApi';
 
 export async function loadSugarData(
   mealData,
@@ -24,12 +26,26 @@ export async function loadSugarData(
   setLoading,
   setStepsPerDay,
   setSleepAnalysis,
+  setHeartRate,
+  setFitbitSteps,
 ) {
   const foodDate = new Date(mealData.date);
   const id = mealData.userMealId;
 
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+
+  getAPIInfo(
+    `https://api.fitbit.com/1/user/-/activities/heart/date/2022-07-05/1d/1min/time/${moment.utc(fromDate).format('HH:mm')}/${moment.utc(tillDate).format('HH:mm')}.json`,
+  ).then(response => {
+    setHeartRate(response);
+  });
+  getAPIInfo(
+      `https://api.fitbit.com/1/user/-/activities/steps/date/2022-07-05/1d/1min/time/${moment.utc(fromDate).format('HH:mm')}/${moment.utc(tillDate).format('HH:mm')}.json`,
+  ).then(response => {
+    setFitbitSteps(response);
+  });
+
   if (Platform.OS === 'ios') {
     const options = {
       ascending: true,

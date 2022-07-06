@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/core';
 import Tags from './Tags';
 import AddLibreData from './AddLibreData';
 import { getImagePath } from '../../../utils/getImagePath';
+import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryScatter } from 'victory-native';
 
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -48,6 +49,12 @@ const MealDetailsComponent = props => {
     [userSettings.glucoseSource, t, duration, insulinSumme],
   );
 
+  const data = [
+    { quarter: 1, earnings: 13000 },
+    { quarter: 2, earnings: 16500 },
+    { quarter: 3, earnings: 14250 },
+    { quarter: 4, earnings: 19000 },
+  ];
   return (
     <>
       <ScrollView style={styles.wrapper}>
@@ -103,13 +110,39 @@ const MealDetailsComponent = props => {
             </ListItem>
           )}
 
-          {props.heartRate &&
+          {/*          {props.heartRate &&
             props.heartRate['activities-heart-intraday'].dataset.map(data => (
               <ListItem containerStyle={styles.list}>
                 <Icon name={'bedtime'} />
-                <ListItem.Title style={styles.text}>{data.time} : {data.value}</ListItem.Title>
+                <ListItem.Title style={styles.text}>
+                  {data.time} : {data.value}
+                </ListItem.Title>
               </ListItem>
-            ))}
+            ))}*/}
+
+
+          {props.fitbitSteps && (
+              <VictoryChart scale={{ x: 'time' }} >
+                <VictoryBar
+                    interpolation="natural"
+                    data={props.fitbitSteps['activities-steps-intraday'].dataset}
+                    x="time"
+                    y="value"
+                />
+              </VictoryChart>
+          )}
+
+          {props.heartRate && (
+            <VictoryChart scale={{ x: 'time' }} >
+              <VictoryBar
+                interpolation="natural"
+                data={props.heartRate['activities-heart-intraday'].dataset}
+                x="time"
+                y="value"
+              />
+            </VictoryChart>
+          )}
+
           {props.selectedFood.picture ? (
             <View style={styles.imageContainer}>
               <Image

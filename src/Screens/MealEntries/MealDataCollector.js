@@ -25,6 +25,7 @@ const MealDataCollector = props => {
   const { settings } = useProfile();
   const { userSettings } = useUserSettings();
   const [heartRate, setHeartRate] = useState();
+  const [fitbitSteps, setFitbitSteps] = useState();
   useEffect(() => {
     let isMounted = true;
     if (userMealId) {
@@ -54,17 +55,13 @@ const MealDataCollector = props => {
         setLoading,
         setStepsPerDay,
         setSleepAnalysis,
+          setHeartRate,
+          setFitbitSteps
       ); //TODO:: CLEANUP
     });
   }
 
-  useEffect(() => {
-    getAPIInfo(
-      'https://api.fitbit.com/1/user/-/activities/heart/date/2022-07-05/1d/15min/time/12:00/14:30.json',
-    ).then(response => {
-      setHeartRate(response);
-    });
-  }, []);
+
 
   return (
     <>
@@ -83,6 +80,7 @@ const MealDataCollector = props => {
           reloadData={loadData}
           sleepAnalysis={sleepAnalysis}
           heartRate={heartRate}
+          fitbitSteps={fitbitSteps}
         />
       ) : (
         <LoadingSpinner />
