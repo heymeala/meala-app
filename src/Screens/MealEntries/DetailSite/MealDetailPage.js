@@ -103,6 +103,13 @@ const MealDetailsComponent = props => {
             </ListItem>
           )}
 
+          {props.heartRate &&
+            props.heartRate['activities-heart-intraday'].dataset.map(data => (
+              <ListItem containerStyle={styles.list}>
+                <Icon name={'bedtime'} />
+                <ListItem.Title style={styles.text}>{data.time} : {data.value}</ListItem.Title>
+              </ListItem>
+            ))}
           {props.selectedFood.picture ? (
             <View style={styles.imageContainer}>
               <Image

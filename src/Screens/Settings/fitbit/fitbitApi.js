@@ -99,8 +99,9 @@ export const getAPIInfo = url => {
     url: url,
   };
 
-  axiosApiInstance(options).then(function (response) {
+  return axiosApiInstance(options).then(function (response) {
     console.log(response.data);
+    return response.data;
   });
 };
 

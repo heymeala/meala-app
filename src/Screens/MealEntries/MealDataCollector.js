@@ -6,6 +6,7 @@ import LoadingSpinner from '../../Common/LoadingSpinner';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { loadSugarData } from './loadHealthData';
 import { useRoute } from '@react-navigation/core';
+import { getAPIInfo } from '../Settings/fitbit/fitbitApi';
 
 const MealDataCollector = props => {
   const [insulin, setInsulin] = useState([]);
@@ -23,7 +24,7 @@ const MealDataCollector = props => {
   const [restaurantName, setRestaurantName] = useState(null);
   const { settings } = useProfile();
   const { userSettings } = useUserSettings();
-
+  const [heartRate, setHeartRate] = useState();
   useEffect(() => {
     let isMounted = true;
     if (userMealId) {
@@ -57,6 +58,14 @@ const MealDataCollector = props => {
     });
   }
 
+  useEffect(() => {
+    getAPIInfo(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/2022-07-05/1d/15min/time/12:00/14:30.json',
+    ).then(response => {
+      setHeartRate(response);
+    });
+  }, []);
+
   return (
     <>
       {selectedFood ? (
@@ -73,6 +82,7 @@ const MealDataCollector = props => {
           stepsPerDay={stepsPerDay}
           reloadData={loadData}
           sleepAnalysis={sleepAnalysis}
+          heartRate={heartRate}
         />
       ) : (
         <LoadingSpinner />
