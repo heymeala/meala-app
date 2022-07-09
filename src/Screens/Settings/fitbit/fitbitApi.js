@@ -28,7 +28,24 @@ const config = {
   },
 };
 
-async function getTokens() {
+export const refreshFitbitToken = () => {
+  return getFitbitTokens().then(credentials => {
+    console.log('credentials', credentials.password);
+    return refresh(config, {
+      refreshToken: credentials.password,
+    })
+      .then(response => {
+        console.log('response refresh', response);
+        saveAccessToken(response.accessToken, response.refreshToken);
+        return response;
+      })
+      .catch(e => {
+        console.log('error', e);
+      });
+  });
+};
+
+async function getFitbitTokens() {
   try {
     // Retrieve the credentials
     const credentials = await Keychain.getInternetCredentials('https://api.fitbit.com/oauth2/token');
@@ -45,13 +62,14 @@ async function getTokens() {
 
 async function saveAccessToken(access_Token, refresh_Token) {
   await Keychain.setInternetCredentials('https://api.fitbit.com/oauth2/token', access_Token, refresh_Token);
-  await getTokens();
+  // await getFitbitTokens();
 }
 
 export const fitbitOAuth = () => {
   authorize(config).then(response => {
     console.log(response);
     saveAccessToken(response.accessToken, response.refreshToken);
+    return response;
   });
 };
 
@@ -59,7 +77,8 @@ export const fitbitOAuth = () => {
 axiosApiInstance.interceptors.request.use(
   async interceptorConfig => {
     // load tokens from keychain
-    const credentials = await getTokens();
+    const credentials = await getFitbitTokens();
+    console.log('request interceptor');
     interceptorConfig.headers = {
       Authorization: `Bearer ${credentials.username}`,
       Accept: 'application/json',
@@ -79,16 +98,18 @@ axiosApiInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    console.log('response error', error);
+    /*   if (error.response.status === 401 && originalRequest.url === 'https://api.fitbit.com/oauth2/token') {
+             console.log('original request');
+             return Promise.reject(error);
+           }*/
+
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log('refresh', 'refresh');
-      const credentials = await getTokens();
-      const access_token = await refresh(config, {
-        refreshToken: credentials.password,
+      refreshFitbitToken().then(response => {
+        console.log('response 401', response);
+        axiosApiInstance.defaults.headers.common.Authorization = 'Bearer ' + response.accessToken;
+        return axiosApiInstance(originalRequest);
       });
-      axios.defaults.headers.common.Authorization = 'Bearer ' + access_token;
-      return axiosApiInstance(originalRequest);
     }
     return Promise.reject(error);
   },
@@ -106,7 +127,7 @@ export const getAPIInfo = url => {
 };
 
 export const revokeToken = async () => {
-  const credentials = await getTokens();
+  const credentials = await getFitbitTokens();
   const result = await revoke(config, {
     tokenToRevoke: credentials.username,
     sendClientId: true,

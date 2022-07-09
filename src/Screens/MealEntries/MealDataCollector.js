@@ -55,13 +55,11 @@ const MealDataCollector = props => {
         setLoading,
         setStepsPerDay,
         setSleepAnalysis,
-          setHeartRate,
-          setFitbitSteps
+        setHeartRate,
+        setFitbitSteps,
       ); //TODO:: CLEANUP
     });
   }
-
-
 
   return (
     <>

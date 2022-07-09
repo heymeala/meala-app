@@ -4,7 +4,8 @@ import { Button } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import moment from 'moment';
 
-import { fitbitOAuth, getAPIInfo, revokeToken } from './fitbitApi';
+import { fitbitOAuth, getAPIInfo, refreshFitbitToken, revokeToken } from './fitbitApi';
+import { refresh } from 'react-native-app-auth';
 
 const Fitbit = () => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -37,6 +38,7 @@ const Fitbit = () => {
       />
       <Text>{heartRate && heartRate}</Text>
       <Button title={'Revoke'} onPress={() => revokeToken()} />
+      <Button title={'revresh'} onPress={() => refreshFitbitToken()} />
     </ScrollView>
   );
 };

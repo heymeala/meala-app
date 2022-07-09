@@ -32,6 +32,7 @@ const MealDetailsComponent = props => {
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
   const navigation = useNavigation();
+  console.log("rerender", "2")
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: foodDatum,
