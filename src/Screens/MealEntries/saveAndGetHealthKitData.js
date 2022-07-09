@@ -73,16 +73,18 @@ export async function saveAndGetHealthKitTreatments(foodDate, settings, id) {
       (await Healthkit.queryQuantitySamples(HKQuantityTypeIdentifier.insulinDelivery, options));
     const formattedInsulinData =
       insulinData &&
-      insulinData.map(result => {
-        return {
-          _id: result.uuid,
-          eventType: 'insulinDelivery - HealthKit Source - ' + result.sourceRevision.source.name,
-          insulin: result.quantity,
-          carbs: null,
-          created_at: result.startDate,
-          date: result.startDate.getTime(),
-        };
-      });
+      insulinData
+        .filter(result => result.metadata.HKInsulinDeliveryReason === 2)
+        .map(result => {
+          return {
+            _id: result.uuid,
+            eventType: 'insulinDelivery - HealthKit Source - ' + result.sourceRevision.source.name,
+            insulin: result.quantity,
+            carbs: null,
+            created_at: result.startDate,
+            date: result.startDate.getTime(),
+          };
+        });
 
     const carbohydrates = await Healthkit.queryQuantitySamples(
       HKQuantityTypeIdentifier.dietaryCarbohydrates,
