@@ -114,6 +114,27 @@ function GeneralChartView(props) {
             <VictoryAxis dependentAxis tickFormat={y => y} />
 
             <VictoryGroup>
+              {props.fitbitSteps && (
+                <VictoryBar
+                  style={{
+                    data: { fill: 'rgba(6,26,246,0.55)'},
+                  }}
+                  data={props.fitbitSteps}
+                  x="time"
+                  y="value"
+                />
+              )}
+
+              {props.heartRate && (
+                <VictoryBar
+                  style={{
+                    data: { fill: 'rgba(250,155,78,0.16)', strokeWidth: 1.5 },
+                  }}
+                  data={props.heartRate}
+                  x="time"
+                  y="value"
+                />
+              )}
               {props.coordinates && props.coordinates.length >= 3 && (
                 <VictoryScatter
                   style={{
@@ -142,6 +163,7 @@ function GeneralChartView(props) {
                   },
                 ]}
               />
+
               {props.insulinCoordinates && props.insulinCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={5}
@@ -155,6 +177,7 @@ function GeneralChartView(props) {
                   data={props.insulinCoordinates}
                 />
               )}
+
               {props.coordinates && props.carbCoordinates.length > 0 && (
                 <VictoryBar
                   barWidth={1}

@@ -24,6 +24,7 @@ import { VictoryAxis, VictoryBar, VictoryChart, VictoryGroup, VictoryScatter } f
 const MealDetailsComponent = props => {
   const { t, locale } = React.useContext(LocalizationContext);
   const { userSettings } = useUserSettings();
+  const window = Dimensions.get('window');
 
   moment.locale(locale);
   const { selectedFood } = props;
@@ -32,7 +33,7 @@ const MealDetailsComponent = props => {
   const dimension = Dimensions.get('window');
   const styles = useStyles(dimension);
   const navigation = useNavigation();
-  console.log("rerender", "2")
+  console.log('rerender', '2');
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: foodDatum,
@@ -72,6 +73,8 @@ const MealDetailsComponent = props => {
             selectedFood={props.selectedFood}
             insulinCoordinates={props.insulinCoordinates}
             carbCoordinates={props.carbCoordinates}
+            fitbitSteps={props.fitbitSteps}
+            heartRate={props.heartRate}
           />
         ) : (
           <NoGraphData />
@@ -111,38 +114,59 @@ const MealDetailsComponent = props => {
             </ListItem>
           )}
 
-          {/*          {props.heartRate &&
-            props.heartRate['activities-heart-intraday'].dataset.map(data => (
-              <ListItem containerStyle={styles.list}>
-                <Icon name={'bedtime'} />
-                <ListItem.Title style={styles.text}>
-                  {data.time} : {data.value}
-                </ListItem.Title>
-              </ListItem>
-            ))}*/}
-
-
           {props.fitbitSteps && (
-              <VictoryChart scale={{ x: 'time' }} >
+            <VictoryChart minDomain={{ y: 1 }} height={300} width={window.width + 20} scale={{ x: 'time' }}>
+              <VictoryAxis
+                tickFormat={
+                  locale === 'de'
+                    ? x =>
+                        new Date(x).getHours() +
+                        ':' +
+                        (new Date(x).getMinutes() < 10 ? '0' : '') +
+                        new Date(x).getMinutes()
+                    : null
+                }
+              />
+              <VictoryAxis dependentAxis tickFormat={y => y} />
+              {props.heartRate && (
                 <VictoryBar
-                    interpolation="natural"
-                    data={props.fitbitSteps['activities-steps-intraday'].dataset}
-                    x="time"
-                    y="value"
+                  style={{
+                    data: { fill: 'rgba(255,0,0,0.25)' },
+                  }}
+                  data={props.heartRate}
+                  x="time"
+                  y="value"
                 />
-              </VictoryChart>
-          )}
+              )}
 
-          {props.heartRate && (
-            <VictoryChart scale={{ x: 'time' }} >
               <VictoryBar
-                interpolation="natural"
-                data={props.heartRate['activities-heart-intraday'].dataset}
+                style={{
+                  data: { fill: 'rgb(0,89,255)' },
+                }}
+                data={props.fitbitSteps}
                 x="time"
                 y="value"
               />
             </VictoryChart>
           )}
+
+      {/*    {props.heartRate && (
+            <VictoryChart height={200} minDomain={{ y: 50 }} width={window.width + 20} scale={{ x: 'time' }}>
+              <VictoryAxis
+                tickFormat={
+                  locale === 'de'
+                    ? x =>
+                        new Date(x).getHours() +
+                        ':' +
+                        (new Date(x).getMinutes() < 10 ? '0' : '') +
+                        new Date(x).getMinutes()
+                    : null
+                }
+              />
+              <VictoryAxis dependentAxis tickFormat={y => y} />
+              <VictoryBar data={props.heartRate} x="time" y="value" />
+            </VictoryChart>
+          )}*/}
 
           {props.selectedFood.picture ? (
             <View style={styles.imageContainer}>

@@ -34,16 +34,39 @@ export async function loadSugarData(
 
   const tillDate = moment(foodDate).add(3, 'hours').toISOString();
   const fromDate = moment(foodDate).subtract(SEA_MINUTES, 'minutes').toISOString();
+  console.log('tillDate', tillDate);
+  console.log('fromDate', fromDate);
 
   getAPIInfo(
-    `https://api.fitbit.com/1/user/-/activities/heart/date/2022-07-05/1d/1min/time/${moment.utc(fromDate).format('HH:mm')}/${moment.utc(tillDate).format('HH:mm')}.json`,
+    `https://api.fitbit.com/1/user/-/activities/heart/date/${moment(foodDate).format(
+      'YYYY-MM-DD',
+    )}/1d/1min/time/${moment(fromDate).format('HH:mm')}/${moment(tillDate).format('HH:mm')}.json`,
   ).then(response => {
-    setHeartRate(response);
+    const newHeartRateFormat = response['activities-heart-intraday'].dataset.map(data => {
+      return convertTimeToDateTimeObject(foodDate, data.time, data.value);
+    });
+    console.log('newHeartRate', newHeartRateFormat);
+    setHeartRate(newHeartRateFormat);
   });
+
+  const convertTimeToDateTimeObject = (date, time, value) => {
+    const currentDate = moment(moment(date).format('YYYY-MM-DD') + 'T' + time).toDate();
+    return {
+      time: currentDate,
+      value: value,
+    };
+  };
+
   getAPIInfo(
-      `https://api.fitbit.com/1/user/-/activities/steps/date/2022-07-05/1d/1min/time/${moment.utc(fromDate).format('HH:mm')}/${moment.utc(tillDate).format('HH:mm')}.json`,
+    `https://api.fitbit.com/1/user/-/activities/steps/date/${moment(foodDate).format(
+      'YYYY-MM-DD',
+    )}/1d/1min/time/${moment(fromDate).format('HH:mm')}/${moment(tillDate).format('HH:mm')}.json`,
   ).then(response => {
-    setFitbitSteps(response);
+    const newStepsFormat = response['activities-steps-intraday'].dataset.map(data => {
+      return convertTimeToDateTimeObject(foodDate, data.time, data.value);
+    });
+    console.log('newHeartRate', newStepsFormat);
+    setFitbitSteps(newStepsFormat);
   });
 
   if (Platform.OS === 'ios') {
