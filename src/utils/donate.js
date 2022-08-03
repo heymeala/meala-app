@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
-import { makeStyles } from 'react-native-elements';
+import React from 'react';
 import RNFS from 'react-native-fs';
-import LocalizationContext from '../../../LanguageContext';
-import OutLineButton from '../../Common/OutLineButton';
-import { Alert, Platform, Share, View } from 'react-native';
 import { zip } from 'react-native-zip-archive';
-import { IMAGEFOLDER } from '../../Common/Constants/folder';
 import { EVAL } from '@env';
 import RNFetchBlob from 'rn-fetch-blob';
+import {IMAGEFOLDER} from "../Common/Constants/folder";
 
 export const donate = (setUpload, donate, setProgress) => {
   const date = new Date().getTime().toString();
