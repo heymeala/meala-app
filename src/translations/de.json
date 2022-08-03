@@ -412,7 +412,11 @@
     },
     "Licenses": {
       "name": "Lizenzen"
-    }
+    },
+    "donate_title": "Werde Teil von etwas Größerem",
+    "donate_explain": "Wir arbeiten an eignen Studien zum Thema Peer Support, damit wir diese Studien durchführen und veröffentlichen können, benötigen wir Datenspenden. Deine Daten bleiben komplett anonym.",
+    "donate": "Meine Daten spenden",
+    "donate_thanks": "Vielen Dank für deine Spende"
   },
   "About": {
     "DrawNavigatorTitle": "Über meala",
