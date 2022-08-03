@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {Button, Linking, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { Button, Linking, TouchableOpacity, View } from 'react-native';
 
-import {LinearProgress, makeStyles, SocialIcon, Text} from 'react-native-elements';
+import { LinearProgress, makeStyles, SocialIcon, Text } from 'react-native-elements';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import Feedback from '../../Common/Feedback';
 import ExportDatabase from './ExportDatabase';
-import Icon from "react-native-vector-icons/Ionicons";
-import {donate} from "../../utils/donate";
+import Icon from 'react-native-vector-icons/Ionicons';
+import { donate } from '../../utils/donate';
 
 const SettingsFooter = () => {
   const screenReaderEnabled = useScreenReader();
@@ -92,5 +92,6 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 20,
   },
   h2: { marginVertical: theme.spacing.M },
+  donate: { marginVertical: theme.spacing.L, paddingBottom: theme.spacing.L },
   mail: { marginVertical: theme.spacing.M },
 }));
