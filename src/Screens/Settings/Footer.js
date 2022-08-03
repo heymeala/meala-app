@@ -1,19 +1,45 @@
-import React from 'react';
-import { Linking, TouchableOpacity, View } from 'react-native';
+import React, {useState} from 'react';
+import {Button, Linking, TouchableOpacity, View} from 'react-native';
 
-import { makeStyles, SocialIcon, Text } from 'react-native-elements';
+import {LinearProgress, makeStyles, SocialIcon, Text} from 'react-native-elements';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import Feedback from '../../Common/Feedback';
 import ExportDatabase from './ExportDatabase';
+import Icon from "react-native-vector-icons/Ionicons";
+import {donate} from "../../utils/donate";
 
 const SettingsFooter = () => {
   const screenReaderEnabled = useScreenReader();
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
-
+  const [upload, setUpload] = useState('false');
+  const [progress, setProgress] = useState(0);
   return (
     <View style={{ padding: 20 }}>
+      {upload === 'success' ? (
+        <View style={styles.donate}>
+          <Text style={styles.title}>{t('Settings.donate_thanks')}</Text>
+          <Icon name={'heart-outline'} type={'ionicon'} size={40} />
+        </View>
+      ) : (
+        <View style={styles.donate}>
+          <Text h2 style={styles.title}>
+            {t('Settings.donate_title')}
+          </Text>
+          <Text style={styles.h2}>{t('Settings.donate_explain')}</Text>
+          {progress === 0 ? (
+            <Button
+              title={t('Settings.donate')}
+              loading={upload !== 'false'}
+              onPress={() => donate(setUpload, 'true', setProgress)}
+            />
+          ) : (
+            <LinearProgress variant={'determinate'} value={progress} color="secondary" />
+          )}
+        </View>
+      )}
+
       <Feedback />
       <View style={styles.mail}>
         <TouchableOpacity onPress={() => Linking.openURL('mailto:mail@heymeala.com')}>
