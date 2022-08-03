@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Linking, TouchableOpacity, View } from 'react-native';
+import { Linking, TouchableOpacity, View } from 'react-native';
 
-import { LinearProgress, makeStyles, SocialIcon, Text } from 'react-native-elements';
+import {Button, LinearProgress, makeStyles, SocialIcon, Text} from 'react-native-elements';
 import { useScreenReader } from '../../hooks/useScreenReaderEnabled';
 import LocalizationContext from '../../../LanguageContext';
 import Feedback from '../../Common/Feedback';
