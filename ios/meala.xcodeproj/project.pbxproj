@@ -11,7 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		D7412A83DF7FF18966AB8E65 /* libPods-meala.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01D050875FFED4905C442FAD /* libPods-meala.a */; };
+		21F75E5C7966CA1350A44E9F /* libPods-meala.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A5022A5B072311ADCDB52DA /* libPods-meala.a */; };
 		F32DBAF926380A0F00E65C86 /* SecularOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F32DBAF826380A0E00E65C86 /* SecularOne-Regular.ttf */; };
 		F33099AB259D090C005B7DC4 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F33099AA259D0904005B7DC4 /* Pacifico-Regular.ttf */; };
 		F3309A32259D19EB005B7DC4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3309A31259D19EB005B7DC4 /* GoogleService-Info.plist */; };
@@ -27,7 +27,6 @@
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* mealaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mealaTests.m; sourceTree = "<group>"; };
-		01D050875FFED4905C442FAD /* libPods-meala.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-meala.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* meala.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meala.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = meala/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = meala/AppDelegate.m; sourceTree = "<group>"; };
@@ -35,9 +34,10 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = meala/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = meala/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = meala/main.m; sourceTree = "<group>"; };
-		63F4DD90EC8CFC83D0963733 /* Pods-meala.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meala.debug.xcconfig"; path = "Target Support Files/Pods-meala/Pods-meala.debug.xcconfig"; sourceTree = "<group>"; };
+		1A5022A5B072311ADCDB52DA /* libPods-meala.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-meala.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AD4C50780C3ED5FE8385410 /* Pods-meala.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meala.debug.xcconfig"; path = "Target Support Files/Pods-meala/Pods-meala.debug.xcconfig"; sourceTree = "<group>"; };
+		656B9FCB2F1D26E82BCF0665 /* Pods-meala.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meala.release.xcconfig"; path = "Target Support Files/Pods-meala/Pods-meala.release.xcconfig"; sourceTree = "<group>"; };
 		9B710FB227F24AE0009A3589 /* mealaDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = mealaDebug.entitlements; path = meala/mealaDebug.entitlements; sourceTree = "<group>"; };
-		BAB70BC664FB1C6B8E562DFE /* Pods-meala.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meala.release.xcconfig"; path = "Target Support Files/Pods-meala/Pods-meala.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F306EBF427C14172008433E0 /* meala-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "meala-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -63,7 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F365529925A2182A00EAC671 /* HealthKit.framework in Frameworks */,
-				D7412A83DF7FF18966AB8E65 /* libPods-meala.a in Frameworks */,
+				21F75E5C7966CA1350A44E9F /* libPods-meala.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,7 +112,7 @@
 				F365529825A2182A00EAC671 /* HealthKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				01D050875FFED4905C442FAD /* libPods-meala.a */,
+				1A5022A5B072311ADCDB52DA /* libPods-meala.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -120,8 +120,8 @@
 		52F58FE8BF6BEB13262C8F26 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				63F4DD90EC8CFC83D0963733 /* Pods-meala.debug.xcconfig */,
-				BAB70BC664FB1C6B8E562DFE /* Pods-meala.release.xcconfig */,
+				1AD4C50780C3ED5FE8385410 /* Pods-meala.debug.xcconfig */,
+				656B9FCB2F1D26E82BCF0665 /* Pods-meala.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -177,15 +177,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "meala" */;
 			buildPhases = (
-				2D8C9775B59F1CAC42070BF6 /* [CP] Check Pods Manifest.lock */,
+				7CF9A8D2B3B4F462C6E262D8 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				9A90BE197F3646A8AE2AC533 /* [CP] Embed Pods Frameworks */,
-				84941710144CA7F622574DA3 /* [CP] Copy Pods Resources */,
-				CD586776E2A2559915456B16 /* [CP-User] [RNFB] Core Configuration */,
+				4063026E03E9F36722998612 /* [CP] Embed Pods Frameworks */,
+				9C96B8030A825DFC0AB75B65 /* [CP] Copy Pods Resources */,
+				F141667939B60EEF49B907A7 /* [CP-User] [RNFB] Core Configuration */,
 			);
 			buildRules = (
 			);
@@ -266,7 +266,27 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2D8C9775B59F1CAC42070BF6 /* [CP] Check Pods Manifest.lock */ = {
+		4063026E03E9F36722998612 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-meala/Pods-meala-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-meala/Pods-meala-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7CF9A8D2B3B4F462C6E262D8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,7 +308,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		84941710144CA7F622574DA3 /* [CP] Copy Pods Resources */ = {
+		9C96B8030A825DFC0AB75B65 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -338,27 +358,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-meala/Pods-meala-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A90BE197F3646A8AE2AC533 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-meala/Pods-meala-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Flipper-DoubleConversion/double-conversion.framework/double-conversion",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL-Universal/OpenSSL.framework/OpenSSL",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/double-conversion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-meala/Pods-meala-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CD586776E2A2559915456B16 /* [CP-User] [RNFB] Core Configuration */ = {
+		F141667939B60EEF49B907A7 /* [CP-User] [RNFB] Core Configuration */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -431,7 +431,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 63F4DD90EC8CFC83D0963733 /* Pods-meala.debug.xcconfig */;
+			baseConfigurationReference = 1AD4C50780C3ED5FE8385410 /* Pods-meala.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -467,7 +467,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAB70BC664FB1C6B8E562DFE /* Pods-meala.release.xcconfig */;
+			baseConfigurationReference = 656B9FCB2F1D26E82BCF0665 /* Pods-meala.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

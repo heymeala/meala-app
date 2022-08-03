@@ -30,5 +30,6 @@ use_flipper!({ 'Flipper' => '0.95.0', 'Flipper-Folly' => '2.6.7', 'Flipper-Doubl
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.1'
     end
     react_native_post_install(installer)
+     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
