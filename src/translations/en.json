@@ -414,7 +414,11 @@
     },
     "Licenses": {
       "name": "Licenses"
-    }
+    },
+    "donate_title": "Become part of something bigger",
+    "donate_explain": "We are working on our own studies on the topic of peer support, so that we can conduct and publish these studies, we need data donations. Your data will remain completely anonymous.",
+    "donate": "Donate my data",
+    "donate_thanks": "Thank you for your donation"
   },
   "About": {
     "DrawNavigatorTitle": "About meala",
