@@ -6,16 +6,14 @@ import KnowledgeDetails from '../Screens/Settings/Knowledge/KnowledgeDetails';
 import GeneralQuiz from '../Screens/Quiz/GeneralQuiz/GeneralQuiz';
 import KnowledgeScreen from '../Screens/Quiz/KnowledgeScreen';
 import LocalizationContext from '../../LanguageContext';
-import QuizCategories from "../Screens/Quiz/GeneralQuiz/QuizCategories";
+import QuizCategories from '../Screens/Quiz/GeneralQuiz/QuizCategories';
 
 function QuizStack() {
   const { t } = React.useContext(LocalizationContext);
   const Stack = createNativeStackNavigator();
 
   return (
-    <Stack.Navigator
-      initialRouteName="KnowledgeOverview"
-    >
+    <Stack.Navigator initialRouteName="KnowledgeOverview">
       <Stack.Screen
         name="KnowledgeOverview"
         component={KnowledgeScreen}

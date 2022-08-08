@@ -14,7 +14,6 @@ const Licenses = props => {
   const formattedLicenseData = formatLicenses(licenses.current);
   return (
     <ScrollView>
-
       <Text h2 style={styles.root}>
         Animations
       </Text>
@@ -72,7 +71,6 @@ const Licenses = props => {
           </View>
         ))}
       <ExportDatabase />
-
     </ScrollView>
   );
 };

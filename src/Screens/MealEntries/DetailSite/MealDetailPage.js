@@ -76,12 +76,12 @@ const MealDetailsComponent = props => {
         />
         <View>
           {(userSettings.glucoseSource === NIGHTSCOUT || userSettings.glucoseSource === HEALTHKIT) &&
-          insulinSumme && (
-            <ListItem containerStyle={styles.list}>
-              <Icon name={'timelapse'} />
-              <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
-            </ListItem>
-          )}
+            insulinSumme && (
+              <ListItem containerStyle={styles.list}>
+                <Icon name={'timelapse'} />
+                <ListItem.Title style={styles.text}>{spritzEssAbstandText}</ListItem.Title>
+              </ListItem>
+            )}
           {props.stepsPerDay && (
             <ListItem containerStyle={styles.list}>
               <Icon name={'directions-run'} />

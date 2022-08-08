@@ -9,10 +9,14 @@ import BlueButton from '../../Common/BlueButton';
 import moment from 'moment';
 import * as Keychain from 'react-native-keychain';
 import qs from 'qs';
+import { checkAPI } from '../../utils/checkAPI';
 
 const axios = require('axios').default;
 
 const Dexcom = () => {
+  checkAPI('DEXCOM_ID', DEXCOM_ID);
+  checkAPI('DEXCOM_SECRET', DEXCOM_SECRET);
+
   const { t, locale } = React.useContext(LocalizationContext);
   const [code, setCode] = useState();
   moment.locale(locale);

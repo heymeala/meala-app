@@ -154,8 +154,8 @@ const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: 20,
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 }));

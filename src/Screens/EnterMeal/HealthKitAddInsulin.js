@@ -203,5 +203,5 @@ const useStyles = makeStyles(theme => ({
   },
   textContainer: { alignItems: 'center' },
   buttonWrapper: { margin: theme.spacing.S, flexDirection: 'row' },
-  hint: { marginHorizontal: theme.spacing.S }
+  hint: { marginHorizontal: theme.spacing.S },
 }));

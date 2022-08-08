@@ -16,7 +16,7 @@ import LocalizationContext from '../../../LanguageContext';
 import { spacing } from '../../theme/styles';
 import { useUserSettings } from '../../hooks/useUserSettings';
 import { NIGHTSCOUT } from './glucoseSourceConstants';
-import analytics from "@react-native-firebase/analytics";
+import analytics from '@react-native-firebase/analytics';
 
 const NightscoutSettingsScreen = props => {
   const { t, locale } = React.useContext(LocalizationContext);

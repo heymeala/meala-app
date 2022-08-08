@@ -90,5 +90,5 @@ export default EmptyPlacesButtons;
 const useStyles = makeStyles(theme => ({
   text: { marginTop: theme.spacing.S },
   textContainer: { paddingVertical: theme.spacing.M },
-  container: { padding: theme.spacing.S, }
+  container: { padding: theme.spacing.S },
 }));

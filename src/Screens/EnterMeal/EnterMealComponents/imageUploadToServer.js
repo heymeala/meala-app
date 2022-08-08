@@ -1,8 +1,10 @@
 import RNFetchBlob from 'rn-fetch-blob';
 import { COMMUNITY_CREATE_MEAL_URL, COMMUNITY_MEALS_TOKEN } from '@env';
+import { checkAPI } from '../../../utils/checkAPI';
 
 export const uploadImageToServer = async props => {
   //todo: integrate new database
+  checkAPI('COMMUNITY_CREATE_MEAL_URL', COMMUNITY_CREATE_MEAL_URL);
   if (props.base64ImageData !== '' && props.scope === 'GOOGLE') {
     RNFetchBlob.fetch(
       'POST',
@@ -36,7 +38,7 @@ export const uploadImageToServer = async props => {
       })
       .catch(err => {
         // ...
-        console.log(err)
+        console.log(err);
       });
   } else {
     console.log('No Image');

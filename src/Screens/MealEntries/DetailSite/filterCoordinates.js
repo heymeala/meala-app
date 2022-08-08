@@ -16,7 +16,7 @@ export function filterCoordinates(coordinates, type, settings) {
           : null;
       if (data[type] >= 0 && data[type] && time) {
         const yAxis = mapUnit(data[type], settings);
-        console.log(yAxis)
+        console.log(yAxis);
         return {
           x: time,
           y: yAxis,

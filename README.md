@@ -42,12 +42,10 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 - Clone or download the repo
 - `npm i` to install dependencies
 - `pod install` in ios folder to install dependencies
-- `npm run start:ios` to start the packager and run the app in the iOS simulator
-- `npm run start:android` to start the packager and run the app in the the Android device/emulator
+- `npm run ios` to start the packager and run the app in the iOS simulator
+- `npm run android` to start the packager and run the app in the Android device/emulator
 
 Please take a look at the [contributing guidelines](./CONTRIBUTING.md) for a detailed process on how to build your application as well as troubleshooting information.
-
-**Development Keys**: write here what environment variables are used
 
 ## Backers [![Backers on Open Collective](https://opencollective.com/heymeala/backers/badge.svg)](#backers)
 

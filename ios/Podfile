@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '12.1'
 
 target 'meala' do
   config = use_native_modules!
@@ -17,18 +17,19 @@ target 'meala' do
     pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
     pod 'AppAuth'
 
-  target 'mealaTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+
 
   # Enables Flipper.
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!({ 'Flipper-Folly' => '2.5.3' })
+use_flipper!({ 'Flipper' => '0.95.0', 'Flipper-Folly' => '2.6.7', 'Flipper-DoubleConversion' => '3.1.7' })
   post_install do |installer|
-  react_native_post_install(installer)
-
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.1'
+    end
+    react_native_post_install(installer)
+     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end

@@ -31,7 +31,6 @@ export const EmptyListPlaces = props => {
           autoPlay
           loop
         />
-
       </View>
     );
   }

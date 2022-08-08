@@ -9,9 +9,7 @@ const Knowledge = props => {
   const { t } = React.useContext(LocalizationContext);
   const styles = useStyles();
 
-  return (
-      <KnowledgeList />
-  );
+  return <KnowledgeList />;
 };
 
 export default Knowledge;

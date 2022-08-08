@@ -29,11 +29,10 @@ Secrets.tar
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
-gradle.properties
 local.properties
+keystore.properties
 *.iml
 
 # node.js

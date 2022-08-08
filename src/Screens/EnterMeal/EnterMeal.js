@@ -35,6 +35,7 @@ import EnterMealNameModal from './EnterMealComponents/MealNameModal/EnterMealNam
 import * as Keychain from 'react-native-keychain';
 import HealthKitAddInsulin from './HealthKitAddInsulin';
 import { saveCarbohydratesToHealthKit, saveInsulinToHealthKit } from '../../hooks/saveToHealthKit';
+import { checkAPI } from '../../utils/checkAPI';
 
 const EnterMeal = ({ route, navigation }, props) => {
   const { meal_id, id, scan } = route.params;
@@ -206,6 +207,7 @@ const EnterMeal = ({ route, navigation }, props) => {
 
   const loadCommunityMeals = id => {
     console.log('Search C MEals');
+    checkAPI('COMMUNITY_MEALS_URL', COMMUNITY_MEALS_URL);
     fetch(COMMUNITY_MEALS_URL + id)
       .then(response => response.json())
       .then(data => {
@@ -532,10 +534,10 @@ const EnterMeal = ({ route, navigation }, props) => {
 export default EnterMeal;
 
 const useStyles = makeStyles((theme, props: Props) => ({
-  wrapper: { flexGrow: 1, height: "100%" },
+  wrapper: { flexGrow: 1, height: '100%' },
 
   spacing: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
   },
   fatSecretButton: {
     paddingHorizontal: theme.spacing.M,
@@ -544,8 +546,8 @@ const useStyles = makeStyles((theme, props: Props) => ({
   },
   container: {
     flexGrow: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
   cancelButton: {
     height: 40,

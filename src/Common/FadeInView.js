@@ -8,14 +8,12 @@ const FadeInView = props => {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
-      useNativeDriver: false // <-- Add this
-
+      useNativeDriver: false, // <-- Add this
     }).start();
   }, [fadeAnim]);
 
   return (
     <Animated.View // Special animatable View
-
       style={{
         ...props.style,
         opacity: fadeAnim, // Bind opacity to animated value
@@ -24,4 +22,4 @@ const FadeInView = props => {
     </Animated.View>
   );
 };
-export default FadeInView
+export default FadeInView;

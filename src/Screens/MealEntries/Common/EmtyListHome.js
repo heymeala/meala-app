@@ -44,7 +44,9 @@ export const EmptyListHome = props => {
 const useStyles = makeStyles((theme, dimensions) => ({
   image: { width: dimensions.width, height: 950 },
   animation: {
-    width: dimensions.width, alignSelf: 'center', marginBottom: 75,
+    width: dimensions.width,
+    alignSelf: 'center',
+    marginBottom: 75,
   },
 
   wrapper: {

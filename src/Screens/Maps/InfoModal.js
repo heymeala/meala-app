@@ -4,6 +4,7 @@ import { Button, Input, makeStyles, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import LocalizationContext from '../../../LanguageContext';
 import { FEEDBACK_MAIL } from '@env';
+import { checkAPI } from '../../utils/checkAPI';
 
 const InfoModal = props => {
   const { t } = React.useContext(LocalizationContext);
@@ -15,7 +16,7 @@ const InfoModal = props => {
   function sendFeedback() {
     if (message) {
       setLoading(true);
-
+      checkAPI('FEEDBACK_MAIL', FEEDBACK_MAIL);
       fetch(FEEDBACK_MAIL + message).then(() => {
         setLoading(false);
 

@@ -34,8 +34,7 @@ const RestaurantList = props => {
       const allRestaurantsIsDeleted = allRestaurant.filter(restaurants => restaurants.isDeleted === false);
       setRestaurants(allRestaurantsIsDeleted);
       setLoading(false);
-    } catch (e) {
-    }
+    } catch (e) {}
   };
   const keyExtractor = (item, index) => index.toString();
 
@@ -86,7 +85,6 @@ const RestaurantList = props => {
       data={restaurants}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
-
       ListEmptyComponent={<EmptyListPlaces value={search} navigation={navigation} />}
     />
   );

@@ -73,11 +73,7 @@ const SearchRestaurantModal = props => {
     const localDividerItem = [{ id: 'localDivider', name: 'Eigene Orte', type: 'divider' }];
 
     const mergeLists = (newName, localList, googleList, googleDivider, localDividerItem) => {
-      return [
-        ...((text && text.length > 0 && newName) || []),
-        ...(localList || []),
-        ...(googleList || []),
-      ];
+      return [...((text && text.length > 0 && newName) || []), ...(localList || []), ...(googleList || [])];
     };
     const restaurantsList = mergeLists(
       createRestaurant,

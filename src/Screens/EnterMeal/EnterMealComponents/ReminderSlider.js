@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Slider, Text, useTheme } from "react-native-elements";
+import { makeStyles, Slider, Text, useTheme } from 'react-native-elements';
 import LocalizationContext from '../../../../LanguageContext';
 import { View } from 'react-native';
 import { EDIT_MODE, useEnterMealType } from '../../../hooks/useEnterMealState';

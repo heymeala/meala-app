@@ -14,7 +14,7 @@ const EditIcon = props => {
   );
 };
 
-export default EditIcon
+export default EditIcon;
 
 const useStyles = makeStyles(theme => ({
   editIconContainer: {

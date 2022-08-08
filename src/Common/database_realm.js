@@ -25,7 +25,7 @@ export const database = {
       CommunityQuiz,
     ],
 
-    schemaVersion: 40,
+    schemaVersion: 43,
     migration: (oldRealm, newRealm) => {
       if (oldRealm.schemaVersion < 32) {
         const oldObjects = oldRealm.objects('Settings');
@@ -412,7 +412,7 @@ export const database = {
       });
   },
 
-  getCgmData: (id) => {
+  getCgmData: id => {
     return database._open
       .then(realm => {
         const Meal = realm.objects('Meal').filtered('userMealId = $0', id);
@@ -459,7 +459,7 @@ export const database = {
     });
   },
   deleteMealSoft: id => {
-    console.log(id)
+    console.log(id);
     return database._open.then(realm => {
       realm.write(() => {
         realm.create(

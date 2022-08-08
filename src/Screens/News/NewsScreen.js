@@ -7,6 +7,7 @@ import moment from 'moment';
 import LocalizationContext from '../../../LanguageContext';
 import openLink from '../../Common/InAppBrowser';
 import LoadingSpinner from '../../Common/LoadingSpinner';
+import { checkAPI } from '../../utils/checkAPI';
 
 const NewsScreen = ({ navigation }, props) => {
   const { t, locale } = React.useContext(LocalizationContext);
@@ -16,6 +17,7 @@ const NewsScreen = ({ navigation }, props) => {
   useEffect(() => {
     const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
     const language = locale === 'de' ? 'de' : 'en';
+    checkAPI('CALENDAR_URL', CALENDAR_URL);
     const url = CALENDAR_URL + language + '&start_date=' + startOfMonth;
     console.log(url);
     fetch(url)
@@ -136,7 +138,9 @@ const NewsScreen = ({ navigation }, props) => {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
-                  <TouchableOpacity style={{marginHorizontal:8}} onPress={() => onShare(events.url, events.title)}>
+                  <TouchableOpacity
+                    style={{ marginHorizontal: 8 }}
+                    onPress={() => onShare(events.url, events.title)}>
                     <Icon name={'ios-share'} />
                   </TouchableOpacity>
                   <Button

@@ -1,12 +1,18 @@
 import React from 'react';
 import { CLARIFAI } from '@env';
 import { translate } from '../../Common/translate';
+import { checkAPI } from '../../utils/checkAPI';
 const Clarifai = require('clarifai');
 
 export async function imageDetectionClarifai(clarifaiImagebase, setPredictions, locale, setTags) {
+  console.log('imageDetectionClarifai');
+
+  checkAPI('CLARIFAI', CLARIFAI);
+
   const clarifai = new Clarifai.App({
     apiKey: CLARIFAI,
   });
+
   const clarifaiPredictions = await clarifai.models.predict(
     'bd367be194cf45149e75f01d59f77ba7',
     clarifaiImagebase,
